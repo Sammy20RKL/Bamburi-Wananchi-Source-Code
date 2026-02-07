@@ -1,5 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:am="http://schemas.microsoft.com/sqlserver/reporting/authoringmetadata">
+  <am:AuthoringMetadata>
+    <am:CreatedBy>
+      <am:Name>MSRB</am:Name>
+      <am:Version>15.0.20283.0</am:Version>
+    </am:CreatedBy>
+    <am:UpdatedBy>
+      <am:Name>MSRB</am:Name>
+      <am:Version>15.0.20283.0</am:Version>
+    </am:UpdatedBy>
+    <am:LastModifiedTimestamp>2025-02-10T11:48:40.2432310Z</am:LastModifiedTimestamp>
+  </am:AuthoringMetadata>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="DataSource">
@@ -1423,6 +1434,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
+                                  <Label>[NetSurplusaftertax]</Label>
                                   <Value>=Fields!Netsurplus.Value</Value>
                                   <Style>
                                     <FontFamily>Cambria</FontFamily>
@@ -1956,7 +1968,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!InvestmentsinSubsidiary.Value</Value>
+                                  <Value>=Fields!GovernmentSecurities.Value</Value>
                                   <Style>
                                     <FontFamily>Cambria</FontFamily>
                                     <Format>#,0.00;(#,0.00)</Format>
@@ -3131,7 +3143,8 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!investment.Value++First(Fields!Kuscoshares.Value)</Value>
+                                  <Label>[InvestmentsinSubsidiary]</Label>
+                                  <Value>=Fields!InvestmentsinSubsidiary.Value</Value>
                                   <Style>
                                     <FontFamily>Cambria</FontFamily>
                                     <Format>#,0.00;(#,0.00)</Format>

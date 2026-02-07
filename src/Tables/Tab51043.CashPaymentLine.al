@@ -121,11 +121,11 @@ Table 51043 "Cash Payment Line"
         }
         field(23; "VAT Code"; Code[20])
         {
-            TableRelation = "Tariff Codes".Code where(Type = const(VAT));
+            TableRelation = "Tariff Codes"."Tax Code" where(Type = const(VAT));
         }
         field(24; "Withholding Tax Code"; Code[20])
         {
-            TableRelation = "Tariff Codes".Code where(Type = const("W/Tax"));
+            TableRelation = "Tariff Codes"."Tax Code" where(Type = const("W/Tax"));
         }
         field(25; "VAT Amount"; Decimal)
         {
@@ -415,7 +415,7 @@ Table 51043 "Cash Payment Line"
         Vend: Record Vendor;
         FA: Record "Fixed Asset";
         BankAcc: Record "Bank Account";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        //NoSeriesMgt: Codeunit NoSeriesManagement;
         GenLedgerSetup: Record "Salary Processing Lines";
         RecPayTypes: Record "Fixed Deposit Type";
         CashierLinks: Record "Cheque Types";

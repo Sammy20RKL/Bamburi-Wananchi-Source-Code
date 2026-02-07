@@ -5,6 +5,15 @@ pageextension 50881 CustomerList extends "Customer List"
     layout
     {
         // Add changes to page layout here
+        addafter(Name)
+        {
+            field("Personal No"; Rec."Personal No")
+            {
+                ApplicationArea = Basic;
+                Caption = 'Payroll No.';
+                // Visible = false;
+            }
+        }
     }
 
     actions

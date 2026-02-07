@@ -422,7 +422,7 @@ page 50573 "Loans Application List(Approv)"
     local procedure FnBoosterLoansDisbursement(ObjLoanDetails: Record "Loans Register"; LineNo: Integer): Code[40]
     var
         GenJournalLine: Record "Gen. Journal Line";
-        CUNoSeriesManagement: Codeunit NoSeriesManagement;
+        CUNoSeriesManagement: Codeunit "No. Series";
         DocNumber: Code[100];
         loanTypes: Record "Loan Products Setup";
         ObjLoanX: Record "Loans Register";

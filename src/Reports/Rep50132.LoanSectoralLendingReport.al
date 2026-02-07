@@ -72,7 +72,7 @@ Report 50132 "Loan Sectoral Lending Report"
                             repeat
 
                                 LoansR.CalcFields("Outstanding Balance");
-                                AMount := AMount + LoansR."Outstanding Balance";
+                                AMount := AMount + LoansR."Approved Amount";
                             until LoansR.Next = 0;
                         end;
                     end;
@@ -92,7 +92,7 @@ Report 50132 "Loan Sectoral Lending Report"
 
 
                             LoansR.CalcFields("Outstanding Balance");
-                            SubSectorAmount := SubSectorAmount + LoansR."Outstanding Balance";
+                            SubSectorAmount := SubSectorAmount + LoansR."Approved Amount";
                         until LoansR.Next = 0;
                     end;
                 end;
@@ -109,7 +109,7 @@ Report 50132 "Loan Sectoral Lending Report"
                     repeat
 
                         LoansR.CalcFields("Outstanding Balance");
-                        MainSectorAmount := MainSectorAmount + LoansR."Outstanding Balance";
+                        MainSectorAmount := MainSectorAmount + LoansR."Approved Amount";
                     until LoansR.Next = 0;
                 end;
             end;

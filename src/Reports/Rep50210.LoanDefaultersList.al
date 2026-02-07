@@ -4,17 +4,38 @@ Report 50210 "Loan Defaulters List"
     Caption = 'Loan Defaulters List';
     UsageCategory = ReportsAndAnalysis;
     DefaultLayout = RDLC;
-    RDLCLayout = './Layouts/LoanDefualterList.rdlc';
+    RDLCLayout = './Layouts/LoanDefaulterList.rdl';
     dataset
     {
         dataitem(Loans; "Loans Register")
         {
-            DataItemTableView = sorting("Staff No") order(ascending) where(Posted = const(true), "Loans Category-SASRA" = const(Loss));
-            RequestFilterFields = Source, "Loan Product Type", "Application Date", "Issued Date";
+            CalcFields = "Outstanding Balance";
+            DataItemTableView = sorting("Client Code") order(ascending) where(Posted = const(true), "Loans Category-SASRA" = const(Loss));
+            //DataItemTableView = where("Outstanding Balance" = filter(> 0), Posted = const(true))/* , "Loans Category-SASRA" = const(Loss)) */;
+
+            RequestFilterFields = Source, "Loan Product Type", "Application Date", "Issued Date", "Client Code";
             column(ReportForNavId_4645; 4645)
             {
             }
             column(FORMAT_TODAY_0_4_; Format(Today, 0, 4))
+            {
+            }
+            column(Company_Name; Company.Name)
+            {
+            }
+            column(Company_Address; Company.Address)
+            {
+            }
+            column(Company_Picture; Company.Picture)
+            {
+            }
+            column(Company_Phone; Company."Phone No.")
+            {
+            }
+            column(Company_SMS; Company."Phone No.")
+            {
+            }
+            column(Company_Email; Company."E-Mail")
             {
             }
             column(Top_Up_Amount; "Top Up Amount")
@@ -179,10 +200,14 @@ Report 50210 "Loan Defaulters List"
             column(Lbal; LBalance)
             {
             }
+            column(Loans_Category_SASRA; "Loans Category-SASRA")
+            {
+            }
 
             trigger OnAfterGetRecord()
             begin
-
+                if LoanProdType.Get(Loans.GetFilter(Loans."Loan Product Type")) then
+                    LoanType := LoanProdType."Product Description";
                 LCount := LCount + 1;
 
             end;
@@ -190,8 +215,8 @@ Report 50210 "Loan Defaulters List"
             trigger OnPreDataItem()
             begin
 
-                if LoanProdType.Get(Loans.GetFilter(Loans."Loan Product Type")) then
-                    LoanType := LoanProdType."Product Description";
+                // if LoanProdType.Get(Loans.GetFilter(Loans."Loan Product Type")) then
+                //     LoanType := LoanProdType."Product Description";
                 LCount := 0;
 
                 if Loans.GetFilter(Loans."Branch Code") <> '' then begin
@@ -208,8 +233,11 @@ Report 50210 "Loan Defaulters List"
                 //Datefilter:=Loans.GETRANGEMAX(Loans."Date filter");
                 //Loans.SETRANGE(Loans."Date filter",0D,Datefilter);
             end;
+
+
         }
     }
+
 
     requestpage
     {
@@ -229,9 +257,18 @@ Report 50210 "Loan Defaulters List"
     labels
     {
     }
+    trigger OnPreReport()
+    var
+    // RegenerateOldLoansData: Codeunit "Regenerate Schedule for loans";
+    begin
+        Company.Get();
+        Company.CalcFields(Company.Picture);
+        //..........................................................
+    end;
 
     var
         RPeriod: Decimal;
+        Company: Record "Company Information";
         BatchL: Code[100];
         Batches: Record "Loan Disburesment-Batching";
         LocationFilter: Code[20];

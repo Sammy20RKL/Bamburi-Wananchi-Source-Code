@@ -490,7 +490,7 @@ Table 51557 "General Equiries."
         if No = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Crm logs Nos");
-            NoSeriesMgt.InitSeries(SalesSetup."Crm logs Nos", xRec."No. Series", 0D, No, "No. Series");
+            //NoSeriesMgt.InitSeries(SalesSetup."Crm logs Nos", xRec."No. Series", 0D, No, "No. Series");
         end;
 
         "Captured By" := UserId;
@@ -505,7 +505,8 @@ Table 51557 "General Equiries."
 
     var
         SalesSetup: Record "Crm General Setup.";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series"
+        ;
         Loans: Record "Loans Register";
         GenSetUp: Record "Sacco General Set-Up";
         Cust: Record Customer;

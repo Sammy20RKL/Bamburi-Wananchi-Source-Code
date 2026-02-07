@@ -8,9 +8,7 @@ Report 50012 "Deposit returnN"
 
     dataset
     {
-#pragma warning disable AL0275
         dataitem("Company Information"; "Company Information")
-#pragma warning restore AL0275
         {
             column(ReportForNavId_1; 1)
             {
@@ -73,31 +71,33 @@ Report 50012 "Deposit returnN"
                 MemberRegister.Reset;
                 MemberRegister.SetFilter(MemberRegister."Date Filter", DateFilterNew);
                 MemberRegister.SetAutocalcFields("Current Shares");
+                // MemberRegister.SetFilter(MemberRegister."Current Shares",'>0');
                 if MemberRegister.Find('-') then begin
                     repeat
-                        Shares := MemberRegister."Current Shares";
-                        if (Shares <> 0) and (Shares <= 50000) then begin
-                            Count1 += 1;
-                            Balance += MemberRegister."Current Shares";
-                        end
-                        else
-                            if (Shares > 50000) and (Shares <= 100000) then begin
-                                Count2 += 1;
-                                Balance2 += MemberRegister."Current Shares";
+                        if MemberRegister."Current Shares" > 0 then begin
+
+                            Shares := MemberRegister."Current Shares";
+                            if (Shares <> 0) and (Shares <= 50000) then begin
+                                Count1 += 1;
+                                Balance += MemberRegister."Current Shares";
                             end else
-                                if (Shares > 100000) and (Shares <= 300000) then begin
-                                    Count3 += 1;
-                                    Balance3 += MemberRegister."Current Shares";
+                                if (Shares > 50000) and (Shares <= 100000) then begin
+                                    Count2 += 1;
+                                    Balance2 += MemberRegister."Current Shares";
                                 end else
-                                    if (Shares > 300000) and (Shares <= 1000000) then begin
-                                        Count4 += 1;
-                                        Balance4 += MemberRegister."Current Shares";
+                                    if (Shares > 100000) and (Shares <= 300000) then begin
+                                        Count3 += 1;
+                                        Balance3 += MemberRegister."Current Shares";
                                     end else
-                                        if (Shares > 1000000) then begin
-                                            Count5 += 1;
-                                            Balance5 += MemberRegister."Current Shares";
-                                        end;
-                    //END;
+                                        if (Shares > 300000) and (Shares <= 1000000) then begin
+                                            Count4 += 1;
+                                            Balance4 += MemberRegister."Current Shares";
+                                        end else
+                                            if (Shares > 1000000) then begin
+                                                Count5 += 1;
+                                                Balance5 += MemberRegister."Current Shares";
+                                            end;
+                        end;
                     until MemberRegister.Next = 0;
                 end;
                 GrandTotalCount := Count1 + Count2 + Count3 + Count4 + Count5;

@@ -2,38 +2,38 @@
 Report 50055 "Loan Defaulter Final Notice"
 {
     DefaultLayout = RDLC;
-    RDLCLayout = './Layouts/Loan Defaulter Final Notice.rdlc';
+    RDLCLayout = './Layouts/LoanDefaulterFinalNotice.rdl';
 
     dataset
     {
-        dataitem("<LoansRec>"; "Loans Register")
+        dataitem("LoansRec"; "Loans Register")
         {
             RequestFilterFields = "Client Code", "Loan  No.", "Loans Category-SASRA";
             column(ReportForNavId_1102755000; 1102755000)
             {
             }
-            column(OutstandingBalance_Loans; "Loans Register"."Outstanding Balance")
+            column(OutstandingBalance_Loans; LoansRec."Outstanding Balance")
             {
             }
-            column(LoanNo_Loans; "Loans Register"."Loan  No.")
+            column(LoanNo_Loans; LoansRec."Loan  No.")
             {
             }
-            column(ClientName_Loans; "Loans Register"."Client Name")
+            column(ClientName_Loans; LoansRec."Client Name")
             {
             }
-            column(ClientCode_Loans; "Loans Register"."Client Code")
+            column(ClientCode_Loans; LoansRec."Client Code")
             {
             }
-            column(OutstandingBalance_LoansRec; "<LoansRec>"."Outstanding Balance")
+            column(OutstandingBalance_LoansRec; "LoansRec"."Outstanding Balance")
             {
             }
-            column(OustandingInterest_LoansRec; "<LoansRec>"."Oustanding Interest")
+            column(OustandingInterest_LoansRec; "LoansRec"."Oustanding Interest")
             {
             }
-            column(CurrentShares_LoansRec; "<LoansRec>"."Current Shares")
+            column(CurrentShares_LoansRec; CurrentShares_LoansRec)
             {
             }
-            column(ApprovedAmount_LoansRec; "<LoansRec>"."Approved Amount")
+            column(ApprovedAmount_LoansRec; "LoansRec"."Approved Amount")
             {
             }
             column(Penaltycharge_on_offset; Penaltcharge)
@@ -42,9 +42,11 @@ Report 50055 "Loan Defaulter Final Notice"
             column(AmouuntToRecover; AmouuntToRecover)
             {
             }
-            column(OutstandingInt; OutstandingInt)
-            {
-            }
+            column(PrincipleInArrears; PrincipleInArrears)
+            { }
+
+            column(AmountInArrears_DefaultNoticesRegister; AmountInArrears_DefaultNoticesRegister)
+            { }
             column(LoanNo; LoanNo)
             {
             }
@@ -69,31 +71,33 @@ Report 50055 "Loan Defaulter Final Notice"
             column(Email; CompanyInfo."E-Mail")
             {
             }
-            dataitem("Members Register"; Customer)
+            dataitem(Customer; Customer)
             {
                 DataItemLink = "No." = field("Client Code");
                 column(ReportForNavId_1102755005; 1102755005)
                 {
                 }
-                column(Name_Members; "Members Register".Name)
+                column(Name_Members; Customer.Name)
                 {
                 }
-                column(No_Members; "Members Register"."No.")
+                column(No_Members; Customer."No.")
                 {
                 }
-                column(City_Members; "Members Register".City)
+                column(City_Members; Customer.City)
                 {
                 }
-                column(Address2_Members; "Members Register"."Address 2")
+                column(Address2_Members; Customer."Address 2")
                 {
                 }
-                column(Address_Members; "Members Register".Address)
+                column(Address_Members; Customer.Address)
                 {
                 }
 
                 trigger OnPreDataItem()
                 begin
-                    CalcFields("Members Register"."Current Shares", "Members Register"."Shares Retained");
+                    CalcFields(Customer."Current Shares", Customer."Shares Retained");
+                    CurrentShares_LoansRec := Customer."Current Shares";
+
                 end;
             }
             dataitem("Loans Register"; "Loans Register")
@@ -114,47 +118,100 @@ Report 50055 "Loan Defaulter Final Notice"
                     column(Name_LoanGuarantors; "Loans Guarantee Details".Name)
                     {
                     }
-                    column(ApprovedAmount_Loans; "Loans Register"."Approved Amount")
+                    column(ApprovedAmount_Loans; LoansRec."Approved Amount")
                     {
                     }
-                    column(OutstandingInterest_Loans; "Loans Register"."Oustanding Interest")
+                    column(OutstandingInterest_Loans; LoansRec."Oustanding Interest")
                     {
                     }
-                    column(CurrentSavings_Members; "Members Register"."Current Savings")
+                    column(OutstandingInt; Loansrec."Oustanding Interest")
                     {
                     }
+                    column(CurrentSavings_Members; Customer."Current Savings")
+                    {
+                    }
+                    column(Amont_Guaranteed; "Amont Guaranteed") { }
+
                     column(Loan_Officer; Lofficer)
                     {
                     }
-                    dataitem("Default Notices Register"; "Default Notices Register")
-                    {
-                        column(ReportForNavId_1120054000; 1120054000)
-                        {
-                        }
-                        column(AmountInArrears_DefaultNoticesRegister; "Default Notices Register"."Amount In Arrears")
-                        {
-                        }
-                    }
+                    /*   dataitem("Default Notices Register"; "Default Notices Register")
+                      {
+                          column(Outstanding_Interest; "Outstanding Interest")
+                          {
+                          }
+
+                      } */
                 }
             }
 
+            // trigger OnAfterGetRecord()
+            // begin
+            //     //Penaltcharge := 0.05 * ("LoansRec"."Current Shares" + "LoansRec"."Share Purchase");
+            //     //AmouuntToRecover := ("Outstanding Balance" + "Oustanding Interest" + Penaltcharge) - "Current Shares";
+
+            //     AmountInArrears_DefaultNoticesRegister := Round("Outstanding Balance" + "Oustanding Interest");
+            //     if "Current Shares" > AmountInArrears_DefaultNoticesRegister then
+            //         AmountInArrears_DefaultNoticesRegister := 0
+            //     else
+            //         AmouuntToRecover := AmountInArrears_DefaultNoticesRegister - -"LoansRec"."Current Shares";
+            //     OutstandingInt := "Oustanding Interest";
+            //     LoanNo := "Loan  No.";
+
+            // end;
+
+            // trigger OnPreDataItem()
+            // begin
+            //     CalcFields("Outstanding Balance", "Oustanding Interest", "Current Shares");
+
+            // end;
             trigger OnAfterGetRecord()
             begin
-                //  Penaltcharge:=0.05*("<LoansRec>"."Current Shares"+"<LoansRec>"."Share Purchase");
+                LoanRepaymentSchedule.Reset();
+                LoanRepaymentSchedule.SetRange("Loan No.", LoansRec."Loan  No.");
+                LoanRepaymentSchedule.SetFilter("Repayment Date", '<=%1', Today);
 
-                //MESSAGE('Kiongozi',Penaltcharge) ;
+                if LoanRepaymentSchedule.FindLast() then begin
+                    ScheduleBalance := LoanRepaymentSchedule."Loan Balance";
+                end;
 
-                AmouuntToRecover := ("Outstanding Balance" + "Oustanding Interest" + Penaltcharge) - "Current Shares";
-                OutstandingInt := "Oustanding Interest";
+                LoansR.Reset();
+                loansR.SetRange("Loan  No.", "Loans Register"."Loan  No.");
+                //LoansRec.SetFilter(LoansRec."Date filter", DateFilterBF);
+
+                if LoansR.Find('-') then begin
+                    LoansR.CalcFields(LoansR."Outstanding Balance", LoansR."Oustanding Interest");
+                    //PrincipleBF := LoansR."Outstanding Balance";
+                    InterestBF := LoansRec."Oustanding Interest";
+                end;
+
+                // Message('Demand notices InterestBf %1| Loan No is %2|Current Shares %3', InterestBf, LoansRec."Loan  No.", CurrentShares_LoansRec);
+
+                PrincipleInArrears := LoansRec."Outstanding Balance" - ScheduleBalance;
+                VarArrearsAmount := PrincipleInArrears + loansrec."Oustanding Interest";
+                // Message('Schedule balance is %1, Approved amount of %2', ScheduleBalance, LoansRec."Approved Amount");
+                // Message('Arrears %1, Interest of %2', vararrearsamount, loansrec."Oustanding Interest");
+
+                // Calculate total arrears (Outstanding Balance + Outstanding Interest)
+                AmountInArrears_DefaultNoticesRegister := VarArrearsAmount;
+
+                // Ensure amount is correctly reduced if current shares cover the arrears
+                if "Current Shares" >= AmountInArrears_DefaultNoticesRegister then
+                    AmouuntToRecover := 0
+                else
+                    AmouuntToRecover := AmountInArrears_DefaultNoticesRegister - "Current Shares"; // Removed redundant negative sign (- -)
+
+                // Assign values to variables
+                OutstandingInt := LoansR."Oustanding Interest";
                 LoanNo := "Loan  No.";
-
             end;
 
             trigger OnPreDataItem()
             begin
-                CalcFields("Outstanding Balance", "Oustanding Interest", "Current Shares");
-
+                // Ensure calculated fields are retrieved
+                // CalcFields("Outstanding Balance", "Oustanding Interest", "Current Shares");
             end;
+
         }
     }
 
@@ -184,6 +241,7 @@ Report 50055 "Loan Defaulter Final Notice"
     end;
 
     var
+        CurrentShares_LoansRec: decimal;
         Balance: Decimal;
         SenderName: Text[150];
         DearM: Text[60];
@@ -206,5 +264,11 @@ Report 50055 "Loan Defaulter Final Notice"
         CompanyInfo: Record "Company Information";
         Penaltcharge: Decimal;
         Lofficer: Text;
+        AmountInArrears_DefaultNoticesRegister: Decimal;
+        LoanRepaymentSchedule: Record "Loan Repayment Schedule";
+        ScheduleBalance: Decimal;
+        PrincipleInArrears: Decimal;
+        VarArrearsAmount: Decimal;
+        InterestBF: Decimal;
 }
 

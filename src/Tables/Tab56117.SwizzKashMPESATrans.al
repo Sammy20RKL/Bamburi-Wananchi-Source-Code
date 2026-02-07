@@ -82,6 +82,9 @@ Table 56117 "SwizzKash MPESA Trans"
         field(26; Reversed; Boolean)
         {
         }
+        field(27; "Paybill Account No"; Code[50])
+        {
+        }
     }
 
     keys

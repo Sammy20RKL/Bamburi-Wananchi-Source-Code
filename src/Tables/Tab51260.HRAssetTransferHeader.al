@@ -80,7 +80,7 @@ Table 51260 "HR Asset Transfer Header"
         fasetup: Record "FA Setup";
         hremployee: Record "HR Employees";
         fasset: Record "Fixed Asset";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        //  NoSeriesMgt: Codeunit NoSeriesManagement;
         DimValue: Record "Dimension Value";
 }
 

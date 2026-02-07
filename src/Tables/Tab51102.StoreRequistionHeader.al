@@ -291,7 +291,7 @@ Table 51102 "Store Requistion Header"
     begin
 
         if "No." = '' then begin
-            NoSeriesMgt.InitSeries(GetNoSeriesCode, xRec."No. Series", 0D, "No.", "No. Series");
+            //  NoSeriesMgt.InitSeries(GetNoSeriesCode, xRec."No. Series", 0D, "No.", "No. Series");
         end;
         //EXIT(GetNoSeriesRelCode(NoSeriesCode));
         "Request date" := Today;
@@ -317,7 +317,7 @@ Table 51102 "Store Requistion Header"
     end;
 
     var
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         GenLedgerSetup: Record "Purchases & Payables Setup";
         RespCenter: Record "Responsibility Center BR";
         Text001: label 'Your identification is set up to process from %1 %2 only.';

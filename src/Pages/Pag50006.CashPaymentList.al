@@ -5,7 +5,7 @@ Page 50006 "Cash Payment List"
     CardPageID = "Cash Payment Card";
     DeleteAllowed = false;
     PageType = List;
-    SourceTable = "Payment Header";
+    SourceTable = "Payments Header";
     SourceTableView = where("Payment Type" = const("Cash Purchase"),
                             Posted = const(false));
     UsageCategory = Lists;

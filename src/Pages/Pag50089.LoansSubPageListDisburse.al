@@ -119,7 +119,7 @@ Page 50089 "Loans Sub-Page List Disburse"
 
     var
         LoanType: Record "Loan Products Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        // NoSeriesMgt: Codeunit NoSeriesManagement;
         LoansReg: Record "Loans Register";
 
 

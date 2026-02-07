@@ -3,7 +3,7 @@ Page 56180 "Receipt Header List"
 {
     ApplicationArea = Basic;
     CardPageID = "Receipt Header Card";
-    DeleteAllowed = false;
+    DeleteAllowed = true;
     PageType = List;
     SourceTable = "Receipt Header";
     SourceTableView = where(Status = filter(New));

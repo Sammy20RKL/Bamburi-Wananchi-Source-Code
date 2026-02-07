@@ -62,47 +62,63 @@ tableextension 56005 GLAccountExt extends "G/L Account"
 
         field(54252; StatementOfFP; Option)
         {
-            OptionMembers = "  ",Cashinhand,InterestonMemberdeposits,Cashatbank,GrossLoanPortfolio,PropertyEquipment,AllowanceforLoanLoss,PrepaymentsSundryReceivables,Investmentincompanies,IntangibleAssets,"Other Assets";
+            //OptionMembers = "  ",Cashinhand,InterestonMemberdeposits,Cashatbank,GrossLoanPortfolio,PropertyEquipment,AllowanceforLoanLoss,PrepaymentsSundryReceivables,Investmentincompanies,IntangibleAssets,"Other Assets";
+            OptionMembers = "  ",Cashinhand,Cashatbank,GrossLoanPortfolio,PropertyEquipment,AllowanceforLoanLoss,PrepaymentsSundryReceivables,Investmentincompanies,"Other Assets",IntangibleAssets,ExternalBorrowings,Placement,EquityInvestments,DividendPayable,Nonwithdrawabledeposits,ShareCapital,PrioryarRetainedEarnings,StatutoryReserve,OtherReserves,RevaluationReserves,TaxPayable,OtherLiabilities;
         }
         field(54253; StatementOfFP2; Option)
         {
-            OptionCaption = '  ,Nonwithdrawabledeposits,TaxPayable,DeferredTaxLiability,OtherLiabilities,ExternalBorrowings,ShareCapital,StatutoryReserve,OtherReserves,RevaluationReserves,PrioryarRetainedEarnings,CurrentYrSurplus';
-            OptionMembers = "  ",Nonwithdrawabledeposits,TaxPayable,DeferredTaxLiability,OtherLiabilities,ExternalBorrowings,ShareCapital,StatutoryReserve,OtherReserves,RevaluationReserves,PrioryarRetainedEarnings,CurrentYrSurplus;
+            OptionCaption = ' ,Nonwithdrawabledeposits,ShareCapital,PrioryarRetainedEarnings,StatutoryReserve,OtherReserves,RevaluationReserves,TaxPayable,OtherLiabilities';
+            OptionMembers = " ",Nonwithdrawabledeposits,ShareCapital,PrioryarRetainedEarnings,StatutoryReserve,OtherReserves,RevaluationReserves,TaxPayable,OtherLiabilities;
+            // OptionCaption = '  ,Nonwithdrawabledeposits,TaxPayable,DeferredTaxLiability,OtherLiabilities,ExternalBorrowings,ShareCapital,StatutoryReserve,OtherReserves,RevaluationReserves,PrioryarRetainedEarnings,CurrentYrSurplus';
+            // OptionMembers = "  ",Nonwithdrawabledeposits,TaxPayable,DeferredTaxLiability,OtherLiabilities,ExternalBorrowings,ShareCapital,StatutoryReserve,OtherReserves,RevaluationReserves,PrioryarRetainedEarnings,CurrentYrSurplus;
         }
         field(54254; "Form2F(Statement of C Income)"; Option)
         {
-
-            OptionMembers = " ",OtherOperatingincome,NetFeeandcommission,InterestExpenses,OtherInterestIncome,InterestonLoanPortfolio,FeesCommissiononLoanPortfolio,GovernmentSecurities,InvestmentinCompaniesshares,nterestExpenseonDeposits,DividendExpenses,OtherFinancialExpense,FeesCommissionExpense,OtherExpense,ProvisionforLoanLosses;
+            OptionCaption = ' ,InterestonLoanPortfolio,FeesCommissiononLoanPortfolio,GovernmentSecurities,InvestmentinCompaniesshares,nterestExpenseonDeposits,DividendExpenses,OtherFinancialExpense,FeesCommissionExpense,OtherExpense,ProvisionforLoanLosses';
+            OptionMembers = " ",InterestonLoanPortfolio,FeesCommissiononLoanPortfolio,GovernmentSecurities,InvestmentinCompaniesshares,nterestExpenseonDeposits,DividendExpenses,OtherFinancialExpense,FeesCommissionExpense,OtherExpense,ProvisionforLoanLosses;
+            //OptionMembers = " ",OtherOperatingincome,NetFeeandcommission,InterestExpenses,OtherInterestIncome,InterestonLoanPortfolio,FeesCommissiononLoanPortfolio,GovernmentSecurities,InvestmentinCompaniesshares,nterestExpenseonDeposits,DividendExpenses,OtherFinancialExpense,FeesCommissionExpense,OtherExpense,ProvisionforLoanLosses;
         }
         field(54255; "Form2F1(Statement of C Income)"; Option)
         {
-            OptionCaption = '  ,PersonnelExpenses,GovernanceExpenses,MarketingExpenses,DepreciationandAmortizationCharges,AdministrativeExpenses,Taxes,NonOperatingIncome,NonOperatingExpense,OtherFinancialExpense,ValueofLoansRecovered';
-            OptionMembers = "  ",PersonnelExpenses,GovernanceExpenses,MarketingExpenses,DepreciationandAmortizationCharges,AdministrativeExpenses,Taxes,NonOperatingIncome,NonOperatingExpense,OtherFinancialExpense,ValueofLoansRecovered;
+            OptionCaption = ' ,PersonnelExpenses,GovernanceExpenses,MarketingExpenses,DepreciationandAmortizationCharges,AdministrativeExpenses,Taxes,NonOperatingIncome,NonOperatingExpense,Donations,PlacementinBanks,CostofExternalBorrowings,EquityInvestmentsinsubsidiaries,OtherFinancialExpense';
+            OptionMembers = " ",,PersonnelExpenses,GovernanceExpenses,MarketingExpenses,DepreciationandAmortizationCharges,AdministrativeExpenses,Taxes,NonOperatingIncome,NonOperatingExpense,Donations,PlacementinBanks,CostofExternalBorrowings,EquityInvestmentsinsubsidiaries,OtherFinancialExpense;
+            // OptionCaption = '  ,PersonnelExpenses,GovernanceExpenses,MarketingExpenses,DepreciationandAmortizationCharges,AdministrativeExpenses,Taxes,NonOperatingIncome,NonOperatingExpense,OtherFinancialExpense,ValueofLoansRecovered';
+            // OptionMembers = "  ",PersonnelExpenses,GovernanceExpenses,MarketingExpenses,DepreciationandAmortizationCharges,AdministrativeExpenses,Taxes,NonOperatingIncome,NonOperatingExpense,OtherFinancialExpense,ValueofLoansRecovered;
+
         }
         field(54256; "Capital adequecy"; Option)
         {
-            OptionCaption = '  ,ShareCapital,StatutoryReserve,RetainedEarnings,LoansandAdvances,Cash,InvestmentsinSubsidiary,Otherreserves,GovernmentSecurities,DepositsandBalancesatOtherInstitutions,Otherassets,PropertyandEquipment,TotalDepositsLiabilities,Investments,NetSurplusaftertax';
-            OptionMembers = "  ",ShareCapital,StatutoryReserve,RetainedEarnings,LoansandAdvances,Cash,InvestmentsinSubsidiary,Otherreserves,GovernmentSecurities,DepositsandBalancesatOtherInstitutions,Otherassets,"PropertyandEquipment ",TotalDepositsLiabilities,Investments,NetSurplusaftertax;
+            // OptionCaption = '  ,ShareCapital,StatutoryReserve,RetainedEarnings,LoansandAdvances,Cash,InvestmentsinSubsidiary,Otherreserves,GovernmentSecurities,DepositsandBalancesatOtherInstitutions,Otherassets,PropertyandEquipment,TotalDepositsLiabilities,Investments,NetSurplusaftertax';
+            // OptionMembers = "  ",ShareCapital,StatutoryReserve,RetainedEarnings,LoansandAdvances,Cash,InvestmentsinSubsidiary,Otherreserves,GovernmentSecurities,DepositsandBalancesatOtherInstitutions,Otherassets,"PropertyandEquipment ",TotalDepositsLiabilities,Investments,NetSurplusaftertax;
+            OptionCaption = ' ,ShareCapital,StatutoryReserve,RetainedEarnings,NetSurplusaftertax,LoansandAdvances,Cash,InvestmentsinSubsidiary,Otherreserves,GovernmentSecurities,DepositsandBalancesatOtherInstitutions,Otherassets,PropertyandEquipment,TotalDepositsLiabilities,Investments';
+            OptionMembers = " ",ShareCapital,StatutoryReserve,RetainedEarnings,NetSurplusaftertax,LoansandAdvances,Cash,InvestmentsinSubsidiary,Otherreserves,GovernmentSecurities,DepositsandBalancesatOtherInstitutions,Otherassets,PropertyandEquipment,TotalDepositsLiabilities,Investments;
         }
         field(54257; Liquidity; Option)
         {
-            OptionCaption = ' ,LocalNotes,BankBalances,GovSecurities,balanceswithotherfinancialinsti,TotalOtherliabilitiesNew,TimeDeposits';
-            OptionMembers = " ",LocalNotes,BankBalances,GovSecurities,balanceswithotherfinancialinsti,TotalOtherliabilitiesNew,TimeDeposits;
+
+            OptionCaption = ' ,TotalOtherliabilitiesNew,TimeDeposits,balanceswithotherfinancialinsti,GovSecuritiesBankBalances,BankBalances,OverdraftsandMaturedLoans,LocalNotes';
+            OptionMembers = " ",TotalOtherliabilitiesNew,TimeDeposits,balanceswithotherfinancialinsti,GovSecuritiesBankBalances,BankBalances,OverdraftsandMaturedLoans,LocalNotes;
+            // OptionCaption = ' ,LocalNotes,BankBalances,GovSecurities,balanceswithotherfinancialinsti,TotalOtherliabilitiesNew,TimeDeposits';
+            // OptionMembers = " ",LocalNotes,BankBalances,GovSecurities,balanceswithotherfinancialinsti,TotalOtherliabilitiesNew,TimeDeposits;
         }
         field(54258; "Form2E(investment)"; Option)
         {
-            OptionCaption = '  ,Core_Capital,Equityinvestment,Otherinvestments,subsidiaryandrelatedentities,otherassets,totaldeposits';
-            OptionMembers = "  ",Core_Capital,Equityinvestment,Otherinvestments,subsidiaryandrelatedentities,otherassets,totaldeposits;
+            OptionCaption = '  ,Core_Capital,Nonearningassets,totaldeposits,subsidiaryandrelatedentities,Equityinvestment,Otherinvestments,otherassets';
+            OptionMembers = " ",Core_Capital,Nonearningassets,totaldeposits,subsidiaryandrelatedentities,Equityinvestment,Otherinvestments,otherassets;
+            // OptionCaption = '  ,Core_Capital,Equityinvestment,Otherinvestments,subsidiaryandrelatedentities,otherassets,totaldeposits';
+            // OptionMembers = "  ",Core_Capital,Equityinvestment,Otherinvestments,subsidiaryandrelatedentities,otherassets,totaldeposits;
         }
         field(54259; "Form 2H other disc"; Option)
         {
-            OptionCaption = '  ,AllowanceForLoanLoss,Core_Capital,Deposits liabilities';
-            OptionMembers = "  ",AllowanceForLoanLoss,Core_Capital,"Deposits liabilities";
+            //OptionCaption = '  ,AllowanceForLoanLoss,Core_Capital,Deposits liabilities';
+            //OptionMembers = "  ",AllowanceForLoanLoss,Core_Capital,"Deposits liabilities";
+            OptionCaption = ' ,Core_Cpital,Liquidity,Depositliabilites,Otherliablilities,CoreCapitalDeduction,AllowanceForLoanLoss';
+            OptionMembers = " ",,Core_Cpital,Liquidity,Depositliabilites,Otherliablilities,CoreCapitalDeduction,AllowanceForLoanLoss;
         }
         field(54260; "Form2E(investment)New"; Option)
         {
-            OptionCaption = '  ,Nonearningassets,Landbuilding';
-            OptionMembers = "  ",Nonearningassets,Landbuilding;
+            OptionCaption = '  ,Nonearningassets';
+            OptionMembers = "  ",Nonearningassets;
         }
         field(54261; "Form2E(investment)Land"; Option)
         {

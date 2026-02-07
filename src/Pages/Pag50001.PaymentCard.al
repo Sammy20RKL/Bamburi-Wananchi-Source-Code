@@ -4,11 +4,10 @@ Page 50001 "Payment Card"
     DeleteAllowed = false;
     PageType = Card;
     RefreshOnActivate = true;
-    SourceTable = "Payment Header";
+    SourceTable = "Payments Header";
     SourceTableView = where("Payment Type" = const(Normal),
                             Posted = const(false),
                             "Investor Payment" = const(false));
-
     layout
     {
         area(content)
@@ -18,6 +17,7 @@ Page 50001 "Payment Card"
                 field("No."; Rec."No.")
                 {
                     ApplicationArea = Basic;
+                    Editable = false;
                 }
                 field("Document Date"; Rec."Document Date")
                 {
@@ -37,13 +37,14 @@ Page 50001 "Payment Card"
                     ApplicationArea = Basic;
                     Visible = false;
                 }
-                field("Bank Account"; Rec."Bank Account")
+                field("Bank Account"; Rec."Paying Bank Account")
                 {
                     ApplicationArea = Basic;
                 }
-                field("Bank Account Name"; Rec."Bank Account Name")
+                field("Bank Account Name"; Rec."Bank Name")
                 {
                     ApplicationArea = Basic;
+                    Editable = false;
                 }
                 field("Bank Account Balance"; Rec."Bank Account Balance")
                 {
@@ -85,18 +86,17 @@ Page 50001 "Payment Card"
                 {
                     ApplicationArea = Basic;
                 }
-                field("Amount(LCY)"; Rec."Amount(LCY)")
+                // field("Amount(LCY)"; Rec."Amount(LCY)")
+                // {
+                //     ApplicationArea = Basic;
+                // }
+                field("VAT Amount"; Rec."Total VAT Amount")
                 {
                     ApplicationArea = Basic;
                 }
-                field("VAT Amount"; Rec."VAT Amount")
+                field("Total Net Amount"; Rec."Total Net Amount")
                 {
                     ApplicationArea = Basic;
-                }
-                field("VAT Amount(LCY)"; Rec."VAT Amount(LCY)")
-                {
-                    ApplicationArea = Basic;
-                    Visible = false;
                 }
                 field("WithHolding Tax Amount"; Rec."WithHolding Tax Amount")
                 {
@@ -121,6 +121,7 @@ Page 50001 "Payment Card"
                 field(Status; Rec.Status)
                 {
                     ApplicationArea = Basic;
+                    Editable = false;
                 }
                 field(Posted; Rec.Posted)
                 {
@@ -143,7 +144,7 @@ Page 50001 "Payment Card"
                     ApplicationArea = Basic;
                 }
             }
-            part(Control35; "Payment Lines Posted")
+            part(Control35; "Payments Line")
             {
                 SubPageLink = "Document No" = field("No.");
             }
@@ -164,7 +165,7 @@ Page 50001 "Payment Card"
 
                 trigger OnAction()
                 begin
-                    rec."Cheque Type" := rec."Cheque Type"::"Manual Cheque";
+                    rec."Cheque Type" := rec."Cheque Type"::"Manual Check";
                     rec.Modify(true);
                     CheckRequiredItems;
                     if FundsUser.Get(UserId) then begin
@@ -220,46 +221,51 @@ Page 50001 "Payment Card"
             }
             action("Send Approval Request")
             {
-                Image = SendApprovalRequest;
                 ApplicationArea = Basic;
+                Caption = 'Send Approval Request';
+                Image = SendApprovalRequest;
                 Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
+                PromotedCategory = process;
 
                 trigger OnAction()
+                var
+                    Approvals: Codeunit SwizzsoftApprovalsCodeUnit;
                 begin
-                    if Confirm('Send  Approval request?', false) = false then begin
+                    if Confirm('Send Approval Request ?', false) = false then begin
                         exit;
                     end else begin
-                        rec.Status := rec.Status::Approved;
-                        rec.Modify();
-                        //SrestepApprovalsCodeUnit.SendPaymentVoucherTransactionsRequestForApproval(rec."No.", Rec);
+                        Approvals.SendPaymentHeaderForApprovalCode(rec."No.", Rec);
+                        CurrPage.Close();
                     end;
                 end;
             }
             action("Cancel Approval Request")
             {
                 ApplicationArea = Basic;
+                Image = Cancel;
                 Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                Image = CancelApprovalRequest;
+                PromotedCategory = process;
 
                 trigger OnAction()
+                var
+                    Approvals: Codeunit SwizzsoftApprovalsCodeUnit;
                 begin
-                    if Confirm('Cancel Approval request?', false) = false then begin
-                        exit;
-                    end else begin
-                        rec.Status := rec.Status::New;
-                        rec.Modify();
-                        Message('Success');
-                        // SrestepApprovalsCodeUnit.CancelPaymentVoucherTransactionsRequestForApproval(rec."No.", Rec);
-                    end;
+                    if (rec.Status <> Rec.Status::New) then begin
+                        Message('Only Vouchers with Status Open Can be Submitted for Approval');
+                    end
+                    else
+                        if Confirm('Cancel Approval Request ?', false) = false then begin
+                            exit;
+                        end else begin
+                            Approvals.CancelPaymentHeaderApprovalCode(rec."No.", Rec);
+                            CurrPage.Close();
+                        end;
                 end;
             }
 
             action(Print)
             {
+                Caption = 'Payment Voucher';
                 ApplicationArea = Basic;
                 Image = Print;
                 Promoted = true;
@@ -268,11 +274,29 @@ Page 50001 "Payment Card"
 
                 trigger OnAction()
                 begin
-                    // PHeader.Reset;
-                    // PHeader.SetRange(PHeader."No.", "No.");
-                    // if PHeader.FindFirst then begin
-                    //     Report.RunModal(Report::"Payment Voucher", true, false, PHeader);
-                    // end;
+                    PHeader.Reset;
+                    PHeader.SetRange(PHeader."No.", Rec."No.");
+                    if PHeader.FindFirst then begin
+                        Report.RunModal(Report::"Payment Voucher", true, false, PHeader);
+                    end;
+                end;
+            }
+            action(MemberPrint)
+            {
+                Caption = 'Member Payment Voucher';
+                ApplicationArea = Basic;
+                Image = Print;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+
+                trigger OnAction()
+                begin
+                    PHeader.Reset;
+                    PHeader.SetRange(PHeader."No.", Rec."No.");
+                    if PHeader.FindFirst then begin
+                        Report.RunModal(Report::"Payment Voucher members", true, false, PHeader);
+                    end;
                 end;
             }
 
@@ -293,14 +317,14 @@ Page 50001 "Payment Card"
         JBatch: Code[20];
         DocType: Option Quote,"Order",Invoice,"Credit Memo","Blanket Order","Return Order","None","Payment Voucher","Petty Cash",Imprest,Requisition,ImprestSurrender,Interbank,TransportRequest,Maintenance,Fuel,ImporterExporter,"Import Permit","Export Permit",TR,"Safari Notice","Student Applications","Water Research","Consultancy Requests","Consultancy Proposals","Meals Bookings","General Journal","Student Admissions","Staff Claim",KitchenStoreRequisition,"Leave Application","Staff Advance","Staff Advance Accounting";
         TableID: Integer;
-        PHeader: Record "Payment Header";
+        PHeader: Record "Payments Header";
 
     local procedure CheckRequiredItems()
     begin
         Rec.TestField(Status, Rec.Status::Approved);
         Rec.TestField("Posting Date");
         Rec.TestField(Payee);
-        Rec.TestField("Bank Account");
+        Rec.TestField("Paying Bank Account");
         Rec.TestField("Payment Description");
         Rec.TestField("Global Dimension 1 Code");
         Rec.TestField("Global Dimension 2 Code");

@@ -202,7 +202,7 @@ Table 51069 "Loan Rescheduling"
         if "No." = '' then begin
             SaccoSetup.Get;
             SaccoSetup.TestField(SaccoSetup."Reschedule No.s");
-            NoSeriesMgt.InitSeries(SaccoSetup."Reschedule No.s", xRec."No. Series", 0D, "No.", "No. Series");
+            //  NoSeriesMgt.InitSeries(SaccoSetup."Reschedule No.s", xRec."No. Series", 0D, "No.", "No. Series");
 
         end;
         "Captured By" := UpperCase(UserId);
@@ -212,7 +212,7 @@ Table 51069 "Loan Rescheduling"
 
     var
         SaccoSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         Loans: Record "Loans Register";
         LoanType: Record "Loan Products Setup";
         DAY: Integer;

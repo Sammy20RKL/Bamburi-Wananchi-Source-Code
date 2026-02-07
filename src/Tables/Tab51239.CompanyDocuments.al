@@ -64,13 +64,13 @@ Table 51239 "Company Documents"
         if "Doc No." = '' then begin
             HRSetup.Get;
             HRSetup.TestField("Company Documents");
-            NoSeriesMgt.InitSeries(HRSetup."Company Documents", xRec."No. Series", 0D, "Doc No.", "No. Series");
+            // NoSeriesMgt.InitSeries(HRSetup."Company Documents", xRec."No. Series", 0D, "Doc No.", "No. Series");
         end;
     end;
 
     var
         CompanyDocs: Record "Company Documents";
         HRSetup: Record "HR Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+    //  NoSeriesMgt: Codeunit NoSeriesManagement;
 }
 

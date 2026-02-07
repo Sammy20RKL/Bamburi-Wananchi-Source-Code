@@ -191,7 +191,7 @@ Table 51226 "HR Transport Requisition"
         if "Application Code" = '' then begin
             HRSetup.Get;
             HRSetup.TestField(HRSetup."Leave Application Nos.");
-            NoSeriesMgt.InitSeries(HRSetup."Leave Application Nos.", xRec."No series", 0D, "Application Code", "No series");
+            //    NoSeriesMgt.InitSeries(HRSetup."Leave Application Nos.", xRec."No series", 0D, "Application Code", "No series");
         end;
         //GET APPLICANT DETAILS FROM HR EMPLOYEES TABLE AND COPY THEM TO THE LEAVE APPLICATION TABLE
         HREmp.Reset;
@@ -236,7 +236,7 @@ Table 51226 "HR Transport Requisition"
 
     var
         HRSetup: Record "HR Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         UserSetup: Record "User Setup";
         HREmp: Record "HR Employees";
         varDaysApplied: Integer;

@@ -1,5 +1,5 @@
 #pragma warning disable AA0005, AA0008, AA0018, AA0021, AA0072, AA0137, AA0201, AA0204, AA0206, AA0218, AA0228, AL0254, AL0424, AS0011, AW0006 // ForNAV settings
-Table 51113 "Payment Line"
+Table 51113 "Payment Line"//used before by BC. shifted to NAV for Sitting Allowance Member Board
 {
 
     fields
@@ -47,7 +47,7 @@ Table 51113 "Payment Line"
         {
             Editable = false;
             NotBlank = true;
-            TableRelation = "Payment Header"."No.";
+            TableRelation = "Payments Header"."No.";
         }
         field(12; "Document Type"; Option)
         {
@@ -240,6 +240,7 @@ Table 51113 "Payment Line"
         field(26; "W/TAX Code"; Code[20])
         {
             TableRelation = "Funds Tax Codes"."Tax Code" where(Type = const("W/Tax"));
+            //editable = false;
 
             trigger OnValidate()
             begin
@@ -247,6 +248,8 @@ Table 51113 "Payment Line"
                 FundsTaxCodes.SetRange(FundsTaxCodes."Tax Code", "W/TAX Code");
                 if FundsTaxCodes.FindFirst then begin
                     "W/TAX Amount" := Amount * (FundsTaxCodes.Percentage / 100);
+                    "Account No." := "Member Type";
+                    "Account Name" := "Board Member Name";
                 end;
                 Validate("W/TAX Amount");
             end;
@@ -254,7 +257,6 @@ Table 51113 "Payment Line"
         field(27; "W/TAX Amount"; Decimal)
         {
             Editable = false;
-
             trigger OnValidate()
             begin
                 "Net Amount" := Amount - "W/TAX Amount";
@@ -415,6 +417,10 @@ Table 51113 "Payment Line"
         field(50000; Names; Text[30])
         {
         }
+        field(50004; "ID No."; Code[10])
+        {
+            DataClassification = ToBeClassified;
+        }
         field(50001; "Loan No."; Code[20])
         {
             TableRelation = if ("Transaction Type" = const(Loan)) "Loans Register"."Loan  No." where("Client Code" = field("Account No."));
@@ -454,11 +460,63 @@ Table 51113 "Payment Line"
         }
         field(51516432; "Withholding Tax Code"; Code[20])
         {
-            TableRelation = if ("Account Type" = const(Vendor)) "Tariff Codes".Code where(Type = const("W/Tax"));
+            TableRelation = if ("Account Type" = const(Vendor)) "Tariff Codes"."Tax Code" where(Type = const("W/Tax"));
 
             trigger OnValidate()
             begin
                 //CalculateTax();
+            end;
+        }
+        field(50005; "Member Type"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = Customer."No." where("Member Type" = filter(Board));
+
+            trigger OnValidate()
+            begin
+                // Paymentline.RESET;
+                // //Paymentline.SETRANGE(Paymentline.No,Paymentline."Document No");
+                // Paymentline.SETRANGE(Paymentline."Member Type",Member."No.");
+                // IF Paymentline.FIND('-') THEN BEGIN
+                //  Paymentline."Board Member Name":=Member.Name;
+                // Paymentline.MODIFY;
+                // END;
+
+
+                if Cust.Get("Member Type") then begin
+                    "Board Member Name" := Cust.Name;
+                    "ID No." := Cust."ID No.";
+                end;
+
+            end;
+        }
+        field(50006; "Board Member Name"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+
+            trigger OnValidate()
+            begin
+                // IF Paymentline.GET(Paymentline."Member Type") THEN
+                //  "Board Member Name":=
+            end;
+        }
+        field(50007; "Board Net Amount"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+
+            trigger OnValidate()
+            begin
+                "Amount Borad" := "Board Net Amount" / 0.65;
+                Validate("Amount Borad");
+            end;
+        }
+        field(50008; "Amount Borad"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+
+            trigger OnValidate()
+            begin
+                "Amount Borad" := "Board Net Amount" / 0.65;
             end;
         }
     }
@@ -482,7 +540,7 @@ Table 51113 "Payment Line"
 
     var
         FundsTypes: Record "Funds Transaction Types";
-        PHeader: Record "Payment Header";
+        PHeader: Record "Payments Header";
         "G/L Account": Record "G/L Account";
         Customer: Record Customer;
         Vendor: Record Vendor;

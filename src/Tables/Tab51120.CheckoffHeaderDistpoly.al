@@ -414,7 +414,7 @@ Table 51120 "CheckoffHeader-Dist poly"
         if No = '' then begin
             NoSetup.Get();
             NoSetup.TestField(NoSetup."Checkoff-Proc Distributed Nos");
-            NoSeriesMgt.InitSeries(NoSetup."Checkoff-Proc Distributed Nos", xRec."No. Series", 0D, No, "No. Series");
+            //   NoSeriesMgt.InitSeries(NoSetup."Checkoff-Proc Distributed Nos", xRec."No. Series", 0D, No, "No. Series");
         end;
 
         "Date Entered" := Today;
@@ -437,7 +437,7 @@ Table 51120 "CheckoffHeader-Dist poly"
 
     var
         NoSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         cust: Record Customer;
         "GL Account": Record "G/L Account";
         BANKACC: Record "Bank Account";

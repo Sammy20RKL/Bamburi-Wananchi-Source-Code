@@ -113,7 +113,7 @@ Table 51529 "Loan Repay Schedule-Calc"
     }
 
     var
-        NoSeriesMngnt: Codeunit NoSeriesManagement;
+        // NoSeriesMngnt: Codeunit "No. Series";
         SACCOMember: Record Customer;
         LoanCategory: Record "Loan Products Setup";
 }

@@ -148,7 +148,7 @@ table 50089 "DO Payment Credit Card"
         if "No." = '' then begin
             DOPaymentSetup.Get;
             DOPaymentSetup.TestField("Credit Card Nos.");
-            NoSeriesMgt.InitSeries(DOPaymentSetup."Credit Card Nos.", xRec."No. Series", 0D, "No.", "No. Series");
+            //  NoSeriesMgt.InitSeries(DOPaymentSetup."Credit Card Nos.", xRec."No. Series", 0D, "No.", "No. Series");
         end;
 
         Validate("Customer No.", GetFilter("Customer No."));
@@ -167,21 +167,21 @@ table 50089 "DO Payment Credit Card"
         Text011: label '%1 must be a number.';
         DOPaymentSetup: Record "DO Payment Setup";
         DOPaymentTransLogEntry: Record "DO Payment Trans. Log Entry";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
 
 
     procedure AssistEdit(OldDOPaymentCreditCard: Record "DO Payment Credit Card"): Boolean
     var
         DOPaymentCreditCard: Record "DO Payment Credit Card";
     begin
-        DOPaymentCreditCard := Rec;
-        DOPaymentSetup.Get;
-        DOPaymentSetup.TestField("Credit Card Nos.");
-        if NoSeriesMgt.SelectSeries(DOPaymentSetup."Credit Card Nos.", OldDOPaymentCreditCard."No. Series", DOPaymentCreditCard."No. Series") then begin
-            NoSeriesMgt.SetSeries(DOPaymentCreditCard."No.");
-            Rec := DOPaymentCreditCard;
-            exit(true);
-        end;
+        // DOPaymentCreditCard := Rec;
+        // DOPaymentSetup.Get;
+        // DOPaymentSetup.TestField("Credit Card Nos.");
+        // if NoSeriesMgt.SelectSeries(DOPaymentSetup."Credit Card Nos.", OldDOPaymentCreditCard."No. Series", DOPaymentCreditCard."No. Series") then begin
+        //     NoSeriesMgt.SetSeries(DOPaymentCreditCard."No.");
+        //     Rec := DOPaymentCreditCard;
+        //     exit(true);
+        // end;
     end;
 
 

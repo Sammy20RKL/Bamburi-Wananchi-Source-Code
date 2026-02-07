@@ -102,7 +102,7 @@ table 50518 "Member Reapplication"
         if "No." = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Member Re-Application No.s");
-            NoSeriesMgt.InitSeries(SalesSetup."Member Re-Application No.s", xRec."No. Series", 0D, "No.", "No. Series");
+            // NoSeriesMgt.InitSeries(SalesSetup."Member Re-Application No.s", xRec."No. Series", 0D, "No.", "No. Series");
         end;
         "Re-Application On" := Today;
         "Re-Application By" := UpperCase(UserId);
@@ -111,6 +111,6 @@ table 50518 "Member Reapplication"
     var
         cust: Record Customer;
         SalesSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
 
 }

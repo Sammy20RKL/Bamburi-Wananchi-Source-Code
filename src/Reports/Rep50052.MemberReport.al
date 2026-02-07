@@ -2,7 +2,7 @@ Report 50052 MemberReport
 {
     ApplicationArea = All;
     Caption = 'Member Report';
-    RDLCLayout = './Layouts/MembersReport.rdl';
+    RDLCLayout = './Layout/MembersReport.rdl';
     UsageCategory = ReportsAndAnalysis;
     dataset
     {
@@ -28,6 +28,10 @@ Report 50052 MemberReport
             column(No; "No.")
             {
             }
+            column(Personal_No; "Personal No")
+            {
+
+            }
             column(Name; Name)
             { }
             column(ID_No_; "ID No.")
@@ -37,31 +41,40 @@ Report 50052 MemberReport
             column(Monthly_Contribution; "Monthly Contribution")
             { }
             column(Deposits; Deposits) { }
-            column(ShareCapital; ShareCapital) { }
+            column(Sharecapital; ShareCapital) { }
             column(LoanBalance; LoanBalance) { }
             column(Status; Status) { }
             column(Address; Address) { }
-            column(Mobile_Phone_No; "Mobile Phone No") { }
+            column(Phone_No_; "Mobile Phone No") { }
 
             trigger OnPreDataItem()
             var
                 myInt: Integer;
             begin
                 Deposits := 0;
+                ShareCapital := 0;
+                LoanBalance := 0;
             end;
 
-            trigger OnAfterGetRecord();
-            var
+            trigger OnAfterGetRecord()
             begin
-                TbMembRegister.SetFilter(TbMembRegister."Date Filter", Datefilter);
-                if TbMembRegister.get(TbMembRegister."No.") then begin
-                    TbMembRegister.SetAutoCalcFields(TbMembRegister."Current Shares");
-                    Deposits := TbMembRegister."Current Shares";
-                    //ShareCapital := TbMembRegister."Shares Capital";
-                    LoanBalance := TbMembRegister."Outstanding Balance";
-                end;
+                // Ensure we are filtering correctly
+                TbMembRegister.SetRange("No.", "No.");
+                TbMembRegister.SetFilter("Date Filter", Datefilter);
+
+                // Ensure a record is found
+                // if TbMembRegister.FindFirst() then begin
+                //     TbMembRegister.CalcFields("Current Shares", "Outstanding Balance", "Share Capital");
+                //     Deposits := TbMembRegister."Current Shares";
+                //     ShareCapital := TbMembRegister."Share Capital";
+                //     LoanBalance := TbMembRegister."Outstanding Balance";
+                // end else begin
+                //     Message('No matching records found for %1 with filter %2', "No.", Datefilter);
+                // end;
+
                 EntryNo := EntryNo + 1;
             end;
+
 
         }
     }

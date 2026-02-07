@@ -103,7 +103,7 @@ page 50841 "Change Request Card"
                     Editable = true;
                     Visible = false;
                 }
-                field("E-mail"; Rec."E-mail")
+                field("E-mail"; Rec.Email)
                 {
                     ApplicationArea = Basic;
                     Editable = false;
@@ -160,6 +160,13 @@ page 50841 "Change Request Card"
                     ApplicationArea = Basic;
                     Editable = false;
                 }
+                field("Marital Status(New Value)"; Rec."Marital Status(New Value)")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Marital Status(New Value)';
+                    Editable = MaritalStatusEditable;
+                    ToolTip = 'Please enter your marital status';
+                }
                 field("Date Of Birth"; Rec."Date Of Birth")
                 {
                     ApplicationArea = Basic;
@@ -169,17 +176,16 @@ page 50841 "Change Request Card"
                     ApplicationArea = Basic;
                     Editable = false;
                 }
+
                 field(Gender; Rec.Gender)
                 {
                     ApplicationArea = Basic;
+                    Editable = false;
                 }
-                field("Marital Status(New Value)"; Rec."Marital Status(New Value)")
+                field("Gender(New Value)"; Rec."Gender(New Value)")
                 {
-                    ApplicationArea = Basic;
-                    Caption = 'Marital Status(New Value)';
-                    Editable = MaritalStatusEditable;
-                    ToolTip = 'Please enter your marital status';
                 }
+
                 field("Account Category"; Rec."Account Category")
                 {
                     ApplicationArea = Basic;
@@ -373,7 +379,7 @@ page 50841 "Change Request Card"
                 {
 
                 }
-                field("E-mail."; Rec."E-mail")
+                field("E-mail."; Rec."E-Mail")
                 {
                     ApplicationArea = Basic;
                     Editable = false;
@@ -650,13 +656,13 @@ page 50841 "Change Request Card"
                                     LineNo := 0;
                                     //----------------------------------1.DEBIT TO VENDOR WITH PROCESSING FEE----------------------------------------------
                                     LineNo := LineNo + 10000;
-                                    SFactory.FnCreateGnlJournalLineBalanced(BATCH_TEMPLATE, BATCH_NAME, DOCUMENT_NO, LineNo, GenJournalLine."transaction type"::"0", GenJournalLine."account type"::Vendor,
-                                    FnGetFOSA(Rec."Account No"), Today, 200, 'FOSA', '', 'Activation fees', '', GenJournalLine."bal. account type"::"G/L Account", '5534');
+                                    // SFactory.FnCreateGnlJournalLineBalanced(BATCH_TEMPLATE, BATCH_NAME, DOCUMENT_NO, LineNo, GenJournalLine."transaction type"::"0", GenJournalLine."account type"::Vendor,
+                                    // FnGetFOSA(Rec."Account No"), Today, 200, 'FOSA', '', 'Activation fees', '', GenJournalLine."bal. account type"::"G/L Account", '5534');
 
                                     //-------------------------------2.CHARGE EXCISE DUTY----------------------------------------------
                                     LineNo := LineNo + 10000;
-                                    SFactory.FnCreateGnlJournalLineBalanced(BATCH_TEMPLATE, BATCH_NAME, DOCUMENT_NO, LineNo, GenJournalLine."transaction type"::"0", GenJournalLine."account type"::Vendor,
-                                    FnGetFOSA(Rec."Account No"), Today, 20, 'FOSA', '', 'Excise Duty', '', GenJournalLine."bal. account type"::"G/L Account", GenSetup."Excise Duty Account");
+                                    // SFactory.FnCreateGnlJournalLineBalanced(BATCH_TEMPLATE, BATCH_NAME, DOCUMENT_NO, LineNo, GenJournalLine."transaction type"::"0", GenJournalLine."account type"::Vendor,
+                                    //FnGetFOSA(Rec."Account No"), Today, 20, 'FOSA', '', 'Excise Duty', '', GenJournalLine."bal. account type"::"G/L Account", GenSetup."Excise Duty Account");
 
 
                                     //Post New
@@ -710,6 +716,8 @@ page 50841 "Change Request Card"
                     Rec.TestField("Reason for change");
                     if Confirm('Send Approval Request?', false) = true then begin
                         SrestepApprovalsCodeUnit.SendMemberChangeRequestForApproval(rec.No, Rec);
+                        Message('Approval Request Sent Successfully');
+                        CurrPage.Close();
                     end;
                 end;
             }
@@ -863,7 +871,7 @@ page 50841 "Change Request Card"
         BATCH_TEMPLATE: Code[30];
         BATCH_NAME: Code[30];
         DOCUMENT_NO: code[50];
-        SFactory: Codeunit "SURESTEP Factory";
+        SFactory: Codeunit "SWIZZSFT Factory";
         SrestepApprovalsCodeUnit: Codeunit SurestepApprovalsCodeUnit;
 
 

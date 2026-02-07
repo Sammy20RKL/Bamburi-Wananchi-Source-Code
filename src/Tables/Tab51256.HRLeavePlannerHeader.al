@@ -163,7 +163,7 @@ Table 51256 "HR Leave Planner Header"
 
     var
         HRSetup: Record "HR Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         UserSetup: Record "User Setup";
         HREmp: Record "HR Employees";
         varDaysApplied: Integer;

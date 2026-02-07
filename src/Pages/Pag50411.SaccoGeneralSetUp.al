@@ -5,7 +5,7 @@ page 50411 "Sacco General Set-Up"
     PageType = Card;
     SourceTable = "Sacco General Set-Up";
     UsageCategory = Administration;
-    InsertAllowed = false;
+    InsertAllowed = true;
     DeleteAllowed = false;
 
     layout
@@ -14,15 +14,7 @@ page 50411 "Sacco General Set-Up"
         {
             group(General)
             {
-                Caption = 'General';
-                field("Max. Non Contribution Periods"; Rec."Max. Non Contribution Periods")
-                {
-                    ApplicationArea = Basic;
-                }
-                field("Min. Contribution"; Rec."Min. Contribution")
-                {
-                    ApplicationArea = Basic;
-                }
+                Caption = 'General Setup';
                 field("Min. Member Age"; Rec."Min. Member Age")
                 {
                     ApplicationArea = Basic;
@@ -31,12 +23,50 @@ page 50411 "Sacco General Set-Up"
                 {
                     ApplicationArea = Basic;
                 }
+                field("Min. Contribution"; Rec."Min. Contribution")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Min. Deposit Contribution';
+                }
+                field("Memb.Withdrawl Maturity Period"; Rec."Memb.Withdrawl Maturity Period")
+                {
+                    ApplicationArea = Basic;
+                }
                 field("Retained Shares"; Rec."Retained Shares")
                 {
                     ApplicationArea = Basic;
-                    Caption = 'Minimum Share Capital';
+                    Caption = 'Share Capital Amount';
                 }
-                field("Maximum No of Loans Guaranteed"; Rec."Maximum No of Loans Guaranteed")
+                field("Min Deposit Cont.(% of Basic)"; Rec."Min Deposit Cont.(% of Basic)")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Minimum Take home"; Rec."Minimum Take home")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Minimum take home FOSA"; Rec."Minimum take home FOSA")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Max. Non Contribution Periods"; Rec."Max. Non Contribution Periods")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Min. Loan Application Period"; Rec."Min. Loan Application Period")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Bank Statement Period"; Rec."Bank Statement Period")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Loan Appraisal Statement Period';
+                }
+                field("Deposits Multiplier"; Rec."Deposits Multiplier")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Maximum No of Guarantees"; Rec."Maximum No of Guarantees")
                 {
                     ApplicationArea = Basic;
                 }
@@ -48,44 +78,182 @@ page 50411 "Sacco General Set-Up"
                 {
                     ApplicationArea = Basic;
                 }
-                field("Min. Loan Application Period"; Rec."Min. Loan Application Period")
-                {
-                    ApplicationArea = Basic;
-                }
-                field("Boosting Fees Account"; Rec."Boosting Fees Account")
-                {
-                    ApplicationArea = Basic;
-                }
-                field("Dividend (%)"; Rec."Dividend (%)")
-                {
-                    ApplicationArea = Basic;
-                }
-                field("Interest on Deposits (%)"; Rec."Interest on Deposits (%)")
-                {
-                    ApplicationArea = Basic;
-                }
-
-                field("Min. Dividend Proc. Period"; Rec."Min. Dividend Proc. Period")
+                field("Capital Reserve"; Rec."Capital Reserve")
                 {
                     ApplicationArea = Basic;
                 }
                 field("Member Can Guarantee Own Loan"; Rec."Member Can Guarantee Own Loan")
                 {
                     ApplicationArea = Basic;
-                    Visible = false;
                 }
-                field("Withdrawal Period"; Rec."Withdrawal Period")
+                /* field("Dividend (%)"; Rec."Dividend (%)")
                 {
                     ApplicationArea = Basic;
-
+                } */
+                field("Interest on Deposits (%)"; Rec."Interest on Deposits (%)")
+                {
+                    ApplicationArea = Basic;
                 }
-
+                field("Loan Top Up Commision(%)"; Rec."Loan Top Up Commision(%)")
+                {
+                    ApplicationArea = Basic;
+                }
+                /* field("Min. Dividend Proc. Period"; Rec."Min. Dividend Proc. Period")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Div Capitalization Min_Indiv"; Rec."Div Capitalization Min_Indiv")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Dividend Capitalization Minimum Deposit_Individula';
+                    ToolTip = 'Less this Deposits the System will capitalize part of your dividend based on the Dividend Capitalization %';
+                }
+                field("Div Capitalization Min_Corp"; Rec."Div Capitalization Min_Corp")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Dividend Capitalization Minimum Deposit_Corporate Account';
+                    ToolTip = 'Less this Deposits the System will capitalize part of your dividend based on the Dividend Capitalization %';
+                }
+                field("Div Capitalization %"; Rec."Div Capitalization %")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Dividend Capitalization %'; 
+                }*/
+                field("Days for Checkoff"; Rec."Days for Checkoff")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Boosting Shares Maturity (M)"; Rec."Boosting Shares Maturity (M)")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Contactual Shares (%)"; Rec."Contactual Shares (%)")
+                {
+                    ApplicationArea = Basic;
+                }
                 field("Use Bands"; Rec."Use Bands")
                 {
                     ApplicationArea = Basic;
+                }
+                field("Max. Contactual Shares"; Rec."Max. Contactual Shares")
+                {
+                    ApplicationArea = Basic;
+                }
+                /*  field("Withholding Tax (%)"; Rec."Withholding Tax (%)")
+                 {
+                     ApplicationArea = Basic;
+                 } */
+                field("Welfare Contribution"; Rec."Welfare Contribution")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Insurance Contribution';
+                }
+                field("ATM Expiry Duration"; Rec."ATM Expiry Duration")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Monthly Share Contributions"; Rec."Monthly Share Contributions")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("ATM Card Co-op Bank Amount"; Rec."ATM Card Co-op Bank Amount")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Risk Fund Amount"; Rec."Risk Fund Amount")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Deceased Cust Dep Multiplier"; Rec."Deceased Cust Dep Multiplier")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Deposit Refund Multiplier-Death';
+                }
+                field("Begin Of Month"; Rec."Begin Of Month")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("End Of Month"; Rec."End Of Month")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("E-Loan Qualification (%)"; Rec."E-Loan Qualification (%)")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Charge FOSA Registration Fee"; Rec."Charge FOSA Registration Fee")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Charge BOSA Registration Fee"; Rec."Charge BOSA Registration Fee")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Defaulter LN"; Rec."Defaulter LN")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Last Transaction Duration"; Rec."Last Transaction Duration")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Branch Code No"; Rec."Branch Code No")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Insurance Contribution"; Rec."Insurance Contribution")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Allowable Cheque Discounting %"; Rec."Allowable Cheque Discounting %")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Sto max tolerance Days"; Rec."Sto max tolerance Days")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Standing Order Maximum Tolerance Days';
+                    ToolTip = 'Specify the Maximum No of  Days the Standing order should keep trying if the Member account has inserficient amount';
+                }
+                field("Dont Allow Sto Partial Ded."; Rec."Dont Allow Sto Partial Ded.")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Dont Allow Sto Partial Deduction';
+                }
+                field("Standing Order Bank"; Rec."Standing Order Bank")
+                {
+                    ApplicationArea = Basic;
+                    ToolTip = 'Specify the Cash book account to be credit when a member places an External standing order';
+                }
+                field("Share Capital Grace Period"; Rec."Share Capital Grace Period")
+                {
+                    ApplicationArea = Basic;
                     Visible = false;
                 }
-                field("Maximum No of Guarantees"; Rec."Maximum No of Guarantees")
+                field("Share Capital Period"; Rec."Share Capital Period")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Send Remainder SMS"; Rec."Send Remainder SMS")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Ledger Fee"; Rec."Ledger Fee")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Auto Open FOSA Savings Acc."; Rec."Auto Open FOSA Savings Acc.")
+                {
+                    Caption = 'Auto Open M-Wallets Accounts';
+                    ApplicationArea = Basic;
+                }
+                field("Package Retrieval Charge"; Rec."Package Retrieval Charge") { }
+                field("Package Retrieval Charge Acc"; Rec."Package Retrieval Charge Acc") { }
+            }
+            group("Fees & Commissions")
+            {
+                Caption = 'Fees & Commissions';
+                field("Commission on Offset"; Rec."Commission on Offset")
                 {
                     ApplicationArea = Basic;
                 }
@@ -93,300 +261,392 @@ page 50411 "Sacco General Set-Up"
                 {
                     ApplicationArea = basic;
                 }
-                field("Max. Contactual Shares"; Rec."Max. Contactual Shares")
+                // field("Welfare Contribution"; Rec."Welfare Contribution")
+                // {
+                //     ApplicationArea = basic;
+                // }
+                field("Asset Valuation Cost"; Rec."Asset Valuation Cost")
                 {
                     ApplicationArea = Basic;
                 }
-                field("Commision (%)"; Rec."Commision (%)")
+                field("Partial Disbursement Account"; Rec."Partial Disbursement Account")
                 {
                     ApplicationArea = Basic;
                 }
-
+                field("Banks Charges"; Rec."Banks Charges")
+                {
+                    ApplicationArea = basic;
+                }
                 field("Withdrawal Fee"; Rec."Withdrawal Fee")
                 {
                     ApplicationArea = Basic;
                 }
-                field("Withdrawal Commision"; Rec."Withdrawal Commision")
-                {
-                    ApplicationArea = Basic;
-                    Caption = 'Account Closure Fee(With Notice)';
-                }
-                // field("Speed Charge"; "Speed Charge")
-                // {
-                //     ApplicationArea = Basic;
-                //     Caption = 'Account Closure Fee(Without Notice)';
-                // }
-                // field("Speed Charge (%)"; "Speed Charge (%)")
-                // {
-                //     ApplicationArea = Basic;
-                // }
-                field("Asset Valuation Cost"; Rec."Asset Valuation Cost")
-                {
-                    ApplicationArea = all;
-                }
-                field("Legal Fees"; Rec."Legal Fees")
-                {
-                    ApplicationArea = all;
-                }
-                field("Banks Charges"; Rec."Banks Charges")
-                {
-                    ApplicationArea = Basic;
-                    Caption = 'Bank charges Account';
-                }
-                field("Withdrawal Fee Account"; Rec."Withdrawal Fee Account")
+                field("FOSA Registration Fee Amount"; Rec."FOSA Registration Fee Amount")
                 {
                     ApplicationArea = Basic;
                 }
-
-
-                field("Registration Fee"; Rec."Registration Fee")
+                field("BOSA Registration Fee Amount"; Rec."BOSA Registration Fee Amount")
                 {
                     ApplicationArea = Basic;
-                    Caption = 'Membership Fee';
                 }
                 field("Rejoining Fee"; Rec."Rejoining Fee")
                 {
                     ApplicationArea = Basic;
                 }
-                field("Welfare Contribution"; Rec."Welfare Contribution")
-                {
-                    ApplicationArea = Basic;
-                    Caption = 'Insurance Contribution';
-                }
-
                 field("Boosting Shares %"; Rec."Boosting Shares %")
                 {
                     ApplicationArea = Basic;
-                    Visible = false;
+                    Caption = 'Boosting Deposits %';
+                }
+                /* field("Dividend Processing Fee"; Rec."Dividend Processing Fee")
+                {
+                    ApplicationArea = Basic;
+                } */
+                field("Loan Trasfer Fee-EFT"; Rec."Loan Trasfer Fee-EFT")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Loan Trasfer Fee-Cheque"; Rec."Loan Trasfer Fee-Cheque")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Loan Trasfer Fee-Cheque';
+                }
+                field("Loan Trasfer Fee-FOSA"; Rec."Loan Trasfer Fee-FOSA")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Loan Trasfer Fee-RTGS"; Rec."Loan Trasfer Fee-RTGS")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Top up Commission"; Rec."Top up Commission")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("ATM Card Fee New"; Rec."ATM Card Fee New")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("ATM Card Fee-New Coop"; Rec."ATM Card Fee-New Coop")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("ATM Card Fee-New Sacco"; Rec."ATM Card Fee-New Sacco")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("ATM Card Renewal Fee Bank"; Rec."ATM Card Renewal Fee Bank")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("ATM Card Renewal Fee Sacco"; Rec."ATM Card Renewal Fee Sacco")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("ATM Card Fee-Renewal"; Rec."ATM Card Fee-Renewal")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("ATM Card Fee Co-op Bank"; Rec."ATM Card Fee Co-op Bank")
+                {
+                    ApplicationArea = Basic;
                 }
                 field("Excise Duty(%)"; Rec."Excise Duty(%)")
                 {
                     ApplicationArea = Basic;
                 }
-                field("Boosting Shares Maturity (M)"; Rec."Boosting Shares Maturity (M)")
-                {
-                    ApplicationArea = Basic;
-                    Visible = false;
-                }
-                field("Approved Loans Letter"; Rec."Approved Loans Letter")
-                {
-                    ApplicationArea = Basic;
-                    Visible = false;
-                }
-                field("ATM Expiry Duration"; Rec."ATM Expiry Duration")
-                {
-                    ApplicationArea = Basic;
-                    Visible = false;
-                }
-                field("Rejected Loans Letter"; Rec."Rejected Loans Letter")
-                {
-                    ApplicationArea = Basic;
-                    Visible = false;
-                }
-                field("Monthly Share Contributions"; Rec."Monthly Share Contributions")
+                field("SMS Fee Amount"; Rec."SMS Fee Amount")
                 {
                     ApplicationArea = Basic;
                 }
-                field("Auto Open FOSA Savings Acc."; Rec."Auto Open FOSA Savings Acc.")
+                field("Risk Beneficiary (%)"; Rec."Risk Beneficiary (%)")
                 {
                     ApplicationArea = Basic;
-                    Caption = 'Auto Open Agile Savings Acc.';
-                    Visible = false;
                 }
-                field("FOSA Account Type"; Rec."FOSA Account Type")
+                field("Loan Cash Clearing Fee(%)"; Rec."Loan Cash Clearing Fee(%)")
                 {
                     ApplicationArea = Basic;
-                    Visible = false;
+                }
+                field("Mpesa Withdrawal Fee"; Rec."Mpesa Withdrawal Fee")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Cheque Discounting Fee %"; Rec."Cheque Discounting Fee %")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Cheque Discounting Comission"; Rec."Cheque Discounting Comission")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Funeral Expense Amount"; Rec."Funeral Expense Amount")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Share Capital Transfer Fee"; Rec."Share Capital Transfer Fee")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Partial Deposit Refund Fee"; Rec."Partial Deposit Refund Fee")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Penalty Monthly Contribution"; Rec."Penalty Monthly Contribution")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Penalty on Failed Monthly Contribution';
+                    ToolTip = 'Specify the Penalty Amount to Charge a Member who has not meet the minimum Monthly contribution';
+                }
+                field("Four Month Multiplier"; Rec."Four Month Multiplier")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Loan Top Up Commision"; Rec."Loan Top Up Commision")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("GO Live Date"; Rec."GO Live Date")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Legal Fees"; Rec."Legal Fees")
+                {
+                    ApplicationArea = basic;
                 }
                 field("Customer Care No"; Rec."Customer Care No")
                 {
                     ApplicationArea = Basic;
                 }
-                field("Send SMS Notifications"; Rec."Send SMS Notifications")
-                {
-                    ApplicationArea = Basic;
-                }
-                field("Send Email Notifications"; Rec."Send Email Notifications")
-                {
-                    ApplicationArea = Basic;
-                }
-                field("Auto Fill Msacco Application"; Rec."Auto Fill Msacco Application")
-                {
-                    ApplicationArea = Basic;
-                    Caption = 'Auto Fill S-Pesa Application';
-                    Visible = false;
-                }
-                field("Auto Fill ATM Application"; Rec."Auto Fill ATM Application")
-                {
-                    ApplicationArea = Basic;
-                    Visible = false;
-                }
-                field("Form Fee"; Rec."Form Fee")
-                {
-                    ApplicationArea = Basic;
-                    Visible = false;
-                }
-                field("Passcard Fee"; Rec."Passcard Fee")
-                {
-                    ApplicationArea = Basic;
-                    Visible = false;
-                }
-                // field("share Capital"; "share Capital")
-                // {
-                //     ApplicationArea = Basic;
-
-                // }
-                field("Form Fee Account"; Rec."Form Fee Account")
-                {
-                    ApplicationArea = Basic;
-                    Visible = false;
-                }
-                field("Membership Form Acct"; Rec."Membership Form Acct")
-                {
-                    ApplicationArea = Basic;
-                    Caption = 'PassCard Acct';
-                    Visible = false;
-                }
-                field("Ceep Reg Fee"; Rec."Ceep Reg Fee")
-                {
-                    ApplicationArea = Basic;
-                    Visible = false;
-                }
-                field("Ceep Reg Acct"; Rec."Ceep Reg Acct")
-                {
-                    ApplicationArea = Basic;
-                    Visible = false;
-                }
-                field("Withholding Tax Account"; Rec."Withholding Tax Account")
-                {
-                    ApplicationArea = Basic;
-                }
-                field("GO Live Date"; Rec."GO Live Date") { ApplicationArea = Basic; }
             }
-            group(Numbering)
+            group("Fees & Commissions Accounts")
             {
-                Caption = 'Numbering';
-                Visible = false;
-                field("Overdraft App Nos."; Rec."Overdraft App Nos.")
+                Caption = 'Fees & Commissions Accounts';
+                field("Withdrawal Fee Account"; Rec."Withdrawal Fee Account")
                 {
                     ApplicationArea = Basic;
                 }
-                field("Overdraft Limit"; Rec."Overdraft Limit")
+                field("FOSA Registration Fee Account"; Rec."FOSA Registration Fee Account")
                 {
                     ApplicationArea = Basic;
                 }
-            }
-            group(Micro)
-            {
-                Visible = false;
-                Caption = 'Micro';
-                field("Group Account No"; Rec."Group Account No")
+                field("BOSA Registration Fee Account"; Rec."BOSA Registration Fee Account")
                 {
                     ApplicationArea = Basic;
                 }
-                field("Business Loans A/c Format"; Rec."Business Loans A/c Format")
-                {
-                    ApplicationArea = Basic;
-                    Caption = 'MICRO Loans A/C Format';
-                }
-                field("Min. Contribution Bus Loan"; Rec."Min. Contribution Bus Loan")
-                {
-                    ApplicationArea = Basic;
-                    Caption = 'Min. Contribution CEEP';
-                }
-            }
-            group("Mail Setup")
-            {
-                Caption = 'Mail Setup';
-                Visible = false;
-                field("Incoming Mail Server"; Rec."Incoming Mail Server")
+                field("Rejoining Fees Account"; Rec."Rejoining Fees Account")
                 {
                     ApplicationArea = Basic;
                 }
-                field("Outgoing Mail Server"; Rec."Outgoing Mail Server")
+                field("Loan Trasfer Fee A/C-EFT"; Rec."Loan Trasfer Fee A/C-EFT")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Loan Trasfer Fee Account-EFT';
+                }
+                field("Loan Trasfer Fee A/C-Cheque"; Rec."Loan Trasfer Fee A/C-Cheque")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Loan Trasfer Fee Account-Cheque';
+                }
+                field("Loan Trasfer Fee A/C-FOSA"; Rec."Loan Trasfer Fee A/C-FOSA")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Loan Trasfer Fee Account-FOSA';
+                }
+                field("Loan Trasfer Fee A/C-RTGS"; Rec."Loan Trasfer Fee A/C-RTGS")
                 {
                     ApplicationArea = Basic;
                 }
-                field("Email Text"; Rec."Email Text")
+                field("ATM Card Fee-Account"; Rec."ATM Card Fee-Account")
                 {
                     ApplicationArea = Basic;
                 }
-                field("Sender User ID"; Rec."Sender User ID")
+                field("FOSA MPESA COmm A/C"; Rec."FOSA MPESA COmm A/C")
                 {
                     ApplicationArea = Basic;
                 }
-                field("Sender Address"; Rec."Sender Address")
-                {
-                    ApplicationArea = Basic;
-                }
-                field("Email Subject"; Rec."Email Subject")
-                {
-                    ApplicationArea = Basic;
-                }
-                field("Statement Message #1"; Rec."Statement Message #1")
-                {
-                    ApplicationArea = Basic;
-                }
-                field("Statement Message #2"; Rec."Statement Message #2")
-                {
-                    ApplicationArea = Basic;
-                }
-                field("Statement Message #3"; Rec."Statement Message #3")
-                {
-                    ApplicationArea = Basic;
-                }
-                field("Statement Message #4"; Rec."Statement Message #4")
-                {
-                    ApplicationArea = Basic;
-                }
-            }
-            group(Others)
-            {
-                Caption = 'Others';
                 field("Insurance Retension Account"; Rec."Insurance Retension Account")
                 {
                     ApplicationArea = Basic;
-                    Visible = false;
-
+                }
+                field("WithHolding Tax Account"; Rec."WithHolding Tax Account")
+                {
+                    ApplicationArea = Basic;
                 }
                 field("Shares Retension Account"; Rec."Shares Retension Account")
                 {
                     ApplicationArea = Basic;
-                    Visible = false;
                 }
                 field("Loan Transfer Fees Account"; Rec."Loan Transfer Fees Account")
                 {
                     ApplicationArea = Basic;
                 }
-
+                field("Boosting Fees Account"; Rec."Boosting Fees Account")
+                {
+                    ApplicationArea = Basic;
+                }
                 field("Bridging Commision Account"; Rec."Bridging Commision Account")
                 {
                     ApplicationArea = Basic;
                 }
-                // field("Funeral Expenses Amount"; Rec."Funeral Expenses Amount")
-                // {
-                //     ApplicationArea = Basic;
-                //     Visible = false;
-                // }
                 field("Funeral Expenses Account"; Rec."Funeral Expenses Account")
                 {
                     ApplicationArea = Basic;
-                    Visible = false;
                 }
+                /* field("Dividend Payable Account"; Rec."Dividend Payable Account")
+                {
+                    ApplicationArea = Basic;
+                } 
+                field("Dividend Process Fee Account"; Rec."Dividend Process Fee Account")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Dividend Processing Fee Account';
+                }*/
                 field("Excise Duty Account"; Rec."Excise Duty Account")
                 {
                     ApplicationArea = Basic;
-                    Visible = false;
                 }
-                field("Cheque Processing Fee"; Rec."Cheque Processing Fee")
+                field("SMS Fee Account"; Rec."SMS Fee Account")
                 {
                     ApplicationArea = Basic;
-                    Visible = false;
                 }
-                field("Cheque Processing Fee Account"; Rec."Cheque Processing Fee Account")
+                field("Checkoff Interest Account"; Rec."Checkoff Interest Account")
                 {
                     ApplicationArea = Basic;
-                    Visible = false;
+                }
+                field("Loan Cash Clearing Account"; Rec."Loan Cash Clearing Account")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Risk Fund Control Account"; Rec."Risk Fund Control Account")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Paybill Tarrifs"; Rec."Paybill Tarrifs")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Mpesa Withdrawal Fee Account"; Rec."Mpesa Withdrawal Fee Account")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Comission Received Mpesa"; Rec."Comission Received Mpesa")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Mpesa Cash Withdrawal fee ac"; Rec."Mpesa Cash Withdrawal fee ac")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Cheque Discounting Fee Account"; Rec."Cheque Discounting Fee Account")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Deposit Refund On DeathAccount"; Rec."Deposit Refund On DeathAccount")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Loan Attachment Comm. Account"; Rec."Loan Attachment Comm. Account")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Ledger Fee Account"; Rec."Ledger Fee Account")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Share Capital Transfer Fee Acc"; Rec."Share Capital Transfer Fee Acc")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Four Months  Interest Account"; Rec."Four Months  Interest Account")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Partial Deposit Refund Fee A/C"; Rec."Partial Deposit Refund Fee A/C")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Penalty Monthly Contr. Account"; Rec."Penalty Monthly Contr. Account")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Penalty On Failed Monthly Contr. Account';
+                }
+            }
+            group("SMS Notifications")
+            {
+                field("Send Membership App SMS"; Rec."Send Membership App SMS")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Send Membership Application SMS';
+                }
+                field("Send Membership Reg SMS"; Rec."Send Membership Reg SMS")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Send Membership Registration SMS';
+                }
+                field("Send Loan App SMS"; Rec."Send Loan App SMS")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Send Loan Application SMS';
+                }
+                field("Send Loan Disbursement SMS"; Rec."Send Loan Disbursement SMS")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Send Loan Disbursement SMS';
+                }
+                field("Send Guarantorship SMS"; Rec."Send Guarantorship SMS")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Send Guarantorship SMS';
+                }
+                field("Send Membership Withdrawal SMS"; Rec."Send Membership Withdrawal SMS")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Send Membership Withdrawal SMS';
+                }
+                field("Send ATM Withdrawal SMS"; Rec."Send ATM Withdrawal SMS")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Send ATM Withdrawal SMS';
+                }
+                field("Send Cash Withdrawal SMS"; Rec."Send Cash Withdrawal SMS")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Send Cash Withdrawal SMS';
+                }
+            }
+            group("Email Notifications")
+            {
+                field("Send Membership App Email"; Rec."Send Membership App Email")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Send Membership Reg Email"; Rec."Send Membership Reg Email")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Send Loan App Email"; Rec."Send Loan App Email")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Send Loan Disbursement Email"; Rec."Send Loan Disbursement Email")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Send Guarantorship Email"; Rec."Send Guarantorship Email")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Send Membship Withdrawal Email"; Rec."Send Membship Withdrawal Email")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Send ATM Withdrawal Email"; Rec."Send ATM Withdrawal Email")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Send Cash Withdrawal Email"; Rec."Send Cash Withdrawal Email")
+                {
+                    ApplicationArea = Basic;
                 }
             }
             group("Dividends Processing Setups")
@@ -395,6 +655,41 @@ page 50411 "Sacco General Set-Up"
                 {
                     ApplicationArea = Basic;
                 }
+                field("Dividend (%)"; Rec."Dividend (%)")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Min. Dividend Proc. Period"; Rec."Min. Dividend Proc. Period")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Div Capitalization Min_Indiv"; Rec."Div Capitalization Min_Indiv")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Dividend Capitalization Minimum Deposit_Individula';
+                    ToolTip = 'Less this Deposits the System will capitalize part of your dividend based on the Dividend Capitalization %';
+                }
+                field("Div Capitalization Min_Corp"; Rec."Div Capitalization Min_Corp")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Dividend Capitalization Minimum Deposit_Corporate Account';
+                    ToolTip = 'Less this Deposits the System will capitalize part of your dividend based on the Dividend Capitalization %';
+                }
+                field("Div Capitalization %"; Rec."Div Capitalization %")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Dividend Capitalization %';
+                }
+                field("Dividend Processing Fee"; Rec."Dividend Processing Fee")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Dividend Process Fee Account"; Rec."Dividend Process Fee Account")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Dividend Processing Fee Account';
+                }
+
                 field("Interest On Current Shares"; Rec."Interest On Current Shares")
                 {
                     ApplicationArea = Basic;
@@ -404,96 +699,34 @@ page 50411 "Sacco General Set-Up"
                 {
                     ApplicationArea = Basic;
                 }
+                field("Share Interest (%)"; Rec."Share Interest (%)")
+                {
+                    ApplicationArea = Basic;
+                }
                 field("Dividends Paying Bank Account"; Rec."Dividends Paying Bank Account")
                 {
                     ApplicationArea = Basic;
                 }
-                // field("Interest On FOSA Shares"; Rec."Interest On FOSA Shares")
-                // {
-                //     ApplicationArea = Basic;
-                //     Caption = 'Interest On FOSA Shares(%)';
-                //     Visible = false;
-                // }
+
                 field("Dividend Payable Account"; Rec."Dividend Payable Account")
                 {
                     ApplicationArea = Basic;
 
                 }
-                field("Interest On Preferential Shares"; Rec."Interest On PreferentialShares")
+                field("HolidaySavings(%)"; Rec."HolidaySavings(%)")
                 {
                     ApplicationArea = Basic;
-                    Caption = 'Interest On Preferential Shares(%)';
-                    Visible = false;
                 }
-                field("Interest On Lift Shares"; Rec."Interest On LiftShares")
-                {
-                    ApplicationArea = Basic;
-                    Caption = 'Interest On Lift Shares(%)';
-                    Visible = false;
-                }
-                field("Interest On PreferentialShares"; Rec."Interest On PreferentialShares")
-                {
-                    ApplicationArea = Basic;
-                    Caption = 'Interest On Preferential Shares(%)';
-                    Visible = false;
-                }
-                field("Interest On TambaaShares"; Rec."Interest On TambaaShares")
-                {
-                    ApplicationArea = Basic;
-                    Caption = 'Interest On Tambaa Shares(%)';
-                    Visible = false;
-                }
-                field("Interest On PepeaShares"; Rec."Interest On PepeaShares")
-                {
-                    ApplicationArea = Basic;
-                    Caption = 'Interest On Pepea Shares(%)';
-                    Visible = false;
-                }
-                field("Interest On HousingShares"; Rec."Interest On HousingShares")
-                {
-                    ApplicationArea = Basic;
-                    Caption = 'Interest On Housing Shares(%)';
-                    Visible = false;
-                }
-                field("Dividends Capitalization Rate"; Rec."Dividends Capitalization Rate")
-                {
-                    ApplicationArea = Basic;
-                    Caption = 'Dividends Capitalization Rate(%)';
-                    Visible = false;
-                }
-                field("Proposed Honoraria"; Rec."Proposed Honoraria")
-                {
-                    ApplicationArea = all;
-                }
+                field("HolidaySavings Payout Bank"; Rec."HolidaySavings Payout Bank") { ApplicationArea = Basic; }
+
             }
-            group(ATM)
+            group("Default Posting Groups")
             {
-                visible = false;
-                field("ATM Card Fee-New Coop"; Rec."ATM Card Fee-New Coop")
+                field("Default Customer Posting Group"; Rec."Default Customer Posting Group")
                 {
                     ApplicationArea = Basic;
                 }
-                field("ATM Card Fee-New Sacco"; Rec."ATM Card Fee-New Sacco")
-                {
-                    ApplicationArea = Basic;
-                }
-                field("ATM Card Fee-Replacement"; Rec."ATM Card Fee-Replacement")
-                {
-                    ApplicationArea = Basic;
-                }
-                field("ATM Card Fee-Renewal"; Rec."ATM Card Fee-Renewal")
-                {
-                    ApplicationArea = Basic;
-                }
-                field("ATM Card Fee-Account"; Rec."ATM Card Fee-Account")
-                {
-                    ApplicationArea = Basic;
-                }
-                field("ATM Card Fee Co-op Bank"; Rec."ATM Card Fee Co-op Bank")
-                {
-                    ApplicationArea = Basic;
-                }
-                field("ATM Card Co-op Bank Amount"; Rec."ATM Card Co-op Bank Amount")
+                field("Default Micro Credit Posting G"; Rec."Default Micro Credit Posting G")
                 {
                     ApplicationArea = Basic;
                 }
@@ -507,7 +740,6 @@ page 50411 "Sacco General Set-Up"
         {
             group("Shares Bands")
             {
-                Visible = false;
                 Caption = 'Shares Bands';
             }
         }
@@ -515,7 +747,6 @@ page 50411 "Sacco General Set-Up"
         {
             action("Reset Data Sheet")
             {
-                Visible = false;
                 ApplicationArea = Basic;
                 Caption = 'Reset Data Sheet';
                 Promoted = true;
@@ -523,7 +754,19 @@ page 50411 "Sacco General Set-Up"
 
                 trigger OnAction()
                 begin
+                    Cust.Reset;
+                    Cust.SetRange(Cust."Customer Type", Cust."customer type"::Member);
+                    if Cust.Find('-') then
+                        Cust.ModifyAll(Cust.Advice, false);
 
+
+                    Loans.Reset;
+                    Loans.SetRange(Loans.Source, Loans.Source::" ");
+                    if Loans.Find('-') then
+                        Loans.ModifyAll(Loans.Advice, false);
+
+
+                    Message('Reset Completed successfully.');
                 end;
             }
         }
@@ -532,12 +775,5 @@ page 50411 "Sacco General Set-Up"
     var
         Cust: Record Customer;
         Loans: Record "Loans Register";
-
-
-    trigger OnInit()
-    begin
-        if Rec.IsEmpty() then
-            Rec.Insert();
-    end;
 }
 

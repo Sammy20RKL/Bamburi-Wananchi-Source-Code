@@ -81,6 +81,13 @@ Page 56123 "Membership Exit Card Posted"
                     Style = Attention;
                     StyleExpr = true;
                 }
+                field("Net Payable to the Member"; Rec."Net Payable to the Member")
+                {
+                    ApplicationArea = Basic;
+                    Editable = false;
+                    Style = Attention;
+                    StyleExpr = true;
+                }
                 field("FOSA Account No."; Rec."FOSA Account No.")
                 {
                     ApplicationArea = Basic;
@@ -142,7 +149,7 @@ Page 56123 "Membership Exit Card Posted"
                     begin
                         cust.Reset;
                         cust.SetRange(cust."No.", Rec."Member No.");
-                        if cust.Find('-') then
+                        if cust.FindFirst() then
                             Report.Run(50250, true, false, cust);
                     end;
                 }
@@ -218,7 +225,7 @@ Page 56123 "Membership Exit Card Posted"
         ShareCapitalTransferVisible: Boolean;
         ShareCapSellPageVisible: Boolean;
         // ObjShareCapSell: Record "Share Capital Sell";
-        SurestepFactory: Codeunit "SURESTEP Factory";
+        SwizzsoftFactory: Codeunit "SWIZZSFT Factory";
         JVTransactionType: Option " ","Registration Fee","Shares Capital","Interest Paid","Loan Repayment","Deposit Contribution","Insurance Contribution","Benevolent Fund",Loan,"Unallocated Funds",Dividend,"FOSA Account","Loan Insurance Charged","Loan Insurance Paid","Recovery Account","FOSA Shares","Additional Shares";
         JVAccountType: Enum "Gen. Journal Account Type";
         TemplateName: Code[20];
@@ -237,7 +244,7 @@ Page 56123 "Membership Exit Card Posted"
         VarTaxonShareCapSellFee: Decimal;
         ObjNoSeries: Record "Sacco No. Series";
         VarDocumentNo: Code[30];
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        // NoSeriesMgt: Codeunit NoSeriesManagement;
         VarShareCapitalFee: Decimal;
         VarShareCapitaltoSell: Decimal;
 

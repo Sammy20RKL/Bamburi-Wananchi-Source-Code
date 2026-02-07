@@ -4,7 +4,12 @@ pageextension 50620 "CustomerLookupExt" extends "Customer Lookup"
     {
         addafter(Name)
         {
-
+            field("Personal No"; Rec."Personal No")
+            {
+                ApplicationArea = Basic;
+                Caption = 'Payroll No.';
+                Visible = true;
+            }
             field("ID No."; Rec."ID No.")
             {
 
@@ -30,12 +35,18 @@ pageextension 50620 "CustomerLookupExt" extends "Customer Lookup"
             {
 
             }
+            field(Names; Rec.Name) { }
+            field("Payroll/Staff No"; Rec."Payroll/Staff No") { }
 
 
         }
         modify("Phone No.")
         {
             Visible = false;
+        }
+        modify("Post Code")
+        {
+            visible = false;
         }
         modify(Contact)
         {

@@ -477,7 +477,7 @@ page 50038 "FD Transfer Term Amount Card"
         undisplay: Integer;
         ApprovalsMgmt: Codeunit "Approvals Mgmt.";
         Text0001: label 'Status must be pending Approval';
-        Editable: Boolean;
+        ///  Editable: Boolean;
         FDRec: Record "FD Processing";
 
     local procedure fnUpdateControls()

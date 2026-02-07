@@ -141,7 +141,7 @@ page 50870 "Loan 4TH Demand Notices Card"
                         ObjLoans.Reset;
                         ObjLoans.SetRange(ObjLoans."Loan  No.", Rec."Loan In Default");
                         if ObjLoans.FindSet then begin
-                            Report.Run(51516925, true, true, ObjLoans);
+                            Report.Run(50053, true, true, ObjLoans);
                         end;
                         // /END;
 
@@ -179,7 +179,7 @@ page 50870 "Loan 4TH Demand Notices Card"
                         ObjLoans.Reset;
                         ObjLoans.SetRange(ObjLoans."Loan  No.", Rec."Loan In Default");
                         if ObjLoans.FindSet then begin
-                            Report.Run(51516915, true, true, ObjLoans);
+                            Report.Run(50054, true, true, ObjLoans);
                         end;
                         //  END;
                         // //
@@ -218,7 +218,7 @@ page 50870 "Loan 4TH Demand Notices Card"
                         ObjLoans.Reset;
                         ObjLoans.SetRange(ObjLoans."Loan  No.", Rec."Loan In Default");
                         if ObjLoans.FindSet then begin
-                            Report.Run(51516916, true, true, ObjLoans);
+                            Report.Run(50055, true, true, ObjLoans);
                         end;
                     end;
                 }

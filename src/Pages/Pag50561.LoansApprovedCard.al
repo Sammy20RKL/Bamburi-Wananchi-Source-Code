@@ -570,10 +570,7 @@ page 50561 "Loans Approved Card"
                 {
                     ApplicationArea = Basic;
                 }
-                field(NHIF; Rec.NHIF)
-                {
-                    ApplicationArea = Basic;
-                }
+
                 field(NSSF; Rec.NSSF)
                 {
                     ApplicationArea = Basic;
@@ -595,10 +592,6 @@ page 50561 "Loans Approved Card"
                     ApplicationArea = Basic;
                 }
                 field("Other Liabilities"; Rec."Other Liabilities")
-                {
-                    ApplicationArea = Basic;
-                }
-                field("Sacco Deductions"; Rec."Sacco Deductions")
                 {
                     ApplicationArea = Basic;
                 }

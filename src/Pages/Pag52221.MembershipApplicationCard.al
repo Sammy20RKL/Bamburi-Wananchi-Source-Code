@@ -452,13 +452,13 @@ Page 52221 "Membership Application Card"
                 Enabled = true;
 
             }
-            part(Control150; "Applicant Document")
-            {
-                ApplicationArea = all;
-                SubPageLink = "No." = FIELD("No.");
-                Visible = IsIndividualApplication;
-                Enabled = true;
-            }
+            // part(Control150; "Applicant Document")
+            // {
+            //     ApplicationArea = all;
+            //     SubPageLink = "No." = FIELD("No.");
+            //     Visible = IsIndividualApplication;
+            //     Enabled = true;
+            // }
             part(Control151; "Applicant Signature")
             {
                 ApplicationArea = all;
@@ -489,6 +489,7 @@ Page 52221 "Membership Application Card"
                 {
                     ApplicationArea = Basic;
                     Promoted = true;
+                    Visible = false;
                     PromotedCategory = Process;
                     RunObject = Page "Membership App Products";// "Members Application Products";
                     RunPageLink = "Membership Applicaton No" = field("No.");
@@ -554,6 +555,7 @@ Page 52221 "Membership Application Card"
                     Caption = 'Send Approval Request';
                     Image = SendApprovalRequest;
                     Promoted = true;
+                    Visible = false;
                     PromotedCategory = Process;
                     trigger OnAction()
                     var
@@ -568,11 +570,11 @@ Page 52221 "Membership Application Card"
                         end; */
 
 
-                        if Confirm('Are you sure to send ' + Format(REC."Full Name") + ' Membership Application for Approval ?', true) = false then begin
+                        if Confirm('Are you sure to send ' + Format(REC."Full Name") + ' Membership Application for Approval ?', false) = true then begin
                             exit;
                         end else begin
                             ApprovalCodeunit.SendMembershipApplicationsRequestForApproval(rec."No.", Rec);
-                            Commit();
+                            // Commit();
 
                             CurrPage.Close();
                         end;

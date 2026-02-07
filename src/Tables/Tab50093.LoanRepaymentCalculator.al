@@ -88,7 +88,7 @@ table 50093 "Loan Repayment Calculator"
     }
 
     var
-        NoSeriesMngnt: Codeunit NoSeriesManagement;
+        // NoSeriesMngnt: Codeunit NoSeriesManagement;
         SACCOMember: Record Customer;
         LoanCategory: Record "Loan Products Setup";
 }

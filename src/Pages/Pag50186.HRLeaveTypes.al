@@ -4,6 +4,8 @@ page 50186 "HR Leave Types"
     CardPageID = "HR Leave Types Card";
     PageType = List;
     SourceTable = "HR Leave Types";
+    UsageCategory = Lists;
+    ApplicationArea = All;
 
     layout
     {

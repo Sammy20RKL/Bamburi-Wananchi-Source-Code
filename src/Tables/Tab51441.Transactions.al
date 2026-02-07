@@ -1692,7 +1692,7 @@ Table 51441 Transactions
         if No = '' then begin
             NoSetup.Get();
             NoSetup.TestField(NoSetup."Transaction Nos.");
-            NoSeriesMgt.InitSeries(NoSetup."Transaction Nos.", xRec."No. Series", 0D, No, "No. Series");
+            // NoSeriesMgt.InitSeries(NoSetup."Transaction Nos.", xRec."No. Series", 0D, No, "No. Series");
         end;
 
         Cashier := UserId;
@@ -1718,7 +1718,7 @@ Table 51441 Transactions
 
     var
         NoSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         Account: Record Vendor;
         AccountTypes: Record "Account Types-Saving Products";
         ChequeTypes: Record "Cheque Types";

@@ -196,7 +196,7 @@ Table 51945 "Fixed Deposit Placement"
         if "Document No" = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Fixed Deposit Placement");
-            NoSeriesMgt.InitSeries(SalesSetup."Fixed Deposit Placement", xRec."No. Series", 0D, "Document No", "No. Series");
+            // NoSeriesMgt.InitSeries(SalesSetup."Fixed Deposit Placement", xRec."No. Series", 0D, "Document No", "No. Series");
         end;
 
         "Created By" := UserId;
@@ -208,7 +208,7 @@ Table 51945 "Fixed Deposit Placement"
         ObjIntCalc: Record "FD Interest Calculation Crite";
         ObjGenSetup: Record "Sacco General Set-Up";
         SalesSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         ObjCust: Record Customer;
 }
 

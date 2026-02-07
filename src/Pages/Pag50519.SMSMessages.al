@@ -5,6 +5,9 @@ page 50519 "SMS Messages"
     PageType = List;
     SourceTable = "SMS Messages";
     UsageCategory = Lists;
+    SourceTableView =
+        sorting("Entry No.")
+        order(descending);
 
     layout
     {

@@ -198,7 +198,7 @@ Table 51929 "CRM Trainings"
         if Code = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."BD Training Nos");
-            NoSeriesMgt.InitSeries(SalesSetup."BD Training Nos", xRec."No. Series", 0D, Code, "No. Series");
+            //  NoSeriesMgt.InitSeries(SalesSetup."BD Training Nos", xRec."No. Series", 0D, Code, "No. Series");
         end;
 
         "Created By" := UserId;
@@ -207,6 +207,6 @@ Table 51929 "CRM Trainings"
 
     var
         SalesSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
 }
 

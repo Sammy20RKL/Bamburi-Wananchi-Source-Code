@@ -1,6 +1,7 @@
 #pragma warning disable AA0005, AA0008, AA0018, AA0021, AA0072, AA0137, AA0201, AA0204, AA0206, AA0218, AA0228, AL0254, AL0424, AS0011, AW0006 // ForNAV settings
 page 50465 "Front Office Charges"
 {
+    Caption = 'M-Wallet Charges';
     ApplicationArea = Basic;
     PageType = Card;
     SourceTable = Charges;
@@ -24,6 +25,7 @@ page 50465 "Front Office Charges"
                 {
                     ApplicationArea = Basic;
                 }
+                field("Sacco Amount"; Rec."Sacco Amount") { ApplicationArea = Basic; }
                 field("Charge Type"; Rec."Charge Type")
                 {
                     ApplicationArea = Basic;
@@ -46,8 +48,10 @@ page 50465 "Front Office Charges"
                 }
                 field("GL Account"; Rec."GL Account")
                 {
+                    Caption = 'Vendor GL Account';
                     ApplicationArea = Basic;
                 }
+                field("SAcco GL Account"; Rec."SAcco GL Account") { ApplicationArea = Basic; }
             }
         }
     }

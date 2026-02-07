@@ -174,7 +174,7 @@ Table 51942 "House Groups Registration"
         if "Cell Group Code" = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."House Group Application");
-            NoSeriesMgt.InitSeries(SalesSetup."House Group Application", xRec."No. Series", 0D, "Cell Group Code", "No. Series");
+            //   NoSeriesMgt.InitSeries(SalesSetup."House Group Application", xRec."No. Series", 0D, "Cell Group Code", "No. Series");
         end;
 
         "Created By" := UserId;
@@ -183,7 +183,7 @@ Table 51942 "House Groups Registration"
 
     var
         SalesSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         ObjCust: Record Customer;
 }
 

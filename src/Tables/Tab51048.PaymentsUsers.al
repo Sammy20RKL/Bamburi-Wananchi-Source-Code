@@ -333,7 +333,7 @@ Table 51048 "Payments-Users"
         if No = '' then begin
             GenLedgerSetup.Get;
             GenLedgerSetup.TestField(GenLedgerSetup."Normal Payments No");
-            NoSeriesMgt.InitSeries(GenLedgerSetup."Normal Payments No", xRec."No. Series", 0D, No, "No. Series");
+            //NoSeriesMgt.InitSeries(GenLedgerSetup."Normal Payments No", xRec."No. Series", 0D, No, "No. Series");
         end;
     end;
 
@@ -343,7 +343,7 @@ Table 51048 "Payments-Users"
         Vend: Record Vendor;
         FA: Record "Fixed Asset";
         BankAcc: Record "Bank Account";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         GenLedgerSetup: Record "Cash Office Setup";
         RecPayTypes: Record "Receipts and Payment Types";
         CashierLinks: Record "Cash Office User Template";

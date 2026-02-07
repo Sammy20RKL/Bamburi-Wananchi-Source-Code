@@ -703,7 +703,7 @@ page 50974 "Collateral Action Card"
         SwizzsoftFactory: Codeunit "Swizzsoft Factory";
         ObjNoSeries: Record "Sacco No. Series";
         VarPackageNo: Code[20];
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        //NoSeriesMgt: Codeunit NoSeriesManagement;
         ObjPackage: Record 51904;
         ObjCollateralMovement: Record 51922;
 

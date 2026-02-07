@@ -57,12 +57,12 @@ Table 51174 "HR Policies"
         if Code = '' then begin
             HRSetup.Get;
             HRSetup.TestField("HR Policies");
-            NoSeriesMgt.InitSeries(HRSetup."HR Policies", xRec."No. Series", 0D, Code, "No. Series");
+            // NoSeriesMgt.InitSeries(HRSetup."HR Policies", xRec."No. Series", 0D, Code, "No. Series");
         end;
     end;
 
     var
         HRSetup: Record "HR Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+    // NoSeriesMgt: Codeunit NoSeriesManagement;
 }
 

@@ -106,6 +106,32 @@ Table 51094 "Mobile Loans"
         {
             DataClassification = ToBeClassified;
         }
+        field(31; "Outstanding Balance"; Decimal)
+        {
+            CalcFormula = sum("Cust. Ledger Entry"."Amount Posted" where("Customer No." = field("Member No"),
+                                                                  "Loan No" = field("Loan No"),
+                                                                  "Transaction Type" = filter(Loan | "Loan Repayment"),
+                                                                  Reversed = const(false)));
+            Editable = false;
+            FieldClass = FlowField;
+        }
+        field(32; "Outstanding Interest"; Decimal)
+        {
+            CalcFormula = sum("Cust. Ledger Entry"."Amount Posted" where("Customer No." = field("Member No"),
+                                                                  "Loan No" = field("Loan No"),
+                                                                  "Transaction Type" = filter("Interest Due" | "Interest Paid"),
+                                                                  Reversed = const(false)));
+            Editable = false;
+            FieldClass = FlowField;
+        }
+        field(33; "7th Notification"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(34; "8th Notification"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys

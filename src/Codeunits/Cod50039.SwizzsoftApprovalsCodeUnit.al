@@ -580,20 +580,21 @@ Codeunit 50039 "SwizzsoftApprovalsCodeUnit"
     // procedure FnOnCancelATMTransactionsApprovalRequest(var ATMTransactions: Record "ATM Card Applications")
     // begin
     // end;
-    //13)--------------------------------------------------------------------Send BOSATransactions For Approval start
-    // procedure SendInternalTransfersTransactionsRequestForApproval(InternalTransfersTransactions: Code[40]; var SaccoTransfers: Record "Sacco Transfers")
-    // begin
-    //     if FnCheckIfInternalTransfersTransactionsApprovalsWorkflowEnabled(SaccoTransfers) then begin
-    //         FnOnSendInternalTransfersTransactionsForApproval(SaccoTransfers);
-    //     end;
-    // end;
 
-    // local procedure FnCheckIfInternalTransfersTransactionsApprovalsWorkflowEnabled(var SaccoTransfers: Record "Sacco Transfers"): Boolean;
-    // begin
-    //     if not IsInternalTransfersTransactionsApprovalsWorkflowEnabled(SaccoTransfers) then
-    //         Error(NoWorkflowEnabledErr);
-    //     exit(true);
-    // end;
+    //13)--------------------------------------------------------------------Send BOSATransactions For Approval start
+    procedure SendInternalTransfersTransactionsRequestForApproval(InternalTransfersTransactions: Code[40]; var SaccoTransfers: Record "Sacco Transfers")
+    begin
+        if FnCheckIfInternalTransfersTransactionsApprovalsWorkflowEnabled(SaccoTransfers) then begin
+            FnOnSendInternalTransfersTransactionsForApproval(SaccoTransfers);
+        end;
+    end;
+
+    local procedure FnCheckIfInternalTransfersTransactionsApprovalsWorkflowEnabled(var SaccoTransfers: Record "Sacco Transfers"): Boolean;
+    begin
+        if not IsInternalTransfersTransactionsApprovalsWorkflowEnabled(SaccoTransfers) then
+            Error(NoWorkflowEnabledErr);
+        exit(true);
+    end;
 
     //.
     procedure CancelInternalTransfersTransactionsRequestForApproval(InternalTransfersTransactions: Code[40]; var SaccoTransfers: Record "Sacco Transfers")
@@ -601,10 +602,10 @@ Codeunit 50039 "SwizzsoftApprovalsCodeUnit"
         FnOnCancelInternalTransfersTransactionsApprovalRequest(SaccoTransfers);
     end;
 
-    // local procedure IsInternalTransfersTransactionsApprovalsWorkflowEnabled(var InternalTransfersTransactions: Record "Sacco Transfers"): Boolean
-    // begin
-    //     exit(WorkflowManagement.CanExecuteWorkflow(InternalTransfersTransactions, Psalmkitswfevents.RunWorkflowOnSendInternalTransfersTransactionsForApprovalCode));
-    // end;
+    local procedure IsInternalTransfersTransactionsApprovalsWorkflowEnabled(var InternalTransfersTransactions: Record "Sacco Transfers"): Boolean
+    begin
+        exit(WorkflowManagement.CanExecuteWorkflow(InternalTransfersTransactions, Psalmkitswfevents.RunWorkflowOnSendInternalTransfersTransactionsForApprovalCode));
+    end;
 
     [IntegrationEvent(false, false)]
 
@@ -619,42 +620,85 @@ Codeunit 50039 "SwizzsoftApprovalsCodeUnit"
     end;
 
 
-    //14)--------------------------------------------------------------------Send Payment voucher For Approval start
-    // procedure SendPaymentVoucherTransactionsRequestForApproval(PaymentVoucherTransactions: Code[40]; var PaymentHeader: Record "Payment Header")
-    // begin
-    //     if FnCheckIfPaymentVoucherTransactionsApprovalsWorkflowEnabled(PaymentHeader) then begin
-    //         FnOnSendPaymentVoucherTransactionsForApproval(PaymentHeader);
-    //     end;
-    // end;
 
-    // local procedure FnCheckIfPaymentVoucherTransactionsApprovalsWorkflowEnabled(var PaymentHeader: Record "Payment Header"): Boolean;
-    // begin
-    //     if not IsPaymentVoucherTransactionsApprovalsWorkflowEnabled(PaymentHeader) then
-    //         Error(NoWorkflowEnabledErr);
-    //     exit(true);
-    // end;
+    //14)--------------------------------------------------------------------Send Payment voucher For Approval start
+    procedure SendPaymentVoucherTransactionsRequestForApproval(PaymentVoucherTransactions: Code[40]; var PaymentHeader: Record "Payments Header")
+    begin
+        if FnCheckIfPaymentVoucherTransactionsApprovalsWorkflowEnabled(PaymentHeader) then begin
+            FnOnSendPaymentVoucherTransactionsForApproval(PaymentHeader);
+        end;
+    end;
+
+    local procedure FnCheckIfPaymentVoucherTransactionsApprovalsWorkflowEnabled(var PaymentHeader: Record "Payments Header"): Boolean;
+    begin
+        if not IsPaymentVoucherTransactionsApprovalsWorkflowEnabled(PaymentHeader) then
+            Error(NoWorkflowEnabledErr);
+        exit(true);
+    end;
 
     //.
-    procedure CancelPaymentVoucherTransactionsRequestForApproval(PaymentVoucherTransactions: Code[40]; var PaymentHeader: Record "Payment Header")
+    procedure CancelPaymentVoucherTransactionsRequestForApproval(PaymentVoucherTransactions: Code[40]; var PaymentHeader: Record "Payments Header")
     begin
         FnOnCancelPaymentVoucherTransactionsApprovalRequest(PaymentHeader);
     end;
 
-    // local procedure IsPaymentVoucherTransactionsApprovalsWorkflowEnabled(var PaymentVoucherTransactions: Record "Payment Header"): Boolean
-    // begin
-    //     exit(WorkflowManagement.CanExecuteWorkflow(PaymentVoucherTransactions, Psalmkitswfevents.RunWorkflowOnSendPaymentVoucherTransactionsForApprovalCode));
-    // end;
+    local procedure IsPaymentVoucherTransactionsApprovalsWorkflowEnabled(var PaymentVoucherTransactions: Record "Payments Header"): Boolean
+    begin
+        // exit(WorkflowManagement.CanExecuteWorkflow(PaymentVoucherTransactions, Psalmkitswfevents.RunWorkflowOnSendPaymentVoucherTransactionsForApprovalCode));
+    end;
 
     [IntegrationEvent(false, false)]
 
-    procedure FnOnSendPaymentVoucherTransactionsForApproval(var PaymentVoucherTransactions: Record "Payment Header")
+    procedure FnOnSendPaymentVoucherTransactionsForApproval(var PaymentVoucherTransactions: Record "Payments Header")
     begin
     end;
 
     [IntegrationEvent(false, false)]
 
-    procedure FnOnCancelPaymentVoucherTransactionsApprovalRequest(var PaymentVoucherTransactions: Record "Payment Header")
+    procedure FnOnCancelPaymentVoucherTransactionsApprovalRequest(var PaymentVoucherTransactions: Record "Payments Header")
     begin
     end;
+    //----My Payment Header Workflow implementation-------//
+
+    //----------------------------------------------------------------Send for Appproval Implementation-------------------------------///
+    procedure SendPaymentHeaderForApprovalCode(InternalTransactionTransfer: Code[40]; var PaymentHeader: Record "Payments Header")
+    begin
+        if FnCheckIfPaymentHeaderApprovalsWorkflowEnabled(PaymentHeader) then begin
+            FnOnSendPaymentHeaderForApprovalCode(PaymentHeader);
+        end;
+
+    end;
+
+    local procedure FnCheckIfPaymentHeaderApprovalsWorkflowEnabled(var PaymentHeader: Record "Payments Header"): Boolean;
+    begin
+        if not IsPaymentHeaderApprovalsWorkflowEnabled(PaymentHeader) then
+            Error(NoWorkflowEnabledErr);
+        exit(true);
+    end;
+
+    local procedure IsPaymentHeaderApprovalsWorkflowEnabled(var InternalTransfersTransactions: Record "Payments Header"): Boolean
+    begin
+        exit(WorkflowManagement.CanExecuteWorkflow(InternalTransfersTransactions, Psalmkitswfevents.RunWorkflowOnSendPaymentHeaderForApprovalCode));
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure FnOnSendPaymentHeaderForApprovalCode(var InternalTransactions: Record "Payments Header")
+    begin
+    end;
+
+    // ---------------------------------------  end of send Approval----------------------------------------------------------///
+
+    //--------------------------------- Cancel the Payment Head Start ---------------------------------------------//    
+    procedure CancelPaymentHeaderApprovalCode(InternalTransactionTransfer: Code[40]; var PaymentHeader: Record "Payments Header")
+    begin
+        FnOnCancelPaymentHeaderApprovalCode(PaymentHeader);
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure FnOnCancelPaymentHeaderApprovalCode(var InternalTransactions: Record "Payments Header")
+    begin
+    end;
+
+    // ---------------------------------------------- end of cancel Payment header -----------------------------------//
 }
 

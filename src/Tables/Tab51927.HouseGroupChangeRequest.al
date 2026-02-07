@@ -145,7 +145,7 @@ Table 51927 "House Group Change Request"
         if "Document No" = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."House Change Request No");
-            NoSeriesMgt.InitSeries(SalesSetup."House Change Request No", xRec."No. Series", 0D, "Document No", "No. Series");
+            //   NoSeriesMgt.InitSeries(SalesSetup."House Change Request No", xRec."No. Series", 0D, "Document No", "No. Series");
         end;
 
         //"Demand Notice Date":=TODAY;
@@ -153,7 +153,7 @@ Table 51927 "House Group Change Request"
 
     var
         SalesSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         ObjAccount: Record Vendor;
         ObjCust: Record Customer;
         ObjLoans: Record "Loans Register";

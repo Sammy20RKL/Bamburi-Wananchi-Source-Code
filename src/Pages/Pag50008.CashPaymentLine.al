@@ -2,7 +2,7 @@
 Page 50008 "Cash Payment Line"
 {
     PageType = ListPart;
-    SourceTable = "Payment Line";
+    SourceTable = "Payment Line New";
 
     layout
     {
@@ -19,7 +19,7 @@ Page 50008 "Cash Payment Line"
                 {
                     ApplicationArea = Basic;
                 }
-                field("Transaction Type Description"; Rec."Transaction Type Description")
+                field("Transaction Type Description"; Rec."Transaction Name")
                 {
                     ApplicationArea = Basic;
                 }
@@ -63,18 +63,18 @@ Page 50008 "Cash Payment Line"
                 {
                     ApplicationArea = Basic;
                 }
-                field("W/TAX Code"; Rec."W/TAX Code")
+                field("W/TAX Code"; Rec."Withholding Tax Code")
                 {
                     ApplicationArea = Basic;
                 }
-                field("W/TAX Amount"; Rec."W/TAX Amount")
+                field("W/TAX Amount"; Rec."Withholding Tax Amount")
                 {
                     ApplicationArea = Basic;
                 }
-                field("W/TAX Amount(LCY)"; Rec."W/TAX Amount(LCY)")
-                {
-                    ApplicationArea = Basic;
-                }
+                // field("W/TAX Amount(LCY)"; Rec."W/TAX Amount(LCY)")
+                // {
+                //     ApplicationArea = Basic;
+                // }
                 field("Net Amount"; Rec."Net Amount")
                 {
                     ApplicationArea = Basic;

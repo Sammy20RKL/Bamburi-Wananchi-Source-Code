@@ -238,7 +238,7 @@ Table 51449 "Standing Orders"
         if "No." = '' then begin
             NoSetup.Get();
             NoSetup.TestField(NoSetup."Standing Orders Nos.");
-            NoSeriesMgt.InitSeries(NoSetup."Standing Orders Nos.", xRec."No. Series", 0D, "No.", "No. Series");
+            //  NoSeriesMgt.InitSeries(NoSetup."Standing Orders Nos.", xRec."No. Series", 0D, "No.", "No. Series");
         end;
 
 
@@ -252,7 +252,7 @@ Table 51449 "Standing Orders"
 
     var
         NoSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         Account: Record Vendor;
         UsersID: Record User;
         BanksList: Record Banks;

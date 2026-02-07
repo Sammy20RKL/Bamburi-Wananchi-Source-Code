@@ -220,7 +220,7 @@ Table 51184 "HR Employee Requisitions"
         if "Requisition No." = '' then begin
             HRSetup.Get;
             HRSetup.TestField(HRSetup."Employee Requisition Nos.");
-            NoSeriesMgt.InitSeries(HRSetup."Employee Requisition Nos.", xRec."No. Series", 0D, "Requisition No.", "No. Series");
+            //NoSeriesMgt.InitSeries(HRSetup."Employee Requisition Nos.", xRec."No. Series", 0D, "Requisition No.", "No. Series");
         end;
 
         userSetup.Reset;
@@ -249,7 +249,7 @@ Table 51184 "HR Employee Requisitions"
 
     var
         HRSetup: Record "HR Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        //NoSeriesMgt: Codeunit NoSeriesManagement;
         HRJobs: Record "HR Jobss";
         HREmployeeReq: Record "HR Employee Requisitions";
         userSetup: Record "User Setup";

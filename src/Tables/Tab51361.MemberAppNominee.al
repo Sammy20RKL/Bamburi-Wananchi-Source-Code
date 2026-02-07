@@ -86,6 +86,7 @@ Table 51361 "Member App Nominee"
             OptionCaption = ' ,Beneficiary,Guardian/Trustee';
             OptionMembers = " ",Beneficiary,"Guardian/Trustee";
         }
+
     }
 
     keys

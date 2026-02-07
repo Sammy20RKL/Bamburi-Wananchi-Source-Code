@@ -7,7 +7,7 @@ Page 56160 "Posted PettyCash Payment List"
     InsertAllowed = false;
     ModifyAllowed = false;
     PageType = List;
-    SourceTable = "Payment Header";
+    SourceTable = "Payments Header";
     SourceTableView = where("Payment Type" = const("Petty Cash"),
                             Posted = const(true));
     UsageCategory = Lists;

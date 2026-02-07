@@ -183,7 +183,7 @@ table 50424 "Loan Top Up."
         if "Document No" = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Top Up Loan Nos");
-            NoSeriesMgt.InitSeries(SalesSetup."Top Up Loan Nos", xRec."No. Series", 0D, "Document No", "No. Series");
+            // NoSeriesMgt.InitSeries(SalesSetup."Top Up Loan Nos", xRec."No. Series", 0D, "Document No", "No. Series");
         end;
         "Topped-Up By" := UserId;
         "Top Up Loan No" := "Document No";
@@ -197,7 +197,7 @@ table 50424 "Loan Top Up."
         Cust: Record Customer;
         LoansRec: Record "Loans Register";
         SalesSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         DisbError: label 'Amount to disburse must not be more than Top Up Amount';
         Paid: Decimal;
         ChargeRefinanceFee: label 'Is the loan within shares?';

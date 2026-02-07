@@ -6,7 +6,7 @@ Page 50000 "Payment List"
     DeleteAllowed = false;
     RefreshOnActivate = true;
     PageType = List;
-    SourceTable = "Payment Header";
+    SourceTable = "Payments Header";
     SourceTableView = where("Payment Type" = const(Normal),
                             Posted = const(false),
                             "Investor Payment" = const(false));
@@ -26,7 +26,7 @@ Page 50000 "Payment List"
                 {
                     ApplicationArea = Basic;
                 }
-                field("Document Date"; Rec."Document Date")
+                field("Document Date"; Rec.Date)
                 {
                     ApplicationArea = Basic;
                 }
@@ -34,11 +34,11 @@ Page 50000 "Payment List"
                 {
                     ApplicationArea = Basic;
                 }
-                field(Amount; Rec.Amount)
+                field(Amount; Rec."Total Payment Amount")
                 {
                     ApplicationArea = Basic;
                 }
-                field("Amount(LCY)"; Rec."Amount(LCY)")
+                field("Amount(LCY)"; Rec."Total Payment Amount LCY")
                 {
                     ApplicationArea = Basic;
                 }

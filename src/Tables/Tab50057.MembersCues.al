@@ -50,7 +50,6 @@ table 50057 "Members Cues"
             FieldClass = FlowField;
         }
 
-
         field(10; "Awaiting Exit"; Integer)
         {
             CalcFormula = count(Customer where(Status = const("Awaiting Withdrawal"), "Customer Posting Group" = filter('Member')));

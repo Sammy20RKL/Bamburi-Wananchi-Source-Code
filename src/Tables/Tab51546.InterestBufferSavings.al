@@ -76,6 +76,6 @@ Table 51546 "Interest Buffer Savings"
 
     var
         NoSetup: Record "Purchases & Payables Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+    //    NoSeriesMgt: Codeunit NoSeriesManagement;
 }
 

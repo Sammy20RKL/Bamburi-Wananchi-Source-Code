@@ -129,7 +129,7 @@ Page 56037 "Transfers-Posted"
                     var
                         ApprovalMgt: Codeunit "Approvals Mgmt.";
                         Text001: label 'This batch is already pending approval';
-                        NoSeriesMgt: Codeunit NoSeriesManagement;
+                        NoSeriesMgt: Codeunit "No. Series";
                     begin
                         if Rec.Status <> Rec.Status::Open then
                             Error(Text001);

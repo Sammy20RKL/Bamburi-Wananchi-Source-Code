@@ -4,113 +4,112 @@ enum 51516010 "TransactionTypesEnum"
 
     value(0; " ")
     {
-
     }
     value(1; "Registration Fee")
     {
         Caption = 'Registration Fee';
     }
-    value(2; Loan)
+
+
+    value(14; "Share Capital")//14
     {
-        Caption = 'Loan';
+        Caption = 'Share Capital';
     }
-    value(3; "Loan Repayment") { }
-    value(4; Withdrawal)
-    {
-        Caption = 'Withdrawal';
-    }
-    value(5; "Interest Due")
-    {
-        Caption = 'Interest Due';
-    }
-    value(6; "Interest Paid")
+    value(6; "Interest Paid")//6
     {
         Caption = 'Interest Paid';
+    }
+    value(3; "Loan Repayment")//3
+    {
+        Caption = 'Repayment';
+    }
+    value(8; "Deposit Contribution")//8
+    {
+        Caption = 'Deposit Contribution';
+    }
+    value(4; "Insurance Contribution")
+    {
+        Caption = 'Insurance Contribution';
     }
     value(7; "Benevolent Fund")
     {
         Caption = 'Benevolent Fund';
     }
-    value(8; "Deposit Contribution")
+    value(2; "Loan")//2
     {
-        Caption = 'Deposit Contribution';
+        Caption = 'Loan';
     }
-    // value(9; "Penalty Charged")
-    // {
-    //     Caption = 'Penalty Charged';
-    // }
-    // value(10; "Application Fee")
-    // {
-    //     Caption = 'Application Fee';
-    // }
-    // value(11; "Appraisal Fee")
-    // {
-    //     Caption = 'Appraisal Fee';
-    // }
-    value(12; MobileTransactions)
-    {
-        Caption = 'MobileTransactions';
-    }
-    value(13; "Unallocated Funds")
+    value(13; "Unallocated Funds")//13
     {
         Caption = 'Unallocated Funds';
     }
-    value(14; "Shares Capital")
-    {
-        Caption = 'Shares Capital';
-    }
-    value(15; "Loan Adjustment")
-    {
-        Caption = 'Loan Adjustment';
-    }
-    value(16; Dividend)
+    value(10; Dividend)
     {
         Caption = 'Dividend';
     }
-    value(17; "Withholding Tax")
+    value(11; "Mwanangu Savings")
+    {
+
+    }
+    value(12; "Loan Insurance Charged")
+    {
+        Caption = 'Insurance Charge';
+    }
+    value(9; "Loan Insurance Paid")
+    {
+
+    }
+    value(16; "Recovery Account")
+    {
+
+    }
+    value(15; "Standing Order Charges")
+    {
+    }
+    value(5; "Interest Due")//5
+    {
+        Caption = 'Interest Due';
+    }
+    value(18; "Jiokoe Savings")
+    {
+    }
+    value(24; "Holiday Savings")//24
+    {
+        Caption = 'Holiday Savings';
+    }
+    value(20; "Welfare Contribution")
+    {
+
+    }
+    value(21; "Withholding Tax")
     {
         Caption = 'Withholding Tax';
     }
-    // value(18; "Administration Fee")
-    // {
-    //     Caption = 'Administration Fee';
-    // }
-    value(19; "Insurance Contribution")
+    value(22; "Loan Adjustment")
     {
-        Caption = 'Insurance Contribution';
+        Caption = 'Loan Adjustment';
     }
-    // value(20; Prepayment)
-    // {
-    //     Caption = 'Prepayment';
-    // }
-    // value(21; "Ordinary Building Shares(2)")
-    // {
-    //     Caption = 'Ordinary Building Shares(2)';
-    // }
-    // value(22; "Xmas Contribution")
-    // {
-    //     Caption = 'Xmas Contribution';
-    // }
-    // value(23; "Penalty Paid")
-    // {
-    //     Caption = 'Penalty Paid';
-    // }
-    // value(24; "Property Shares")
-    // {
 
-    // }
-    // value(25; "Tax Shares")
-    // {
-    //     Caption = 'Tax Shares';
-    // }
+    value(23; "Penalty Paid")
+    {
+        Caption = 'Penalty Paid';
+    }
+    value(19; Withdrawal)
+    {
+        Caption = 'Withdrawal';
+    }
+    value(25; "FOSA Shares")
+    {
+        Caption = 'FOSA Shares';
+    }
     // value(26; "Welfare Contribution 2")
     // {
     //     Caption = 'Welfare Contribution 2';
     // }
-    // value(27; "Loan Penalty")
-    // {
-    //     Caption = 'Loan Penalty';
-    // }
+    value(27; "Loan Penalty")
+    {
+        Caption = 'Loan Penalty';
+    }
     // value(28; "Loan Guard")
     // {
     //     Caption = 'Loan Guard';
@@ -166,6 +165,7 @@ enum 51516010 "TransactionTypesEnum"
     value(41; Investment)
     {
         Caption = 'FOSA Shares';
+
     }
     // value(42; "Loan Form Fee")
     // {
@@ -175,51 +175,42 @@ enum 51516010 "TransactionTypesEnum"
     // {
     //     Caption = 'Kuscco Shares';
     // }
-    value(44; "CIC shares")
-    {
-        Caption = 'CIC shares';
+    // value(44; "CIC shares")
+    // {
+    //     Caption = 'CIC shares';
 
-    }
-    value(50; "0")
-    {
-        Caption = '';
-    }
-    value(52; "Holiday Savings")
-    {
-        Caption = 'Holiday Savings';
-    }
-    value(53; Alpha_savings)
-    {
-        Caption = 'Alpha Savings';
+    // }
+    // value(50; "0")
+    // {
+    //     Caption = '';
+    // }
+    // value(53; Alpha_savings)
+    // {
+    //     Caption = 'Alpha Savings';
 
-    }
+    // }
     // value(54; "Loan Application Fee Paid")
     // {
 
     // }
-    value(55; "Loan Insurance Paid")
-    {
-
-    }
-    value(56; "Mwanangu Savings") { Caption = 'Mwanangu Savings'; }
-    value(57; "EXCISE_DUTY")
-    {
-        Caption = 'EXCISE_DUTY';
-    }
-    value(58; "MOBILE_FOSA_TRANSFER")
-    {
-        Caption = 'MOBILE_FOSA_TRANSFER';
-    }
-    value(59; "MOBILE_BOSA_TRANSFER")
-    {
-        Caption = 'MOBILE_BOSA_TRANSFER';
-    }
-    value(60; "MOBILE_FOSA_TRANSFER_CHARGE")
-    {
-        Caption = 'MOBILE_FOSA_TRANSFER_CHARGE';
-    }
-    value(61; "MOBILE_BOSA_TRANSFER_CHARGE")
-    {
-        Caption = 'MOBILE_BOSA_TRANSFER_CHARGE';
-    }
+    // value(57; "EXCISE_DUTY")
+    // {
+    //     Caption = 'EXCISE_DUTY';
+    // }
+    // value(58; "MOBILE_FOSA_TRANSFER")
+    // {
+    //     Caption = 'MOBILE_FOSA_TRANSFER';
+    // }
+    // value(59; "MOBILE_BOSA_TRANSFER")
+    // {
+    //     Caption = 'MOBILE_BOSA_TRANSFER';
+    // }
+    // value(60; "MOBILE_FOSA_TRANSFER_CHARGE")
+    // {
+    //     Caption = 'MOBILE_FOSA_TRANSFER_CHARGE';
+    // }
+    // value(61; "MOBILE_BOSA_TRANSFER_CHARGE")
+    // {
+    //     Caption = 'MOBILE_BOSA_TRANSFER_CHARGE';
+    // }
 }

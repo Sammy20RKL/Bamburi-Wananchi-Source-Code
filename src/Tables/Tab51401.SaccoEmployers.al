@@ -92,6 +92,9 @@ Table 51401 "Sacco Employers"
         field(14; "Join Date"; Date)
         {
         }
+        field(15; "Join Date2"; DateTime)
+        {
+        }
     }
 
     keys

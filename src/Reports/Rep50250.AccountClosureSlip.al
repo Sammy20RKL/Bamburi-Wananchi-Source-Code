@@ -220,9 +220,6 @@ Report 50250 "Account Closure Slip"
 
             trigger OnAfterGetRecord()
             begin
-
-
-
                 WithdrawalFee := 0;
                 NetPayable := 0;
                 FWithdrawal := 0;
@@ -247,13 +244,8 @@ Report 50250 "Account Closure Slip"
 
 
                 //MESSAGE('FWithdrawal is %1', FWithdrawal);
-                // END OF GETTING WITHDRWAL FEE
-
-
-
 
                 CalcFields("Current Shares", "Outstanding Balance", "Outstanding Interest");
-
 
                 InsFund := "Insurance Fund";
 
@@ -267,8 +259,6 @@ Report 50250 "Account Closure Slip"
                     CICLoan := "Outstanding Balance" + "FOSA Outstanding Balance";
                     NetRefund := (FExpenses + ("Current Shares")) -
                                 ("Outstanding Interest" + FOSAInterest);
-
-
                 end else begin
                     NetRefund := (("Current Shares" + UnpaidDividends) -
                                 (+"Outstanding Balance" + "Outstanding Interest"));
@@ -280,22 +270,21 @@ Report 50250 "Account Closure Slip"
                         if CalcDate('3M', "Withdrawal Application Date") > Today then begin
                             if NetRefund > 0 then
                                 WithdrawalFee := ROUND(NetRefund * 0.1, 1);
-
                         end;
                     end;
-
 
                 end;
 
                 TranferFee := 0;
                 Generalsetup.Get();
                 Closure.Reset;
-                Closure.SetRange(Closure."Member No.", "No.");
+                Closure.SetRange(Closure."Member No.", Customer."No.");
                 if Closure.Find('-') then begin
                     // if Closure."Mode Of Disbursement"=Closure."mode of disbursement"::EFT then
                     //TranferFee:=Generalsetup."Loan Trasfer Fee-Cheque"
                     //  TranferFee:=Closure."EFT Charge"
-                    EFT := Closure."EFT Charge"
+                    EFT := Closure."EFT Charge";
+                    FWithdrawal := Closure."Ledger Fee";
 
                     // else
                     // if Closure."Mode Of Disbursement"=Closure."mode of disbursement"::Vendor then
@@ -306,16 +295,12 @@ Report 50250 "Account Closure Slip"
                     // EFT:=Closure."EFT Charge";
                 end;
 
-
-
                 if Status = Status::Deceased then begin
                     NetPayable := NetRefund
                 end else
-                    NetPayable := NetRefund - WithdrawalFee - TranferFee - EFT;
-
-
+                    NetPayable := NetRefund - FWithdrawal - TranferFee - EFT;//-withdrawalfee
                 Closure."Net Pay" := NetPayable + Closure."EFT Charge";
-                //Closure.MODIFY;
+                Closure.MODIFY;
             end;
 
             trigger OnPreDataItem()
@@ -360,6 +345,7 @@ Report 50250 "Account Closure Slip"
         P_O_BOX_75629___00200__NAIROBICaptionLbl: label 'P.O BOX 75629 - 00200, NAIROBI';
         Member_No_CaptionLbl: label 'Member No.';
         Current_Oustanding_LoanCaptionLbl: label 'Current Oustanding Loan';
+
         Deposit_ContributionCaptionLbl: label 'Deposit Contribution';
         Other_DeductionsCaptionLbl: label 'Other Deductions';
         Insurance_Fund_CaptionLbl: label 'Insurance Fund ';

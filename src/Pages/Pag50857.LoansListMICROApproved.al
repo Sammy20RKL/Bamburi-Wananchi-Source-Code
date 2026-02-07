@@ -154,7 +154,7 @@ page 50857 "Loans List-MICRO(Approved)"
 
     var
         LoanType: Record 51240;
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        //NoSeriesMgt: Codeunit NoSeriesManagement;
         LoanApp: Record 51230;
         DiscountingAmount: Decimal;
         StatusPermissions: Record 51310;

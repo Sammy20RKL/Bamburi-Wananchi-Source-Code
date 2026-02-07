@@ -12,8 +12,6 @@ Page 56042 "BOSA Cue"
         area(content)
         {
             cuegroup(Group1)
-
-
             {
                 Caption = 'BOSA Member Accounts ';
                 // CuegroupLayout = Wide;

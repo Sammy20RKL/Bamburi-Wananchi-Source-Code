@@ -416,7 +416,7 @@ Table 51052 "Job-Task"
         Text001: label 'You cannot change %1 because one or more entries are associated with this %2.';
         DimMgt: Codeunit DimensionManagement;
         JobSetup: Record "HR Calendar";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+    //  NoSeriesMgt: Codeunit NoSeriesManagement;
 
     procedure JobPlanningLinesExist(): Boolean
     var

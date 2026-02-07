@@ -867,7 +867,7 @@ Table 51555 "Lead Management"
 
     var
         LDSetup: Record "Crm General Setup.";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         PostCode: Integer;
         Cust: Record Customer;
         ObjEmployers: Record "Sacco Employers";

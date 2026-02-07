@@ -66,6 +66,11 @@ Page 56121 "Membership Exit Card"
                     Caption = 'Total Interest Due';
                     Editable = false;
                 }
+                field("Ledger Fee"; Rec."Ledger Fee")
+                {
+                    ApplicationArea = Basic;
+                    Editable = False;
+                }
                 field("Member Deposits"; Rec."Member Deposits")
                 {
                     ApplicationArea = Basic;
@@ -80,21 +85,26 @@ Page 56121 "Membership Exit Card"
                     Style = Attention;
                     StyleExpr = true;
                 }
+                field("Net Payable to the Member"; Rec."Net Payable to the Member")
+                {
+                    ApplicationArea = Basic;
+                    Editable = false;
+                }
 
                 field(Payee; Rec.Payee)
                 {
                     ApplicationArea = Basic;
                     Editable = false;
                 }
-                // field("Mode Of Disbursement"; "Mode Of Disbursement")
-                // {
-                //     ApplicationArea = Basic;
-                //     Caption = 'Payment mode';
-                //     trigger OnValidate()
-                //     begin
-                //         UpdateControl();
-                //     end;
-                // }
+                field("Mode Of Disbursement"; Rec."Mode Of Disbursement")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Payment mode';
+                    trigger OnValidate()
+                    begin
+                        UpdateControl();
+                    end;
+                }
                 field("Paying Bank"; Rec."Paying Bank")
                 {
                     ApplicationArea = Basic;
@@ -152,35 +162,35 @@ Page 56121 "Membership Exit Card"
             group("Function")
             {
                 Caption = 'Function';
-                action("Member is  a Guarantor")
-                {
-                    ApplicationArea = Basic;
-                    Caption = 'Member is  a Guarantor';
-                    Image = "Report";
+                /*  action("Member is  a Guarantor")
+                  {
+                      ApplicationArea = Basic;
+                      Caption = 'Member is  a Guarantor';
+                      Image = "Report";
 
-                    trigger OnAction()
-                    begin
+                      trigger OnAction()
+                      begin
 
-                        Cust.Reset;
-                        cust.SetRange(cust."No.", Rec."Member No.");
-                        if Cust.Find('-') then
-                            Report.Run(50226, true, false, Cust);
-                    end;
-                }
-                action("Member is  Guaranteed")
-                {
-                    ApplicationArea = Basic;
-                    Caption = 'Member is  Guaranteed';
-                    Image = "Report";
+                          Cust.Reset;
+                          cust.SetRange(cust."No.", Rec."Member No.");
+                          if Cust.Find('-') then
+                              Report.Run(50226, true, false, Cust);
+                      end;
+                  }
+                  action("Member is  Guaranteed")
+                  {
+                      ApplicationArea = Basic;
+                      Caption = 'Member is  Guaranteed';
+                      Image = "Report";
 
-                    trigger OnAction()
-                    begin
-                        Cust.Reset;
-                        cust.SetRange(cust."No.", Rec."Member No.");
-                        if Cust.Find('-') then
-                            Report.Run(50225, true, false, Cust);
-                    end;
-                }
+                      trigger OnAction()
+                      begin
+                          Cust.Reset;
+                          cust.SetRange(cust."No.", Rec."Member No.");
+                          if Cust.Find('-') then
+                              Report.Run(50225, true, false, Cust);
+                      end;
+                  }*/
                 action("Send Approval Request")
                 {
                     ApplicationArea = Basic;
@@ -197,14 +207,20 @@ Page 56121 "Membership Exit Card"
                         SrestepApprovalsCodeUnit: Codeunit SurestepApprovalsCodeUnit;
                     begin
 
-                        if Rec."Mode Of Disbursement" = Rec."Mode Of Disbursement"::Cheque then begin
-                            Rec.TestField("Cheque No.");
-                        end;
+                        // if Rec."Mode Of Disbursement" = Rec."Mode Of Disbursement"::Cheque then begin
+                        //     Rec.TestField("Cheque No.");
+                        // end;
                         if Rec.Status <> Rec.Status::Open then
                             Error(text001);
                         //.................................
-                        SrestepApprovalsCodeUnit.SendMembershipExitApplicationsRequestForApproval(rec."No.", Rec);
-                        Rec.Status := Rec.Status::Approved;
+                        if Confirm('Proceed with exiting member?', false) = true then begin
+                            SrestepApprovalsCodeUnit.SendMembershipExitApplicationsRequestForApproval(Rec."No.", Rec);
+                            Message('Member Exit Sent for approval');
+                            //Rec.Status := Rec.Status::Approved;
+                            CurrPage.Close();
+
+
+                        end;
                         //.................................
                         GenSetUp.Get();
                         //..................Send Withdrawal Approval request
@@ -244,7 +260,7 @@ Page 56121 "Membership Exit Card"
                     begin
                         cust.Reset;
                         cust.SetRange(cust."No.", Rec."Member No.");
-                        if cust.Find('-') then
+                        if cust.FindLast() then
                             Report.Run(50250, true, false, cust);
                     end;
                 }
@@ -278,6 +294,9 @@ Page 56121 "Membership Exit Card"
     trigger OnAfterGetCurrRecord()
     begin
         UpdateControl();
+        GenSetUp.Get();
+        rec."Ledger Fee" := GenSetUp."Ledger Fee";
+        rec.Modify();
     end;
 
     trigger OnAfterGetRecord()
@@ -289,6 +308,8 @@ Page 56121 "Membership Exit Card"
             ShareCapitalTransferVisible := true;
             ShareCapSellPageVisible := true;
         end;
+
+
 
         UpdateControl();
     end;
@@ -350,7 +371,7 @@ Page 56121 "Membership Exit Card"
         ShareCapitalTransferVisible: Boolean;
         ShareCapSellPageVisible: Boolean;
         // ObjShareCapSell: Record "Share Capital Sell";
-        SurestepFactory: Codeunit "SURESTEP Factory";
+        SwizzsoftFactory: Codeunit "SWIZZSFT Factory";
         JVTransactionType: Option " ","Registration Fee","Shares Capital","Interest Paid","Loan Repayment","Deposit Contribution","Insurance Contribution","Benevolent Fund",Loan,"Unallocated Funds",Dividend,"FOSA Account","Loan Insurance Charged","Loan Insurance Paid","Recovery Account","FOSA Shares","Additional Shares";
         JVAccountType: Enum "Gen. Journal Account Type";
         TemplateName: Code[20];
@@ -369,7 +390,7 @@ Page 56121 "Membership Exit Card"
         VarTaxonShareCapSellFee: Decimal;
         ObjNoSeries: Record "Sacco No. Series";
         VarDocumentNo: Code[30];
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        // NoSeriesMgt: Codeunit NoSeriesManagement;
         VarShareCapitalFee: Decimal;
         VarShareCapitaltoSell: Decimal;
         EnableCheque: Boolean;
@@ -377,12 +398,12 @@ Page 56121 "Membership Exit Card"
 
     procedure UpdateControl()
     begin
-        if Rec."Mode Of Disbursement" = Rec."Mode Of Disbursement"::Cheque then begin
-            EnableCheque := true;
-        end else
-            if Rec."Mode Of Disbursement" <> Rec."Mode Of Disbursement"::Cheque then begin
-                EnableCheque := false;
-            end;
+        // if Rec."Mode Of Disbursement" = Rec."Mode Of Disbursement"::Cheque then begin
+        //     EnableCheque := true;
+        // end else
+        //     if Rec."Mode Of Disbursement" <> Rec."Mode Of Disbursement"::Cheque then begin
+        //         EnableCheque := false;
+        //     end;
         if Rec.Status = Rec.Status::Open then begin
             MNoEditable := true;
             ClosingDateEditable := false;
@@ -464,7 +485,7 @@ Page 56121 "Membership Exit Card"
         Cust: Record customer;
         Generalsetup: Record "Sacco General Set-Up";
         RunningBal: Decimal;
-        SFactory: Codeunit "SURESTEP Factory";
+        SFactory: Codeunit "SWIZZSFT Factory";
         InterestTobeRecovered: Decimal;
         LoanTobeRecovered: Decimal;
     begin
@@ -498,10 +519,31 @@ Page 56121 "Membership Exit Card"
                 RunningBal := Rec."Member Deposits";
                 Doc_No := Rec."No.";
 
-                //Debit Member Deposist
-                LineNo := LineNo + 10000;
-                SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::"Deposit Contribution",
-                GenJournalLine."Account Type"::Customer, MemberNo, Rec."Posting Date", RunningBal, 'BOSA', MemberNo, 'Deposits on exit - ' + MemberNo, '');
+
+                //debit Deposits - Interest Repayment
+                //Interest Repayment - Credit
+
+                //debit Deposits - Loan Repayment
+                //credit Loan Repayment
+
+                //Debit Deposits - bank Charges
+                //credit bank charges
+
+                //debit Deposits- Ledger fee
+                //Credit legder fee
+
+                //debit deposits - excise duty
+                //credit excise duty
+
+                //credit bank -the remaining AMount
+                //Debit Deposits - the remaining Amount - Payout
+
+
+
+                // //Debit Member Deposist
+                // LineNo := LineNo + 10000;
+                // SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::"Deposit Contribution",
+                // GenJournalLine."Account Type"::Customer, MemberNo, Rec."Posting Date", RunningBal, 'BOSA', MemberNo, 'Deposits on exit - for ' + MemberNo, '');
 
 
 
@@ -517,7 +559,12 @@ Page 56121 "Membership Exit Card"
                                 InterestTobeRecovered := Loans."Oustanding Interest";
                             LineNo := LineNo + 10000;
                             SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::"Interest Paid",
-                            GenJournalLine."Account Type"::Customer, Loans."Client Code", Rec."Posting Date", InterestTobeRecovered * -1, 'BOSA', Loans."Loan  No.", 'Interest Due Paid on Exit - ', Loans."Loan  No.");
+                            GenJournalLine."Account Type"::Customer, Loans."Client Code", Rec."Posting Date", InterestTobeRecovered * -1, 'BOSA', Loans."Loan  No.", 'Interest Due Paid on Exit - ' + MemberNo, Loans."Loan  No.");
+
+                            LineNo := LineNo + 10000;
+                            SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::"Deposit Contribution",
+                            GenJournalLine."Account Type"::Customer, MemberNo, Rec."Posting Date", InterestTobeRecovered, 'BOSA', MemberNo, 'Interest deducted for loan ' + Loans."Loan  No.", '');
+
                             RunningBal := RunningBal - InterestTobeRecovered;
                         end;
 
@@ -538,6 +585,11 @@ Page 56121 "Membership Exit Card"
                             LineNo := LineNo + 10000;
                             SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::"Loan Repayment", GenJournalLine."Account Type"::Customer, Loans."Client Code", Rec."Posting Date", LoanTobeRecovered * -1,
                             'BOSA', Loans."Loan  No.", 'Loan Balance paid on exit - ' + Loans."Loan  No.", Loans."Loan  No.");
+
+                            LineNo := LineNo + 10000;
+                            SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::"Deposit Contribution",
+                            GenJournalLine."Account Type"::Customer, MemberNo, Rec."Posting Date", LoanTobeRecovered, 'BOSA', MemberNo, 'Loan balance deducted for loan ' + Loans."Loan  No.", '');
+
                             RunningBal := RunningBal - LoanTobeRecovered;
                         end;
 
@@ -547,13 +599,42 @@ Page 56121 "Membership Exit Card"
 
                 //Bank Charges
                 LineNo := LineNo + 10000;
-                SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"G/L Account", GenSetUp."Banks Charges", Rec."Posting Date", Rec."EFT Charge" * -1, 'BOSA', MemberNo, 'Bank Charges for exit', '');
+                SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"G/L Account", GenSetUp."Banks Charges", Rec."Posting Date", Rec."EFT Charge" * -1, 'BOSA', MemberNo, 'Bank Charges for exit - ' + MemberNo, '');
+
+                LineNo := LineNo + 10000;
+                SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::"Deposit Contribution",
+                GenJournalLine."Account Type"::Customer, MemberNo, Rec."Posting Date", Rec."EFT Charge", 'BOSA', MemberNo, 'Bank EFT Charges deducted for ' + MemberNo, '');
+
                 RunningBal := RunningBal - Rec."EFT Charge";
+
+
+                //Ledger Fee Charges
+                LineNo := LineNo + 10000;
+                SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"G/L Account", GenSetUp."Ledger Fee Account", Rec."Posting Date", (Rec."Ledger Fee" - (Rec."Ledger Fee" * GenSetUp."Excise Duty(%)" / 100)) * -1, 'BOSA', MemberNo, 'Ledger fees charge for exit - ' + MemberNo, '');
+
+                LineNo := LineNo + 10000;
+                SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::"Deposit Contribution",
+                GenJournalLine."Account Type"::Customer, MemberNo, Rec."Posting Date", Rec."Ledger Fee", 'BOSA', MemberNo, 'Ledger fee charges deducted for ' + MemberNo, '');
+
+                RunningBal := RunningBal - Rec."Ledger Fee";
+
+                //Excise Duty 15% Charges
+                LineNo := LineNo + 10000;
+                SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"G/L Account", GenSetUp."Excise Duty Account", Rec."Posting Date", (Rec."Ledger Fee" * GenSetUp."Excise Duty(%)" / 100) * -1, 'BOSA', MemberNo, 'Excise Duty charge for exit - ' + MemberNo, '');
+
+                // LineNo := LineNo + 10000;
+                // SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::"Deposit Contribution",
+                // GenJournalLine."Account Type"::Customer, MemberNo, Rec."Posting Date", (Rec."Ledger Fee" * GenSetUp."Excise Duty(%)" / 100), 'BOSA', MemberNo, 'Excise duty charge for ' + MemberNo, '');
 
 
                 //Credit Bank
                 LineNo := LineNo + 10000;
-                SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"Bank Account", Rec."Paying Bank", Rec."Posting Date", RunningBal * -1, 'BOSA', MemberNo, 'credit Bank Member Exit', '');
+                SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"G/L Account", Rec."Paying Bank", Rec."Posting Date", RunningBal * -1, 'BOSA', MemberNo, 'credit Refund Deposits Account Exit - ' + MemberNo, '');
+
+                LineNo := LineNo + 10000;
+                SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::"Deposit Contribution",
+                GenJournalLine."Account Type"::Customer, MemberNo, Rec."Posting Date", RunningBal, 'BOSA', MemberNo, 'Net Deposits on exit - for ' + MemberNo, '');
+
             end;
 
         end;
@@ -605,11 +686,12 @@ Page 56121 "Membership Exit Card"
         Cust: Record customer;
         Generalsetup: Record "Sacco General Set-Up";
         RunningBal: Decimal;
-        SFactory: Codeunit "SURESTEP Factory";
+        SFactory: Codeunit "SWIZZSFT Factory";
         InterestTobeRecovered: Decimal;
         LoanTobeRecovered: Decimal;
     begin
         GenSetUp.Get;
+
         IF Cust.get(MemberNo) then begin
             if Confirm('Proceed With Account Closure ?', false) = false then begin
                 exit;
@@ -640,9 +722,10 @@ Page 56121 "Membership Exit Card"
                 Doc_No := Rec."No.";
 
                 //Debit Member Deposist
-                LineNo := LineNo + 10000;
-                SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::"Deposit Contribution",
-                GenJournalLine."Account Type"::Customer, MemberNo, Rec."Posting Date", RunningBal, 'BOSA', MemberNo, 'Deposits on exit - ' + MemberNo, '');
+                // LineNo := LineNo + 10000;
+                // SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::"Deposit Contribution",
+                // GenJournalLine."Account Type"::Customer, MemberNo, Rec."Posting Date", RunningBal, 'BOSA', MemberNo, 'Deposits on exit - ' + MemberNo, '');
+
                 //Interest Repayment
                 Loans.Reset;
                 Loans.SetRange(Loans."Client Code", MemberNo);
@@ -656,7 +739,11 @@ Page 56121 "Membership Exit Card"
                                 InterestTobeRecovered := Loans."Oustanding Interest";
 
                             LineNo := LineNo + 10000;
-                            SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::"Interest Paid", GenJournalLine."Account Type"::Customer, Loans."Client Code", Rec."Posting Date", InterestTobeRecovered * -1, 'BOSA', Loans."Loan  No.", 'Interest Due Paid on Exit - ', Loans."Loan  No.");
+                            SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::"Interest Paid", GenJournalLine."Account Type"::Customer, Loans."Client Code", Rec."Posting Date", InterestTobeRecovered * -1, 'BOSA', Loans."Loan  No.", 'Interest Due Paid on Exit - ' + MemberNo, Loans."Loan  No.");
+
+                            LineNo := LineNo + 10000;
+                            SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::"Deposit Contribution",
+                            GenJournalLine."Account Type"::Customer, MemberNo, Rec."Posting Date", InterestTobeRecovered, 'BOSA', MemberNo, 'Interest recovered on exit - ' + Loans."Loan  No.", '');
 
                             RunningBal := RunningBal - InterestTobeRecovered;
                         end;
@@ -676,6 +763,11 @@ Page 56121 "Membership Exit Card"
                                 LoanTobeRecovered := Loans."Outstanding Balance";
                             LineNo := LineNo + 10000;
                             SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::"Loan Repayment", GenJournalLine."Account Type"::Customer, Loans."Client Code", Rec."Posting Date", LoanTobeRecovered * -1, 'BOSA', Loans."Loan  No.", 'Loan Balance paid on exit - ' + Loans."Loan  No.", Loans."Loan  No.");
+
+                            LineNo := LineNo + 10000;
+                            SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::"Deposit Contribution",
+                            GenJournalLine."Account Type"::Customer, MemberNo, Rec."Posting Date", LoanTobeRecovered, 'BOSA', MemberNo, 'Loan balance recovered for ' + Loans."Loan  No.", '');
+
                             RunningBal := RunningBal - LoanTobeRecovered;
                         end;
                     until Loans.Next = 0;
@@ -683,13 +775,21 @@ Page 56121 "Membership Exit Card"
 
                 //Bank Charges
                 LineNo := LineNo + 10000;
-                SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"G/L Account", GenSetUp."Banks Charges", Rec."Posting Date", Rec."EFT Charge" * -1, 'BOSA', MemberNo, 'Bank Charges for exit', '');
+                SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"G/L Account", GenSetUp."Banks Charges", Rec."Posting Date", Rec."EFT Charge" * -1, 'BOSA', MemberNo, 'Bank Charges for exit - ' + MemberNo, '');
+
+                LineNo := LineNo + 10000;
+                SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::"Deposit Contribution",
+                GenJournalLine."Account Type"::Customer, MemberNo, Rec."Posting Date", Rec."EFT Charge", 'BOSA', MemberNo, 'Bank charges deducted on exit - ' + MemberNo, '');
                 RunningBal := RunningBal - Rec."EFT Charge";
 
 
                 //Credit Bank
                 LineNo := LineNo + 10000;
-                SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"Bank Account", Rec."Paying Bank", Rec."Posting Date", RunningBal * -1, 'BOSA', MemberNo, 'credit Bank Member Exit', '');
+                SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"Bank Account", Rec."Paying Bank", Rec."Posting Date", RunningBal * -1, 'BOSA', MemberNo, 'credit Bank Member Exit - ' + MemberNo, '');
+
+                LineNo := LineNo + 10000;
+                SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Doc_No, LineNo, GenJournalLine."Transaction Type"::"Deposit Contribution",
+                GenJournalLine."Account Type"::Customer, MemberNo, Rec."Posting Date", RunningBal, 'BOSA', MemberNo, 'Net Deposits on exit - ' + MemberNo, '');
             end;
 
         end;

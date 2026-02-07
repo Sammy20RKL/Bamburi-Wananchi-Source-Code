@@ -202,13 +202,13 @@ Table 51496 "Customer Care Logs"
         if No = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Customer Care Log Nos");
-            NoSeriesMgt.InitSeries(SalesSetup."Customer Care Log Nos", xRec."No. Series", 0D, No, "No. Series");
+            //  NoSeriesMgt.InitSeries(SalesSetup."Customer Care Log Nos", xRec."No. Series", 0D, No, "No. Series");
         end;
     end;
 
     var
         SalesSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         Loans: Record "Loans Register";
         GenSetUp: Record "Sacco General Set-Up";
         Cust: Record Customer;

@@ -126,10 +126,48 @@ Table 51334 "Payroll General Setup."
         field(40; BasedOnTimesheet; Boolean)
         {
         }
-        field(41; "Staff Net Pay G/L Account"; Code[30])
+        field(41; "Tier 1 earnings"; Decimal)
         {
-            TableRelation = "G/L Account";
         }
+        field(42; "Tier 1 Employer Contribution"; Decimal)
+        {
+        }
+        field(43; "Tier 2 earnings"; Decimal)
+        {
+        }
+        field(44; "Housing Levy (%)"; Decimal)
+        {
+        }
+        field(45; "Housing Levy Relief(%)"; Decimal)
+        {
+        }
+        field(46; "SHIF deduction %"; Decimal) { }
+        field(47; "Minimum Gross Pay"; Decimal) { }
+        field(48; "NSSF Percentage %"; Decimal) { }
+        field(49; "Staff Welfare Contribution"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(50; "Staff Welfare G/L Account"; Code[50])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "G/L Account"."No.";
+        }
+        field(51; "Staff Pension Contribution"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(52; "Staff Pension G/L Account"; Code[50])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "G/L Account"."No.";
+        }
+        field(53; "Staff Net Pay G/L Account"; Code[50])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "G/L Account"."No.";
+        }
+
     }
 
     keys

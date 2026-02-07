@@ -11,7 +11,7 @@ Table 51926 "Default Notices Register"
             begin
                 if "Document No" <> xRec."Document No" then begin
                     SalesSetup.Get;
-                    NoSeriesMgt.TestManual(SalesSetup."Demand Notice Nos");
+                    NoSeries.TestManual(SalesSetup."Demand Notice Nos");
                     "No. Series" := '';
                 end;
             end;
@@ -19,7 +19,6 @@ Table 51926 "Default Notices Register"
         field(2; "Member No"; Code[20])
         {
             TableRelation = Customer."No.";
-
             trigger OnValidate()
             begin
                 if ObjCust.Get("Member No") then begin
@@ -35,8 +34,7 @@ Table 51926 "Default Notices Register"
         }
         field(4; "Loan In Default"; Code[20])
         {
-            TableRelation = "Loans Register"."Loan  No." where("Client Code" = field("Member No"),
-                                                                "Outstanding Balance" = filter(> 0));
+            TableRelation = "Loans Register"."Loan  No." where("Client Code" = field("Member No"), "Outstanding Balance" = filter(> 0));
 
             trigger OnValidate()
             begin
@@ -46,7 +44,8 @@ Table 51926 "Default Notices Register"
                     "Loan Instalments" := ObjLoans.Installments;
                     "Loan Disbursement Date" := ObjLoans."Loan Disbursement Date";
                     "Expected Completion Date" := ObjLoans."Expected Date of Completion";
-                    "Amount In Arrears" := ROUND(ObjSwizzsoft.FnGetLoanInArrears("Loan In Default", ObjLoans."Outstanding Balance"), 1, '=') + ObjLoans."Oustanding Interest";
+                    "Amount In Arrears" := ObjLoans."Amount in Arrears";
+                    //"Amount In Arrears" := ROUND(ObjSwizzsoft.FnGetLoanInArrears("Loan In Default", ObjLoans."Outstanding Balance"), 1, '=') + ObjLoans."Oustanding Interest";
                     "Loan Outstanding Balance" := ObjLoans."Outstanding Balance";
                     "Loan Issued" := ObjLoans."Approved Amount";
                     "Outstanding Interest" := ObjLoans."Oustanding Interest";
@@ -195,15 +194,17 @@ Table 51926 "Default Notices Register"
         if "Document No" = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Demand Notice Nos");
-            NoSeriesMgt.InitSeries(SalesSetup."Demand Notice Nos", xRec."No. Series", 0D, "Document No", "No. Series");
+            "Document No" := NoSeries.GetNextNo(SalesSetup."Demand Notice Nos");
+
         end;
 
         "Demand Notice Date" := Today;
+        "User ID" := "User ID";
     end;
 
     var
         SalesSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeries: Codeunit "No. Series";
         ObjAccount: Record Vendor;
         ObjCust: Record Customer;
         ObjLoans: Record "Loans Register";

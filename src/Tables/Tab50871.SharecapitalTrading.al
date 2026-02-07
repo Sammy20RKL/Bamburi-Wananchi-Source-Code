@@ -133,7 +133,7 @@ table 50871 SharecapitalTrading
         if "No." = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Share Capital Transfer No.s");
-            NoSeriesMgt.InitSeries(SalesSetup."Share Capital Transfer No.s", xRec."No. Series", 0D, "No.", "No. Series");
+            // NoSeriesMgt.InitSeries(SalesSetup."Share Capital Transfer No.s", xRec."No. Series", 0D, "No.", "No. Series");
         end;
         "Trasaction Date" := Today;
         cashier := UpperCase(UserId);
@@ -142,6 +142,6 @@ table 50871 SharecapitalTrading
     var
         cust: Record Customer;
         SalesSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
 
 }

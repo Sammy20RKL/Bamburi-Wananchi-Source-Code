@@ -4,7 +4,7 @@ Codeunit 50802 Emailcodeunit
     var
         myInt: Integer;
     begin
-
+        //saves as pdf
     end;
 
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Document-Mailing", 'OnBeforeGetEmailSubject', '', false, false)]
@@ -33,7 +33,7 @@ Codeunit 50802 Emailcodeunit
         TempEmailItem.SendAsHTML(true);
     end;
 
-    procedure SendMail(EmailAddress: Text[60]; EmailSubject: text[100]; EmailBody: Text[200])
+    procedure SendMail(EmailAddress: Text[60]; EmailSubject: text[100]; EmailBody: Text[2000])
     var
         EmailMessage: Codeunit "Email Message";
         Email: Codeunit Email;

@@ -612,7 +612,7 @@ Page 56175 "Bosa Receipts H Card-Checkoff."
                         Gnljnline.Description := 'Share Capital';
                         Gnljnline.Amount := AmountToDeduct * -1;
                         Gnljnline.Validate(Gnljnline.Amount);
-                        Gnljnline."Transaction Type" := Gnljnline."transaction type"::"Shares Capital";
+                        Gnljnline."Transaction Type" := Gnljnline."Transaction Type"::"Share Capital";
                         Gnljnline."Shortcut Dimension 1 Code" := 'BOSA';
                         Gnljnline."Shortcut Dimension 2 Code" := ObjMember."Global Dimension 2 Code";
                         Gnljnline.Validate(Gnljnline."Shortcut Dimension 1 Code");
@@ -964,7 +964,7 @@ Page 56175 "Bosa Receipts H Card-Checkoff."
                 Gnljnline.Description := 'Alpha Savings';
                 Gnljnline.Amount := AmountToDeduct * -1;
                 Gnljnline.Validate(Gnljnline.Amount);
-                Gnljnline."Transaction Type" := Gnljnline."transaction type"::Alpha_savings;
+                //Gnljnline."Transaction Type" := Gnljnline."transaction type"::Alpha_savings;
                 Gnljnline."Shortcut Dimension 1 Code" := 'BOSA';
                 Gnljnline."Shortcut Dimension 2 Code" := ObjMember."Global Dimension 2 Code";
                 Gnljnline.Validate(Gnljnline."Shortcut Dimension 1 Code");
@@ -1012,7 +1012,7 @@ Page 56175 "Bosa Receipts H Card-Checkoff."
                 Gnljnline.Description := 'Junior Savings';
                 Gnljnline.Amount := AmountToDeduct * -1;
                 Gnljnline.Validate(Gnljnline.Amount);
-                Gnljnline."Transaction Type" := Gnljnline."transaction type"::Alpha_savings;// junior_1;
+                //Gnljnline."Transaction Type" := Gnljnline."transaction type"::Alpha_savings;// junior_1;
                 Gnljnline."Shortcut Dimension 1 Code" := 'BOSA';
                 Gnljnline."Shortcut Dimension 2 Code" := ObjMember."Global Dimension 2 Code";
                 Gnljnline.Validate(Gnljnline."Shortcut Dimension 1 Code");
@@ -1058,7 +1058,7 @@ Page 56175 "Bosa Receipts H Card-Checkoff."
                 Gnljnline.Description := 'Junior Savings';
                 Gnljnline.Amount := AmountToDeduct * -1;
                 Gnljnline.Validate(Gnljnline.Amount);
-                Gnljnline."Transaction Type" := Gnljnline."transaction type"::Alpha_savings;
+                // Gnljnline."Transaction Type" := Gnljnline."transaction type"::Alpha_savings;
                 Gnljnline."Shortcut Dimension 1 Code" := 'BOSA';
                 Gnljnline."Shortcut Dimension 2 Code" := ObjMember."Global Dimension 2 Code";
                 Gnljnline.Validate(Gnljnline."Shortcut Dimension 1 Code");
@@ -1104,7 +1104,7 @@ Page 56175 "Bosa Receipts H Card-Checkoff."
                 Gnljnline.Description := 'Junior Savings one';
                 Gnljnline.Amount := AmountToDeduct * -1;
                 Gnljnline.Validate(Gnljnline.Amount);
-                Gnljnline."Transaction Type" := Gnljnline."transaction type"::Alpha_savings;
+                //   Gnljnline."Transaction Type" := Gnljnline."transaction type"::Alpha_savings;
                 Gnljnline."Shortcut Dimension 1 Code" := 'BOSA';
                 Gnljnline."Shortcut Dimension 2 Code" := ObjMember."Global Dimension 2 Code";
                 Gnljnline.Validate(Gnljnline."Shortcut Dimension 1 Code");

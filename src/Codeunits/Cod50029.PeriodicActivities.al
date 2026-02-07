@@ -165,16 +165,137 @@ Codeunit 50029 "Periodic Activities"
         end;
     end;
 
+    procedure GenerateLoanMonthlyInterest2(VAR LoanNo: Code[20]; BDate: Date)
+    var
+        InterestHeader: Record "Interest Header";
+        Loans: Record "Loans register";
+        LoansInterest: Record "Loans Interest";
+        SuspendedInterestAccounts: Record "Suspended Interest Accounts";
+        CustMember: Record Customer;
+        LoanType: Record "Loan Products Setup";
+    begin
+        ///***************************************************************************///
+        IF NOT InterestHeader.GET('INTEREST') THEN BEGIN
+            InterestHeader.INIT;
+            InterestHeader."No." := 'INTEREST';
+            InterestHeader.Status := InterestHeader.Status::Approved;
+            InterestHeader.INSERT;
+        END;
+
+        //BalDate:=CALCDATE('-CM',BDate);
+        //BalDate:=(TODAY
+        //MESSAGE('fgyug %1',BalDate);
+        BalDate := BDate;
+        Loans.RESET;
+        Loans.SETRANGE("Loan  No.", LoanNo);
+        Loans.SETFILTER("Interest Calculation Method", '<>%1', Loans."Interest Calculation Method"::"Flat Rate");
+        Loans.SETFILTER("Date filter", '..%1', BalDate);
+        Loans.SETFILTER("Outstanding Balance", '>0');
+        IF Loans.FIND('-') THEN BEGIN
+            //MESSAGE('loan %1',LoanNo);
+            REPEAT
+                InterestAmount := ROUND(GetInterestAmount(Loans."Loan  No.", BDate, FALSE), 0.01, '>');
+                LoansInterest.RESET;
+                LoansInterest.SETRANGE(No, 'INTEREST');
+                LoansInterest.SETRANGE("Loan No.", Loans."Loan  No.");
+                LoansInterest.SETRANGE("Interest Date", BDate);
+                LoansInterest.SETRANGE(Reversed, FALSE);
+                IF LoansInterest.FINDFIRST THEN BEGIN
+                    //MESSAGE('loan 2 %1',Loans."Loan  No.");
+                    IF LoansInterest.Posted THEN
+                        InterestAmount := 0
+                    ELSE
+                        LoansInterest.Delete();
+                END;
+
+
+
+                IF InterestAmount > 0 THEN BEGIN
+                    Loans.CALCFIELDS(Loans."Outstanding Balance", Loans."Oustanding Interest");
+
+                    LoansInterest.INIT;
+                    LoansInterest.No := 'INTEREST';
+                    LoansInterest."Auto Interest" := TRUE;
+                    LoansInterest."Loan No." := Loans."Loan  No.";
+                    LoansInterest."Account Type" := LoansInterest."Account Type"::Member;
+                    LoansInterest."Account No" := Loans."Client Code";
+                    //MESSAGE('client %1',Loans."Client Code");
+                    //LoansInterest."Interest Date":=BDate;
+                    LoansInterest."Interest Date" := BalDate;
+                    LoansInterest."Issued Date" := Loans."Loan Disbursement Date";
+                    LoansInterest."Repayment Amount" := Loans.Repayment;
+                    LoansInterest."Repayment Bill" := 0;
+                    LoansInterest."Interest Amount" := InterestAmount;
+                    LoansInterest."Interest Bill" := InterestAmount;
+                    LoansInterest.Description := 'Interest Due' + ' ' + COPYSTR(FORMAT(BDate, 0, '<Month Text>'), 1, 3) + ' ' + FORMAT(DATE2DMY(BDate, 3));
+                    LoansInterest."Shortcut Dimension 1 Code" := Loans."Global Dimension 1 Code";
+                    LoansInterest."Shortcut Dimension 2 Code" := Loans."Branch Code";
+                    LoansInterest."Monthly Repayment" := Loans.Repayment;
+                    LoansInterest."Loan Product type" := Loans."Loan Product Type";
+                    //Loans.CALCFIELDS("Current Loans Category-SASRA");
+                    IF LoanType.GET(Loans."Loan Product Type") THEN BEGIN
+
+                        IF (Loans."Loans Category-SASRA" <> Loans."Loans Category-SASRA"::Loss) THEN BEGIN
+
+                            LoanType.TESTFIELD(LoanType."Loan Interest Account");
+                            LoansInterest."Bal. Account No." := LoanType."Loan Interest Account";
+                            LoansInterest."Bill Account" := LoansInterest."Bal. Account No.";
+                        END
+                        ELSE BEGIN
+
+                            SuspendedInterestAccounts.RESET;
+                            SuspendedInterestAccounts.SETRANGE("Loan No.", Loans."Loan  No.");
+                            SuspendedInterestAccounts.SETRANGE("Interest Date", BDate);
+                            IF SuspendedInterestAccounts.FINDFIRST THEN
+                                SuspendedInterestAccounts.DELETE;
+
+
+                            //LoanType.TESTFIELD(LoanType."Suspend Interest Account [G/L]");
+                            //LoansInterest."Bal. Account No.":=LoanType."Suspend Interest Account [G/L]";
+                            LoansInterest."Bill Account" := LoansInterest."Bal. Account No.";
+                            //Insert Entries to buffer
+                            iEntryNo := SuspendedInterestAccounts.COUNT;
+                            iEntryNo := iEntryNo + 1;
+                            SuspendedInterestAccounts.INIT;
+                            SuspendedInterestAccounts."Entry No." := iEntryNo;
+                            SuspendedInterestAccounts."Loan No." := Loans."Loan  No.";
+                            SuspendedInterestAccounts."Loan Product type" := LoanType.Code;
+                            SuspendedInterestAccounts."Loans Category-SASRA" := Loans."Loans Category-SASRA";
+                            SuspendedInterestAccounts."Interest Amount" := InterestAmount;
+                            SuspendedInterestAccounts."Interest Date" := BDate;
+                            SuspendedInterestAccounts."Issued Date" := Loans."Loan Disbursement Date";
+                            SuspendedInterestAccounts.INSERT(TRUE);
+
+
+                        END;
+                    END;
+
+                    IF CustMember.GET(Loans."Client Code") THEN BEGIN
+                        LoansInterest.Status := CustMember.Status;
+                        LoansInterest.Blocked := CustMember.Blocked;
+                    END;
+
+                    LoansInterest."Outstanding Balance" := Loans."Outstanding Balance";
+                    LoansInterest."Outstanding Interest" := Loans."Oustanding Interest";
+                    LoansInterest.INSERT;
+
+                END;
+            UNTIL Loans.NEXT = 0;
+
+        END;
+
+    end;
 
     procedure GetInterestAmount(LoanNo: Code[20]; IntDate: Date; CheckExistingBill: Boolean): Decimal
     var
         LoanRec: Record "Loans Register";
-        CLedger: Record 51365;
-        RSchedule: Record 51375;
+        CLedger: Record "Cust. Ledger Entry";
+        RSchedule: Record "Loan Repayment Schedule";
         LastDate: Date;
         IntAmount: Decimal;
         LoanBalance: Decimal;
         BalDate: Date;
+        SFactory: Codeunit "Swizzsoft Factory";
     begin
         BalDate := CalcDate('+CM', Today);
         //BalDate:=CALCDATE('CM',BalDate);
@@ -190,7 +311,7 @@ Codeunit 50029 "Periodic Activities"
             exit(0);
 
         if CheckExistingBill then begin
-            CLedger.Reset;
+            CLedger.Reset();
             CLedger.SetRange("Loan No", LoanNo);
             CLedger.SetRange("Transaction Type", CLedger."transaction type"::"Interest Due");
             CLedger.SetFilter("Posting Date", '%1..%2', CalcDate('-CM', IntDate), CalcDate('CM', IntDate));
@@ -205,17 +326,10 @@ Codeunit 50029 "Periodic Activities"
         RSchedule.SetRange("Loan No.", LoanRec."Loan  No.");
         RSchedule.SetFilter("Principal Repayment", '>0');
         if not RSchedule.FindFirst then
-            //LoansProcess.GenerateRepaymentSchedule(LoanRec);
+            // LoansProcess.GenerateRepaymentSchedule(LoanRec);
+            SFactory.FnGenerateRepaymentSchedule(LoanRec."Loan  No.");
 
-
-            RSchedule.Reset;
-        RSchedule.SetRange("Loan No.", LoanRec."Loan  No.");
-        RSchedule.SetFilter("Principal Repayment", '>0');
-        if not RSchedule.FindFirst then
-            //ERROR('Loan Schedule for Loan No. %1 does not exist',LoanNo);
-            //MESSAGE('Continue');
-
-            LoanBalance := 0;
+        LoanBalance := 0;
         IntAmount := 0;
 
         LoanRec.Reset;
@@ -307,7 +421,7 @@ Codeunit 50029 "Periodic Activities"
     end;
 
 
-    procedure PostLoanInterest(InterestBufferBillAndAccrue: Record 51296)
+    procedure PostLoanInterest(InterestBufferBillAndAccrue: Record "Interest Header")
     var
         PeriodicActivities: Codeunit "Periodic Activities";
         members: Record 51364;
@@ -332,7 +446,7 @@ Codeunit 50029 "Periodic Activities"
         DailyLoansInterestBuffer: Record 51297;
     begin
         //............................................................
-        Message('here');
+        // Message('here');
         //....Check for missing bal accounts and update interestbuffer
         Temp.Get(UserId);
         if Temp.Get(UserId) then begin
@@ -393,7 +507,8 @@ Codeunit 50029 "Periodic Activities"
                             GenJournalLine."Account No." := LoansInterest."Account No";
                             GenJournalLine."Transaction Type" := GenJournalLine."transaction type"::"Interest Due";
                             GenJournalLine.Validate(GenJournalLine."Account No.");
-                            GenJournalLine."Document No." := LoansInterest."Loan No.";
+                            // GenJournalLine."Document No." := LoansInterest."Loan No.";
+                            GenJournalLine."Document No." := 'Interest - ' + FORMAT(LoansInterest."Interest Date", 0, '<Month,3> <Year4>');
                             GenJournalLine."Shortcut Dimension 1 Code" := LoansInterest."Shortcut Dimension 1 Code";
                             GenJournalLine.Validate(GenJournalLine."Shortcut Dimension 1 Code");
                             //                    GenJournalLine."Shortcut Dimension 2 Code":=LoansInterest."Shortcut Dimension 2 Code";

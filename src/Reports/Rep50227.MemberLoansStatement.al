@@ -3,7 +3,7 @@ Report 50227 "Member Loans Statement"
 {
     ApplicationArea = All;
     UsageCategory = ReportsAndAnalysis;
-    RDLCLayout = './Layouts/MemberLoansStatement2.rdl'; //1 is custom to Nav layout
+    RDLCLayout = './Layouts/MemberLoansStatement.rdl'; //1 is custom to Nav layout
 
     dataset
     {
@@ -72,7 +72,6 @@ Report 50227 "Member Loans Statement"
             {
                 DataItemLink = "Client Code" = field("No."), "Loan Product Type" = field("Loan Product Filter"), "Date filter" = field("Date Filter");
                 DataItemTableView = sorting("Loan  No.") where(Posted = const(true), "Loan  No." = filter(<> ''));
-                ;
 
                 column(PrincipleBF; PrincipleBF)
                 {
@@ -113,7 +112,7 @@ Report 50227 "Member Loans Statement"
                 column(ModeofDisbursement_Loans; Loans."Mode of Disbursement")
                 {
                 }
-                dataitem(loan; "Member Ledger Entry")
+                dataitem(loan; "Cust. Ledger Entry") //Will need switch to "Cust. Ledger Entry"
                 {
                     DataItemLink = "Customer No." = field("Client Code"), "Loan No" = field("Loan  No."), "Posting Date" = field("Date filter");
                     DataItemTableView = sorting("Posting Date") where("Transaction Type" = filter(Loan | "Loan Repayment"), "Loan No" = filter(<> ''), Reversed = filter(false));
@@ -165,59 +164,78 @@ Report 50227 "Member Loans Statement"
                     column(User7; loan."User ID")
                     {
                     }
-
-                    trigger OnAfterGetRecord()
-                    var
-                        postingDateLoans: Date;
-                        transactionType: Text;
-                        docNo: Text;
-                        debitLoans: decimal;
-                        LoanRec: Record "Member Ledger Entry";
-                    begin
-
-
-                        ClosingBalanceLoan := ClosingBalanceLoan - loan."Amount to Apply"; //
-                        BankCodeLoan := GetBankCode(loan);
-                        //.................................
-                        if loan."Amount to Apply" < 0 then begin
-                            loan."Credit Amount" := (loan."Amount to Apply" * -1);
-                        end else
-                            if loan."Amount to Apply" > 0 then begin
-                                loan."Debit Amount" := (loan."Amount to Apply");
-                            end;
-                        //....................................Get Balance Ya corner
-                        RunningBal := RunningBal + loan."Amount to Apply";
-                        // end;
-
-
-                        //-------------------------------------------------------------------
-                        /* LoanRec.reset;
-                        LoanRec.SetFilter(LoanRec."Date filter", DateFilter);
-                        LoanRec.SetRange(LoanRec.Posted, true);
-                        //LoanRec.SetAutoCalcFields(LoanRec."Outstanding Balance");
-                        LoanRec.SetRange(LoanRec."Customer No.", "Loan No");
-                        IF LoanRec.Find('-') then begin
-                            repeat
-
-                            //..................................
-
-                            until LoanRec.Next = 0;
-                        end else
-                            CurrReport.Skip();
-                        VarNo := VarNo + 1; */
-
-                    end;
-
                     trigger OnPreDataItem()
                     begin
-                        ClosingBalanceLoan := PrincipleBF;
+                        // Initialize Opening and Closing Balance
+                        PrincipleBF := 0;
+                        ClosingBalanceLoan := 0;
+                        OpenBalanceLoan := 0;
+
+                        // Step 1: Compute Opening Balance (Before AsAt)
+                        Loan.Reset();
+                        Loan.SetRange("Customer No.", Customer."No.");
+                        Loan.SetRange("Loan No", Loans."Loan  No."); // Ensure Loan No. is considered
+                        Loan.SetRange(Reversed, false);
+                        Loan.SetFilter("Transaction Type", 'Loan|Loan Repayment|Interest Due|Interest Paid');
+                        Loan.SetFilter("Posting Date", '..' + Format(AsAt));
+
+                        if Loan.FindSet() then
+                            repeat
+                                // Assign Credit and Debit Amounts based on Amount Posted
+                                AssignCreditDebitAmounts(Loan."Amount Posted", Loan."Credit Amount", Loan."Debit Amount");
+
+                                // Compute net balance
+                                PrincipleBF += Loan."Credit Amount" - Loan."Debit Amount";
+                            until Loan.Next() = 0;
+
+                        // Store Opening Balance
                         OpenBalanceLoan := PrincipleBF;
-                        OpeningBalInt := InterestBF;
+                        ClosingBalanceLoan := OpenBalanceLoan; // Start with Opening Balance
+
+                        //message('Open Balance Loan is %1, Closing Balance Loan is %2', OpenBalanceLoan, ClosingBalanceLoan);
+
+                        // Step 2: Fetch Only Transactions from AsAt to Today
+                        Loan.Reset();
+                        Loan.SetRange("Customer No.", Customer."No.");
+                        Loan.SetRange("Loan No", Loans."Loan  No."); // Ensure Loan No. is considered
+                        Loan.SetRange(Reversed, false);
+                        Loan.SetFilter("Transaction Type", 'Loan|Loan Repayment|Interest Due|Interest Paid');
+                        Loan.SetRange("Posting Date", AsAt, Today); // Only transactions from AsAt onwards
+                        Loan.SetCurrentKey("Posting Date");
+                        Loan.Ascending(true);
                     end;
+
+                    trigger OnAfterGetRecord()
+                    begin
+                        //ClosingBalanceLoan := ClosingBalanceLoan - loan."Amount Posted";
+                        BankCodeLoan := GetBankCode(loan);
+                        // Assign Credit and Debit Amounts based on Amount Posted
+                        AssignCreditDebitAmounts(Loan."Amount Posted", Loan."Credit Amount", Loan."Debit Amount");
+
+                        // Ensure ClosingBalanceLoan is updated correctly
+                        ClosingBalanceLoan := ClosingBalanceLoan + Loan."Credit Amount" - Loan."Debit Amount";
+
+                        // Ensure Loan No. is properly checked
+                        IF Loan."Loan No" = '' THEN BEGIN
+                            // Handle empty Loan No. case if needed
+                        END;
+
+                        // Track interest-related transactions
+                        IF Loan."Transaction Type" = Loan."Transaction Type"::"Insurance Contribution" THEN BEGIN
+                            InterestPaid := Loan."Credit Amount";
+                            SumInterestPaid := InterestPaid + SumInterestPaid;
+                        END;
+
+                        IF Loan."Transaction Type" = Loan."Transaction Type"::"Interest Paid" THEN BEGIN
+                            Loan."Credit Amount" := Loan."Credit Amount"; // Ensure logic is correct
+                        END;
+                    end;
+
                 }
-                dataitem(Interests; "Member Ledger Entry")
+
+                dataitem(Interests; "Cust. Ledger Entry")
                 {
-                    DataItemLink = "Customer No." = field("Client Code"), "Loan No" = field("Loan  No."), "Posting Date" = field("Date filter");
+                    DataItemLink = "Loan No" = field("Loan  No."), "Posting Date" = field("Date filter");
                     DataItemTableView = sorting("Posting Date") where("Transaction Type" = filter("Interest Due" | "Interest Paid"), "Loan No" = filter(<> ''), Reversed = filter(false));
 
                     column(PostingDate_Interest; Interests."Posting Date")
@@ -269,33 +287,66 @@ Report 50227 "Member Loans Statement"
 
                     trigger OnAfterGetRecord()
                     begin
-                        ClosingBalInt := ClosingBalInt + Interests."Amount to Apply";
-                        BankCodeInterest := GetBankCode(Interests);
-                        //...................Get TotalInterestDue
-                        ApprovedAmount_Interest := 0;
+                        // Assign Credit and Debit Amounts based on Amount Posted
+                        if Interests."Loan No" <> '' then begin
+                            // Retrieve Bank Code
+                            BankCodeInterest := GetBankCode(Interests);
+                            AssignCreditDebitAmounts(Interests."Amount Posted", Interests."Credit Amount", Interests."Debit Amount");
 
+                            ClosingBalInt := ClosingBalInt + Interests."Credit Amount" - Interests."Debit Amount";
+
+                        end;
+
+                        // Step 3: Compute Total Interest Due
+                        ApprovedAmount_Interest := 0;
                         LonRepaymentSchedule.Reset();
                         LonRepaymentSchedule.SetRange(LonRepaymentSchedule."Loan No.", Interests."Loan No");
-                        if LoansR.find('-') then begin
+
+                        if LonRepaymentSchedule.FindSet() then
                             repeat
                                 ApprovedAmount_Interest += LonRepaymentSchedule."Monthly Interest";
-                            until LonRepaymentSchedule.Next = 0;
-                        end;
-                        //..................
-                        if Interests."Amount to Apply" < 0 then begin
-                            Interests."Credit Amount" := (Interests."Amount to Apply" * -1);
-                        end else
-                            if Interests."Amount to Apply" > 0 then begin
-                                Interests."Debit Amount" := (Interests."Amount to Apply");
-                            end;
-                        runningInt := 0;
-                        runningInt := runningInt + "Amount to Apply";
+                            until LonRepaymentSchedule.Next() = 0;
+
+                        // Debugging Message to Confirm Processing Order
+                        //Message('Processing Loan No: %1, LastLoanNo: %2', Interests."Loan No", LastLoanNo);
                     end;
 
                     trigger OnPreDataItem()
                     begin
+                        // Initialize Opening Balance
+                        InterestBF := 0;
+                        ClosingBalInt := InterestBF; // Start with Opening Balance
+                        LastLoanNo := ''; // Reset LastLoanNo to avoid incorrect comparisons
+
+                        // Step 1: Compute Opening Balance (Before AsAt)
+                        Interests.Reset();
+                        Interests.SetRange("Customer No.", Customer."No.");
+                        Interests.SetRange("Loan No", Loans."Loan  No."); // Ensure Loan No. is considered
+                        Interests.SetRange(Reversed, false);
+                        Interests.SetFilter("Transaction Type", 'Interest Due|Interest Paid');
+                        Interests.SetFilter("Posting Date", '..' + Format(AsAt)); // Transactions before AsAt
+
+                        if Interests.FindSet() then
+                            repeat
+                                if Interests."Loan No" <> '' then begin
+                                    AssignCreditDebitAmounts(Interests."Amount Posted", Interests."Credit Amount", Interests."Debit Amount");
+                                    InterestBF += Interests."Credit Amount" - Interests."Debit Amount";
+                                end;
+                            until Interests.Next() = 0;
+
                         ClosingBalInt := InterestBF;
+
+                        // Step 2: Fetch Transactions from AsAt to Today
+                        Interests.Reset();
+                        Interests.SetRange("Customer No.", Customer."No.");
+                        Interests.SetRange("Loan No", Loans."Loan  No."); // Ensure Loan No. is considered
+                        Interests.SetRange(Reversed, false);
+                        Interests.SetFilter("Transaction Type", 'Interest Due|Interest Paid');
+                        Interests.SetRange("Posting Date", AsAt, Today);
+                        Interests.SetCurrentKey("Posting Date");
+                        Interests.Ascending(true);
                     end;
+
                 }
 
                 trigger OnAfterGetRecord()
@@ -323,6 +374,8 @@ Report 50227 "Member Loans Statement"
                     Loans.SetFilter(Loans."Date filter", Customer.GetFilter(Customer."Date Filter"));
                 end;
             }
+
+
 
 
             trigger OnAfterGetRecord()
@@ -354,18 +407,7 @@ Report 50227 "Member Loans Statement"
                 end;
             end;
 
-            trigger OnPreDataItem()
-            begin
-                /*
-                IF Customer.GETFILTER(Customer."Date Filter") <> '' THEN
-                DateFilterBF:='..'+ FORMAT(CALCDATE('-1D',Customer.GETRANGEMIN(Customer."Date Filter")));
-                */
 
-                if Customer.GetFilter(Customer."Date Filter") <> '' then
-                    DateFilterBF := '..' + Format(CalcDate('-1D', Customer.GetRangeMin(Customer."Date Filter")));
-                //DateFilterBF:='..'+ FORMAT(Customer.GETRANGEMIN(Customer."Date Filter"));
-
-            end;
         }
     }
 
@@ -374,6 +416,8 @@ Report 50227 "Member Loans Statement"
 
         layout
         {
+            area(content)
+            { field(From; AsAt) { } }
         }
 
         actions
@@ -381,23 +425,40 @@ Report 50227 "Member Loans Statement"
         }
     }
 
-    labels
-    {
-    }
-
     trigger OnPreReport()
+    var
+    // RegenerateOldLoansData: Codeunit "Regenerate Schedule for loans";
     begin
         Company.Get();
         Company.CalcFields(Company.Picture);
+        //..........................................................
+
+        // Set AsAt to the beginning of the current year if not provided
+        if AsAt = 0D then
+            AsAt := DMY2Date(1, 1, Date2DMY(Today, 3));
+
+        DateFilter := '..' + Format(AsAt);
+
+    end;
+
+    local procedure AssignCreditDebitAmounts(AmountPosted: Decimal; var CreditAmount: Decimal; var DebitAmount: Decimal)
+    begin
+        if AmountPosted < 0 then
+            CreditAmount := AmountPosted * -1
+        else if AmountPosted > 0 then
+            DebitAmount := AmountPosted;
     end;
 
     var
+        AsAt: Date;
+        DateFilter: Text;
+        LastLoanNo: Code[20];
         OpenBalance: Decimal;
         RunningBal: Decimal;
         CLosingBalance: Decimal;
         OpenBalanceXmas: Decimal;
         CLosingBalanceXmas: Decimal;
-        Cust: Record "Member Ledger Entry";
+        Cust: Record "Cust. Ledger Entry";
         OpeningBal: Decimal;
         ClosingBal: Decimal;
         FirstRec: Boolean;
@@ -466,7 +527,7 @@ Report 50227 "Member Loans Statement"
         LonRepaymentSchedule: Record "Loan Repayment Schedule";
 
 
-    local procedure GetBankCode(MembLedger: Record "Member Ledger Entry"): Text
+    local procedure GetBankCode(MembLedger: Record "Cust. Ledger Entry"): Text
     var
         BankLedger: Record "Bank Account Ledger Entry";
     begin

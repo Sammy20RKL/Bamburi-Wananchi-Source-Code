@@ -193,7 +193,7 @@ Table 51278 "HR Medical Claims"
         if "Claim No" = '' then begin
             HRSetup.Get;
             HRSetup.TestField(HRSetup."Medical Claims Nos");
-            NoSeriesMgt.InitSeries(HRSetup."Medical Claims Nos", xRec."No. Series", 0D, "Claim No", "No. Series");
+            // NoSeriesMgt.InitSeries(HRSetup."Medical Claims Nos", xRec."No. Series", 0D, "Claim No", "No. Series");
         end;
 
         /*HREmp.RESET;
@@ -230,7 +230,7 @@ Table 51278 "HR Medical Claims"
 
     var
         MDependants: Record "HR Employee Kin";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         HRSetup: Record "HR Setup";
         BankAcc: Record "HR Employees";
         HREmp: Record "HR Employees";

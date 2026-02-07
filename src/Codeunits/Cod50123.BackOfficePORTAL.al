@@ -558,7 +558,7 @@ Codeunit 50123 BackOfficePORTAL
     procedure fnAtmApplications(Account: Code[100])
     var
         SaccoSetup: Record 51399;
-        NoSeriesMgmt: Codeunit NoSeriesManagement;
+        NoSeriesMgmt: Codeunit "No. Series";
     begin
         /*
         SaccoSetup.GET();

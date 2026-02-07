@@ -163,12 +163,12 @@ Table 51240 "HR Interview Evaluation"
         if "Interview No." = '' then begin
             HRSetup.Get;
             HRSetup.TestField(HRSetup."Job Interview Nos");
-            NoSeriesMgt.InitSeries(HRSetup."Job Interview Nos", xRec."No series", 0D, "Interview No.", "No series");
+            //  NoSeriesMgt.InitSeries(HRSetup."Job Interview Nos", xRec."No series", 0D, "Interview No.", "No series");
         end;
     end;
 
     var
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        // NoSeriesMgt: Codeunit NoSeriesManagement;
         HRSetup: Record "HR Setup";
         HrJobs: Record "HR Job Applications";
         Hrjob1: Record "HR Jobss";

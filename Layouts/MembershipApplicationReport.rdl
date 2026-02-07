@@ -684,8 +684,8 @@ End Function
         <Field Name="EntryNo">
           <DataField>EntryNo</DataField>
         </Field>
-        <Field Name="Mobile_Phone_No">
-          <DataField>Mobile_Phone_No</DataField>
+        <Field Name="Phone_No">
+          <DataField>Phone_No</DataField>
         </Field>
       </Fields>
       <Query>

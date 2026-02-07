@@ -146,7 +146,7 @@ Table 51259 "HR Employee Transfer Lines"
 
     var
         hrsetup: Record "HR Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        // NoSeriesMgt: Codeunit NoSeriesManagement;
         Employees: Record "HR Employees";
 }
 

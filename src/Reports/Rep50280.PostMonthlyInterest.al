@@ -68,7 +68,6 @@ Report 50280 "Post Monthly Interest."
             column(Loans__Outstanding_Balance_Caption; FieldCaption("Outstanding Balance"))
             {
             }
-
             trigger OnAfterGetRecord()
             begin
                 PDate := "Loans Register".GetRangemax("Loans Register"."Date filter");
@@ -77,127 +76,89 @@ Report 50280 "Post Monthly Interest."
                 loanapp.Reset;
                 loanapp.SetRange(loanapp."Loan  No.", "Loans Register"."Loan  No.");
                 loanapp.SetFilter(loanapp."Date filter", SDATE);
+                loanapp.SetCurrentKey("Client Code", "Application Date");
+                loanapp.Ascending(false);
                 if loanapp.Find('-') then begin
                     repeat
-                        loanapp.CalcFields(loanapp."Outstanding Balance");
-                        if loanapp."Outstanding Balance" > 0 then begin
+                        if (loanapp."Loan Product Type" <> '24') then begin
+                            loanapp.CalcFields(loanapp."Outstanding Balance");
+                            if loanapp."Outstanding Balance" > 0 then begin
 
-                            Cust.Reset;
-                            Cust.SetRange(Cust."No.", "Loans Register"."Client Code");
-                            Cust.SetFilter(Cust.Blocked, '%1', Cust.Blocked::" ");
-                            Cust.SetFilter(Cust."Don't Charge Interest", '%1', false);
-                            if Cust.FindSet then begin
-                                repeat
-                                    LineNo := LineNo + 10000;
-                                    GenJournalLine.Init;
-                                    GenJournalLine."Journal Template Name" := 'General';
-                                    GenJournalLine."Journal Batch Name" := 'INT DUE';
-                                    GenJournalLine."Line No." := LineNo;
-                                    GenJournalLine."Account Type" := GenJournalLine."account type"::Customer;
-                                    GenJournalLine."Account No." := loanapp."Client Code";
-                                    GenJournalLine."Transaction Type" := GenJournalLine."transaction type"::"Interest Due";
-                                    GenJournalLine.Validate(GenJournalLine."Account No.");
-                                    GenJournalLine."Document No." := DocNo;
-                                    GenJournalLine."Posting Date" := PostDate;
-                                    GenJournalLine.Description := 'INT Charged' + ' ' + Format(PostDate);
-                                    if LoanType.Get(loanapp."Loan Product Type") then begin
-                                        GenJournalLine.Amount := ROUND(loanapp."Outstanding Balance" * (LoanType."Interest rate" / 1200), 1, '>');
-                                        GenJournalLine.Validate(GenJournalLine.Amount);
-                                        GenJournalLine."Bal. Account Type" := GenJournalLine."bal. account type"::"G/L Account";
-                                        GenJournalLine."Bal. Account No." := LoanType."Loan Interest Account";
-                                        GenJournalLine."Loan Product Type" := LoanType.Code;
-                                        GenJournalLine.Validate(GenJournalLine."Bal. Account No.");
-                                    end;
-                                    if loanapp.Source = loanapp.Source::BOSA then begin
-                                        GenJournalLine."Shortcut Dimension 1 Code" := Cust."Global Dimension 1 Code";
-                                        GenJournalLine."Shortcut Dimension 2 Code" := Cust."Global Dimension 2 Code";
-                                    end;
-                                    GenJournalLine.Validate(GenJournalLine."Shortcut Dimension 1 Code");
-                                    GenJournalLine.Validate(GenJournalLine."Shortcut Dimension 2 Code");
-                                    GenJournalLine."Loan No" := loanapp."Loan  No.";
+                                Cust.Reset;
+                                Cust.SetRange(Cust."No.", "Loans Register"."Client Code");
+                                // Cust.SetFilter(Cust.Blocked, '%1', Cust.Blocked::" ");
+                                Cust.SetFilter(Cust."Don't Charge Interest", '%1', false);
+                                if Cust.FindSet then begin
+                                    repeat
+                                        LineNo := LineNo + 10000;
+                                        GenJournalLine.Init;
+                                        GenJournalLine."Journal Template Name" := 'General';
+                                        GenJournalLine."Journal Batch Name" := 'INT DUE';
+                                        GenJournalLine."Line No." := LineNo;
+                                        GenJournalLine."Account Type" := GenJournalLine."account type"::Customer;
+                                        GenJournalLine."Account No." := loanapp."Client Code";
+                                        GenJournalLine."Transaction Type" := GenJournalLine."transaction type"::"Interest Due";
+                                        GenJournalLine.Validate(GenJournalLine."Account No.");
+                                        GenJournalLine."Document No." := DocNo;
+                                        GenJournalLine."Posting Date" := PostDate;
+                                        GenJournalLine.Description := 'INT Charged' + ' ' + Format(PostDate);
+                                        if LoanType.Get(loanapp."Loan Product Type") then begin
 
-                                    if GenJournalLine.Amount <> 0 then
-                                        GenJournalLine.Insert;
-                                until cust.Next = 0;
+                                            if loanapp."Repayment Method" = loanapp."repayment method"::"Straight Line" then begin
+                                                //Added by D.O to handle Member Receipting prior to Interest Accrual
+                                                if (loanapp."Disbursement Status" = loanapp."disbursement status"::Partial) and ((loanapp."Initial Trunch") = Date2dmy(Today, 2)) and ((loanapp."Amount To Disburse") = Date2dmy(Today, 3)) then begin
+                                                    GenJournalLine.Amount := loanapp."Total Charges and Commissions";
+                                                    //MESSAGE('Interest arrears %1',GenJournalLine.Amount);
+                                                end else
+                                                    GenJournalLine.Amount := ROUND(loanapp."Approved Amount" * (loanapp.Interest / 1200), 1, '>')
+                                            end else begin
+                                                if (loanapp."Disbursement Status" = loanapp."disbursement status"::Partial) and ((loanapp."Initial Trunch") = Date2dmy(Today, 2)) and ((loanapp."Amount To Disburse") = Date2dmy(Today, 3)) then begin
+                                                    GenJournalLine.Amount := loanapp."Total Charges and Commissions";
+                                                    //MESSAGE('Interest arrears %1',GenJournalLine.Amount);
+                                                end else
+                                                    GenJournalLine.Amount := ROUND(loanapp."Outstanding Balance" * (loanapp.Interest / 1200), 1, '>');
+                                            end;
+
+                                            // GenJournalLine.Amount := ROUND(loanapp."Outstanding Balance" * (LoanType."Interest rate" / 1200), 1, '>'); //(loanapp."Outstanding Balance" + loanapp."Oustanding Interest")
+                                            GenJournalLine.Validate(GenJournalLine.Amount);
+                                            GenJournalLine."Bal. Account Type" := GenJournalLine."bal. account type"::"G/L Account";
+                                            GenJournalLine."Bal. Account No." := LoanType."Loan Interest Account";
+                                            GenJournalLine."Loan Product Type" := LoanType.Code;
+                                            GenJournalLine.Validate(GenJournalLine."Bal. Account No.");
+                                        end;
+                                        if loanapp.Source = loanapp.Source::BOSA then begin
+                                            GenJournalLine."Shortcut Dimension 1 Code" := Cust."Global Dimension 1 Code";
+                                            GenJournalLine."Shortcut Dimension 2 Code" := Cust."Global Dimension 2 Code";
+                                        end;
+                                        GenJournalLine.Validate(GenJournalLine."Shortcut Dimension 1 Code");
+                                        GenJournalLine.Validate(GenJournalLine."Shortcut Dimension 2 Code");
+                                        GenJournalLine."Loan No" := loanapp."Loan  No.";
+
+                                        if GenJournalLine.Amount <> 0 then
+                                            GenJournalLine.Insert;
+                                    until cust.Next = 0;
+                                end;
                             end;
-
-
                         end;
 
                     until loanapp.Next = 0;
                 end;
-                /* loanapp.RESET;
-                 loanapp.SETRANGE(loanapp."Loan  No.","Loan  No.");
-                 loanapp.SETFILTER(loanapp."Date filter",SDATE);
-                 IF loanapp.FIND('-') THEN BEGIN
-                 loanapp.CALCFIELDS(loanapp."Outstanding Balance");
-                 IF loanapp."Outstanding Balance" > 0 THEN BEGIN
-                 IF loanapp."Approved Amount" > 100000 THEN BEGIN
-                 LineNo:=LineNo+10000;
-                    GenJournalLine.INIT;
-                    GenJournalLine."Journal Template Name":='General';
-                    GenJournalLine."Journal Batch Name":='INT DUE';
-                    GenJournalLine."Line No.":=LineNo;
-                    GenJournalLine."Account Type":=GenJournalLine."Account Type"::Member;
-                    GenJournalLine."Account No.":= loanapp."Client Code";
-                    GenJournalLine."Transaction Type":=GenJournalLine."Transaction Type"::"Insurance Charge";
-                    GenJournalLine.VALIDATE(GenJournalLine."Account No.");
-                    GenJournalLine."Document No.":=DocNo;
-                    GenJournalLine."Posting Date":=PostDate;
-                    GenJournalLine.Description:=DocNo+' '+'Insurance charged';
-                    GenJournalLine.Amount:=ROUND( loanapp."Outstanding Balance"*( 0.0166667/100),1,'>');
-                    GenJournalLine.VALIDATE(GenJournalLine.Amount);
-                     IF LoanType.GET(loanapp."Loan Product Type") THEN BEGIN
-                    GenJournalLine."Bal. Account Type":=GenJournalLine."Bal. Account Type"::"G/L Account";
-                    GenJournalLine."Bal. Account No.":=LoanType."Loan Insurance Accounts";
-                    GenJournalLine.VALIDATE(GenJournalLine."Bal. Account No.");
-                    END;
-                    IF  loanapp.Source= loanapp.Source::BOSA THEN BEGIN
-                    GenJournalLine."Shortcut Dimension 1 Code":='BOSA' ;
-                    GenJournalLine."Shortcut Dimension 2 Code":= 'NAIROBI';
-                    END;
-                    IF  loanapp.Source= loanapp.Source::FOSA THEN BEGIN
-                    GenJournalLine."Shortcut Dimension 1 Code":='FOSA' ;
-                    GenJournalLine."Shortcut Dimension 2 Code":= 'NAIROBI';
-                    END;
-                    GenJournalLine.VALIDATE(GenJournalLine."Shortcut Dimension 1 Code");
-                    GenJournalLine.VALIDATE(GenJournalLine."Shortcut Dimension 2 Code");
-                    GenJournalLine."Loan No":= loanapp."Loan  No.";
-                    IF GenJournalLine.Amount<>0 THEN
-                    GenJournalLine.INSERT;
-                 END;
-                 END;
-                 END;*/
-                /*
-                //Post New
-                GenJournalLine.RESET;
-                GenJournalLine.SETRANGE("Journal Template Name",'General');
-                GenJournalLine.SETRANGE("Journal Batch Name",'INT DUE');
-                IF GenJournalLine.FIND('-') THEN BEGIN
-                CODEUNIT.RUN(CODEUNIT::"Gen. Jnl.-Post B",GenJournalLine);
-                END; */
-                //Post New
 
             end;
 
             trigger OnPostDataItem()
             begin
-
+                Message('Journals Created Successfully');
                 GenJournalLine.Reset;
                 GenJournalLine.SetRange("Journal Template Name", 'General');
                 GenJournalLine.SetRange("Journal Batch Name", 'INT DUE');
-                page.Run(Page::"General Journal");
+                if GenJournalLine.Find('-') then
+                    page.Run(Page::"General Journal", GenJournalLine);
 
             end;
 
             trigger OnPreDataItem()
             begin
-                if PostDate = 0D then
-                    Error('Please create Interest period');
-
-                // if DocNo = '' then
-                //     Error('You must specify the Document No.');
-
 
                 //delete journal line
                 GenJournalLine.Reset;
@@ -218,6 +179,22 @@ Report 50280 "Post Monthly Interest."
                     //GenBatches.VALIDATE(GenBatches.Name);
                     GenBatches.Insert;
                 end;
+
+
+                if AsAtPDate = 0D then
+                    AsAtPDate := Today;
+
+                DocNo := 'INT DUE';
+                PDate := AsAtPDate;
+
+                StartDate := CalcDate('-1M', CalcDate('1D', AsAtPDate));
+                IntDays := (AsAtPDate - StartDate) + 1;
+
+                if Baldate = 0D then
+                    Error('PLEASE INSERT THE END DATE OF THE PREVIOUS MONTH');
+
+                if CUTOFFDATE = 0D then
+                    Error('PLEASE INSERT THE CUT OFF DATE');
             end;
         }
     }
@@ -229,19 +206,21 @@ Report 50280 "Post Monthly Interest."
         {
             area(content)
             {
-                field(PostDate; PostDate)
+                field(Posting_Date; PostDate)
                 {
                     ApplicationArea = Basic;
-                    Caption = 'Posting Date';
-                    Editable = true;
+                    Caption = 'Posting_Date';
                 }
-                // field(DocNo; DocNo)
-                // {
-                //     ApplicationArea = Basic;
-                //     Caption = 'Document No.';
-                //     Editable = true;
-                // }
-
+                field(Balance_Date; Baldate)
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Balance_Date(End Day of the Month)';
+                }
+                field(Cut_OffDate; CUTOFFDATE)
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Cut_OffDate(Last Day You wish to Compute Interest)';
+                }
 
             }
         }
@@ -268,6 +247,27 @@ Report 50280 "Post Monthly Interest."
     end;
 
     var
+        IntDays: Integer;
+        AsAt: Date;
+        MinBal: Boolean;
+        AccruedInt: Decimal;
+        RIntDays: Integer;
+        Bal: Decimal;
+        DFilter: Text[50];
+        "PrepaidRem.": Record "Prepaid Remitance";
+        PrepBal: Decimal;
+        CBalance: Decimal;
+        cusld: Record "Detailed Cust. Ledg. Entry";
+        IntD: Decimal;
+        Baldate: Date;
+        BaldateTXT: Text[30];
+        CUTOFFDATE: Date;
+        IntRate: Decimal;
+        MidMonthFactor: Decimal;
+        StartDate: Date;
+        // PostDate: Date;
+        LoansB: Record "Loans Register";
+        AsAtPDate: Date;
         GenBatches: Record "Gen. Journal Batch";
         PDate: Date;
         LoanType: Record "Loan Products Setup";

@@ -141,6 +141,8 @@ tableextension 50044 "GenJournalLineExt" extends "Gen. Journal Line"
                     Description := 'ABF Fund';
                 if "Transaction Type" = "transaction type"::"Deposit Contribution" then
                     Description := 'Deposits Contribution';
+                if "Transaction Type" = "transaction type"::"Welfare Contribution" then
+                    Description := 'Welfare Contribution';
                 // if "Transaction Type" = "transaction type"::"Appraisal Fee" then
                 //     Description := 'Appraisal Fee';
                 // if "Transaction Type" = "transaction type"::"Application Fee" then
@@ -423,7 +425,7 @@ tableextension 50044 "GenJournalLineExt" extends "Gen. Journal Line"
         Job: Record Job;
         JobJnlLine: Record "Job Journal Line" temporary;
         TaxArea: Record "Tax Area";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         CustCheckCreditLimit: Codeunit "Cust-Check Cr. Limit";
         SalesTaxCalculate: Codeunit "Sales Tax Calculate";
         GenJnlApply: Codeunit "Gen. Jnl.-Apply";
@@ -521,7 +523,7 @@ tableextension 50044 "GenJournalLineExt" extends "Gen. Journal Line"
             "Document Date" := WorkDate;
             if GenJnlBatch."No. Series" <> '' then begin
                 Clear(NoSeriesMgt);
-                "Document No." := NoSeriesMgt.TryGetNextNo(GenJnlBatch."No. Series", "Posting Date");
+                // "Document No." := NoSeriesMgt.TryGetNextNo(GenJnlBatch."No. Series", "Posting Date");
             end;
         end;
         if GenJnlTemplate.Recurring then
@@ -563,7 +565,7 @@ tableextension 50044 "GenJournalLineExt" extends "Gen. Journal Line"
     end;
 
 
-    procedure CheckDocNoBasedOnNoSeries(LastDocNo: Code[20]; NoSeriesCode: Code[10]; var NoSeriesMgtInstance: Codeunit NoSeriesManagement)
+    procedure CheckDocNoBasedOnNoSeries(LastDocNo: Code[20]; NoSeriesCode: Code[10]; var NoSeriesMgtInstance: Codeunit "No. Series")
     begin
         if (NoSeriesCode = '') or "Check Printed" then
             exit;
@@ -588,7 +590,7 @@ tableextension 50044 "GenJournalLineExt" extends "Gen. Journal Line"
         if GetFilter("Document No.") <> '' then
             Error(DocNoFilterErr);
         Clear(NoSeriesMgt);
-        FirstDocNo := NoSeriesMgt.TryGetNextNo(GenJnlBatch."No. Series", "Posting Date");
+        //FirstDocNo := NoSeriesMgt.TryGetNextNo(GenJnlBatch."No. Series", "Posting Date");
         FirstTempDocNo := 'RENUMBERED-000000001';
         // step1 - renumber to non-existing document number
         DocNo := FirstTempDocNo;

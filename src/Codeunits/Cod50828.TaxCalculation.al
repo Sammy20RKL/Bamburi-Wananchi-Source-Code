@@ -6,34 +6,26 @@ Codeunit 50828 "Tax Calculation"
     begin
     end;
 
-
-    // procedure CalculateTax(Rec: Record 51001; CalculationType: Option VAT,"W/Tax",Retention,VAT6) Amount: Decimal
-    // begin
-    //     case CalculationType of
-    //         Calculationtype::VAT:
-    //             begin
-    //                 Amount := (Rec."VAT Rate" / (100 + Rec."VAT Rate")) * Rec.Amount;
-    //             end;
-    //         Calculationtype::"W/Tax":
-    //             begin
-    //                 Amount := (Rec.Amount - ((Rec."VAT Rate" / (100 + Rec."VAT Rate")) * Rec.Amount))
-    //                 * (Rec."W/Tax Rate" / 100);
-    //             end;
-    //         Calculationtype::Retention:
-    //             begin
-    //                 Amount := (Rec.Amount - ((Rec."VAT Rate" / (100 + Rec."VAT Rate")) * Rec.Amount))
-    //                  * (Rec."Retention Rate" / 100);
-    //             end;
-    //     /*  //Added for VAT 6% OF VAT
-    //     CalculationType::VAT6:
-    //       BEGIN
-    //           Amount:=(Rec.Amount*Rec."VAT 6% Rate"/116);
-    //       END;
-    //       */
-    //     end;
-
-    // end;
-
+    procedure CalculateTax(Rec: Record "Payment Line New"; CalculationType: Option VAT,"W/Tax",Retention,VAT6) Amount: Decimal
+    var
+    begin
+        CASE CalculationType OF
+            CalculationType::VAT:
+                BEGIN
+                    Amount := (Rec."VAT Rate" / (100 + Rec."VAT Rate")) * Rec.Amount;
+                END;
+            CalculationType::"W/Tax":
+                BEGIN
+                    Amount := (Rec.Amount - ((Rec."VAT Rate" / (100 + Rec."VAT Rate")) * Rec.Amount))
+                    * (Rec."W/Tax Rate" / 100);
+                END;
+            CalculationType::Retention:
+                BEGIN
+                    Amount := (Rec.Amount - ((Rec."VAT Rate" / (100 + Rec."VAT Rate")) * Rec.Amount))
+                     * (Rec."Retention Rate" / 100);
+                END;
+        END;
+    end;
 
     procedure CalculatePurchTax(Rec: Record "Purchase Line"; CalculationType: Option VAT,"W/Tax",Retention) Amount: Decimal
     begin

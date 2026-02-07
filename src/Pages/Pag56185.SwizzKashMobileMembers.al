@@ -59,9 +59,13 @@ Page 56185 "SwizzKash Mobile Members"
         }
         area(factboxes)
         {
-            part(Control1000000004; "Member Statistics FactBox")
+            // part(Control1000000004; "Member Statistics FactBox")
+            // {
+            //     SubPageLink = "No." = field("No.");
+            // }
+            part(wallet; "FOSA Statistics FactBox")
             {
-                SubPageLink = "No." = field("No.");
+                SubPageLink = "No." = field("Account No");
             }
         }
     }

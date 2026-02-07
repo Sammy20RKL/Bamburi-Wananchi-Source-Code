@@ -87,7 +87,7 @@ Table 51418 "Loan Interest Variance Schedu"
     }
 
     var
-        NoSeriesMngnt: Codeunit NoSeriesManagement;
+        // NoSeriesMngnt: Codeunit NoSeriesManagement;
         SACCOMember: Record Customer;
         LoanCategory: Record "Loan Products Setup";
 }

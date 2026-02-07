@@ -3,7 +3,7 @@ Report 51030 "Loan Guarantors"
 {
     DefaultLayout = RDLC;
     ApplicationArea = all;
-    RDLCLayout = './Layouts/LoanGuarantors.rdl';
+    RDLCLayout = './Layouts/LoanGuarantorsNew.rdl';
 
     dataset
     {
@@ -14,6 +14,32 @@ Report 51030 "Loan Guarantors"
 
             column(ReportForNavId_1102755000; 1102755000)
             {
+            }
+            column(Company_Name; Company.Name)
+            {
+            }
+            column(Company_Address; Company.Address)
+            {
+            }
+            column(Company_Picture; Company.Picture)
+            {
+            }
+            column(Company_Phone_No; Company."Phone No.")
+            {
+            }
+            column(Company_SMS; Company."Phone No.")
+            {
+            }
+            column(Company_Email; Company."E-Mail")
+            {
+            }
+            column(Company_Fax_No; Company."Fax No.")
+            {
+
+            }
+            column(Company_Address_2; company."Address 2")
+            {
+
             }
             column(No_Members; Members."No.")
             {
@@ -55,10 +81,13 @@ Report 51030 "Loan Guarantors"
                     column(ReportForNavId_1102755002; 1102755002)
                     {
                     }
-                    column(MemberNo_LoanGuarantors; "Loan Guarantors"."Member No")
+                    column(MemberNo_LoanGuarantors; "Loan Guarantors"."Loanees  No")
                     {
                     }
-                    column(Name_LoanGuarantors; "Loan Guarantors".Name)
+                    column(LoanNo_LoanGuarantors; "Loan Guarantors"."Loan No")
+                    {
+                    }
+                    column(Name_LoanGuarantors; "Loan Guarantors"."Loanees  Name")
                     {
                     }
                     column(LoanBalance_LoanGuarantors; "Loan Guarantors"."Loans Outstanding")
@@ -104,6 +133,52 @@ Report 51030 "Loan Guarantors"
                     {
                     }
                 }
+                // //Loan.GET();
+                // trigger OnAfterGetRecord()
+                // var
+                //     myInt: Integer;
+                // begin
+
+
+                //     CommittedShares := 0;
+                //     GuarantorNo := '';
+
+                //     Loansr.RESET;
+                //     Loansr.SETRANGE(Loansr."Loan  No.", "Loan Guarantors"."Loan No");
+                // IF Loansr.FIND('-') THEN BEGIN
+                //     MemberNo := Loansr."Client Code";
+                //     MemberName := Loansr."Client Name";
+                //     EmployerCode := Loansr."Employer Code";
+                //     ApprovedAmt := Loansr."Approved Amount";
+
+                //     GuarantorNo := "Loans Guarantee Details"."Member No";
+
+
+                //     ObjLoanGuar.RESET;
+                //     ObjLoanGuar.SETRANGE(ObjLoanGuar."Loan No", "Loan No");
+                //     ObjLoanGuar.SETRANGE(ObjLoanGuar."Member No", GuarantorNo);
+                //     IF ObjLoanGuar.FINDSET THEN BEGIN
+                //             REPEAT
+                //                 //MESSAGE(GuarantorNo);
+                //                 ObjLoanGuar.CALCFIELDS(ObjLoanGuar."Outstanding Balance");
+                //                 IF ApprovedAmt > 0 THEN BEGIN
+                //                     CommittedShares := (ObjLoanGuar."Outstanding Balance" / ApprovedAmt) * ObjLoanGuar."Amont Guaranteed";
+                //                     //MESSAGE('Balance %1, Approved %2, Guaranteed %3 thus Committed = %4 for Member %5',ObjLoanGuar."Outstanding Balance",ApprovedAmt,ObjLoanGuar."Amont Guaranteed",CommittedShares,GuarantorNo);
+                //                     //MODIFY;
+                //                 END;
+                //                 IF CommittedShares > 0 THEN BEGIN
+                //                     ObjLoanGuar.RESET;
+                //                     ObjLoanGuar.SETRANGE(ObjLoanGuar."Loan No", "Loan No");
+                //                     ObjLoanGuar.SETRANGE(ObjLoanGuar."Member No", GuarantorNo);
+                //                     IF ObjLoanGuar.FIND('-') THEN BEGIN
+                //                         ObjLoanGuar."Committed Shares" := CommittedShares;
+                //                         ObjLoanGuar.MODIFY;
+                //                     END;
+                //                 END;
+                //             UNTIL ObjLoanGuar.NEXT = 0;
+                //         END;
+                //     END;
+                // end;
             }
         }
     }
@@ -123,5 +198,21 @@ Report 51030 "Loan Guarantors"
     labels
     {
     }
+
+    var
+        company: Record "Company Information";
+        ObjLoanGuar: Record "Loans Guarantee Details";
+        CommittedShares: Decimal;
+        GuarantorNo: Text;
+        Loansr: Record "Loans Register";
+        ApprovedAmt: Decimal;
+
+
+
+    trigger OnPreReport()
+    begin
+        Company.get;
+        Company.CalcFields(Picture);
+    end;
 }
 

@@ -906,7 +906,7 @@ Report 50378 "Dividend Processing-Prorated"
         "W/Tax": Decimal;
         CommDiv: Decimal;
         GenJournalLine: Record "Gen. Journal Line";
-        SFactory: Codeunit "SURESTEP Factory";
+        SFactory: Codeunit "SWIZZSFT Factory";
         BATCH_NAME: Code[50];
         BATCH_TEMPLATE: Code[50];
         DOCUMENT_NO: Code[50];

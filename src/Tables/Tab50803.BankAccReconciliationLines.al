@@ -307,8 +307,8 @@ Table 50803 "Bank Acc. Reconciliation Lines"
         BankAccLedgEntry: Record "Bank Account Ledger Entry";
         CheckLedgEntry: Record "Check Ledger Entry";
         BankAccRecon: Record "Bank Acc. ReconciliationAUT";
-        BankAccSetStmtNo: Codeunit "Bank Acc. Entry Set Recons";
-        CheckSetStmtNo: Codeunit "Check Entry Set Recon.-Nos";
+        // BankAccSetStmtNo: Codeunit "Bank Acc. Entry Set Recons";
+        // CheckSetStmtNo: Codeunit "Check Entry Set Recon.-Nos";
         DimMgt: Codeunit DimensionManagement;
         AmountWithinToleranceRangeTok: label '>=%1&<=%2', Comment = 'Do not translate.';
         AmountOustideToleranceRangeTok: label '<%1|>%2', Comment = 'Do not translate.';
@@ -501,10 +501,10 @@ Table 50803 "Bank Acc. Reconciliation Lines"
                         BankAccLedgEntry.SetRange("Statement Line No.", "Statement Line No.");
                         BankAccLedgEntry.LockTable;
                         CheckLedgEntry.LockTable;
-                        if BankAccLedgEntry.Find('-') then
-                            repeat
-                                BankAccSetStmtNo.RemoveReconNo(BankAccLedgEntry, Rec, true);
-                            until BankAccLedgEntry.Next = 0;
+                        // if BankAccLedgEntry.Find('-') then
+                        //     repeat
+                        //         BankAccSetStmtNo.RemoveReconNo(BankAccLedgEntry, Rec, true);
+                        //     until BankAccLedgEntry.Next = 0;
                         "Applied Entries" := 0;
                         Validate("Applied Amount", 0);
                         Modify;
@@ -521,10 +521,10 @@ Table 50803 "Bank Acc. Reconciliation Lines"
                         CheckLedgEntry.SetRange("Statement Line No.", "Statement Line No.");
                         BankAccLedgEntry.LockTable;
                         CheckLedgEntry.LockTable;
-                        if CheckLedgEntry.Find('-') then
-                            repeat
-                                CheckSetStmtNo.RemoveReconNo(CheckLedgEntry, Rec, true);
-                            until CheckLedgEntry.Next = 0;
+                        // if CheckLedgEntry.Find('-') then
+                        // repeat
+                        //     CheckSetStmtNo.RemoveReconNo(CheckLedgEntry, Rec, true);
+                        // until CheckLedgEntry.Next = 0;
                         "Applied Entries" := 0;
                         Validate("Applied Amount", 0);
                         "Check No." := '';

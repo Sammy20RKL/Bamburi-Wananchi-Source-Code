@@ -1739,9 +1739,6 @@ End Function
         <Field Name="AmontGuaranteed_LoansGuaranteeDetails">
           <DataField>AmontGuaranteed_LoansGuaranteeDetails</DataField>
         </Field>
-        <Field Name="AmontGuaranteed_LoansGuaranteeDetailsFormat">
-          <DataField>AmontGuaranteed_LoansGuaranteeDetailsFormat</DataField>
-        </Field>
         <Field Name="ReportForNavId_14">
           <DataField>ReportForNavId_14</DataField>
         </Field>

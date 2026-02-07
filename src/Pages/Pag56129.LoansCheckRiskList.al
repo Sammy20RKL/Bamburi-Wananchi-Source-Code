@@ -139,7 +139,7 @@ Page 56129 "Loans CheckRisk List"
 
     var
         LoanType: Record "Loan Products Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        // NoSeriesMgt: Codeunit NoSeriesManagement;
         LoansReg: Record "Loans Register";
 
 

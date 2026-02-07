@@ -129,7 +129,7 @@ Table 51175 "HR Company Activities"
         if Code = '' then begin
             HRSetup.Get;
             HRSetup.TestField(HRSetup."Company Activities");
-            NoSeriesMgt.InitSeries(HRSetup."Company Activities", xRec."No. Series", 0D, Code, "No. Series");
+            //NoSeriesMgt.InitSeries(HRSetup."Company Activities", xRec."No. Series", 0D, Code, "No. Series");
         end;
     end;
 
@@ -140,7 +140,7 @@ Table 51175 "HR Company Activities"
         Text001: label 'Replace existing attachment?';
         Text002: label 'You have canceled the import process.';
         HRSetup: Record "HR Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         HREmp: Record "HR Employees";
         EmpName: Text;
 }

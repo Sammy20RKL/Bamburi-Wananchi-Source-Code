@@ -3,7 +3,7 @@ page 50575 "Mobile PIN Reset"
 {
     CardPageID = "SwizzKash PIN Reset Card";
     DelayedInsert = true;
-    DeleteAllowed = false;
+    DeleteAllowed = true;
     InsertAllowed = false;
     PageType = List;
     SourceTable = "SwizzKash Applications";

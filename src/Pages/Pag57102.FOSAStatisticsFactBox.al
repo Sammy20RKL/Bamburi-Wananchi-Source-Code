@@ -1,7 +1,7 @@
 #pragma warning disable AA0005, AA0008, AA0018, AA0021, AA0072, AA0137, AA0201, AA0204, AA0206, AA0218, AA0228, AL0254, AL0424, AS0011, AW0006 // ForNAV settings
 Page 57102 "FOSA Statistics FactBox"
 {
-    Caption = 'Wallet Statistics FactBox';
+    Caption = 'M-Wallet Statistics FactBox';
     Editable = false;
     PageType = CardPart;
     SaveValues = true;
@@ -43,6 +43,7 @@ Page 57102 "FOSA Statistics FactBox"
                 {
                     ApplicationArea = Basic;
                     Editable = false;
+                    Caption = 'M-Polytech Balances';
                 }
                 field("Outstanding Balance"; Rec."Outstanding BOSA Balance")
                 {
@@ -54,23 +55,23 @@ Page 57102 "FOSA Statistics FactBox"
                     Style = StrongAccent;
                     Caption = 'BOSA Outstanding Interest';
                 }
-                field("FOSA Outstanding Balance"; Rec."FOSA Outstanding Balance")
-                {
-                    Style = StrongAccent;
-                    Caption = 'FOSA Outstanding Principle';
-                }
-                field("FOSA Oustanding Interest"; Rec."FOSA Oustanding Interest")
-                {
-                    Style = StrongAccent;
-                }
-                field("MICRO Outstanding Principle"; Rec."MICRO Outstanding Principle")
-                {
-                    Style = StrongAccent;
-                }
-                field("MICRO Outstanding Interest"; Rec."MICRO Outstanding Interest")
-                {
-                    Style = StrongAccent;
-                }
+                // field("FOSA Outstanding Balance"; Rec."FOSA Outstanding Balance")
+                // {
+                //     Style = StrongAccent;
+                //     Caption = 'FOSA Outstanding Principle';
+                // }
+                // field("FOSA Oustanding Interest"; Rec."FOSA Oustanding Interest")
+                // {
+                //     Style = StrongAccent;
+                // }
+                // field("MICRO Outstanding Principle"; Rec."MICRO Outstanding Principle")
+                // {
+                //     Style = StrongAccent;
+                // }
+                // field("MICRO Outstanding Interest"; Rec."MICRO Outstanding Interest")
+                // {
+                //     Style = StrongAccent;
+                // }
             }
             group("Member Signature")
             {
@@ -120,7 +121,7 @@ Page 57102 "FOSA Statistics FactBox"
         CustLedgerEntry: array[4] of Record "Cust. Ledger Entry";
         AgingTitle: array[4] of Text[30];
         AgingPeriod: DateFormula;
-        sfactory: Codeunit "SURESTEP Factory";
+        sfactory: Codeunit "SWIZZSFT Factory";
         I: Integer;
         PeriodStart: Date;
         PeriodEnd: Date;

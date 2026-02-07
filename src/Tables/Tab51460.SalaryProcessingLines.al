@@ -169,7 +169,7 @@ Table 51460 "Salary Processing Lines"
     var
         Acc: Record Vendor;
         NoSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        //NoSeriesMgt: Codeunit NoSeriesManagement;
         SalBuffer: Record "Salary Processing Lines";
 }
 

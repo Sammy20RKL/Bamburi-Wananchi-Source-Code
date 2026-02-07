@@ -65,13 +65,15 @@ Table 51003 "Receipt Line"
         }
         field(15; "Account Type"; Option)
         {
-            OptionCaption = 'G/L Account,Customer,Vendor,Bank Account,Fixed Asset,IC Partner,Member,Investor';
-            OptionMembers = "G/L Account",Customer,Vendor,"Bank Account","Fixed Asset","IC Partner",Member,Investor;
+            // OptionCaption = 'G/L Account,Customer,Vendor,Bank Account,Fixed Asset,IC Partner,Member,Investor';
+            // OptionMembers = "G/L Account",Customer,Vendor,"Bank Account","Fixed Asset","IC Partner",Member,Investor;
+            OptionMembers = "G/L Account",Customer,Vendor,"Bank Account","Fixed Asset";
+
         }
         field(16; "Account Code"; Code[20])
         {
             TableRelation = if ("Account Type" = const("G/L Account")) "G/L Account"."No."
-            else if ("Account Type" = const(Customer)) Customer."No."
+            else if ("Account Type" = const(Customer)) Customer."No." WHERE("Customer Posting Group" = FILTER(<> 'MEMBER'))
             else if ("Account Type" = const(Vendor)) Vendor."No."
             else if ("Account Type" = const("Fixed Asset")) "Fixed Asset"."No.";
 
@@ -103,7 +105,7 @@ Table 51003 "Receipt Line"
                     "Account Name" := '';
             end;
         }
-        field(17; "Account Name"; Text[100])
+        field(17; "Account Name"; Text[150])
         {
             Editable = false;
         }

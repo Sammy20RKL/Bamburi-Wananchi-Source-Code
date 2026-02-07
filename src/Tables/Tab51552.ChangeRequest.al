@@ -16,7 +16,7 @@ Table 51552 "Change Request"
             begin
                 if No <> xRec.No then begin
                     SalesSetup.Get;
-                    NoSeriesMgt.TestManual(SalesSetup."Change Request No");
+                    NoSeries.TestManual(SalesSetup."Change Request No");
                     "No. Series" := '';
                 end;
             end;
@@ -611,6 +611,12 @@ Table 51552 "Change Request"
         {
 
         }
+        field(121; "Gender(New Value)"; Option)
+        {
+            DataClassification = ToBeClassified;
+            OptionCaption = ' ,Male, Female';
+            OptionMembers = " ",Male," Female";
+        }
 
     }
 
@@ -633,7 +639,8 @@ Table 51552 "Change Request"
         if No = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Change Request No");
-            NoSeriesMgt.InitSeries(SalesSetup."Change Request No", xRec."No. Series", 0D, No, "No. Series");
+            No := NoSeries.GetNextNo(SalesSetup."Change Request No");
+            // NoSeriesMgt.InitSeries(SalesSetup."Change Request No", xRec."No. Series", 0D, No, "No. Series");
         end;
 
         "Captured by" := UserId;
@@ -642,11 +649,11 @@ Table 51552 "Change Request"
 
     var
         SalesSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeries: Codeunit "No. Series";
         vend: Record Vendor;
         Memb: Record Customer;
         MemberCell: Record "Hexa Binary";
-        SFactory: Codeunit "SURESTEP Factory";
+        SFactory: Codeunit "SWIZZSFT Factory";
         MediaId: Guid;
         Dates: Codeunit "Dates Calculation";
         MemmberExit: Record "Membership Withdrawals";

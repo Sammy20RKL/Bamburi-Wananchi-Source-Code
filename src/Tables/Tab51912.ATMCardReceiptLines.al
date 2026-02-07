@@ -86,7 +86,7 @@ Table 51912 "ATM Card Receipt Lines"
 
     var
         SalesSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        // NoSeriesMgt: Codeunit NoSeriesManagement;
         EntryNo: Integer;
         ObjATMApplications: Record "Members Nominee Temp";
 }

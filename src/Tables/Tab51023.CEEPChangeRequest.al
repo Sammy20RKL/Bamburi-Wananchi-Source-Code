@@ -259,7 +259,7 @@ Table 51023 "CEEP Change Request"
         if No = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Change Request No");
-            NoSeriesMgt.InitSeries(SalesSetup."Change Request No", xRec."No. Series", 0D, No, "No. Series");
+            // NoSeriesMgt.InitSeries(SalesSetup."Change Request No", xRec."No. Series", 0D, No, "No. Series");
         end;
 
         "Captured by" := UserId;
@@ -268,7 +268,7 @@ Table 51023 "CEEP Change Request"
 
     var
         SalesSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         vend: Record Vendor;
         Memb: Record Customer;
         MemberCell: Record "Hexa Binary";

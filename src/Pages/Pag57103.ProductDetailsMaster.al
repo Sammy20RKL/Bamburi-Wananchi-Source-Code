@@ -4,13 +4,13 @@ Page 57103 "Product Details Master"
     ApplicationArea = Basic;
     CardPageID = "Product Card";
     DeleteAllowed = false;
-    Editable = true;
+    Editable = false;
     AnalysisModeEnabled = false;
-    InsertAllowed = true;
-    ModifyAllowed = true;
+    InsertAllowed = false;
+    ModifyAllowed = false;
     PageType = List;
     SourceTable = Vendor;
-    SourceTableView = where("Account Type" = filter('M-Wallet'));
+    SourceTableView = where("Debtor Type" = const("FOSA Account"));
     UsageCategory = Lists;
 
     layout
@@ -45,7 +45,11 @@ Page 57103 "Product Details Master"
                 {
                     ApplicationArea = Basic;
                 }
-                field("ATM No."; Rec."ATM No.")
+                field(Gender; Rec.Gender)
+                {
+                    ApplicationArea = Basic;
+                }
+                field("E-Mail (Personal)"; Rec."E-Mail (Personal)")
                 {
                     ApplicationArea = Basic;
                 }
@@ -98,7 +102,7 @@ Page 57103 "Product Details Master"
                         Vend.Reset;
                         Vend.SetRange(Vend."No.", Rec."No.");
                         if Vend.Find('-') then
-                            Report.Run(51516890, true, false, Vend)
+                            Report.Run(56890, true, false, Vend)
                     end;
                 }
                 action("Page Vendor Statistics")

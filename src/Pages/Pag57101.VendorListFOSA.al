@@ -6,7 +6,7 @@ Page 57101 "Vendor List-FOSA"
     PageType = List;
     DeleteAllowed = false;
     Caption = 'FOSA List ';
-    //CardPageID = "Vendor Card";
+    CardPageID = "Vendor Card";
     SourceTable = Vendor;
     SourceTableView = sorting("No.")
                       order(ascending);

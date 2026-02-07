@@ -110,14 +110,14 @@ Table 51650 "Data Sheet Header-Dist"
         if Code = '' then begin
             NoSetup.Get();
             NoSetup.TestField(NoSetup."Check Off Advisor");
-            NoSeriesMgt.InitSeries(NoSetup."Check Off Advisor", xRec."No. Series", 0D, Code, "No. Series");
+            // NoSeriesMgt.InitSeries(NoSetup."Check Off Advisor", xRec."No. Series", 0D, Code, "No. Series");
         end;
         "User ID" := UserId;
     end;
 
     var
         NoSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
 
     local procedure FnGetCheckOffDescription() rtVal: Text
     begin

@@ -96,7 +96,7 @@ page 50665 "Loan Interest List"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                // RunObject = Report 51516579;
+                RunObject = Report "Generate Monthly Interest Nav";
             }
             action("Option ")
             {
@@ -107,9 +107,9 @@ page 50665 "Loan Interest List"
                 ApplicationArea = Basic;
                 Image = Post;
                 Promoted = true;
-                PromotedCategory = Category4;
+                PromotedCategory = Process;
                 PromotedIsBig = true;
-                // RunObject = Report 51516580;
+                RunObject = Report "Post Interest-Poly";
             }
         }
     }

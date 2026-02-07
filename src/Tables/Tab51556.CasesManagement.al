@@ -510,7 +510,7 @@ Table 51556 "Cases Management"
         if "Case Number" = '' then begin
             HRSetup.Get;
             HRSetup.TestField(HRSetup."Cases nos");
-            NoSeriesMgt.InitSeries(HRSetup."Cases nos", xRec."No. Series", 0D, "Case Number", "No. Series");
+            //  NoSeriesMgt.InitSeries(HRSetup."Cases nos", xRec."No. Series", 0D, "Case Number", "No. Series");
         end;
     end;
 
@@ -524,7 +524,7 @@ Table 51556 "Cases Management"
 
     var
         HRSetup: Record "Crm General Setup.";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        //NoSeriesMgt: Codeunit NoSeriesManagement;
         casem: Record "Cases Management";
         casen: Record "Cases Management";
         CPeriod: Integer;

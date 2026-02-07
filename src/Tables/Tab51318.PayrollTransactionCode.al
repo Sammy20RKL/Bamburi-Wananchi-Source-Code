@@ -97,7 +97,7 @@ Table 51318 "Payroll Transaction Code."
         {
 
             OptionMembers = "None",Shares,Loan,"Share Capital",Likizo,"Loan Interest","Emergency Loan","Emergency Loan Interest",Welfare,Pension,NSSF,Overtime,"Insurance Contribution"
-            ,"Loan Application Fee Paid","Loan Insurance Paid";
+            ,"Loan Application Fee Paid","Loan Insurance Paid","Holiday Savings";
         }
         field(32; "IsCo-Op/LnRep"; Boolean)
         {
@@ -215,6 +215,9 @@ Table 51318 "Payroll Transaction Code."
         {
             DataClassification = ToBeClassified;
         }
+        field(63; "Include in Levy Calculation"; Boolean)
+        {
+        }
     }
 
     keys
@@ -243,19 +246,19 @@ Table 51318 "Payroll Transaction Code."
             if "Transaction Type" = "Transaction Type"::Income then begin
                 Setup.Get;
                 Setup.TestField(Setup."Earnings No");
-                NoSeriesMgt.InitSeries(Setup."Earnings No", xRec."No. Series", 0D, "Transaction Code", "No. Series");
+                // NoSeriesMgt.InitSeries(Setup."Earnings No", xRec."No. Series", 0D, "Transaction Code", "No. Series");
             end;
             if "Transaction Type" = "Transaction Type"::Deduction then begin
                 Setup.Get;
                 Setup.TestField(Setup."Deductions No");
-                NoSeriesMgt.InitSeries(Setup."Deductions No", xRec."No. Series", 0D, "Transaction Code", "No. Series");
+                // NoSeriesMgt.InitSeries(Setup."Deductions No", xRec."No. Series", 0D, "Transaction Code", "No. Series");
             end;
         end;
     end;
 
     var
         Setup: Record "Payroll General Setup.";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        // NoSeriesMgt: Codeunit NoSeriesManagement;
         GLAcc: Record "G/L Account";
 }
 

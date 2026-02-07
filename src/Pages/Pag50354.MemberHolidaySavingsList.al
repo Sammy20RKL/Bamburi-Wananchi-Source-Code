@@ -6,6 +6,7 @@ page 50354 "Member Holiday Savings List"
     InsertAllowed = false;
     PageType = List;
     SourceTable = "Holiday Savings Table";
+    SourceTableView = where("Holiday Savings Paid Out" = filter(> 0));
 
     layout
     {
@@ -34,6 +35,10 @@ page 50354 "Member Holiday Savings List"
                     ApplicationArea = Basic;
                 }
                 field("Holiday Interest Paid Out"; Rec."Holiday Interest Paid Out")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Total Paid Out"; Rec."Total Paid Out")
                 {
                     ApplicationArea = Basic;
                 }

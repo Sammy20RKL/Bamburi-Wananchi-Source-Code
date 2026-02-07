@@ -2349,6 +2349,9 @@ End Function
         <Field Name="LoanBalanceFormat">
           <DataField>LoanBalanceFormat</DataField>
         </Field>
+        <Field Name="IncrementField">
+          <DataField>IncrementField</DataField>
+        </Field>
         <Field Name="Loan_Repayment_Schedule__Repayment_Code_">
           <DataField>Loan_Repayment_Schedule__Repayment_Code_</DataField>
         </Field>

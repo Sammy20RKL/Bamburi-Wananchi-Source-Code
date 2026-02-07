@@ -148,7 +148,7 @@ Report 50247 "BOSA Receipt Slip"
                 column(GlobalDimension2Code_ReceiptAllocation; "Receipt Allocation"."Global Dimension 2 Code")
                 {
                 }
-                column(LoanProduct; LoanProduct)
+                column(LoanProduct; "Receipt Allocation"."Loan Product Name")
                 {
                 }
                 /* column(Description_ReceiptAllocation; "Receipt Allocation".Description)

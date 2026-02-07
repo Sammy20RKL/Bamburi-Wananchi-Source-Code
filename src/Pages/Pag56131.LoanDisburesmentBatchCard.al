@@ -198,8 +198,6 @@ Page 56131 "Loan Disburesment Batch Card"
                                     LoanApps."Approval Status" := LoanApps."Approval Status"::Approved;
                                     LoanApps."Loans Category-SASRA" := LoanApps."Loans Category-SASRA"::Perfoming;
                                     LoanApps.Modify;
-                                    //...................Recover Overdraft Loan On Loan
-                                    SFactory.FnRecoverOnLoanOverdrafts(LoanApps."Client Code");
                                     //.................................................
                                     CurrPage.close();
                                 until LoanApps.Next = 0;
@@ -711,12 +709,12 @@ Page 56131 "Loan Disburesment Batch Card"
     trigger OnNewRecord(BelowxRec: Boolean)
     var
         SalesSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+    // NoSeriesMgt: Codeunit "No. Series";
     begin
         if Rec."Batch No." = '' then begin
             SalesSetup.Get();
             SalesSetup.TestField(SalesSetup."Loans Batch Nos");
-            NoSeriesMgt.InitSeries(SalesSetup."Loans Batch Nos", xRec."No. Series", 0D, Rec."Batch No.", Rec."No. Series");
+            //NoSeriesMgt.InitSeries(SalesSetup."Loans Batch Nos", xRec."No. Series", 0D, Rec."Batch No.", Rec."No. Series");
             Rec."Document No." := Rec."Batch No.";
             Rec."Prepared By" := UserId;
             Rec.Source := Rec.Source::BOSA;

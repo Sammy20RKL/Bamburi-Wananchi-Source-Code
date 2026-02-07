@@ -83,7 +83,7 @@ Report 50417 "Share Capital Recovery"
                         GenJournalLine."Line No." := LineNo;
                         GenJournalLine."Account Type" := GenJournalLine."account type"::Customer;
                         GenJournalLine."Account No." := "Member Register"."No.";
-                        GenJournalLine."Transaction Type" := GenJournalLine."transaction type"::"Shares Capital";
+                        GenJournalLine."Transaction Type" := GenJournalLine."Transaction Type"::"Share Capital";
                         GenJournalLine.Validate(GenJournalLine."Account No.");
                         GenJournalLine."Document No." := 'MINIMUMSHARECAPRECOV';
                         GenJournalLine."Posting Date" := Today;

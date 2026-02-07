@@ -35,16 +35,6 @@ page 50389 "Loan Offset Detail List"
                 {
                     ApplicationArea = Basic;
                 }
-                field("Loan Age"; Rec."Loan Age")
-                {
-                    ApplicationArea = Basic;
-                    Editable = false;
-                }
-                field("Remaining Installments"; Rec."Remaining Installments")
-                {
-                    ApplicationArea = Basic;
-                    Editable = false;
-                }
                 field("Interest Top Up"; Rec."Interest Top Up")
                 {
                     ApplicationArea = Basic;
@@ -54,17 +44,7 @@ page 50389 "Loan Offset Detail List"
                     ApplicationArea = Basic;
                     Editable = false;
                 }
-                field("Interest Paid"; Rec."Interest Paid")
-                {
-                    ApplicationArea = Basic;
-                    Editable = false;
-                }
                 field("Outstanding Balance"; Rec."Outstanding Balance")
-                {
-                    ApplicationArea = Basic;
-                    Editable = false;
-                }
-                field("Interest Rate"; Rec."Interest Rate")
                 {
                     ApplicationArea = Basic;
                     Editable = false;
@@ -74,12 +54,6 @@ page 50389 "Loan Offset Detail List"
                     ApplicationArea = Basic;
                     Caption = 'Fee';
                 }
-                field("Interest Due at Clearance"; Rec."Interest Due at Clearance")
-                {
-                    ApplicationArea = Basic;
-                    Caption = ' Interest Due';
-                    Visible = false;
-                }
                 field("Total Top Up"; Rec."Total Top Up")
                 {
                     ApplicationArea = Basic;
@@ -88,17 +62,6 @@ page 50389 "Loan Offset Detail List"
                     Importance = Promoted;
                     Style = Attention;
                     StyleExpr = true;
-                }
-                field("Partial Bridged"; Rec."Partial Bridged")
-                {
-                    ApplicationArea = Basic;
-                    Editable = false;
-                    Visible = false;
-                }
-                field("Staff No"; Rec."Staff No")
-                {
-                    ApplicationArea = Basic;
-                    Visible = false;
                 }
             }
         }

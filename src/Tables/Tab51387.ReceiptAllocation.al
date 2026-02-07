@@ -301,7 +301,7 @@ Table 51387 "Receipt Allocation"
         LoansR: Record "Loans Register";
         GenSetup: Record "Sacco General Set-Up";
         ReceiptH: Record "Receipts & Payments";
-        SFactory: Codeunit "SURESTEP Factory";
+        SFactory: Codeunit "SWIZZSFT Factory";
         ObjLoans: Record "Loans Register";
         ObjProductCharges: Record "Loan Product Charges";
         VarEndYear: Date;
@@ -311,7 +311,7 @@ Table 51387 "Receipt Allocation"
         VarAccountType: Enum "Gen. Journal Account Type";
         VarBalAccountType: Enum "Gen. Journal Account Type";
         VarBalAccountNo: Code[20];
-        ObjSurestep: Codeunit "SURESTEP Factory";
+        ObjSurestep: Codeunit "SWIZZSFT Factory";
         ObjLoanType: Record "Loan Products Setup";
         ObjReceiptAll: Record "Receipt Allocation";
         ObjAccount: Record Vendor;

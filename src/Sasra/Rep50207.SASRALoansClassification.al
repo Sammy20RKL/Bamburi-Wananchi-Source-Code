@@ -8,7 +8,7 @@ Report 50207 "SASRA Loans Classification"
         dataitem("Loans Register"; "Loans Register")
         {
             DataItemTableView = sorting("Client Code") order(ascending) where(Posted = const(true));
-            RequestFilterFields = "Client Code", "Loan Product Type", "Loan  No.", "Issued Date";
+            RequestFilterFields = Source, "Client Code", "Loan Product Type", "Loan  No.", "Issued Date", "Date filter";
             column(ReportForNavId_1120054000; 1120054000)
             {
             }
@@ -39,7 +39,7 @@ Report 50207 "SASRA Loans Classification"
             column(AmountInArrearsDisplay; AmountInArrearsDisplay)
             {
             }
-            column(LoanProductType_LoansRegister; "Loans Register"."Loan Product Type")
+            column(LoanProductType_LoansRegister; "Loans Register"."Loan Product Type Name")
             {
             }
             column(ClientCode_LoansRegister; "Loans Register"."Client Code")
@@ -70,126 +70,90 @@ Report 50207 "SASRA Loans Classification"
             {
             }
 
-
             trigger OnAfterGetRecord()
             begin
                 LoansReg.Reset();
-                LoansReg.SetFilter(LoansReg."Date filter", DateFilter);
                 LoansReg.SetRange(LoansReg."Loan  No.", "Loans Register"."Loan  No.");
-                // EDIT THIS LINE ...
-                // LoansReg.SetAutocalcFields(LoansReg."Scheduled Principle Payments", LoansReg."Schedule Loan Amount Issued", LoansReg."Schedule Installments", LoansReg."Outstanding Balance", LoansReg."Oustanding Interest", LoansReg."Scheduled Interest Payments", LoansReg."Interest Paid");
-                if LoansReg.FindSet() then begin
+                LoansReg.SetFilter(LoansReg."Date filter", DateFilter);
+                LoansReg.SetFilter(LoansReg."Issued Date", '..' + Format(AsAt)); // Filter records based on AsAt date
+                LoansReg.SetAutoCalcFields(
+                    LoansReg."Scheduled Principle Payments",
+                    LoansReg."Schedule Loan Amount Issued",
+                    LoansReg."Schedule Installments",
+                    LoansReg."Outstanding Balance",
+                    LoansReg."Oustanding Interest",
+                    LoansReg."Scheduled Interest Payments",
+                    LoansReg."Interest Paid"
+                );
+
+                if not LoansReg.IsEmpty() then begin
                     repeat
                         LoansClassificationCodeUnit.FnClassifyLoan(LoansReg."Loan  No.", AsAt);
                     until LoansReg.Next = 0;
-                end else
-                    if not Find('-') then begin
-                        repeat
-                            //...................Loan is not within the specified range
-                            if LoansReg.Posted = true then begin
-                                LoansReg."Loans Category-SASRA" := LoansReg."loans category-sasra"::Perfoming;
-                                LoansReg.Modify(true);
-                            end;
-                        until LoansReg.Next = 0;
+                end else begin
+                    if LoansReg.Posted then begin
+                        LoansReg."Loans Category-SASRA" := LoansReg."Loans Category-SASRA"::Perfoming;
+                        LoansReg.Modify(true);
                     end;
-                //...........Current Loan Balance
-
-                CurrentLoanBalance := 0;
-                CurrentLoanBalance := LoansReg."Outstanding Balance";
-                //...........Calculate Principle Arrears
-                LoanArrears := 0;
-                LoanArrears := LoansReg."Principal In Arrears";
-                if LoanArrears < 0 then begin
-                    LoanArrears := 0;
                 end;
-                //...........................Interest Arrears
+
+                // Calculate Current Loan Balance
+                CurrentLoanBalance := LoansReg."Outstanding Balance";
+
+                // Calculate Loan Arrears using MaxValue function
+                LoanArrears := MaxValue(LoansReg."Principal In Arrears", 0);
+
+                // Calculate Interest Arrears
                 if LoansReg.Source = LoansReg.Source::BOSA then begin
-                    InterestArrears := 0;
-                    InterestArrears := LoansReg."Oustanding Interest";
-                    if InterestArrears < 0 then begin
-                        InterestArrears := 0;
-                    end;
+                    InterestArrears := MaxValue(LoansReg."Oustanding Interest", 0);
 
-
-                    DaysInArrears := 0;
+                    // Calculate Days in Arrears
                     DaysInArrears := ROUND((LoansReg."No of Months in Arrears" * 30), 1, '>');
-                    //...........................Classify Loan
-                    PerformingDisplay := 0;
-                    WatchDisplay := 0;
-                    StandardDisplay := 0;
-                    DoubtfulDisplay := 0;
-                    LossDisplay := 0;
-                    AmountInArrearsDisplay := 0;
-                    NoOfMonthsInArrears := 0;
+
+                    // Determine Loan Classification
                     NoOfMonthsInArrears := LoansReg."No of Months in Arrears";
 
-                    if (LoansReg."Expected Date of Completion" <> 0D) then begin
-                        If LoansReg."Loans Category-SASRA" = LoansReg."Loans Category-SASRA"::Perfoming then begin
+                    case LoansReg."Loans Category-SASRA" of
+                        LoansReg."Loans Category-SASRA"::Perfoming:
                             PerformingDisplay := CurrentLoanBalance;
-                            WatchDisplay := 0;
-                            StandardDisplay := 0;
-                            DoubtfulDisplay := 0;
-                            LossDisplay := 0;
-                            AmountInArrearsDisplay := LoanArrears;
-                        end else
-                            if LoansReg."Loans Category-SASRA" = LoansReg."Loans Category-SASRA"::Watch then begin
-                                PerformingDisplay := 0;
-                                WatchDisplay := CurrentLoanBalance;
-                                StandardDisplay := 0;
-                                DoubtfulDisplay := 0;
-                                LossDisplay := 0;
-                                AmountInArrearsDisplay := LoanArrears;
-                            end else
-                                if LoansReg."Loans Category-SASRA" = LoansReg."Loans Category-SASRA"::Substandard then begin
-                                    PerformingDisplay := 0;
-                                    WatchDisplay := 0;
-                                    StandardDisplay := CurrentLoanBalance;
-                                    DoubtfulDisplay := 0;
-                                    LossDisplay := 0;
-                                    AmountInArrearsDisplay := LoanArrears;
-                                end else
-                                    if LoansReg."Loans Category-SASRA" = LoansReg."Loans Category-SASRA"::Doubtful then begin
-                                        PerformingDisplay := 0;
-                                        WatchDisplay := 0;
-                                        StandardDisplay := 0;
-                                        DoubtfulDisplay := CurrentLoanBalance;
-                                        LossDisplay := 0;
-                                        AmountInArrearsDisplay := LoanArrears;
-                                    end else
-                                        if LoansReg."Loans Category-SASRA" = LoansReg."Loans Category-SASRA"::Loss then begin
-                                            PerformingDisplay := 0;
-                                            WatchDisplay := 0;
-                                            StandardDisplay := 0;
-                                            DoubtfulDisplay := 0;
-                                            LossDisplay := CurrentLoanBalance;
-                                            AmountInArrearsDisplay := LoanArrears;
-                                        end;
+                        LoansReg."Loans Category-SASRA"::Watch:
+                            WatchDisplay := CurrentLoanBalance;
+                        LoansReg."Loans Category-SASRA"::Substandard:
+                            StandardDisplay := CurrentLoanBalance;
+                        LoansReg."Loans Category-SASRA"::Doubtful:
+                            DoubtfulDisplay := CurrentLoanBalance;
+                        LoansReg."Loans Category-SASRA"::Loss:
+                            LossDisplay := CurrentLoanBalance;
                     end;
+
+                    AmountInArrearsDisplay := LoanArrears;
                 end
-                else
-                    if (LoansReg."Expected Date of Completion" <> 0D) and (DateBD > LoansReg."Expected Date of Completion") then begin
-                        PerformingDisplay := 0;
-                        WatchDisplay := 0;
-                        StandardDisplay := 0;
-                        DoubtfulDisplay := 0;
-                        LossDisplay := CurrentLoanBalance;
-                        AmountInArrearsDisplay := LoanArrears;
-                    end;
+                else if (LoansReg."Expected Date of Completion" <> 0D) and (DateBD > LoansReg."Expected Date of Completion") then begin
+                    LossDisplay := CurrentLoanBalance;
+                    AmountInArrearsDisplay := LoanArrears;
+                end;
+
+                // Skip if all classification displays are zero
                 if (PerformingDisplay = 0) and (WatchDisplay = 0) and (StandardDisplay = 0)
-                  and (DoubtfulDisplay = 0) and (LossDisplay = 0) OR (LoansReg."Schedule Repayments" = 0) then begin
+                    and (DoubtfulDisplay = 0) and (LossDisplay = 0) OR (LoansReg."Schedule Repayments" = 0) then begin
                     CurrReport.Skip;
                 end;
-                NextCount := NextCount + 1;
-            end;
-            //end;
 
+                NextCount += 1;
+            end;
 
             trigger OnPreDataItem()
             begin
-                DateFilter := '..' + Format(AsAt);
+                //DateFilter := '..' + Format(AsAt);
+
+                // Apply Date Filter for Loan Disbursement
                 "Loans Register".SetFilter("Loans Register"."Loan Disbursement Date", DateFilter);
+
+                // Ensure only loans with scheduled repayments are considered
                 "Loans Register".CalcFields("Loans Register"."Schedule Repayments");
                 "Loans Register".SetFilter("Loans Register"."Schedule Repayments", '>%1', 0);
+
+                // Initialize all variables to zero to prevent carrying over values from previous records
                 ExpectedLoanBal := 0;
                 NoOfMonthsInArrears := 0;
                 LoanArrears := 0;
@@ -203,11 +167,10 @@ Report 50207 "SASRA Loans Classification"
                 DoubtfulDisplay := 0;
                 LossDisplay := 0;
                 AmountInArrearsDisplay := 0;
-
-                // if CopyStr(DateFilter, 1, 2) <> '..' then begin
-                //     DateFilter := '..' + Format(Today);
-                // end;
             end;
+
+
+
         }
     }
 
@@ -234,13 +197,24 @@ Report 50207 "SASRA Loans Classification"
     // RegenerateOldLoansData: Codeunit "Regenerate Schedule for loans";
     begin
         //..........................................................
+        if AsAt = 0D then
+            AsAt := DMY2Date(1, 1, Date2DMY(Today, 3));
+
         DateFilter := '..' + Format(AsAt);
-        if DateFilter = '' then begin
-            DateFilter := '..' + Format(Today);
-        end;
-        Evaluate(DateBD, CopyStr(DateFilter, 3, 100));
+
+        // if not Evaluate(DateBD, DateFilter) then
+        //     Error('Invalid date format');
 
     end;
+
+    local procedure MaxValue(Value1: Decimal; Value2: Decimal): Decimal
+    begin
+        if Value1 > Value2 then
+            exit(Value1)
+        else
+            exit(Value2);
+    end;
+
 
     var
         LoansReg: Record "Loans Register";

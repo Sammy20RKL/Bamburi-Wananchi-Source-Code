@@ -190,7 +190,7 @@ Table 51199 "HR Training Applications"
         if "Application No" = '' then begin
             HRSetup.Get;
             HRSetup.TestField(HRSetup."Training Application Nos.");
-            NoSeriesMgt.InitSeries(HRSetup."Training Application Nos.", xRec."No. Series", 0D, "Application No", "No. Series");
+            //  NoSeriesMgt.InitSeries(HRSetup."Training Application Nos.", xRec."No. Series", 0D, "Application No", "No. Series");
         end;
 
         "User ID" := UserId;
@@ -200,7 +200,7 @@ Table 51199 "HR Training Applications"
     var
         HRTrainingNeeds: Record "HR Training Needs";
         HRSetup: Record "HR Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         mcontent: label 'Status must be new on Training Application No.';
         mcontent2: label '. Please cancel the approval request and try again';
         HREmp: Record "HR Employees";

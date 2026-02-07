@@ -2,7 +2,7 @@
 Page 56163 "PettyCash Payment Line"
 {
     PageType = ListPart;
-    SourceTable = "Payment Line";
+    SourceTable = "Payment Line New";
 
     layout
     {
@@ -14,7 +14,7 @@ Page 56163 "PettyCash Payment Line"
                 {
                     ApplicationArea = Basic;
                 }
-                field("Transaction Type Description"; Rec."Transaction Type Description")
+                field("Transaction Type Description"; Rec."Transaction Name")
                 {
                     ApplicationArea = Basic;
                 }

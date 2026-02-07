@@ -1,0 +1,398 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <Height>2in</Height>
+        <Style />
+      </Body>
+      <Width>6.5in</Width>
+      <Page>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then 
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="Code">
+          <DataField>Code</DataField>
+        </Field>
+        <Field Name="PersonalExpenses">
+          <DataField>PersonalExpenses</DataField>
+        </Field>
+        <Field Name="PersonalExpensesFormat">
+          <DataField>PersonalExpensesFormat</DataField>
+        </Field>
+        <Field Name="LPersonalExpenses">
+          <DataField>LPersonalExpenses</DataField>
+        </Field>
+        <Field Name="LPersonalExpensesFormat">
+          <DataField>LPersonalExpensesFormat</DataField>
+        </Field>
+        <Field Name="InterestonLoans">
+          <DataField>InterestonLoans</DataField>
+        </Field>
+        <Field Name="InterestonLoansFormat">
+          <DataField>InterestonLoansFormat</DataField>
+        </Field>
+        <Field Name="InvestmentIncome">
+          <DataField>InvestmentIncome</DataField>
+        </Field>
+        <Field Name="InvestmentIncomeFormat">
+          <DataField>InvestmentIncomeFormat</DataField>
+        </Field>
+        <Field Name="InterestExpenses">
+          <DataField>InterestExpenses</DataField>
+        </Field>
+        <Field Name="InterestExpensesFormat">
+          <DataField>InterestExpensesFormat</DataField>
+        </Field>
+        <Field Name="NetFeeandcommission">
+          <DataField>NetFeeandcommission</DataField>
+        </Field>
+        <Field Name="NetFeeandcommissionFormat">
+          <DataField>NetFeeandcommissionFormat</DataField>
+        </Field>
+        <Field Name="OtherOperatingincome">
+          <DataField>OtherOperatingincome</DataField>
+        </Field>
+        <Field Name="OtherOperatingincomeFormat">
+          <DataField>OtherOperatingincomeFormat</DataField>
+        </Field>
+        <Field Name="Gainloassasrisongfromderecongnition">
+          <DataField>Gainloassasrisongfromderecongnition</DataField>
+        </Field>
+        <Field Name="GainloassasrisongfromderecongnitionFormat">
+          <DataField>GainloassasrisongfromderecongnitionFormat</DataField>
+        </Field>
+        <Field Name="ImpairmentLosses">
+          <DataField>ImpairmentLosses</DataField>
+        </Field>
+        <Field Name="ImpairmentLossesFormat">
+          <DataField>ImpairmentLossesFormat</DataField>
+        </Field>
+        <Field Name="Governanceexpenses">
+          <DataField>Governanceexpenses</DataField>
+        </Field>
+        <Field Name="GovernanceexpensesFormat">
+          <DataField>GovernanceexpensesFormat</DataField>
+        </Field>
+        <Field Name="Makertingexpenses">
+          <DataField>Makertingexpenses</DataField>
+        </Field>
+        <Field Name="MakertingexpensesFormat">
+          <DataField>MakertingexpensesFormat</DataField>
+        </Field>
+        <Field Name="staffcosts">
+          <DataField>staffcosts</DataField>
+        </Field>
+        <Field Name="staffcostsFormat">
+          <DataField>staffcostsFormat</DataField>
+        </Field>
+        <Field Name="OperatingExpenses">
+          <DataField>OperatingExpenses</DataField>
+        </Field>
+        <Field Name="OperatingExpensesFormat">
+          <DataField>OperatingExpensesFormat</DataField>
+        </Field>
+        <Field Name="LOperatingExpenses">
+          <DataField>LOperatingExpenses</DataField>
+        </Field>
+        <Field Name="LOperatingExpensesFormat">
+          <DataField>LOperatingExpensesFormat</DataField>
+        </Field>
+        <Field Name="administrativeexpenses">
+          <DataField>administrativeexpenses</DataField>
+        </Field>
+        <Field Name="administrativeexpensesFormat">
+          <DataField>administrativeexpensesFormat</DataField>
+        </Field>
+        <Field Name="profitorLossbeforetax">
+          <DataField>profitorLossbeforetax</DataField>
+        </Field>
+        <Field Name="profitorLossbeforetaxFormat">
+          <DataField>profitorLossbeforetaxFormat</DataField>
+        </Field>
+        <Field Name="NotRecGainLossonPropertyandequipmenrevaluation">
+          <DataField>NotRecGainLossonPropertyandequipmenrevaluation</DataField>
+        </Field>
+        <Field Name="NotRecGainLossonPropertyandequipmenrevaluationFormat">
+          <DataField>NotRecGainLossonPropertyandequipmenrevaluationFormat</DataField>
+        </Field>
+        <Field Name="NotRecGainlossonequityinstatFVTOCI">
+          <DataField>NotRecGainlossonequityinstatFVTOCI</DataField>
+        </Field>
+        <Field Name="NotRecGainlossonequityinstatFVTOCIFormat">
+          <DataField>NotRecGainlossonequityinstatFVTOCIFormat</DataField>
+        </Field>
+        <Field Name="NotRecRemeasurementofdefinedassetLiability">
+          <DataField>NotRecRemeasurementofdefinedassetLiability</DataField>
+        </Field>
+        <Field Name="NotRecRemeasurementofdefinedassetLiabilityFormat">
+          <DataField>NotRecRemeasurementofdefinedassetLiabilityFormat</DataField>
+        </Field>
+        <Field Name="NotRecEffectofchangeinrareofdefferedtax">
+          <DataField>NotRecEffectofchangeinrareofdefferedtax</DataField>
+        </Field>
+        <Field Name="NotRecEffectofchangeinrareofdefferedtaxFormat">
+          <DataField>NotRecEffectofchangeinrareofdefferedtaxFormat</DataField>
+        </Field>
+        <Field Name="NotDefferedtax">
+          <DataField>NotDefferedtax</DataField>
+        </Field>
+        <Field Name="NotDefferedtaxFormat">
+          <DataField>NotDefferedtaxFormat</DataField>
+        </Field>
+        <Field Name="RecGainlossonequityinstatFVTOCI">
+          <DataField>RecGainlossonequityinstatFVTOCI</DataField>
+        </Field>
+        <Field Name="RecGainlossonequityinstatFVTOCIFormat">
+          <DataField>RecGainlossonequityinstatFVTOCIFormat</DataField>
+        </Field>
+        <Field Name="RecEffectofchangeinrateofdefferedtax">
+          <DataField>RecEffectofchangeinrateofdefferedtax</DataField>
+        </Field>
+        <Field Name="RecEffectofchangeinrateofdefferedtaxFormat">
+          <DataField>RecEffectofchangeinrateofdefferedtaxFormat</DataField>
+        </Field>
+        <Field Name="IncomeTaxExpense">
+          <DataField>IncomeTaxExpense</DataField>
+        </Field>
+        <Field Name="IncomeTaxExpenseFormat">
+          <DataField>IncomeTaxExpenseFormat</DataField>
+        </Field>
+        <Field Name="OthercomprehensiveIncome">
+          <DataField>OthercomprehensiveIncome</DataField>
+        </Field>
+        <Field Name="OthercomprehensiveIncomeFormat">
+          <DataField>OthercomprehensiveIncomeFormat</DataField>
+        </Field>
+        <Field Name="DepreciationAmmortisation">
+          <DataField>DepreciationAmmortisation</DataField>
+        </Field>
+        <Field Name="DepreciationAmmortisationFormat">
+          <DataField>DepreciationAmmortisationFormat</DataField>
+        </Field>
+        <Field Name="LDepreciationAmmortisation">
+          <DataField>LDepreciationAmmortisation</DataField>
+        </Field>
+        <Field Name="LDepreciationAmmortisationFormat">
+          <DataField>LDepreciationAmmortisationFormat</DataField>
+        </Field>
+        <Field Name="LInterestonLoans">
+          <DataField>LInterestonLoans</DataField>
+        </Field>
+        <Field Name="LInterestonLoansFormat">
+          <DataField>LInterestonLoansFormat</DataField>
+        </Field>
+        <Field Name="LInvestmentIncome">
+          <DataField>LInvestmentIncome</DataField>
+        </Field>
+        <Field Name="LInvestmentIncomeFormat">
+          <DataField>LInvestmentIncomeFormat</DataField>
+        </Field>
+        <Field Name="LInterestExpenses">
+          <DataField>LInterestExpenses</DataField>
+        </Field>
+        <Field Name="LInterestExpensesFormat">
+          <DataField>LInterestExpensesFormat</DataField>
+        </Field>
+        <Field Name="LNetFeeandcommission">
+          <DataField>LNetFeeandcommission</DataField>
+        </Field>
+        <Field Name="LNetFeeandcommissionFormat">
+          <DataField>LNetFeeandcommissionFormat</DataField>
+        </Field>
+        <Field Name="LOtherOperatingincome">
+          <DataField>LOtherOperatingincome</DataField>
+        </Field>
+        <Field Name="LOtherOperatingincomeFormat">
+          <DataField>LOtherOperatingincomeFormat</DataField>
+        </Field>
+        <Field Name="LGainloassasrisongfromderecongnition">
+          <DataField>LGainloassasrisongfromderecongnition</DataField>
+        </Field>
+        <Field Name="LGainloassasrisongfromderecongnitionFormat">
+          <DataField>LGainloassasrisongfromderecongnitionFormat</DataField>
+        </Field>
+        <Field Name="LImpairmentLosses">
+          <DataField>LImpairmentLosses</DataField>
+        </Field>
+        <Field Name="LImpairmentLossesFormat">
+          <DataField>LImpairmentLossesFormat</DataField>
+        </Field>
+        <Field Name="LGovernanceexpenses">
+          <DataField>LGovernanceexpenses</DataField>
+        </Field>
+        <Field Name="LGovernanceexpensesFormat">
+          <DataField>LGovernanceexpensesFormat</DataField>
+        </Field>
+        <Field Name="LMakertingexpenses">
+          <DataField>LMakertingexpenses</DataField>
+        </Field>
+        <Field Name="LMakertingexpensesFormat">
+          <DataField>LMakertingexpensesFormat</DataField>
+        </Field>
+        <Field Name="FinancialExpense">
+          <DataField>FinancialExpense</DataField>
+        </Field>
+        <Field Name="FinancialExpenseFormat">
+          <DataField>FinancialExpenseFormat</DataField>
+        </Field>
+        <Field Name="LFinancialExpense">
+          <DataField>LFinancialExpense</DataField>
+        </Field>
+        <Field Name="LFinancialExpenseFormat">
+          <DataField>LFinancialExpenseFormat</DataField>
+        </Field>
+        <Field Name="Lstaffcosts">
+          <DataField>Lstaffcosts</DataField>
+        </Field>
+        <Field Name="LstaffcostsFormat">
+          <DataField>LstaffcostsFormat</DataField>
+        </Field>
+        <Field Name="Ladministrativeexpenses">
+          <DataField>Ladministrativeexpenses</DataField>
+        </Field>
+        <Field Name="LadministrativeexpensesFormat">
+          <DataField>LadministrativeexpensesFormat</DataField>
+        </Field>
+        <Field Name="LprofitorLossbeforetax">
+          <DataField>LprofitorLossbeforetax</DataField>
+        </Field>
+        <Field Name="LprofitorLossbeforetaxFormat">
+          <DataField>LprofitorLossbeforetaxFormat</DataField>
+        </Field>
+        <Field Name="TransfertoStatury">
+          <DataField>TransfertoStatury</DataField>
+        </Field>
+        <Field Name="TransfertoStaturyFormat">
+          <DataField>TransfertoStaturyFormat</DataField>
+        </Field>
+        <Field Name="LTransfertoStatury">
+          <DataField>LTransfertoStatury</DataField>
+        </Field>
+        <Field Name="LTransfertoStaturyFormat">
+          <DataField>LTransfertoStaturyFormat</DataField>
+        </Field>
+        <Field Name="LNotRecGainLossonPropertyandequipmenrevaluation">
+          <DataField>LNotRecGainLossonPropertyandequipmenrevaluation</DataField>
+        </Field>
+        <Field Name="LNotRecGainLossonPropertyandequipmenrevaluationFormat">
+          <DataField>LNotRecGainLossonPropertyandequipmenrevaluationFormat</DataField>
+        </Field>
+        <Field Name="LNotRecGainlossonequityinstatFVTOCI">
+          <DataField>LNotRecGainlossonequityinstatFVTOCI</DataField>
+        </Field>
+        <Field Name="LNotRecGainlossonequityinstatFVTOCIFormat">
+          <DataField>LNotRecGainlossonequityinstatFVTOCIFormat</DataField>
+        </Field>
+        <Field Name="LNotRecRemeasurementofdefinedassetLiability">
+          <DataField>LNotRecRemeasurementofdefinedassetLiability</DataField>
+        </Field>
+        <Field Name="LNotRecRemeasurementofdefinedassetLiabilityFormat">
+          <DataField>LNotRecRemeasurementofdefinedassetLiabilityFormat</DataField>
+        </Field>
+        <Field Name="LNotRecEffectofchangeinrareofdefferedtax">
+          <DataField>LNotRecEffectofchangeinrareofdefferedtax</DataField>
+        </Field>
+        <Field Name="LNotRecEffectofchangeinrareofdefferedtaxFormat">
+          <DataField>LNotRecEffectofchangeinrareofdefferedtaxFormat</DataField>
+        </Field>
+        <Field Name="LNotDefferedtax">
+          <DataField>LNotDefferedtax</DataField>
+        </Field>
+        <Field Name="LNotDefferedtaxFormat">
+          <DataField>LNotDefferedtaxFormat</DataField>
+        </Field>
+        <Field Name="LRecGainlossonequityinstatFVTOCI">
+          <DataField>LRecGainlossonequityinstatFVTOCI</DataField>
+        </Field>
+        <Field Name="LRecGainlossonequityinstatFVTOCIFormat">
+          <DataField>LRecGainlossonequityinstatFVTOCIFormat</DataField>
+        </Field>
+        <Field Name="LRecEffectofchangeinrateofdefferedtax">
+          <DataField>LRecEffectofchangeinrateofdefferedtax</DataField>
+        </Field>
+        <Field Name="LRecEffectofchangeinrateofdefferedtaxFormat">
+          <DataField>LRecEffectofchangeinrateofdefferedtaxFormat</DataField>
+        </Field>
+        <Field Name="LIncomeTaxExpense">
+          <DataField>LIncomeTaxExpense</DataField>
+        </Field>
+        <Field Name="LIncomeTaxExpenseFormat">
+          <DataField>LIncomeTaxExpenseFormat</DataField>
+        </Field>
+        <Field Name="LOthercomprehensiveIncome">
+          <DataField>LOthercomprehensiveIncome</DataField>
+        </Field>
+        <Field Name="LOthercomprehensiveIncomeFormat">
+          <DataField>LOthercomprehensiveIncomeFormat</DataField>
+        </Field>
+        <Field Name="ThisYear">
+          <DataField>ThisYear</DataField>
+        </Field>
+        <Field Name="CurrentYear">
+          <DataField>CurrentYear</DataField>
+        </Field>
+        <Field Name="PreviousYear">
+          <DataField>PreviousYear</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>

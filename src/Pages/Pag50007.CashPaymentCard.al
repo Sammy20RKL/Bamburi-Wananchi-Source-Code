@@ -3,7 +3,7 @@ Page 50007 "Cash Payment Card"
 {
     DeleteAllowed = false;
     PageType = Card;
-    SourceTable = "Payment Header";
+    SourceTable = "Payments Header";
     SourceTableView = where("Payment Type" = const("Cash Purchase"),
                             Posted = const(false));
 
@@ -29,7 +29,7 @@ Page 50007 "Cash Payment Card"
                 {
                     ApplicationArea = Basic;
                 }
-                field("Bank Account"; Rec."Bank Account")
+                field("Bank Account"; Rec."Paying Bank Account")
                 {
                     ApplicationArea = Basic;
                 }
@@ -61,10 +61,10 @@ Page 50007 "Cash Payment Card"
                 {
                     ApplicationArea = Basic;
                 }
-                field("VAT Amount"; Rec."VAT Amount")
-                {
-                    ApplicationArea = Basic;
-                }
+                // field("VAT Amount"; Rec."VAT Amount")
+                // {
+                //     ApplicationArea = Basic;
+                // }
                 field("VAT Amount(LCY)"; Rec."VAT Amount(LCY)")
                 {
                     ApplicationArea = Basic;
@@ -197,7 +197,7 @@ Page 50007 "Cash Payment Card"
 
                     DocType := Doctype::"Payment Voucher";
                     Clear(TableID);
-                    TableID := Database::"Payment Header";
+                    TableID := Database::"Payments Header";
                     // if ApprovalMgt.SendApproval(TableID,Rec."No.",DocType,Status) then;
                 end;
             }
@@ -244,14 +244,14 @@ Page 50007 "Cash Payment Card"
         DocType: Option Quote,"Order",Invoice,"Credit Memo","Blanket Order","Return Order","None","Payment Voucher","Petty Cash",Imprest,Requisition,ImprestSurrender,Interbank,TransportRequest,Maintenance,Fuel,ImporterExporter,"Import Permit","Export Permit",TR,"Safari Notice","Student Applications","Water Research","Consultancy Requests","Consultancy Proposals","Meals Bookings","General Journal","Student Admissions","Staff Claim",KitchenStoreRequisition,"Leave Application","Staff Advance","Staff Advance Accounting";
         TableID: Integer;
         // ApprovalMgt: Codeunit "Export F/O Consolidation";
-        PHeader: Record "Payment Header";
+        PHeader: Record "Payments Header";
 
     local procedure CheckRequiredItems()
     begin
         Rec.TestField(Status, Rec.Status::Approved);
         Rec.TestField("Posting Date");
         Rec.TestField(Payee);
-        Rec.TestField("Bank Account");
+        Rec.TestField("Paying Bank Account");
         Rec.TestField("Payment Description");
         Rec.TestField("Global Dimension 1 Code");
         Rec.TestField("Global Dimension 2 Code");

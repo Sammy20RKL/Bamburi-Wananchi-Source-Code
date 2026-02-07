@@ -40,6 +40,7 @@ Table 56119 "SwizzKash Applications"
                     Telephone := VendorTable."Mobile Phone No";
                     "Account Name" := VendorTable.Name;
                     "ID No" := VendorTable."ID No.";
+                    Gender := VendorTable.Gender;
                 end;
             end;
         }
@@ -170,7 +171,12 @@ Table 56119 "SwizzKash Applications"
         {
             Editable = false;
             FieldClass = FlowField;
-            CalcFormula = lookup(Vendor."BOSA Account No" where("No." = field("Account No"), "Account Type" = filter('ORDINARY')));
+            CalcFormula = lookup(Vendor."BOSA Account No" where("No." = field("Account No"), "Account Type" = filter('M-WALLET')));
+        }
+        field(19; Gender; Option)
+        {
+            OptionCaption = ' ,Male,Female';
+            OptionMembers = " ",Male,Female;
         }
     }
 
@@ -192,7 +198,7 @@ Table 56119 "SwizzKash Applications"
         IF "No." = '' THEN BEGIN
             SaccoNoSeries.GET;
             SaccoNoSeries.TESTFIELD(SaccoNoSeries."Swizzkash Reg No.");
-            NoSeriesMgt.InitSeries(SaccoNoSeries."Swizzkash Reg No.", xRec."No. Series", 0D, "No.", "No. Series");
+            // NoSeriesMgt.InitSeries(SaccoNoSeries."Swizzkash Reg No.", xRec."No. Series", 0D, "No.", "No. Series");
         END;
 
 
@@ -204,7 +210,7 @@ Table 56119 "SwizzKash Applications"
 
     var
         SaccoNoSeries: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         Accounts: Record Vendor;
         cloudapp: Record "SwizzKash Applications";
 }

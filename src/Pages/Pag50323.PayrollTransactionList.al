@@ -70,6 +70,7 @@ page 50323 "Payroll Transaction List."
                 {
                     ApplicationArea = Basic;
                 }
+                field("Customer Posting Group"; Rec."Customer Posting Group") { ApplicationArea = Basic; }
             }
         }
     }

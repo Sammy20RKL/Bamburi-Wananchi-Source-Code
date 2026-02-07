@@ -158,7 +158,7 @@ page 50498 "Posted Cashier Transactions"
                 GenJournalLine.Validate(GenJournalLine.Amount);
                 if ReceiptAllocations."Transaction Type" = ReceiptAllocations."transaction type"::"Deposit Contribution" then
                     GenJournalLine."Transaction Type" := GenJournalLine."transaction type"::"Benevolent Fund"
-                else if ReceiptAllocations."Transaction Type" = ReceiptAllocations."transaction type"::"Shares Capital" then
+                else if ReceiptAllocations."Transaction Type" = ReceiptAllocations."Transaction Type"::"Share Capital" then
                     GenJournalLine."Transaction Type" := GenJournalLine."transaction type"::Loan
                 else if ReceiptAllocations."Transaction Type" = ReceiptAllocations."transaction type"::"Benevolent Fund" then
                     GenJournalLine."Transaction Type" := GenJournalLine."transaction type"::"Loan Insurance Paid"

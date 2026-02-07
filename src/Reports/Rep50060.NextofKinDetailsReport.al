@@ -90,7 +90,7 @@ Report 50060 "Next of Kin Details Report"
             column(FOSAShares_MembersRegister; "Members Register"."FOSA Shares")
             {
             }
-            column(mobile_number; "Members Register"."Mobile Phone No")
+            column(Phone_No_; "Members Register"."Phone No.")
             {
             }
             column(id; "Members Register"."ID No.")
@@ -261,6 +261,7 @@ Report 50060 "Next of Kin Details Report"
     var
         Company: Record "Company Information";
         SN: Integer;
+    //fajrnl:Codeunit "FA Jnl.-Check Line";
     // EmployersRec: Record UnknownRecord51516355;
 }
 

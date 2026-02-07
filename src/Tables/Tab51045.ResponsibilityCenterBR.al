@@ -179,7 +179,7 @@ Table 51045 "Responsibility Center BR"
 
     procedure TestNoEntriesExist(CurrentFieldName: Text[100])
     var
-        ItemLedgEntry: Record "Payment Header";
+        ItemLedgEntry: Record "Payments Header";
     begin
         //To prevent change of field
 

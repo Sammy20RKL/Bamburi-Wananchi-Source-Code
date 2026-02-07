@@ -6,6 +6,7 @@ Table 51388 "Receipts & Payments"
     {
         field(1; "Transaction No."; Code[20])
         {
+
         }
         field(2; "Account No."; Code[30])
         {
@@ -104,8 +105,9 @@ Table 51388 "Receipts & Payments"
 
             trigger OnValidate()
             begin
-                CalcFields("Un allocated Amount");
-                Validate("Un allocated Amount");
+
+                // CalcFields("Un allocated Amount");
+                Rec."Un allocated Amount" := Rec.Amount - Rec."Allocated Amount";
             end;
         }
         field(11; "Transaction Date"; Date)
@@ -144,6 +146,11 @@ Table 51388 "Receipts & Payments"
         {
             Editable = false;
             FieldClass = Normal;
+            // trigger OnValidate()
+            // var
+            // begin
+            //     Rec."Un allocated Amount" := Rec.Amount - Rec."Allocated Amount";
+            // end;
         }
         field(50002; Source; Option)
         {
@@ -220,8 +227,8 @@ Table 51388 "Receipts & Payments"
         }
         field(50015; "Excess Transaction Type"; Option)
         {
-            OptionCaption = 'Deposit Contribution,Safari Saving,Silver Savings,Junior Savings';
-            OptionMembers = "Deposit Contribution","Safari Saving","Silver Savings","Junior Savings";
+            OptionCaption = 'Deposit Contribution,Share Capital,Loan Repayment,Insurances';
+            OptionMembers = "Deposit Contribution","Share Capital","Loan Repayment","Insurance";
         }
     }
 
@@ -260,8 +267,13 @@ Table 51388 "Receipts & Payments"
         if "Transaction No." = '' then begin
             NoSetup.Get();
             NoSetup.TestField(NoSetup."BOSA Receipts Nos");
-            NoSeriesMgt.InitSeries(NoSetup."BOSA Receipts Nos", xRec."No. Series", 0D, "Transaction No.", "No. Series");
+            "Transaction No." := NoSeries.GetNextNo(NoSetup."BOSA Receipts Nos");
+
+
+            //  NoSeriesMgt.InitSeries(NoSetup."BOSA Receipts Nos", xRec."No. Series", 0D, "Transaction No.", "No. Series");
         end;
+
+
 
         "User ID" := UserId;
         "Transaction Date" := "Transaction Date";
@@ -302,7 +314,8 @@ Table 51388 "Receipts & Payments"
     var
         Cust: Record Customer;
         NoSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeries: Codeunit "No. Series";
+        // NoSeriesMgt: Codeunit NoSeriesManagement;
         BOSARcpt: Record "Receipts & Payments";
         GLAcct: Record "G/L Account";
         Mem: Record Customer;
@@ -310,6 +323,6 @@ Table 51388 "Receipts & Payments"
         GLAcc: Record "G/L Account";
         // PayLine: Record "Payment Line.";
         Banks: Record "Bank Account";
-        SFactory: Codeunit "SURESTEP Factory";
+        SFactory: Codeunit "SWIZZSFT Factory";
 }
 

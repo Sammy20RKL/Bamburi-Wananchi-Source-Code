@@ -5,6 +5,7 @@ tableextension 56013 CustLedgerEntryExt extends "Cust. Ledger Entry"
     {
         field(68000; "Transaction Type"; enum TransactionTypesEnum)
         {
+            // Editable = true;
         }
         field(68001; "Loan No"; Code[20])
         {
@@ -151,6 +152,10 @@ tableextension 56013 CustLedgerEntryExt extends "Cust. Ledger Entry"
         }
         key(Key37; "Amount Posted")
         {
+        }
+        key(Key38; "Entry No.")
+        {
+
         }
     }
     trigger OnInsert()

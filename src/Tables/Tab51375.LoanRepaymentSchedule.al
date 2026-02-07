@@ -121,7 +121,7 @@ Table 51375 "Loan Repayment Schedule"
     }
 
     var
-        NoSeriesMngnt: Codeunit NoSeriesManagement;
+        //NoSeriesMngnt: Codeunit NoSeriesManagement;
         SACCOMember: Record Customer;
         LoanCategory: Record "Loan Products Setup";
 }

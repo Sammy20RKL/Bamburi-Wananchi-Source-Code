@@ -1,5 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:am="http://schemas.microsoft.com/sqlserver/reporting/authoringmetadata">
+  <am:AuthoringMetadata>
+    <am:CreatedBy>
+      <am:Name>MSRB</am:Name>
+      <am:Version>15.0.20283.0</am:Version>
+    </am:CreatedBy>
+    <am:UpdatedBy>
+      <am:Name>MSRB</am:Name>
+      <am:Version>15.0.20283.0</am:Version>
+    </am:UpdatedBy>
+    <am:LastModifiedTimestamp>2025-02-07T09:21:44.3901995Z</am:LastModifiedTimestamp>
+  </am:AuthoringMetadata>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="DataSource">
@@ -19,13 +30,13 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>2.59028in</Width>
+                  <Width>0.84028in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.59028in</Width>
+                  <Width>2.32361in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.59028in</Width>
+                  <Width>4.60694in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -42,10 +53,14 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>SN</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox7</rd:DefaultName>
@@ -72,10 +87,14 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>Personal No</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox9</rd:DefaultName>
@@ -101,8 +120,10 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Name Members Register</Value>
-                                  <Style />
+                                  <Value>Member Name</Value>
+                                  <Style>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -140,7 +161,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>SN</rd:DefaultName>
@@ -166,11 +189,13 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!No_MembersRegister.Value</Value>
+                                  <Value>=Fields!PhoneNo_Customer.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>No_MembersRegister</rd:DefaultName>
@@ -196,7 +221,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Name_MembersRegister.Value</Value>
+                                  <Value>=Fields!Name_Customer.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -267,7 +292,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=First(Fields!CompanyName.Value, "DataSet_Result")</Value>
+                      <Value>=First(Fields!COMPANYNAME.Value, "DataSet_Result")</Value>
                       <Style>
                         <FontSize>12pt</FontSize>
                       </Style>
@@ -281,7 +306,7 @@
               <rd:DefaultName>CompanyName</rd:DefaultName>
               <Top>0.26973in</Top>
               <Left>1.8368in</Left>
-              <Height>0.36334in</Height>
+              <Height>0.32862in</Height>
               <Width>5.58334in</Width>
               <Style>
                 <Border>
@@ -300,7 +325,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=First(Fields!CompanyAddress.Value, "DataSet_Result")</Value>
+                      <Value>=First(Fields!Company_Address.Value, "DataSet_Result")</Value>
                       <Style>
                         <FontSize>12pt</FontSize>
                       </Style>
@@ -314,7 +339,7 @@
               <rd:DefaultName>CompanyAddress</rd:DefaultName>
               <Top>0.68862in</Top>
               <Left>1.8368in</Left>
-              <Height>0.34721in</Height>
+              <Height>0.31249in</Height>
               <Width>5.58334in</Width>
               <ZIndex>1</ZIndex>
               <Style>
@@ -387,7 +412,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=First(Fields!CompanyAddress.Value, "DataSet_Result")</Value>
+                      <Value>=First(Fields!Company_Email.Value, "DataSet_Result")</Value>
                       <Style>
                         <FontSize>12pt</FontSize>
                       </Style>
@@ -401,7 +426,7 @@
               <rd:DefaultName>CompanyAddress</rd:DefaultName>
               <Top>1.09139in</Top>
               <Left>1.8368in</Left>
-              <Height>0.34721in</Height>
+              <Height>0.31249in</Height>
               <Width>5.58334in</Width>
               <ZIndex>4</ZIndex>
               <Style>
@@ -569,8 +594,8 @@ End Function
         <Field Name="FOSAShares_MembersRegisterFormat">
           <DataField>FOSAShares_MembersRegisterFormat</DataField>
         </Field>
-        <Field Name="mobile_number">
-          <DataField>mobile_number</DataField>
+        <Field Name="Phone_No_">
+          <DataField>Phone_No_</DataField>
         </Field>
         <Field Name="id">
           <DataField>id</DataField>

@@ -12,12 +12,12 @@ pageextension 50621 "General Ledger Entries Ext" extends "General Ledger Entries
             {
                 ApplicationArea = Basic;
             }
-            // field(RunningBalanceE; CalcRunningAccBalance.GetGLAccBalance(Rec))
-            // {
-            //     ApplicationArea = Basic, Suite;
-            //     Caption = 'Running Balance';
-            //     ToolTip = 'Specifies the running balance.';
-            // }
+            field(RunningBalanceE; CalcRunningAccBalance.GetGLAccBalance(Rec))
+            {
+                ApplicationArea = Basic, Suite;
+                Caption = 'Running Balance';
+                ToolTip = 'Specifies the running balance.';
+            }
             field("Reverse"; Rec.Reversed)
             {
                 Caption = 'Reversed';
@@ -84,7 +84,7 @@ pageextension 50621 "General Ledger Entries Ext" extends "General Ledger Entries
     }
     var
         RunningBal: Decimal;
-    // CalcRunningAccBalance: Codeunit "System General Setup";
+        CalcRunningAccBalance: Codeunit "System General Setup";
 
     trigger OnAfterGetRecord()
     var

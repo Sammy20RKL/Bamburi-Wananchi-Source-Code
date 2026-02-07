@@ -12,7 +12,7 @@ Table 51016 "Sacco Transfers"
             begin
                 if No <> xRec.No then begin
                     NoSetup.Get(0);
-                    NoSeriesMgt.TestManual(No);
+                    NoSeries.TestManual(No);
                     "No. Series" := '';
                 end;
             end;
@@ -45,8 +45,8 @@ Table 51016 "Sacco Transfers"
         }
         field(10; "Source Account Type"; Option)
         {
-            OptionCaption = 'Customer,Fosa,Bank,G/L ACCOUNT,MEMBER';
-            OptionMembers = Customer,Fosa,Bank,"G/L ACCOUNT",MEMBER;
+            OptionCaption = 'Customer,MWANANGU,Fosa,Bank,G/L ACCOUNT,MEMBER';
+            OptionMembers = Customer,MWANANGU,Fosa,Bank,"G/L ACCOUNT",MEMBER;
         }
         field(11; "Source Account No"; Code[20])
         {
@@ -128,7 +128,23 @@ Table 51016 "Sacco Transfers"
             TableRelation = if ("Source Account Type" = filter(Fosa)) "Loans Register"."Loan  No." where("Account No" = field("Source Account No"))
             else
             if ("Source Account Type" = filter(MEMBER)) "Loans Register"."Loan  No." where("Bosa No" = field("Source Account No"));
-
+            trigger OnValidate()
+            var
+                ObjLoans: Record "Loans Register";
+            begin
+                // ObjLoans.RESET;
+                // ObjLoans.SETRANGE("Loan  No.", "Source Loan No");
+                // IF ObjLoans.FIND('-') THEN BEGIN
+                //     IF (("Source Transaction Type" = "Source Transaction Type"::"Loan Repayment") OR
+                //       ("Source Transaction Type" = "Source Transaction Type"::"Interest Paid")) THEN BEGIN
+                //         ObjLoans.CALCFIELDS("Outstanding Balance", "Oustanding Interest");
+                //         IF (("Source Transaction Type" = "Source Transaction Type"::"Loan Repayment") AND (ObjLoans."Outstanding Balance" < 0)) THEN
+                //             "Header Amount" := ABS(ObjLoans."Outstanding Balance");
+                //         IF (("Source Transaction Type" = "Source Transaction Type"::"Interest Paid") AND (ObjLoans."Oustanding Interest" < 0)) THEN
+                //             "Amount" := ABS(ObjLoans."Oustanding Interest");
+                //     END;
+                // END;
+            end;
         }
         field(15; "Created By"; Code[60])
         {
@@ -190,7 +206,8 @@ Table 51016 "Sacco Transfers"
         if No = '' then begin
             NoSetup.Get;
             NoSetup.TestField(NoSetup."BOSA Transfer Nos");
-            NoSeriesMgt.InitSeries(NoSetup."BOSA Transfer Nos", xRec."No. Series", 0D, No, "No. Series");
+            No := NoSeries.GetNextNo(NoSetup."BOSA Transfer Nos");
+
         end;
         "Transaction Date" := Today;
         "Created By" := UserId;
@@ -211,7 +228,7 @@ Table 51016 "Sacco Transfers"
 
     var
         NoSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeries: Codeunit "No. Series";
         Cust: Record Customer;
         Bank: Record "Bank Account";
         Vend: Record Vendor;

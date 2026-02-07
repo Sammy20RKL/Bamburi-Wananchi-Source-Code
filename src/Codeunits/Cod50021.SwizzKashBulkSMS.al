@@ -7,8 +7,8 @@ Codeunit 50021 SwizzKashBulkSMS
     end;
 
     var
-        SMSMessages: Record 51471;
-        SMSCharges: Record 51554;
+        SMSMessages: Record "SMS Messages";
+        SMSCharges: Record "SMS Charges";
         SMSCharge: Decimal;
         ExDuty: Decimal;
         Vendor: Record Vendor;
@@ -16,7 +16,8 @@ Codeunit 50021 SwizzKashBulkSMS
         GenBatches: Record "Gen. Journal Batch";
         LineNo: Integer;
         GLPosting: Codeunit "Gen. Jnl.-Post Line";
-        ExDutyGLAcc: label '01-0-0316';
+        ExDutyGLAcc: label '201421';
+        UserSetUp: Record "User Setup";
 
 
     procedure PollPendingSMS() MessageDetails: Text[500]
@@ -24,6 +25,8 @@ Codeunit 50021 SwizzKashBulkSMS
         begin
             SMSMessages.Reset;
             SMSMessages.SetRange(SMSMessages."Sent To Server", SMSMessages."sent to server"::No);
+            // SMSMessages.SetRange(SMSMessages.Source, 'MOBILETRAN');
+            // SMSMessages.SETFILTER(SMSMessages.Source, '%1|%2', 'MOBILETRAN', 'PAYBILL');
             SMSMessages.SetRange(SMSMessages."Date Entered", Today);
             if SMSMessages.Find('-') then begin
 
@@ -31,16 +34,20 @@ Codeunit 50021 SwizzKashBulkSMS
                     SMSMessages."Sent To Server" := SMSMessages."sent to server"::Failed;
                     SMSMessages."Entry No." := 'FAILED';
                     SMSMessages.Modify;
-                end
-                else begin
-                    MessageDetails := SMSMessages."Telephone No" + ':::' + SMSMessages."SMS Message" + ':::' + Format(SMSMessages."Entry No");
+                end else if ((SMSMessages.Source) = 'ERP OTP') then begin
+                    SMSMessages."Sent To Server" := SMSMessages."sent to server"::Failed;
+                    SMSMessages."Entry No." := 'FAILED';
+                    SMSMessages.Modify;
+                end else begin
+                    MessageDetails := '{ "Phonenumber":"' + SMSMessages."Telephone No" + '","Message":"' + SMSMessages."SMS Message" + '","EntryNo":"' + Format(SMSMessages."Entry No") + '" }';
                 end;
             end;
         end;
+        FnReorderLevel();
     end;
 
 
-    procedure ConfirmSent(TelephoneNo: Text[50]; Status: Integer)
+    procedure ConfirmSent(TelephoneNo: Text[50]; Status: Integer) result: Boolean;
     begin
 
         SMSMessages.Reset;
@@ -50,9 +57,11 @@ Codeunit 50021 SwizzKashBulkSMS
         SMSMessages.SetRange(SMSMessages."Entry No", Status);
         if SMSMessages.FindFirst then begin
             SMSMessages."Sent To Server" := SMSMessages."sent to server"::Yes;
+            SMSMessages."Date Sent to Server" := Today;
+            SMSMessages."Time Sent To Server" := Today;
             SMSMessages."Entry No." := 'SUCCESS';
             SMSMessages.Modify;
-            //result:='TRUE';
+            result := true;
         end
     end;
 
@@ -176,5 +185,72 @@ Codeunit 50021 SwizzKashBulkSMS
             Commit;
             until SMSMessages.Next = 0;
     end;
+
+    procedure FnReorderLevel()
+    var
+        GLAccount: Record "G/L Account";
+        GeneralSetUp: Record "Sacco General Set-Up";
+        SwizzsoftFactory: Codeunit "SWIZZSFT Factory";
+        msg: Text;
+        ReorderTable: Record "Reorder Alerts";
+    begin
+        GLAccount.Reset;
+        GLAccount.SetRange(GLAccount."No.", '6-01-1-0016-00');
+        GLAccount.SetAutocalcFields(GLAccount.Balance);
+        if GLAccount.Find('-') then begin
+            GeneralSetUp.Get();
+            if (GLAccount.Balance < 500001) and (GeneralSetUp."Last Reoder Date" <> Today) then begin
+                //................Check table on who should receive message alerts
+                ReorderTable.Reset;
+                if ReorderTable.Find('-') then begin
+                    repeat
+                        msg := 'Dear ' + Format(ReorderTable."First Name") + ',the float is ' + Format(GLAccount.Balance) + '. Kindly replenish.';
+                        SwizzsoftFactory.FnSendSMS('REORDER', msg, '', ReorderTable."Phone No");
+                    until ReorderTable.Next = 0;
+                end;
+                GeneralSetUp."Last Reoder Date" := Today;
+                GeneralSetUp.Modify;
+            end else
+                if (GLAccount.Balance < 300001) and (GeneralSetUp."Last Reminder Reorder Date" <> Today) then begin
+                    //................Check table on who should receive message alerts
+                    ReorderTable.Reset;
+                    if ReorderTable.Find('-') then begin
+                        repeat
+                            msg := 'Dear ' + Format(ReorderTable."First Name") + ',the float is ' + Format(GLAccount.Balance) + '. Kindly replenish.';
+                            SwizzsoftFactory.FnSendSMS('REORDER', msg, '', ReorderTable."Phone No");
+                        until ReorderTable.Next = 0;
+                    end;
+                    GeneralSetUp."Last Reminder Reorder Date" := Today;
+                    GeneralSetUp.Modify;
+                end else
+                    //.........................................................................
+                    if (GLAccount.Balance < 0) and (GeneralSetUp."Negative Reminder Time" = Time) then begin
+                        //................Check table on who should receive message alerts
+                        ReorderTable.Reset;
+                        if ReorderTable.Find('-') then begin
+                            repeat
+                                msg := 'Dear ' + Format(ReorderTable."First Name") + ',your float GL Account is overdrawn by '
+                                + Format(GLAccount.Balance) + '. Kindly post the cheque as soon as possible.';
+                                SwizzsoftFactory.FnSendSMS('REORDER', msg, '', ReorderTable."Phone No");
+                            until ReorderTable.Next = 0;
+                        end;
+                        GeneralSetUp."Negative Reminder Time" := Time;
+                        GeneralSetUp.Modify;
+                    end;
+            //.........................................................................
+        end;
+        // ..............................................Update Posting Range
+        UserSetUp.Reset;
+        UserSetUp.SetFilter(UserSetUp."User ID", '%1|%2|%3', 'MOBILE', 'ATM', 'AGENCY');
+        if UserSetUp.Find('-') then begin
+            repeat
+                UserSetUp."Allow Posting From" := CalcDate('-7D', Today);
+                UserSetUp."Allow Posting To" := Today;
+                UserSetUp.Modify();
+            until UserSetUp.Next = 0;
+        end;
+
+    end;
+
 }
 

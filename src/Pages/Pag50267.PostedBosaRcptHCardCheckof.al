@@ -342,7 +342,7 @@ Page 50267 "PostedBosa Rcpt HCard-Checkof"
     // Gnljnline.Description:='Shares Contribution';
     // Gnljnline.Amount:=ReceiptsProcessingLines.Amount*-1;
     // Gnljnline.VALIDATE(Gnljnline.Amount);
-    // Gnljnline."Transaction Type":=Gnljnline."Transaction Type"::"Shares Capital";
+    // Gnljnline."Transaction Type":=Gnljnline."Transaction Type"::"Share Capital";
     // Gnljnline."Shortcut Dimension 1 Code":='BOSA';
     // Gnljnline."Shortcut Dimension 2 Code":='NAIROBI';
     // 

@@ -14,7 +14,7 @@ Table 51170 "HR Leave Carry Allocation"
                 //TEST IF MANUAL NOs ARE ALLOWED
                 if "Application Code" <> xRec."Application Code" then begin
                     HRSetup.Get;
-                    NoSeriesMgt.TestManual(HRSetup."Leave Carry Over App Nos.");
+                    // NoSeriesMgt.TestManual(HRSetup."Leave Carry Over App Nos.");
                     Description := '';
                 end;
             end;
@@ -102,7 +102,7 @@ Table 51170 "HR Leave Carry Allocation"
         if "Application Code" = '' then begin
             HRSetup.Get;
             HRSetup.TestField(HRSetup."Leave Carry Over App Nos.");
-            NoSeriesMgt.InitSeries(HRSetup."Leave Carry Over App Nos.", xRec."No series", 0D, "Application Code", "No series");
+            //NoSeriesMgt.InitSeries(HRSetup."Leave Carry Over App Nos.", xRec."No series", 0D, "Application Code", "No series");
         end;
         //GET APPLICANT DETAILS FROM HR EMPLOYEES TABLE AND COPY THEM TO THE LEAVE APPLICATION TABLE
         HREmp.Reset;
@@ -141,7 +141,7 @@ Table 51170 "HR Leave Carry Allocation"
 
     var
         HRSetup: Record "HR Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        // NoSeriesMgt: Codeunit NoSeriesManagement;
         UserSetup: Record "User Setup";
         HREmp: Record "HR Employees";
         varDaysApplied: Integer;

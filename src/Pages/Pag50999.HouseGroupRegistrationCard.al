@@ -228,6 +228,6 @@ page 50999 "House Group Registration Card"
         ObjSaccoNos: Record 51399;
         VarHouseNo: Code[30];
         ObjHouseG: Record 51915;
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
 }
 

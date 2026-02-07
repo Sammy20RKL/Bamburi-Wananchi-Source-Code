@@ -157,7 +157,7 @@ Table 51412 "Paybill Processing Header"
         if No = '' then begin
             NoSetup.Get();
             NoSetup.TestField(NoSetup."Paybill Processing");
-            NoSeriesMgt.InitSeries(NoSetup."Paybill Processing", xRec."No. Series", 0D, No, "No. Series");
+            //  NoSeriesMgt.InitSeries(NoSetup."Paybill Processing", xRec."No. Series", 0D, No, "No. Series");
         end;
 
         "Date Entered" := Today;
@@ -182,7 +182,7 @@ Table 51412 "Paybill Processing Header"
 
     var
         NoSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         cust: Record Customer;
         "GL Account": Record "G/L Account";
         BANKACC: Record "Bank Account";

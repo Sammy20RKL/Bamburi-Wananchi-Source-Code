@@ -3,8 +3,8 @@ Page 57104 "Product Card"
 {
     Caption = 'Account Card';
     DeleteAllowed = false;
-    InsertAllowed = true;
-    editable = true;
+    InsertAllowed = false;
+    editable = false;
     PageType = Card;
     PromotedActionCategories = 'New,Process,Reports,Approval,Budgetary Control,Cancellation,Category7_caption,Category8_caption,Category9_caption,Category10_caption';
     RefreshOnActivate = true;
@@ -20,29 +20,20 @@ Page 57104 "Product Card"
             {
                 Caption = 'General Info';
                 Editable = true;
-                field("BOSA No."; Rec."BOSA Account No")
-                {
-                    ApplicationArea = Basic;
-                    Caption = 'BOSA Account No.';
-                    Editable = true;
-
-                }
                 field("No."; Rec."No.")
                 {
                     ApplicationArea = Basic;
-                    Caption = 'Wallet Account No.';
+                    Caption = 'Account No.';
                     Editable = false;
 
                 }
                 field("Sacco No"; Rec."Sacco No")
                 {
-                    Visible = false;
                     ApplicationArea = Basic;
                     Editable = false;
                 }
                 field("Joint Account Name"; Rec."Joint Account Name")
                 {
-                    Visible = false;
                     ApplicationArea = Basic;
                     Editable = false;
                 }
@@ -580,7 +571,6 @@ Page 57104 "Product Card"
             }
             group(AccountTab1)
             {
-                Visible = false;
                 Caption = 'Communication Info';
                 Editable = true;
                 field(Address; Rec.Address)
@@ -631,7 +621,6 @@ Page 57104 "Product Card"
             }
             group("Term Deposit Details")
             {
-                Visible = false;
                 Caption = 'Term Deposit Details';
                 field("Fixed Deposit Type"; Rec."Fixed Deposit Type")
                 {
@@ -708,7 +697,6 @@ Page 57104 "Product Card"
             }
             group("Previous Term Deposit Details")
             {
-                Visible = false;
                 Caption = 'Previous Term Deposit Details';
                 field("Prevous Fixed Deposit Type"; Rec."Prevous Fixed Deposit Type")
                 {
@@ -759,7 +747,6 @@ Page 57104 "Product Card"
             }
             group("ATM Details")
             {
-                Visible = false;
                 Caption = 'ATM Details';
                 field("ATM No.B"; Rec."ATM No.")
                 {
@@ -843,7 +830,7 @@ Page 57104 "Product Card"
                         Vend.Reset;
                         Vend.SetRange(Vend."No.", Rec."No.");
                         if Vend.Find('-') then
-                            Report.Run(51516890, true, false, Vend)
+                            Report.Run(56890, true, false, Vend)
                     end;
                 }
                 action("Ledger E&ntries")
@@ -960,7 +947,7 @@ Page 57104 "Product Card"
                         Vend: Record Vendor;
 
                         AmountToPay: Decimal;
-                        Sfactory: Codeunit "SURESTEP Factory";
+                        Sfactory: Codeunit "SWIZZSFT Factory";
                         Answer: Boolean;
                         LineNo: Integer;
                         GenJournalLine: Record "Gen. Journal Line";
@@ -1001,7 +988,7 @@ Page 57104 "Product Card"
                     var
                         StatusChangePermission: record "Status Change Permision";
                         OptionChoosen: Integer;
-                        SFactory: Codeunit "SURESTEP Factory";
+                        SFactory: Codeunit "SWIZZSFT Factory";
                         GenPost: codeunit 12;
                     begin
                         GenJournalLine.Reset();
@@ -1055,8 +1042,55 @@ Page 57104 "Product Card"
                         end;
                     end;
                 }
+                action("ACtivate USSD")
+                {
+                    ApplicationArea = Basic;
+                    PromotedCategory = Process;
+                    Promoted = true;
+                    Visible = true;
 
+                    trigger OnAction()
+                    var
+                        applicationNumber: Code[20];
+                    begin
+                        if Confirm('Are you sure to send the Mobile Application record for ' + Format(Rec."Name") + ' for activation ?', false) = false then begin
+                            exit;
+                        end else begin
+                            swizzKashApplications.Reset();
+                            swizzKashApplications.SetRange("Account No", Rec."No.");
+                            if swizzKashApplications.Find('-') then begin
+                                Error('This user is already Registered, Kindly consider PIN Reset');
+                            end else begin
+                                //send data to SwizzKash Applications (56119), status <>Approved
 
+                                SaccoNoSeries.Get;
+                                SaccoNoSeries.TestField(SaccoNoSeries."Swizzkash Reg No.");
+
+                                // ✅ Get next number from series
+                                //applicationNumber := NoSeriesMgt.GetNextNo(SaccoNoSeries."Swizzkash Reg No.", Today, true);
+
+                                swizzKashApplications.Init();
+                                swizzKashApplications."No." := applicationNumber;
+                                swizzKashApplications."No. Series" := SaccoNoSeries."Swizzkash Reg No.";
+                                swizzKashApplications."Account No" := Rec."No.";
+                                swizzKashApplications."Account Name" := Rec.Name;
+                                swizzKashApplications.ActivationStatus := swizzKashApplications.ActivationStatus::SUBMITTED;
+                                swizzKashApplications."Created By" := UserId;
+                                swizzKashApplications."Date Applied" := Today;
+                                swizzKashApplications."Member No" := Rec."BOSA Account No";
+                                swizzKashApplications."ID No" := Rec."ID No.";
+                                swizzKashApplications.Status := swizzKashApplications.Status::Approved;
+                                swizzKashApplications.SentToServer := true;
+                                swizzKashApplications.Telephone := Rec."Mobile Phone No";
+                                swizzKashApplications.Gender := Rec.Gender;
+                                swizzKashApplications.Insert(true);
+
+                                Message('Record Marked for activation');
+                                CurrPage.Close();
+                            end;
+                        end;
+                    end;
+                }
                 action("Charge Fosa Replacement Card Fee")
                 {
                     ApplicationArea = Basic;
@@ -1070,7 +1104,7 @@ Page 57104 "Product Card"
                     var
                         StatusChangePermission: record "Status Change Permision";
                         OptionChoosen: Integer;
-                        SFactory: Codeunit "SURESTEP Factory";
+                        SFactory: Codeunit "SWIZZSFT Factory";
                         GenPost: codeunit 12;
                     begin
 
@@ -1186,7 +1220,6 @@ Page 57104 "Product Card"
     trigger OnInsertRecord(BelowxRec: Boolean): Boolean
     begin
         Rec."Creditor Type" := Rec."creditor type"::Account;
-        Rec."Account Type" := 'M-Wallet';
     end;
 
     trigger OnOpenPage()
@@ -1248,7 +1281,7 @@ Page 57104 "Product Card"
             Audit.Date := Today;
             Audit.Time := Time;
             Audit.Source := 'FOSA ACCOUNT';
-            Audit.Insert;
+            // Audit.Insert;
             // COMMIT
         end;
         //End Audit Entries
@@ -1264,6 +1297,9 @@ Page 57104 "Product Card"
     end;
 
     var
+        SaccoNoSeries: Record "Sacco No. Series";
+        //NoSeriesMgt: Codeunit NoSeriesManagement;
+        swizzKashApplications: Record "SwizzKash Applications";
         CalendarMgmt: Codeunit "Calendar Management";
         IsAbletoActivateMember: Boolean;
         PaymentToleranceMgt: Codeunit "Payment Tolerance Management";
@@ -1350,7 +1386,7 @@ Page 57104 "Product Card"
     local procedure FnRecoverFromFromShareDeposits(No: Code[20]; BOSAAccountNo: Code[20]; amount: Integer)
     var
         GenJournalLine: record "Gen. Journal Line";
-        SFactory: Codeunit "SURESTEP Factory";
+        SFactory: Codeunit "SWIZZSFT Factory";
         LineNo: Integer;
     begin
         //Recover from deposits
@@ -1406,7 +1442,7 @@ Page 57104 "Product Card"
     local procedure FnRecoverFromFOSAAccount(No: Code[20]; BOSAAccountNo: Code[20]; amount: Integer)
     var
         GenJournalLine: record "Gen. Journal Line";
-        SFactory: Codeunit "SURESTEP Factory";
+        SFactory: Codeunit "SWIZZSFT Factory";
         LineNo: Integer;
     begin
         //Recover from deposits

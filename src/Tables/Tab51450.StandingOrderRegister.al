@@ -18,7 +18,7 @@ Table 51450 "Standing Order Register"
                 if "Register No." = '' then begin
                     NoSetup.Get();
                     NoSetup.TestField(NoSetup."STO Register No");
-                    NoSeriesMgt.InitSeries(NoSetup."STO Register No", xRec."No. Series", 0D, "Register No.", "No. Series");
+                    // NoSeriesMgt.InitSeries(NoSetup."STO Register No", xRec."No. Series", 0D, "Register No.", "No. Series");
                 end;
             end;
         }
@@ -123,12 +123,12 @@ Table 51450 "Standing Order Register"
         if "Register No." = '' then begin
             NoSetup.Get();
             NoSetup.TestField(NoSetup."STO Register No");
-            NoSeriesMgt.InitSeries(NoSetup."STO Register No", xRec."No. Series", 0D, "Register No.", "No. Series");
+            //NoSeriesMgt.InitSeries(NoSetup."STO Register No", xRec."No. Series", 0D, "Register No.", "No. Series");
         end;
     end;
 
     var
         NoSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
 }
 

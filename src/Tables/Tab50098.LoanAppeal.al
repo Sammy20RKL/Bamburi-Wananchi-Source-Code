@@ -159,12 +159,13 @@ table 50098 "Loan Appeal"
         if "Document No." = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Loan Appeal Numbers");
-            NoSeriesMgt.InitSeries(SalesSetup."Loan Appeal Numbers", xRec."No. Series", 0D, "Document No.", "No. Series");
+            "Document No." := NoSeriesMgt.GetNextNo(SalesSetup."Loan Appeal Numbers");
+            //NoSeriesMgt.InitSeries(SalesSetup."Loan Appeal Numbers", xRec."No. Series", 0D, "Document No.", "No. Series");
         end;
     end;
 
     var
         LoanType: Record "Loan Products Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         SalesSetup: Record "Sacco No. Series";
 }

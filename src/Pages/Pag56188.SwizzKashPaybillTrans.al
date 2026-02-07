@@ -73,6 +73,7 @@ Page 56188 "SwizzKash Paybill Trans"
                     ApplicationArea = Basic;
                     Editable = false;
                 }
+                field("Paybill Account"; Rec."Paybill Account No") { }
                 field("Paybill Acc Balance"; Rec."Paybill Acc Balance")
                 {
                     ApplicationArea = Basic;

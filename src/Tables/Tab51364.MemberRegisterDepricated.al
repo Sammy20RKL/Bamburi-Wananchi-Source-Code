@@ -3637,7 +3637,7 @@ Table 51364 "Member Register Depricated"
         ServContract: Record "Service Contract Header";
         ServHeader: Record "Service Header";
         ServiceItem: Record "Service Item";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         MoveEntries: Codeunit MoveEntries;
         UpdateContFromCust: Codeunit "CustCont-Update";
         DimMgt: Codeunit DimensionManagement;
@@ -3693,16 +3693,16 @@ Table 51364 "Member Register Depricated"
     var
         Cust: Record "Member Register Depricated";
     begin
-        with Cust do begin
-            Cust := Rec;
-            SalesSetup.Get;
-            SalesSetup.TestField(SalesSetup."Members Nos");
-            if NoSeriesMgt.SelectSeries(SalesSetup."Members Nos", OldCust."No. Series", "No. Series") then begin
-                NoSeriesMgt.SetSeries("No.");
-                Rec := Cust;
-                exit(true);
-            end;
-        end;
+        // with Cust do begin
+        //     Cust := Rec;
+        //     SalesSetup.Get;
+        //     SalesSetup.TestField(SalesSetup."Members Nos");
+        //     if NoSeriesMgt.SelectSeries(SalesSetup."Members Nos", OldCust."No. Series", "No. Series") then begin
+        //         NoSeriesMgt.SetSeries("No.");
+        //         Rec := Cust;
+        //         exit(true);
+        //     end;
+        //end;
     end;
 
     local procedure ValidateShortcutDimCode(FieldNumber: Integer; var ShortcutDimCode: Code[20])

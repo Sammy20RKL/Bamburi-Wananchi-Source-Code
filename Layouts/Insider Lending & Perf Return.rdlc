@@ -12928,21 +12928,6 @@ End Function
         <Field Name="AsAt">
           <DataField>AsAt</DataField>
         </Field>
-        <Field Name="ReportForNavId_35">
-          <DataField>ReportForNavId_35</DataField>
-        </Field>
-        <Field Name="Positioninsociety_SaccoInsiders">
-          <DataField>Positioninsociety_SaccoInsiders</DataField>
-        </Field>
-        <Field Name="ReportForNavId_36">
-          <DataField>ReportForNavId_36</DataField>
-        </Field>
-        <Field Name="CurrentShares_MembersRegister">
-          <DataField>CurrentShares_MembersRegister</DataField>
-        </Field>
-        <Field Name="CurrentShares_MembersRegisterFormat">
-          <DataField>CurrentShares_MembersRegisterFormat</DataField>
-        </Field>
         <Field Name="ReportForNavId_1">
           <DataField>ReportForNavId_1</DataField>
         </Field>
@@ -12975,12 +12960,6 @@ End Function
         </Field>
         <Field Name="LoanNo3">
           <DataField>LoanNo3</DataField>
-        </Field>
-        <Field Name="InsiderBoard_LoansRegister">
-          <DataField>InsiderBoard_LoansRegister</DataField>
-        </Field>
-        <Field Name="InsiderBoard_LoansRegisterFormat">
-          <DataField>InsiderBoard_LoansRegisterFormat</DataField>
         </Field>
         <Field Name="insiderEmployee_LoansRegister">
           <DataField>insiderEmployee_LoansRegister</DataField>
@@ -13137,12 +13116,6 @@ End Function
         </Field>
         <Field Name="LLoanNo3">
           <DataField>LLoanNo3</DataField>
-        </Field>
-        <Field Name="LInsiderBoard_LoansRegister">
-          <DataField>LInsiderBoard_LoansRegister</DataField>
-        </Field>
-        <Field Name="LInsiderBoard_LoansRegisterFormat">
-          <DataField>LInsiderBoard_LoansRegisterFormat</DataField>
         </Field>
         <Field Name="LinsiderEmployee_LoansRegister">
           <DataField>LinsiderEmployee_LoansRegister</DataField>

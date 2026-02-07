@@ -22,7 +22,7 @@ table 50094 "Member App Next Of kin"
         field(5; "Date of Birth"; Date)
         {
         }
-        field(6; Address; Text[30])
+        field(6; Address; Text[150])
         {
         }
         field(7; Telephone; Code[20])

@@ -253,7 +253,7 @@ Table 51377 "Loan Disburesment-Batching"
         if "Batch No." = '' then begin
             SalesSetup.Get();
             SalesSetup.TestField(SalesSetup."Loans Batch Nos");
-            NoSeriesMgt.InitSeries(SalesSetup."Loans Batch Nos", xRec."No. Series", 0D, "Batch No.", "No. Series");
+            // NoSeriesMgt.InitSeries(SalesSetup."Loans Batch Nos", xRec."No. Series", 0D, "Batch No.", "No. Series");
             "Document No." := "Batch No.";
         end;
         //ERROR('You dont have permission to create %1 batches',"Batch Type")
@@ -272,7 +272,7 @@ Table 51377 "Loan Disburesment-Batching"
 
     var
         SalesSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         EntryNo: Integer;
         LoanApps: Record "Loans Register";
 

@@ -388,7 +388,7 @@ Table 51443 "Treasury Transactions"
         if No = '' then begin
             NoSetup.Get();
             NoSetup.TestField(NoSetup."Treasury Transactions No");
-            NoSeriesMgt.InitSeries(NoSetup."Treasury Transactions No", xRec."No. Series", 0D, No, "No. Series");
+            // NoSeriesMgt.InitSeries(NoSetup."Treasury Transactions No", xRec."No. Series", 0D, No, "No. Series");
         end;
 
         if "Transaction Type" = "transaction type"::"Issue To Teller" then
@@ -443,7 +443,7 @@ Table 51443 "Treasury Transactions"
 
     var
         NoSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         Denominations: Record Denominations;
         TransactionCoinage: Record "Treasury Coinage";
         UsersID: Record User;

@@ -243,6 +243,45 @@ page 50311 "Payroll Employee List."
                             end;
                             //End of share capital
 
+                            //Likizo contribution
+                            ObjTransactionCodes.Reset;
+                            ObjTransactionCodes.SetRange(ObjTransactionCodes."Co-Op Parameters", ObjTransactionCodes."co-op parameters"::Likizo);
+                            if ObjTransactionCodes.FindSet then begin
+
+                                if ObjCust.Get(ObjPayrollEmployees."Payroll No") then begin
+                                    ObjCust.CalcFields(ObjCust."Likizo Contribution");
+
+                                    //============================================Delete Entries For the Same Period
+                                    ObjEmployeeTransactions.Reset;
+                                    ObjEmployeeTransactions.SetRange(ObjEmployeeTransactions."Payroll Period", VarOpenPeriod);
+                                    ObjEmployeeTransactions.SetRange(ObjEmployeeTransactions."No.", ObjPayrollEmployees."No.");
+                                    ObjEmployeeTransactions.SetFilter(ObjEmployeeTransactions."Loan Number", '%1', '');
+                                    ObjEmployeeTransactions.SetRange(ObjEmployeeTransactions."Transaction Code", ObjTransactionCodes."Transaction Code");
+                                    if ObjEmployeeTransactions.FindSet then begin
+                                        ObjEmployeeTransactions.DeleteAll;
+                                    end;
+                                    //============================================Delete Entries For the Same Period
+                                    ObjCust.CalcFields(ObjCust."Share Capital");
+                                    ObjPayrollEmployeeTrans.Init;
+                                    ObjPayrollEmployeeTrans."Sacco Membership No." := ObjPayrollEmployees."Payroll No";
+                                    ObjPayrollEmployeeTrans."No." := ObjPayrollEmployees."No.";
+                                    ObjPayrollEmployeeTrans."Loan Number" := '';
+                                    ObjPayrollEmployeeTrans."Transaction Code" := ObjTransactionCodes."Transaction Code";
+                                    ObjPayrollEmployeeTrans."Transaction Name" := ObjTransactionCodes."Transaction Name";
+                                    ObjPayrollEmployeeTrans."Transaction Type" := ObjTransactionCodes."Transaction Type";
+                                    ObjPayrollEmployeeTrans."Payroll Period" := VarOpenPeriod;
+                                    ObjPayrollEmployeeTrans."Period Month" := varPeriodMonth;
+                                    ObjPayrollEmployeeTrans."Period Year" := VarPeriodYear;
+                                    ObjPayrollEmployeeTrans.Amount := ObjCust."Holiday Monthly Contribution";
+                                    ObjPayrollEmployeeTrans."Amount(LCY)" := ObjCust."Holiday Monthly Contribution";
+                                    ObjPayrollEmployeeTrans.Balance := ObjCust."Likizo Contribution";
+                                    ObjPayrollEmployeeTrans."Balance(LCY)" := ObjCust."Likizo Contribution";
+                                    ObjPayrollEmployeeTrans."Amtzd Loan Repay Amt" := 0;
+                                    ObjPayrollEmployeeTrans.Insert;
+
+                                end;
+                            end;
+                            //end of Likizo
                             //Loan Deduction
                             ObjEmployeeTransactions.Reset;
                             ObjEmployeeTransactions.SetRange(ObjEmployeeTransactions."Payroll Period", VarOpenPeriod);
@@ -354,7 +393,7 @@ page 50311 "Payroll Employee List."
                     PayrollEmp.Reset;
                     PayrollEmp.SetRange(PayrollEmp."No.", Rec."No.");
                     if PayrollEmp.FindFirst then begin
-                        Report.Run(50010, true, false, PayrollEmp);
+                        Report.Run(51016, true, false, PayrollEmp);
                     end;
                 end;
             }
@@ -411,7 +450,7 @@ page 50311 "Payroll Employee List."
     var
         Usersetup: Record "User Setup";
         ObjPayrollEmployeeTrans: Record "Payroll Employee Transactions.";
-        SFactory: Codeunit "SURESTEP Factory";
+        SFactory: Codeunit "SWIZZSFT Factory";
         ObjPayrollCalender: Record "Payroll Calender.";
         VarOpenPeriod: Date;
         ObjLoans: Record "Loans Register";
@@ -725,5 +764,4 @@ page 50311 "Payroll Employee List."
 
     end;
 }
-
 

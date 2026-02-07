@@ -454,7 +454,7 @@ tableextension 50069 "VendorExt" extends Vendor
         if "No." = '' then begin
             PurchSetup.Get;
             PurchSetup.TestField("Vendor Nos.");
-            NoSeriesMgt.InitSeries(PurchSetup."Vendor Nos.", xRec."No. Series", 0D, "No.", "No. Series");
+            //NoSeriesMgt.InitSeries(PurchSetup."Vendor Nos.", xRec."No. Series", 0D, "No.", "No. Series");
         end;
         if "Invoice Disc. Code" = '' then
             "Invoice Disc. Code" := "No.";
@@ -513,7 +513,7 @@ tableextension 50069 "VendorExt" extends Vendor
         ItemCrossReference: Record "Item Reference";
         RMSetup: Record "Marketing Setup";
         ServiceItem: Record "Service Item";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         MoveEntries: Codeunit MoveEntries;
         UpdateContFromVend: Codeunit "VendCont-Update";
         DimMgt: Codeunit DimensionManagement;
@@ -546,16 +546,16 @@ tableextension 50069 "VendorExt" extends Vendor
     var
         Vend: Record Vendor;
     begin
-        Vend := Rec;
-        PurchSetup.Get;
-        PurchSetup.TestField("Vendor Nos.");
-        if NoSeriesMgt.SelectSeries(PurchSetup."Vendor Nos.", OldVend."No. Series", Vend."No. Series") then begin
-            PurchSetup.Get;
-            PurchSetup.TestField("Vendor Nos.");
-            NoSeriesMgt.SetSeries(Vend."No.");
-            Rec := Vend;
-            exit(true);
-        end;
+        // Vend := Rec;
+        // PurchSetup.Get;
+        // PurchSetup.TestField("Vendor Nos.");
+        // if NoSeriesMgt.SelectSeries(PurchSetup."Vendor Nos.", OldVend."No. Series", Vend."No. Series") then begin
+        //     PurchSetup.Get;
+        //     PurchSetup.TestField("Vendor Nos.");
+        //     NoSeriesMgt.SetSeries(Vend."No.");
+        //     Rec := Vend;
+        //     exit(true);
+        // end;
     end;
 
     local procedure ValidateShortcutDimCode(FieldNumber: Integer; var ShortcutDimCode: Code[20])

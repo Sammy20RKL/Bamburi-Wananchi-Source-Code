@@ -29,22 +29,19 @@ Page 56027 "Member List"
                     ApplicationArea = Basic;
                     Style = StrongAccent;
                 }
-
-                field("ID No."; Rec."ID No.")
-                {
-                    ApplicationArea = Basic;
-                }
-
-                field("Phone No."; Rec."Phone No.")
-                {
-                    ApplicationArea = Basic;
-                    Caption = 'Mobile Phone';
-
-                }
                 field("Payroll No"; Rec."Personal No")
                 {
                     Caption = 'Payroll No';
                     ApplicationArea = basic;
+                }
+                field("ID No."; Rec."ID No.")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Phone No."; Rec."Phone No.")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Mobile Phone';
                 }
                 field(Status; Rec.Status)
                 {
@@ -54,47 +51,17 @@ Page 56027 "Member List"
                 {
                     ApplicationArea = Basic;
                 }
-                field("Shares Retained"; Rec."Shares Retained")
-                {
-                    ApplicationArea = Basic;
-                    Caption = 'Share Capital';
-                }
-                field("Current Shares"; Rec."Current Shares")
-                {
-                    Caption = 'Non-withdrawable Deposits';
-                    Style = StrongAccent;
-                    ApplicationArea = Basic;
-                }
-                field("Outstanding Balance"; Rec."Outstanding Balance")
-                {
-                    Style = StrongAccent;
-                    Caption = 'Oustanding Loan Balance';
-                    ApplicationArea = Basic;
-                }
-                field("Outstanding Interest"; Rec."Outstanding Interest")
-                {
-                    Style = StrongAccent;
-                    Caption = 'Oustanding Loan Interest';
-                    ApplicationArea = Basic;
-                }
-                // field("Likizo Contribution"; Rec."Likizo Contribution")
+                // field("Shares Retained"; Rec."Shares Retained")
                 // {
-                //     ApplicationArea = all;
-                //     Caption = 'Holiday Contribution';
+                //     ApplicationArea = Basic;
+                //     Caption = 'Share Capital';
                 // }
-                // field("Alpha Savings"; Rec."Alpha Savings")
+                // field("Current Shares"; Rec."Current Shares")
                 // {
-                //     ApplicationArea = all;
+                //     Caption = 'Non-withdrawable Deposits';
+                //     Style = StrongAccent;
+                //     ApplicationArea = Basic;
                 // }
-                field("Un-allocated Funds"; Rec."Un-allocated Funds")
-                {
-                    ApplicationArea = all;
-                }
-                // field("Junior Savings One"; Rec."Junior Savings One")
-                // {
-                //     ApplicationArea = all;
-                // }
-
             }
         }
         area(factboxes)
@@ -113,19 +80,6 @@ Page 56027 "Member List"
     {
         area(Processing)
         {
-            // group(ActionGroup1102755024)
-            // {
-            //     // action("Account Page")
-            //     // {
-            //     //     ApplicationArea = Basic;
-            //     //     Image = Planning;
-            //     //     Caption = 'FOSA Account Page';
-            //     //     Promoted = true;
-            //     //     PromotedCategory = Process;
-            //     //     RunObject = Page "Account Card";
-            //     //     RunPageLink = "No." = field("FOSA Account");
-            //     // }
-            // }
             group(ActionGroup1102755007)
             {
                 action(DetailedStatement)
@@ -157,7 +111,7 @@ Page 56027 "Member List"
                         Cust.Reset;
                         Cust.SetRange(Cust."No.", Rec."No.");
                         if Cust.Find('-') then
-                            Report.Run(50226, true, false, Cust);
+                            Report.Run(51031, true, false, Cust);
                     end;
                 }
                 action("Shares Statement")
@@ -207,6 +161,23 @@ Page 56027 "Member List"
                             Report.Run(50303, true, false, Cust);
                     end;
                 }
+                action(MemberStatementActive)
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Detailed Member Active';
+                    Image = Customer;
+                    Promoted = true;
+                    PromotedCategory = "process";
+
+                    trigger OnAction()
+                    begin
+                        Cust.Reset;
+                        Cust.SetRange(Cust."No.", Rec."No.");
+                        if Cust.Find('-') then
+                            Report.Run(51046, true, false, Cust);
+                    end;
+                }
+
                 action(Statement)
                 {
                     ApplicationArea = Basic;
@@ -220,7 +191,7 @@ Page 56027 "Member List"
                         Cust.Reset;
                         Cust.SetRange(Cust."No.", Rec."No.");
                         if Cust.Find('-') then
-                            Report.Run(51001, true, false, Cust);
+                            Report.Run(50223, true, false, Cust);
                     end;
                 }
 
@@ -232,19 +203,6 @@ Page 56027 "Member List"
 
     end;
 
-    // trigger OnOpenPage()
-    // var
-    //     EmailBody: Text[700];
-    //     EmailSubject: Text[100];
-    //     Emailaddress: Text[100];
-    // begin
-    //     Emailaddress := ;
-    //     EmailSubject := 'wee wacha';
-    //     EMailBody := 'Dear <b>' + '</b>,</br></br>'+
-    //         'On behalf of Polytech Sacco am pleased to inform you that your application for membership has been accepted.' +'<br></br>'+
-    //         'Congratulations';
-    //     SwizzsoftFactory.SendMail(Emailaddress, EmailSubject, EmailBody);
-    // end;
 
     var
         SwizzsoftFactory: Codeunit "swizzsoft Factory";

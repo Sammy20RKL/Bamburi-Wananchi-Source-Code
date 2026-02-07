@@ -13,11 +13,11 @@ Codeunit 50835 "Test Report-PrintAUT"
         GenJnlTemplate: Record "Gen. Journal Template";
         VATStmtTmpl: Record "VAT Statement Template";
         ItemJnlTemplate: Record "Item Journal Template";
-        IntraJnlTemplate: Record "Intrastat Jnl. Template";
+        // IntraJnlTemplate: Record "Intrastat Jnl. Template";
         GenJnlLine: Record "Gen. Journal Line";
         VATStmtLine: Record "VAT Statement Line";
         ItemJnlLine: Record "Item Journal Line";
-        IntrastatJnlLine: Record "Intrastat Jnl. Line";
+        //IntrastatJnlLine: Record "Intrastat Jnl. Line";
         ResJnlTemplate: Record "Res. Journal Template";
         ResJnlLine: Record "Res. Journal Line";
         JobJnlTemplate: Record "Job Journal Template";
@@ -126,16 +126,16 @@ Codeunit 50835 "Test Report-PrintAUT"
     end;
 
 
-    procedure PrintIntrastatJnlLine(var NewIntrastatJnlLine: Record "Intrastat Jnl. Line")
-    begin
-        IntrastatJnlLine.Copy(NewIntrastatJnlLine);
-        IntrastatJnlLine.SetCurrentkey(Type, "Country/Region Code", "Tariff No.", "Transaction Type", "Transport Method");
-        IntrastatJnlLine.SetRange("Journal Template Name", IntrastatJnlLine."Journal Template Name");
-        IntrastatJnlLine.SetRange("Journal Batch Name", IntrastatJnlLine."Journal Batch Name");
-        IntraJnlTemplate.Get(IntrastatJnlLine."Journal Template Name");
-        IntraJnlTemplate.TestField("Checklist Report ID");
-        Report.Run(IntraJnlTemplate."Checklist Report ID", true, false, IntrastatJnlLine);
-    end;
+    // procedure PrintIntrastatJnlLine(var NewIntrastatJnlLine: Record "Intrastat Jnl. Line")
+    // begin
+    //     IntrastatJnlLine.Copy(NewIntrastatJnlLine);
+    //     IntrastatJnlLine.SetCurrentkey(Type, "Country/Region Code", "Tariff No.", "Transaction Type", "Transport Method");
+    //     IntrastatJnlLine.SetRange("Journal Template Name", IntrastatJnlLine."Journal Template Name");
+    //     IntrastatJnlLine.SetRange("Journal Batch Name", IntrastatJnlLine."Journal Batch Name");
+    //     IntraJnlTemplate.Get(IntrastatJnlLine."Journal Template Name");
+    //     IntraJnlTemplate.TestField("Checklist Report ID");
+    //     Report.Run(IntraJnlTemplate."Checklist Report ID", true, false, IntrastatJnlLine);
+    // end;
 
 
     procedure PrintResJnlBatch(ResJnlBatch: Record "Res. Journal Batch")

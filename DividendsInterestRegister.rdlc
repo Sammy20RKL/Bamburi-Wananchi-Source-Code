@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <Height>2in</Height>
+        <Style />
+      </Body>
+      <Width>6.5in</Width>
+      <Page>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="CompanyName">
+          <DataField>CompanyName</DataField>
+        </Field>
+        <Field Name="ReportTitle">
+          <DataField>ReportTitle</DataField>
+        </Field>
+        <Field Name="CustomerNo">
+          <DataField>CustomerNo</DataField>
+        </Field>
+        <Field Name="CustomerName">
+          <DataField>CustomerName</DataField>
+        </Field>
+        <Field Name="CurrentShares">
+          <DataField>CurrentShares</DataField>
+        </Field>
+        <Field Name="CurrentSharesFormat">
+          <DataField>CurrentSharesFormat</DataField>
+        </Field>
+        <Field Name="SharesRetained">
+          <DataField>SharesRetained</DataField>
+        </Field>
+        <Field Name="SharesRetainedFormat">
+          <DataField>SharesRetainedFormat</DataField>
+        </Field>
+        <Field Name="ShareCapitalDesc">
+          <DataField>ShareCapitalDesc</DataField>
+        </Field>
+        <Field Name="ShareCapitalTotal">
+          <DataField>ShareCapitalTotal</DataField>
+        </Field>
+        <Field Name="ShareCapitalTotalFormat">
+          <DataField>ShareCapitalTotalFormat</DataField>
+        </Field>
+        <Field Name="ShareCapitalQualifying">
+          <DataField>ShareCapitalQualifying</DataField>
+        </Field>
+        <Field Name="ShareCapitalQualifyingFormat">
+          <DataField>ShareCapitalQualifyingFormat</DataField>
+        </Field>
+        <Field Name="ShareCapitalGross">
+          <DataField>ShareCapitalGross</DataField>
+        </Field>
+        <Field Name="ShareCapitalGrossFormat">
+          <DataField>ShareCapitalGrossFormat</DataField>
+        </Field>
+        <Field Name="DepositTotalAmount">
+          <DataField>DepositTotalAmount</DataField>
+        </Field>
+        <Field Name="DepositTotalAmountFormat">
+          <DataField>DepositTotalAmountFormat</DataField>
+        </Field>
+        <Field Name="DepositQualifyingAmount">
+          <DataField>DepositQualifyingAmount</DataField>
+        </Field>
+        <Field Name="DepositQualifyingAmountFormat">
+          <DataField>DepositQualifyingAmountFormat</DataField>
+        </Field>
+        <Field Name="DepositRate">
+          <DataField>DepositRate</DataField>
+        </Field>
+        <Field Name="DepositRateFormat">
+          <DataField>DepositRateFormat</DataField>
+        </Field>
+        <Field Name="DepositGrossEarned">
+          <DataField>DepositGrossEarned</DataField>
+        </Field>
+        <Field Name="DepositGrossEarnedFormat">
+          <DataField>DepositGrossEarnedFormat</DataField>
+        </Field>
+        <Field Name="DepositWTaxPercent">
+          <DataField>DepositWTaxPercent</DataField>
+        </Field>
+        <Field Name="DepositWTaxPercentFormat">
+          <DataField>DepositWTaxPercentFormat</DataField>
+        </Field>
+        <Field Name="DepositNetEarned">
+          <DataField>DepositNetEarned</DataField>
+        </Field>
+        <Field Name="DepositNetEarnedFormat">
+          <DataField>DepositNetEarnedFormat</DataField>
+        </Field>
+        <Field Name="ShareCapitalTotalAmt">
+          <DataField>ShareCapitalTotalAmt</DataField>
+        </Field>
+        <Field Name="ShareCapitalTotalAmtFormat">
+          <DataField>ShareCapitalTotalAmtFormat</DataField>
+        </Field>
+        <Field Name="ShareCapitalQualifyingAmt">
+          <DataField>ShareCapitalQualifyingAmt</DataField>
+        </Field>
+        <Field Name="ShareCapitalQualifyingAmtFormat">
+          <DataField>ShareCapitalQualifyingAmtFormat</DataField>
+        </Field>
+        <Field Name="ShareCapitalRatePercent">
+          <DataField>ShareCapitalRatePercent</DataField>
+        </Field>
+        <Field Name="ShareCapitalRatePercentFormat">
+          <DataField>ShareCapitalRatePercentFormat</DataField>
+        </Field>
+        <Field Name="ShareCapitalGrossAmt">
+          <DataField>ShareCapitalGrossAmt</DataField>
+        </Field>
+        <Field Name="ShareCapitalGrossAmtFormat">
+          <DataField>ShareCapitalGrossAmtFormat</DataField>
+        </Field>
+        <Field Name="ShareCapitalWTaxPercent">
+          <DataField>ShareCapitalWTaxPercent</DataField>
+        </Field>
+        <Field Name="ShareCapitalWTaxPercentFormat">
+          <DataField>ShareCapitalWTaxPercentFormat</DataField>
+        </Field>
+        <Field Name="ShareCapitalNetAmt">
+          <DataField>ShareCapitalNetAmt</DataField>
+        </Field>
+        <Field Name="ShareCapitalNetAmtFormat">
+          <DataField>ShareCapitalNetAmtFormat</DataField>
+        </Field>
+        <Field Name="GrandTotalGross">
+          <DataField>GrandTotalGross</DataField>
+        </Field>
+        <Field Name="GrandTotalGrossFormat">
+          <DataField>GrandTotalGrossFormat</DataField>
+        </Field>
+        <Field Name="GrandTotalWTax">
+          <DataField>GrandTotalWTax</DataField>
+        </Field>
+        <Field Name="GrandTotalWTaxFormat">
+          <DataField>GrandTotalWTaxFormat</DataField>
+        </Field>
+        <Field Name="GrandTotalNet">
+          <DataField>GrandTotalNet</DataField>
+        </Field>
+        <Field Name="GrandTotalNetFormat">
+          <DataField>GrandTotalNetFormat</DataField>
+        </Field>
+        <Field Name="ProgressionDesc">
+          <DataField>ProgressionDesc</DataField>
+        </Field>
+        <Field Name="ProgressionTotal">
+          <DataField>ProgressionTotal</DataField>
+        </Field>
+        <Field Name="ProgressionTotalFormat">
+          <DataField>ProgressionTotalFormat</DataField>
+        </Field>
+        <Field Name="ProgressionQualifying">
+          <DataField>ProgressionQualifying</DataField>
+        </Field>
+        <Field Name="ProgressionQualifyingFormat">
+          <DataField>ProgressionQualifyingFormat</DataField>
+        </Field>
+        <Field Name="ProgressionGross">
+          <DataField>ProgressionGross</DataField>
+        </Field>
+        <Field Name="ProgressionGrossFormat">
+          <DataField>ProgressionGrossFormat</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>

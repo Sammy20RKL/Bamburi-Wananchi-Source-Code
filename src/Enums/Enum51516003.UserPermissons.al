@@ -48,5 +48,13 @@ enum 51516003 "User Permissons"
     value(15; "SmobileApp") { }
     value(16; "Can Appeal Loans") { }//Overide Defaulters
     value(17; "Overide Defaulters") { }//
+    value(18; "Can Reverse Transactions")
+    {
+
+    }
+    value(19; "Can Process To Blocked Accounts")
+    {
+
+    }
 
 }

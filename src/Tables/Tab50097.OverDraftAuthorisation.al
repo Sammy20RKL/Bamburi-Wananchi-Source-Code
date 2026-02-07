@@ -253,7 +253,7 @@ table 50097 "Over Draft Authorisation"
         if "No." = '' then begin
             NoSetup.Get;
             NoSetup.TestField(NoSetup."Overdraft App Nos.");
-            NoSeriesMgt.InitSeries(NoSetup."Overdraft App Nos.", xRec."No. Series", 0D, "No.", "No. Series");
+            // NoSeriesMgt.InitSeries(NoSetup."Overdraft App Nos.", xRec."No. Series", 0D, "No.", "No. Series");
         end;
 
 
@@ -262,7 +262,7 @@ table 50097 "Over Draft Authorisation"
 
     var
         NoSetup: Record "Sacco General Set-Up";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         Account: Record Vendor;
         UsersID: Record User;
         BanksList: Record Banks;

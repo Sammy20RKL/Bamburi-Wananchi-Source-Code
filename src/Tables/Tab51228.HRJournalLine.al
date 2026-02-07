@@ -303,7 +303,7 @@ Table 51228 "HR Journal Line"
         InsuranceJnlTempl: Record "HR Leave Journal Template";
         InsuranceJnlBatch: Record "HR Leave Journal Batch";
         InsuranceJnlLine: Record "HR Journal Line";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        // NoSeriesMgt: Codeunit NoSeriesManagement;
         DimMgt: Codeunit DimensionManagement;
         LeaveType: Record "HR Leave Types";
         Text001: label 'You can not post more than maximum days allowed for this leave type %1';

@@ -156,13 +156,13 @@ Table 51549 "Funeral Expense Payment"
         if "No." = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Funeral Expense Nos");
-            NoSeriesMgt.InitSeries(SalesSetup."Funeral Expense Nos", xRec."No. Series", 0D, "No.", "No. Series");
+            // NoSeriesMgt.InitSeries(SalesSetup."Funeral Expense Nos", xRec."No. Series", 0D, "No.", "No. Series");
         end;
     end;
 
     var
         SalesSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         Cust: Record Customer;
         Loans: Record "Loans Register";
         MemLed: Record "Member Ledger Entry";

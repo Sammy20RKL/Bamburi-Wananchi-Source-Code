@@ -227,7 +227,7 @@ page 50408 "Membership Exit List"
         ShareCapitalTransferVisible: Boolean;
         ShareCapSellPageVisible: Boolean;
         //ObjShareCapSell: Record "Share Capital Sell";
-        SurestepFactory: Codeunit "SURESTEP Factory";
+        SwizzsoftFactory: Codeunit "SWIZZSFT Factory";
         JVTransactionType: Option " ","Registration Fee","Share Capital","Interest Paid","Loan Repayment","Deposit Contribution","Insurance Contribution","Benevolent Fund",Loan,"Unallocated Funds",Dividend,"FOSA Account","Loan Insurance Charged","Loan Insurance Paid","Recovery Account","FOSA Shares","Additional Shares";
         JVAccountType: Enum "Gen. Journal Account Type";
         TemplateName: Code[20];
@@ -247,7 +247,7 @@ page 50408 "Membership Exit List"
         ObjNoSeries: Record "Sacco No. Series";
         VarDocumentNo: Code[30];
         //ObjHouseChangeAppl: Record "House Group Change Request";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        //NoSeriesMgt: Codeunit NoSeriesManagement;
         VarShareCapitalFee: Decimal;
         ApprovalsMgmt: Codeunit "Approvals Mgmt.";
     //WorkflowIntegration: Codeunit WorkflowIntegration;
@@ -347,7 +347,7 @@ page 50408 "Membership Exit List"
     //         if ObjShareCapSell.FindSet then begin
     //             repeat
     //                 LineNo := LineNo + 10000;
-    //                 SurestepFactory.FnCreateGnlJournalLine(TemplateName, BatchName, "No.", LineNo, GenJournalLine."transaction type"::"Share Capital",
+    //                 SwizzsoftFactory.FnCreateGnlJournalLine(TemplateName, BatchName, "No.", LineNo, GenJournalLine."transaction type"::"Share Capital",
     //                 GenJournalLine."account type"::Vendor, ObjShareCapSell."Buyer Share Capital Account", "Posting Date",
     //                 (ObjShareCapSell.Amount * -1), 'BOSA', "No.", 'Share Capital Purchase From ' + Format(ObjShareCapSell."Selling Member No"), '', GenJournalLine."application source"::" ");
     //                 VarBuyerMemberNos := VarBuyerMemberNos + ObjShareCapSell."Buyer Member No" + ', ';
@@ -357,7 +357,7 @@ page 50408 "Membership Exit List"
     //         LineNo := LineNo + 10000;
     //         //=========================================================================================================Debit Seller Account
     //         CalcFields("Share Capital to Sell");
-    //         SurestepFactory.FnCreateGnlJournalLine(TemplateName, BatchName, "No.", LineNo, GenJournalLine."transaction type"::"Share Capital",
+    //         SwizzsoftFactory.FnCreateGnlJournalLine(TemplateName, BatchName, "No.", LineNo, GenJournalLine."transaction type"::"Share Capital",
     //         GenJournalLine."account type"::Vendor, "Seller Share Capital Account", "Posting Date",
     //             ("Share Capital to Sell"), 'BOSA', "No.", 'Share Capital Sell to ' + VarBuyerMemberNos, '', GenJournalLine."application source"::" ");
 
@@ -368,7 +368,7 @@ page 50408 "Membership Exit List"
     //         if ObjShareCapSell.FindSet then begin
     //             repeat
     //                 LineNo := LineNo + 10000;
-    //                 SurestepFactory.FnCreateGnlJournalLine(TemplateName, BatchName, "No.", LineNo, GenJournalLine."transaction type"::" ",
+    //                 SwizzsoftFactory.FnCreateGnlJournalLine(TemplateName, BatchName, "No.", LineNo, GenJournalLine."transaction type"::" ",
     //                 GenJournalLine."account type"::Vendor, ObjShareCapSell."Buyer FOSA Account", "Posting Date",
     //                 (ObjShareCapSell.Amount), 'FOSA', "No.", 'Share Capital Purchase From ' + Format(ObjShareCapSell."Selling Member No"), '', GenJournalLine."application source"::" ");
     //             until ObjShareCapSell.Next = 0;
@@ -377,21 +377,21 @@ page 50408 "Membership Exit List"
     //         LineNo := LineNo + 10000;
     //         //======================================================================================================Credit Seller FOSA Account
     //         CalcFields("Share Capital to Sell");
-    //         SurestepFactory.FnCreateGnlJournalLine(TemplateName, BatchName, "No.", LineNo, GenJournalLine."transaction type"::" ",
+    //         SwizzsoftFactory.FnCreateGnlJournalLine(TemplateName, BatchName, "No.", LineNo, GenJournalLine."transaction type"::" ",
     //         GenJournalLine."account type"::Vendor, "FOSA Account No.", "Posting Date",
     //             ("Share Capital to Sell" * -1), 'FOSA', "No.", 'Share Capital Sell to ' + VarBuyerMemberNos, '', GenJournalLine."application source"::" ");
 
     //         LineNo := LineNo + 10000;
     //         //========================================================================================================Post Transfer Fee
     //         Generalsetup.Get();
-    //         SurestepFactory.FnCreateGnlJournalLineBalanced(TemplateName, BatchName, "No.", LineNo, GenJournalLine."transaction type"::"Deposit Contribution", GenJournalLine."account type"::Vendor, ObjMember."Deposits Account No", "Posting Date"
+    //         SwizzsoftFactory.FnCreateGnlJournalLineBalanced(TemplateName, BatchName, "No.", LineNo, GenJournalLine."transaction type"::"Deposit Contribution", GenJournalLine."account type"::Vendor, ObjMember."Deposits Account No", "Posting Date"
     //         , 'Share Capital Transfer Fee ' + Format("Member No."), GenJournalLine."bal. account type"::"G/L Account", Generalsetup."Share Capital Transfer Fee Acc", ("Share Capital Transfer Fee"), 'BOSA', '');
     //         //========================================================================================================Post JV
 
     //         LineNo := LineNo + 10000;
     //         //==========================================================================================================Post Transfer Fee Excise Duty
     //         Generalsetup.Get();
-    //         SurestepFactory.FnCreateGnlJournalLineBalanced(TemplateName, BatchName, "No.", LineNo, GenJournalLine."transaction type"::"Deposit Contribution", GenJournalLine."account type"::Vendor, ObjMember."Deposits Account No", "Posting Date"
+    //         SwizzsoftFactory.FnCreateGnlJournalLineBalanced(TemplateName, BatchName, "No.", LineNo, GenJournalLine."transaction type"::"Deposit Contribution", GenJournalLine."account type"::Vendor, ObjMember."Deposits Account No", "Posting Date"
     //         , 'Tax: Share Capital Transfer Fee ' + Format("Member No."), GenJournalLine."bal. account type"::"G/L Account", Generalsetup."Excise Duty Account", ("Share Capital Transfer Fee" * (Generalsetup."Excise Duty(%)" / 100)), 'BOSA', '');
     //         //==========================================================================================================Post Transfer Fee Excise Duty
     //     end;
@@ -462,7 +462,7 @@ page 50408 "Membership Exit List"
         ObjLoans: Record "Loans Register";
         ObjLoansII: Record "Loans Register";
         VarCurrentPayOff: Decimal;
-        SFactory: Codeunit "SURESTEP Factory";
+        SFactory: Codeunit "SWIZZSFT Factory";
         VarMemberTotalLoanLiability: Decimal;
         VarMembershipExitFee: Decimal;
         VarMemberTotalLiability: Decimal;
@@ -616,7 +616,7 @@ page 50408 "Membership Exit List"
         ObjLoans: Record "Loans Register";
         ObjLoansII: Record "Loans Register";
         VarCurrentPayOff: Decimal;
-        SFactory: Codeunit "SURESTEP Factory";
+        SFactory: Codeunit "SWIZZSFT Factory";
         VarMemberTotalLoanLiability: Decimal;
         VarMembershipExitFee: Decimal;
         VarMemberTotalLiability: Decimal;

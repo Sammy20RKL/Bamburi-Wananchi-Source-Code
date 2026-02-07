@@ -69,6 +69,7 @@ page 50252 "HR Employee Card"
                     Caption = 'Country / Region Code';
                     Editable = false;
                 }
+                field("Country/Region Code"; Rec."Country/Region Code") { ApplicationArea = Basic; }
                 field("Global Dimension 1 Code"; Rec."Global Dimension 1 Code")
                 {
                     ApplicationArea = Basic;
@@ -133,8 +134,8 @@ page 50252 "HR Employee Card"
                 {
                     ApplicationArea = Basic;
                     Caption = 'Supervisor ';
-                    Editable = false;
-                    Visible = false;
+                    // Editable = false;
+                    // Visible = false;
                 }
                 field(Status; Rec.Status)
                 {
@@ -146,9 +147,10 @@ page 50252 "HR Employee Card"
                 field(Supervisor; Rec.Supervisor)
                 {
                     ApplicationArea = Basic;
-                    Caption = 'Is Supervisor';
-                    Visible = false;
+                    Caption = 'Supervisor';
+                    // Visible = false;
                 }
+                field("Supervisor Name"; Rec."Supervisor Name") { Editable = false; }
             }
             group("Communication Details")
             {
@@ -197,6 +199,11 @@ page 50252 "HR Employee Card"
             {
                 Caption = 'Personal Details';
                 field(Gender; Rec.Gender)
+                {
+                    ApplicationArea = Basic;
+                    Importance = Promoted;
+                }
+                field("Gender."; Rec."Gender.")
                 {
                     ApplicationArea = Basic;
                     Importance = Promoted;

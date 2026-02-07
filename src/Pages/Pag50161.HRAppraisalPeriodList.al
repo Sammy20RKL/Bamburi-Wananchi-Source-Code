@@ -146,7 +146,7 @@ page 50161 "HR Appraisal Period List"
         CurrToDate: Date;
         currPeriod: Code[50];
         objNewAppraisalHeader: Record 51216;
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        // NoSeriesMgt: Codeunit NoSeriesManagement;
         HRSetup: Record 51181;
         objNewAppraisalHeaderX: Record 51216;
 

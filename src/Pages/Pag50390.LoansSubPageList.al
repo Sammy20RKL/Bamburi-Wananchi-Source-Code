@@ -208,7 +208,7 @@ page 50390 "Loans Sub-Page List"
 
     var
         LoanType: Record "Loan Products Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        //NoSeriesMgt: Codeunit NoSeriesManagement;
         FieldStyle: Text;
         FieldStyleI: Text;
         OutstandingInterest: Decimal;

@@ -5,7 +5,7 @@ page 50326 "Payroll Periods."
     Caption = 'Payroll Periods.';
     UsageCategory = Tasks;
     DeleteAllowed = true;
-    Editable = false;
+    Editable = true;
     PageType = Card;
     SourceTable = "Payroll Calender.";
 
@@ -39,12 +39,14 @@ page 50326 "Payroll Periods."
                 field("Date Closed"; Rec."Date Closed")
                 {
                     ApplicationArea = All;
+                    Editable = true;
 
                 }
                 field(Closed; Rec.Closed)
                 {
 
                     ApplicationArea = All;
+                    Editable = true;
 
                 }
                 field("Payroll Code"; Rec."Payroll Code")

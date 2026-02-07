@@ -642,7 +642,10 @@ Table 51317 "Payroll Employee."
             Editable = false;
             FieldClass = FlowField;
         }
-
+        field(128; "User ID"; Code[22])
+        {
+            TableRelation = "User Setup"."User ID";
+        }
 
     }
 

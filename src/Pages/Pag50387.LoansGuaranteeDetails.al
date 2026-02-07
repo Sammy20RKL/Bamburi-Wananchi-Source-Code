@@ -38,16 +38,16 @@ page 50387 "Loans Guarantee Details"
                 {
                     ApplicationArea = Basic;
                 }
-                field(Date; Rec.Date)
+
+                field("Committed Shares"; Rec."Committed Shares")
                 {
                     ApplicationArea = Basic;
-                    Editable = false;
                 }
-                field("TotalLoan Guaranteed"; Rec."TotalLoan Guaranteed")
-                {
-                    ApplicationArea = Basic;
-                    Caption = 'Guarantorship Liability';
-                }
+                // field("TotalLoan Guaranteed"; Rec."TotalLoan Guaranteed")
+                // {
+                //     ApplicationArea = Basic;
+                //     Caption = 'Guarantorship Liability';
+                // }
                 field(CStatus; CStatus)
                 {
                     ApplicationArea = Basic;
@@ -57,6 +57,12 @@ page 50387 "Loans Guarantee Details"
                 field("free Share"; Rec."free Share")
                 {
                     ApplicationArea = Basic;
+                    Visible = false;
+                }
+                field(Date; Rec.Date)
+                {
+                    ApplicationArea = Basic;
+                    Editable = false;
                 }
             }
         }

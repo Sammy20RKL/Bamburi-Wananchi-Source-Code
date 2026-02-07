@@ -2,14 +2,14 @@ Report 50050 MembershipApplicationReport
 {
     ApplicationArea = All;
     Caption = 'Membership Application Report';
-    RDLCLayout = './Layouts/MembershipApplicationReport.rdl';
+    RDLCLayout = './Layout/MembershipApplicationReport.rdl';
     UsageCategory = ReportsAndAnalysis;
     dataset
     {
         dataitem("Membership Applications"; "Membership Applications")
         {
             DataItemTableView = sorting("No.") order(descending);
-            RequestFilterFields = Status;
+            RequestFilterFields = Status, "Registration Date";
             column(CompanyName; CompanyInfo.Name)
             {
             }
@@ -33,7 +33,9 @@ Report 50050 MembershipApplicationReport
             { }
             column(EntryNo; EntryNo)
             { }
-            column(Mobile_Phone_No; "Mobile Phone No")
+            column(Phone_No_; "Mobile Phone No")
+            { }
+            column(Registration_Date; "Registration Date")
             { }
 
 

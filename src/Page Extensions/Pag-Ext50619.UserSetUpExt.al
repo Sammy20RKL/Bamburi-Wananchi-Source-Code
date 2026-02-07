@@ -41,6 +41,7 @@ pageextension 50619 "UserSetUpExt" extends "User Setup"
             {
 
             }
+            field("Employee No."; Rec."Employee No.") { }
             field("Exempt Posting Date Update"; Rec."Exempt Posting Date Update")
             {
 
@@ -53,7 +54,10 @@ pageextension 50619 "UserSetUpExt" extends "User Setup"
             {
 
             }
-
+            // field("Role Centre"; Rec."Role Centre")
+            // {
+            // }
+            field("Issue Trunch"; Rec."Issue Trunch") { }
 
         }
         modify("Allow Deferral Posting From")

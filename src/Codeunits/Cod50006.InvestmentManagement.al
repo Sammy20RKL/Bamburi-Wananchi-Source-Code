@@ -11,7 +11,7 @@ Codeunit 50006 "Investment Management"
         InvestorAccount: Record "FOSA Account NOK Details";
         InvestorPostingGroup: Record "Standing Order Register";
         GenJnlLine: Record "Gen. Journal Line";
-        PaymentHeader: Record "Payment Header";
+        PaymentHeader: Record "Payments Header";
 
     local procedure InvestorInterestBatchJob("Investor No": Code[20]; "Journal Template": Code[20]; "Journal Batch": Code[20]; PostingGroup: Code[20])
     var
@@ -40,7 +40,7 @@ Codeunit 50006 "Investment Management"
         GenJnlLine."Document No." := PaymentHeader."No.";
         GenJnlLine."External Document No." := PaymentHeader."Cheque No";
         GenJnlLine."Account Type" := GenJnlLine."account type"::"Bank Account";
-        GenJnlLine."Account No." := PaymentHeader."Bank Account";
+        GenJnlLine."Account No." := PaymentHeader."Paying Bank Account";
         GenJnlLine.Validate(GenJnlLine."Account No.");
         GenJnlLine."Currency Code" := PaymentHeader."Currency Code";
         GenJnlLine.Validate(GenJnlLine."Currency Code");

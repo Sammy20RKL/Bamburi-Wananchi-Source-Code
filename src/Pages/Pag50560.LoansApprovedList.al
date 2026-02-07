@@ -579,7 +579,7 @@ page 50560 "Loans Approved List"
                                     GenJournalLine.Description := 'Principal Amount';
                                     GenJournalLine.Amount := LoanDisbAmount + TCharges;
                                     GenJournalLine.Validate(GenJournalLine.Amount);
-                                    GenJournalLine."Transaction Type" := GenJournalLine."transaction type"::"Shares Capital";
+                                    GenJournalLine."Transaction Type" := GenJournalLine."Transaction Type"::"Share Capital";
                                     GenJournalLine."Loan No" := LoanApps."Loan  No.";
                                     GenJournalLine."Shortcut Dimension 1 Code" := DActivity;
                                     GenJournalLine."Shortcut Dimension 2 Code" := DBranch;
@@ -899,7 +899,7 @@ page 50560 "Loans Approved List"
                                     GenJournalLine.Description := 'Principal Amount';
                                     GenJournalLine.Amount := LoanDisbAmount + TCharges;
                                     GenJournalLine.Validate(GenJournalLine.Amount);
-                                    GenJournalLine."Transaction Type" := GenJournalLine."transaction type"::"Shares Capital";
+                                    GenJournalLine."Transaction Type" := GenJournalLine."Transaction Type"::"Share Capital";
                                     GenJournalLine."Loan No" := LoanApps."Loan  No.";
                                     GenJournalLine."Shortcut Dimension 1 Code" := DActivity;
                                     GenJournalLine."Shortcut Dimension 2 Code" := DBranch;

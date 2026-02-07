@@ -1,8 +1,8 @@
 #pragma warning disable AA0005, AA0008, AA0018, AA0021, AA0072, AA0137, AA0201, AA0204, AA0206, AA0218, AA0228, AL0254, AL0424, AS0011, AW0006 // ForNAV settings
 Table 51183 "HR Leave Application"
 {
-    DrillDownPageID = "HR Leave Applications List";
-    LookupPageID = "HR Leave Applications List";
+    // DrillDownPageID = "HR Leave Applications List";
+    // LookupPageID = "HR Leave Applications List";
 
     fields
     {
@@ -118,21 +118,77 @@ Table 51183 "HR Leave Application"
                     UNTIL BaseCalendar.NEXT = 0;
                 END;
 
+
                 IF "Start Date" < "Application Date" THEN
                     ERROR('You cannot Start your leave before the application date');
+
+                "Return Date" := DetermineLeaveReturnDate("Start Date", "Days Applied");
             end;
         }
         field(6; "Return Date"; Date)
         {
             Caption = 'Return Date';
             Editable = true;
+            // trigger OnValidate()
+
+            // begin
+            //     Validate("Start Date");
+            // end;
         }
         field(7; "Application Date"; Date)
         {
         }
+        field(8; "Global Dimension 1 Code"; Code[20])
+        {
+            TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(3));
+
+            trigger OnValidate();
+            begin
+                "Global Dimension 1 Name" := '';
+                DimValue.RESET;
+                DimValue.SETRANGE(DimValue.Code, "Global Dimension 1 Code");
+                IF DimValue.FIND('-') THEN BEGIN
+                    "Global Dimension 1 Name" := DimValue.Name;
+                END;
+            end;
+        }
+        field(9; "Global Dimension 2 Code"; Code[20])
+        {
+            CaptionClass = '1,1,2';
+            TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(2));
+
+            trigger OnValidate();
+            begin
+                "Global Dimension 2 Name" := '';
+                DimValue.RESET;
+                DimValue.SETRANGE(DimValue.Code, "Global Dimension 2 Code");
+                IF DimValue.FIND('-') THEN BEGIN
+                    "Global Dimension 2 Name" := DimValue.Name;
+                END;
+            end;
+        }
+        field(19; "Global Dimension 1 Name"; Text[60])
+        {
+            Editable = false;
+        }
+        field(20; "Global Dimension 2 Name"; Text[60])
+        {
+            Editable = false;
+        }
+        field(32; Posted; Boolean)
+        {
+        }
+        field(33; "Posted By"; Text[250])
+        {
+        }
+        field(34; "Date Posted"; Date)
+        {
+        }
+        field(35; "Time Posted"; Time)
+        {
+        }
         field(12; Status; Option)
         {
-
             OptionMembers = New,Escalated,Pending,Rejected,Approved,Posted;
         }
         field(15; "Applicant Comments"; Text[250])
@@ -185,6 +241,15 @@ Table 51183 "HR Leave Application"
         {
             ExtendedDatatype = PhoneNo;
         }
+        field(5981; "Alternative CellPhone No."; Integer)
+        {
+        }
+        field(50000; "Employee Posting Group"; Code[20])
+        {
+        }
+        field(50004; Address; Code[50])
+        {
+        }
         field(3937; "Request Leave Allowance"; Boolean)
         {
             trigger OnValidate()
@@ -213,7 +278,7 @@ Table 51183 "HR Leave Application"
         }
         field(3942; "Leave Allowance Entittlement"; Decimal)
         {
-            CalcFormula = Lookup("HR Employees"."Leave Allowance Amount" WHERE("No." = FIELD("Employee No")));
+            CalcFormula = Lookup("HR Employees"."Leave Allowance Amount" WHERE("No." = FIELD("Applicant Staff No.")));
             FieldClass = FlowField;
         }
         field(3943; "Leave Allowance Amount"; Decimal)
@@ -231,7 +296,7 @@ Table 51183 "HR Leave Application"
             trigger OnValidate()
             begin
                 //DISPLAY RELEIVERS NAME
-                IF Reliever = "Employee No" THEN
+                IF Reliever = "Applicant Staff No." THEN
                     ERROR('Employee cannot relieve him/herself');
                 IF PayrollEmp.GET(Reliever) THEN
                     "Reliever Name" := PayrollEmp."First Name" + ' ' + PayrollEmp."Middle Name";
@@ -269,6 +334,9 @@ Table 51183 "HR Leave Application"
                 "Cell Phone Number" := PayrollEmp."Cellular Phone Number";
                 "E-mail Address" := PayrollEmp."E-Mail";
                 "Supervisor Name" := PayrollEmp."Supervisor Name";
+                Names := PayrollEmp.FullName();
+                //Names := PayrollEmp."First Name" + ' ' + PayrollEmp."Middle Name";
+
 
 
 
@@ -351,6 +419,42 @@ Table 51183 "HR Leave Application"
             Editable = false;
             FieldClass = FlowField;
         }
+        field(59; "Applicant User ID"; Code[50])
+        {
+        }
+        field(61; "Applicant Staff No."; Code[20])
+        {
+            TableRelation = "HR Employees"."No." WHERE(Status = CONST(New)/* , "Contract Type" = filter('<>DIRECTOR') */);
+            trigger OnValidate()
+            begin
+                IF HREmp.GET("Applicant Staff No.") THEN begin
+                    Names := HREmp."First Name" + ' ' + HREmp."Middle Name";
+                    "Job Tittle" := HREmp."Job Title";
+                    Department := HREmp."Department Name";
+
+                    //    "Employee No":=PayrollEmp."No.";
+                    Gender := HREmp.Gender;
+                    "Application Date" := TODAY;
+                    "User ID" := USERID;
+
+                    HREmp.CALCFIELDS(HREmp.Picture);
+                    Picture := HREmp.Picture;
+                    // "Cell Phone Number" := PayrollEmp."Cellular Phone Number";
+                    "E-mail Address" := HREmp."E-Mail";
+
+                    "Applicant Name" := HREmp."First Name" + ' ' + HREmp."Middle Name";
+                    //"Responsibility Center":=PayrollEmp."Department Code";
+                    //Approver details
+
+                    Class := Class;
+                end;
+
+            end;
+        }
+        field(62; "Applicant Supervisor"; Code[50])
+        {
+            TableRelation = "User Setup"."User ID";
+        }
         field(3972; Emergency; Boolean)
         {
             Description = 'This is used to ensure one can apply annual leave which is emergency';
@@ -360,8 +464,17 @@ Table 51183 "HR Leave Application"
         }
         field(3974; "Available Days"; Decimal)
         {
-            CalcFormula = Sum("HR Leave Ledger Entries"."No. of days" WHERE("Staff No." = FIELD("Employee No")));
+            CalcFormula = Sum("HR Leave Ledger Entries"."No. of days" WHERE("Staff No." = FIELD("Applicant Staff No.")));
             FieldClass = FlowField;
+        }
+
+        field(50001; "Leave Allowance Posted"; Boolean)
+        {
+            Editable = false;
+        }
+        field(50002; "Leave Allowance Date"; Date)
+        {
+            Editable = false;
         }
 
         field(3975; Reliever2; Code[50])
@@ -670,7 +783,7 @@ Table 51183 "HR Leave Application"
         field(4008; "Leave Planner no"; Integer)
         {
             DataClassification = ToBeClassified;
-            TableRelation = "HR Leave Planner Lines"."Line No." WHERE("Employee No" = FIELD("Employee No"));
+            TableRelation = "HR Leave Planner Lines"."Line No." WHERE("Employee No" = FIELD("Applicant Staff No."));
             trigger OnValidate()
             begin
                 HRLeavePlannerLines.RESET;
@@ -747,36 +860,39 @@ Table 51183 "HR Leave Application"
         field(4021; "Available Maternity Days"; Decimal)
         {
             CalcFormula = Sum("HR Leave Ledger Entries"."No. of days" WHERE("Leave Type" = CONST('MATERNITY'),
-                                                                             "Staff No." = FIELD("Employee No")));
+                                                                             "Staff No." = FIELD("Applicant Staff No.")));
             FieldClass = FlowField;
         }
         field(4022; "Available Annual Days"; Decimal)
         {
             CalcFormula = Sum("HR Leave Ledger Entries"."No. of days" WHERE("Leave Type" = CONST('ANNUAL'),
-                                                                             "Staff No." = FIELD("Employee No")));
+                                                                            "Leave Entry Type" = filter('Positive'),
+                                                                             "Staff No." = FIELD("Applicant Staff No.")));
             FieldClass = FlowField;
         }
         field(4023; "Available Paternity Days"; Decimal)
         {
             CalcFormula = Sum("HR Leave Ledger Entries"."No. of days" WHERE("Leave Type" = CONST('PATERNITY'),
-                                                                             "Staff No." = FIELD("Employee No")));
+                                                                             "Staff No." = FIELD("Applicant Staff No.")));
             FieldClass = FlowField;
         }
         field(4024; "Available Compassionate Days"; Decimal)
         {
             CalcFormula = Sum("HR Leave Ledger Entries"."No. of days" WHERE("Leave Type" = CONST('COMPASSIONATE'),
-                                                                             "Staff No." = FIELD("Employee No")));
+                                                                             "Staff No." = FIELD("Applicant Staff No.")));
             FieldClass = FlowField;
         }
         field(4025; "Available Sick Days"; Decimal)
         {
             CalcFormula = Sum("HR Leave Ledger Entries"."No. of days" WHERE("Leave Type" = CONST('SICK'),
-                                                                             "Staff No." = FIELD("Employee No")));
+                                                                            "Leave Entry Type" = filter('Positive'),
+                                                                             "Staff No." = FIELD("Applicant Staff No.")));
             FieldClass = FlowField;
         }
         field(4026; "Leave Balance"; Decimal)
         {
-            CalcFormula = Sum("HR Leave Ledger Entries"."No. of days" WHERE("Staff No." = field("Employee No")));
+            CalcFormula = Sum("HR Leave Ledger Entries"."No. of days" WHERE("Staff No." = FIELD("Applicant Staff No."),
+             "Leave Type" = FILTER('ANNUAL')));
             FieldClass = FlowField;
         }
         field(4027; "Total Leave Days"; Decimal)
@@ -790,8 +906,8 @@ Table 51183 "HR Leave Application"
         }
         field(2004; "Total Leave Taken"; Decimal)
         {
-            CalcFormula = Sum("HR Leave Ledger Entries"."No. of days" WHERE("Staff No." = FIELD("Employee No"),
-                                                                             "Posting Date" = FIELD("Date Filter"),
+            CalcFormula = - Sum("HR Leave Ledger Entries"."No. of days" WHERE("Staff No." = FIELD("Employee No"),
+                                                                             /* "Posting Date" = FIELD("Date Filter"), */
                                                                              "Leave Entry Type" = CONST(Negative),
                                                                              Closed = CONST(false),
                                                                              "Leave Type" = CONST('ANNUAL')));
@@ -805,6 +921,12 @@ Table 51183 "HR Leave Application"
         field(2006; "Reliever Email"; Text[200])
         {
             DataClassification = ToBeClassified;
+        }
+        field(2007; "Leave Calendar Code"; Code[20])
+        {
+            Dataclassification = ToBeClassified;
+            // TableRelation = "HR Leave Calendar"."Calendar Code";
+
         }
 
 
@@ -836,7 +958,7 @@ Table 51183 "HR Leave Application"
         IF "Application Code" = '' THEN BEGIN
             HRSetup.GET;
             HRSetup.TESTFIELD(HRSetup."Leave Application Nos.");
-            NoSeriesMgt.InitSeries(HRSetup."Leave Application Nos.", xRec."No series", 0D, "Application Code", "No series");
+            // NoSeriesMgt.InitSeries(HRSetup."Leave Application Nos.", xRec."No series", 0D, "Application Code", "No series");
         END;
 
 
@@ -849,8 +971,9 @@ Table 51183 "HR Leave Application"
         Text003: Label 'UserID [%1] does not exist in [%2]';
         Allowance: Decimal;
         HRSetup: Record "HR Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        // NoSeriesMgt: Codeunit NoSeriesManagement;
         PayrollEmp: Record "HR Employees";
+        HREmp: Record "HR Employees";
         varDaysApplied: Integer;
         HRLeaveTypes: Record "HR Leave Types";
         //BaseCalendarChange: Record "51516272";
@@ -938,7 +1061,7 @@ Table 51183 "HR Leave Application"
         END;
     end;
 
-    procedure DetermineLeaveReturnDate(var fBeginDate: Date; var fDays: Decimal) fReturnDate: Date
+    /* procedure DetermineLeaveReturnDate(var fBeginDate: Date; var fDays: Decimal) fReturnDate: Date
     var
         ltype: Record "HR Leave Types";
     begin
@@ -962,7 +1085,35 @@ Table 51183 "HR Leave Application"
             END;
         UNTIL varDaysApplied = 0;
         EXIT(fReturnDate);
+    end; */
+    procedure DetermineLeaveReturnDate(fBeginDate: Date; fDays: Decimal): Date
+    var
+        LeaveType: Record "HR Leave Types";
+        CurrentDate: Date;
+        RemainingDays: Decimal;
+        IncludeNonWorking: Boolean;
+    begin
+        if not LeaveType.Get("Leave Type") then
+            Error('Leave Type %1 not found.', "Leave Type");
+
+        IncludeNonWorking := DetermineIfIncludesNonWorking("Leave Type");
+        CurrentDate := fBeginDate;
+        RemainingDays := fDays;
+
+        while RemainingDays > 0 do begin
+            CurrentDate := CalcDate('1D', CurrentDate);
+
+            if IncludeNonWorking then begin
+                RemainingDays -= 1;
+            end else begin
+                if not DetermineIfIsNonWorking(CurrentDate, LeaveType) then
+                    RemainingDays -= 1;
+            end;
+        end;
+
+        exit(CurrentDate);
     end;
+
 
     procedure DeterminethisLeaveEndDate(var fDate: Date) fEndDate: Date
     var
@@ -1005,11 +1156,11 @@ Table 51183 "HR Leave Application"
             LeaveGjline."Leave Period" := FORMAT(DATE2DMY(TODAY, 3));
             LeaveGjline."Leave Application No." := "Application Code";
             LeaveGjline."Document No." := "Application Code";
-            LeaveGjline."Staff No." := "Employee No";
+            LeaveGjline."Staff No." := "Applicant Staff No.";
             LeaveGjline.VALIDATE(LeaveGjline."Staff No.");
             LeaveGjline."Posting Date" := TODAY;
             LeaveGjline."Leave Entry Type" := LeaveGjline."Leave Entry Type"::Negative;
-            LeaveGjline."Leave Approval Date" := TODAY;
+            //LeaveGjline."Leave Approval Date" := TODAY;
             LeaveGjline.Description := 'Leave Taken';
             LeaveGjline."Leave Type" := "Leave Type";
 
@@ -1098,6 +1249,33 @@ Table 51183 "HR Leave Application"
             RDate := RDate + 1;
         END;
     end;
+
+    PROCEDURE CalculateReturnDate(VAR StartDate: Date; DaysApplied: Integer) ReturnDate: Date;
+    VAR
+        BaseCalendar: Record "Base Calendar Change";
+        WorkingDaysCount: Integer;
+    BEGIN
+        WorkingDaysCount := 0;
+        ReturnDate := StartDate;
+
+        // Ensure base calendar is sorted by date
+        IF BaseCalendar.FINDSET THEN BEGIN
+            REPEAT
+                IF BaseCalendar.Date >= StartDate THEN BEGIN
+                    // Check if it's a working day
+                    IF NOT BaseCalendar.Nonworking THEN BEGIN
+                        WorkingDaysCount += 1;
+                        IF WorkingDaysCount = DaysApplied THEN BEGIN
+                            EXIT(BaseCalendar.Date); // Found the return date
+                        END;
+                    END;
+                END;
+            UNTIL BaseCalendar.NEXT = 0;
+        END;
+
+        ERROR('Unable to calculate return date. Check base calendar setup.');
+    END;
+
 
     procedure GetDate(var Applied_Dayes: Integer; var Start_Date: Date)
     var

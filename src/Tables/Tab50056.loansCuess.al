@@ -20,7 +20,7 @@ table 50056 "loans Cuess"
         }
         field(4; "Pending Loans"; Integer)
         {
-            CalcFormula = count("Loans Register" where("Approval Status" = const(Pending), "Approved Amount" = filter(> 0), "Outstanding Balance" = filter(> 0), Source = const(BOSA)));
+            CalcFormula = count("Loans Register" where("Approval Status" = const(Pending), "Approved Amount" = filter(> 0), "Loan Status" = const(Appraisal), Source = const(BOSA)));
             FieldClass = FlowField;
         }
 

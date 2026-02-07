@@ -214,7 +214,7 @@ Table 51907 "Package Retrieval Register"
         if "Request No" = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Package Retrieval Nos");
-            NoSeriesMgt.InitSeries(SalesSetup."Package Retrieval Nos", xRec."No. Series", 0D, "Request No", "No. Series");
+            //  NoSeriesMgt.InitSeries(SalesSetup."Package Retrieval Nos", xRec."No. Series", 0D, "Request No", "No. Series");
         end;
         "Retrieval Request Date" := Today;
 
@@ -229,7 +229,7 @@ Table 51907 "Package Retrieval Register"
 
     var
         SalesSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         ObjPackage: Record "Safe Custody Package Register";
         ObjAgents: Record "Safe Custody Agents Register";
         ObjAccount: Record Vendor;

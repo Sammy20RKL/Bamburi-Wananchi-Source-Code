@@ -85,6 +85,6 @@ table 50467 "Interest Buffers"
 
     var
         NoSetup: Record "Purchases & Payables Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+    //NoSeriesMgt: Codeunit NoSeriesManagement;
 }
 

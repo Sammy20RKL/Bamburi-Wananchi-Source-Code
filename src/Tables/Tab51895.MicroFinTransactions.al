@@ -257,7 +257,7 @@ Table 51895 "Micro_Fin_Transactions"
         if "No." = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Micro Finance Transactions");
-            noseriesmgt.InitSeries(SalesSetup."Micro Finance Transactions", xRec."No. Series", 0D, "No.", "No. Series");
+            //  noseriesmgt.InitSeries(SalesSetup."Micro Finance Transactions", xRec."No. Series", 0D, "No.", "No. Series");
         end;
 
         /*OfficeGroup.RESET;
@@ -285,7 +285,7 @@ Table 51895 "Micro_Fin_Transactions"
     var
         GroupMembers: Record Customer;
         LoanApplic: Record "Loans Register";
-        noseriesmgt: Codeunit NoSeriesManagement;
+        //noseriesmgt: Codeunit NoSeriesManagement;
         SalesSetup: Record "Sacco No. Series";
         MicroSubform: Record Micro_Fin_Schedule;
         BANKACC: Record "Bank Account";

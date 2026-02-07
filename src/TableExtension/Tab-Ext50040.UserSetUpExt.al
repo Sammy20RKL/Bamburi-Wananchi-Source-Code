@@ -102,12 +102,31 @@ tableextension 50040 "UserSetUpExt" extends "User Setup"
         {
             DataClassification = ToBeClassified;
         }
-        field(51516026; "Responsibility Centre"; code[20]) { }
+        // field(51516026; "Responsibility Centre"; code[20]) { }
         field(51516027; "Other Advance Staff Account"; code[20]) { }//"Imprest Account"
-        field(51516028; "Imprest Account"; code[20]) { }//"Imprest Account"
+        // field(51516028; "Imprest Account"; code[20]) { }//"Imprest Account"
         field(51516029; "View Payroll"; Boolean) { }//"Imprest Account"
         field(51516030; "Approval Status Change"; Boolean) { }
         field(51516031; "Post Bank Rec"; Boolean) { }
+        field(1008; "Role Centre"; code[100])
+        {
+            CalcFormula = Lookup("All Profile".Caption WHERE(Scope = const(Tenant)));
+            FieldClass = FlowField;
+            Editable = true;
+
+            trigger OnValidate()
+            var
+                UserPersonalization: record "User Personalization";
+            begin
+                UserPersonalization.Reset();
+                UserPersonalization.SetRange(UserPersonalization."User ID", "User ID");
+                if UserPersonalization.Find('-') then begin
+                    UserPersonalization.Role := "Role Centre";
+                    UserPersonalization.Modify(true);
+                    Message('User Profile for %1 successfully changed to %2', "User ID", "Role Centre");
+                end;
+            end;
+        }
     }
 
 

@@ -3,7 +3,7 @@ page 50316 "Payroll Deductions List."
 {
     CardPageID = "HR Leave Types Card";
     PageType = List;
-    SourceTable = 51318;
+    SourceTable = "Payroll Transaction Code.";
     SourceTableView = where("Transaction Type" = const(Deduction));
 
     layout

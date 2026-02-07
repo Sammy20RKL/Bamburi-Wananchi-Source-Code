@@ -49,9 +49,25 @@ page 50334 "Payroll General Setup LIST."
                 {
                     ApplicationArea = Basic;
                 }
-                field("Staff Net Pay G/L Account"; Rec."Staff Net Pay G/L Account")
+                field("NHIF Based on"; Rec."NHIF Based on")
                 {
                     ApplicationArea = Basic;
+                }
+                field("NSSF Based on"; Rec."NSSF Based on")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Housing Levy (%)"; Rec."Housing Levy (%)")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Minimum Gross Pay"; Rec."Minimum Gross Pay")
+                {
+                    ApplicationArea = Basic;//7000
+                }
+                field("NSSF Percentage %"; Rec."NSSF Percentage %")
+                {
+                    ApplicationArea = Basic;//6
                 }
             }
         }

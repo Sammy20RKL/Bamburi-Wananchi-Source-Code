@@ -1,7 +1,6 @@
 #pragma warning disable AA0005, AA0008, AA0018, AA0021, AA0072, AA0137, AA0201, AA0204, AA0206, AA0218, AA0228, AL0254, AL0424, AS0011, AW0006 // ForNAV settings
 page 50310 "Payroll Employee Card."
 {
-    // version Payroll ManagementV1.0(Surestep Systems)
     DeleteAllowed = true;
     InsertAllowed = true;
     ModifyAllowed = true;
@@ -147,6 +146,10 @@ page 50310 "Payroll Employee Card."
                 field(Designation; Rec.Designation)
                 {
                     ApplicationArea = All;
+                }
+                field("User ID"; Rec."User ID")
+                {
+                    ApplicationArea = Basic;
                 }
             }
             group("Pay Details")
@@ -305,12 +308,12 @@ page 50310 "Payroll Employee Card."
             action("Process Current Employee")
             {
                 ApplicationArea = All;
-                Caption = 'Generate Current Employee';
+                Caption = 'Process Payroll';
                 Image = Allocations;
                 Promoted = true;
                 PromotedIsBig = true;
 
-                Visible = true;
+                Visible = false;
 
                 trigger OnAction()
                 var
@@ -383,12 +386,100 @@ page 50310 "Payroll Employee Card."
                             Sleep(100);
                             if not SalCard."Suspend Pay" then begin
                                 ProgressWindow.Update(1, HrEmployee."No." + ':' + HrEmployee."First Name" + ' ' + HrEmployee."Middle Name" + ' ' + HrEmployee.Surname);
-                                if SalCard.Get(HrEmployee."No.") then ProcessPayroll.fnProcesspayroll(HrEmployee."No.", HrEmployee."Joining Date", SalCard."Basic Pay", SalCard."Pays PAYE", SalCard."Pays NSSF", SalCard."Pays NHIF", SelectedPeriod, SelectedPeriod, HrEmployee."Payroll No", '', HrEmployee."Date of Leaving", true, HrEmployee."Branch Code", PayrollCode);
+                                if SalCard.Get(HrEmployee."No.") then
+                                    ProcessPayroll.fnProcesspayroll(HrEmployee."No.", HrEmployee."Joining Date", SalCard."Basic Pay", SalCard."Pays PAYE", SalCard."Pays NSSF", SalCard."Pays NHIF", SelectedPeriod, SelectedPeriod, HrEmployee."Payroll No", '', HrEmployee."Date of Leaving", true, HrEmployee."Branch Code", PayrollCode);
                             end;
                         until HrEmployee.Next = 0;
                         ProgressWindow.Close;
                     end;
                     Message('Payroll processing completed successfully.');
+                end;
+            }
+            action("Process Payroll")
+            {
+                ApplicationArea = All;
+                Caption = 'Process Payroll';
+                Image = Allocations;
+                Promoted = true;
+                PromotedIsBig = true;
+                Visible = true;
+                trigger OnAction()
+                begin
+                    ContrInfo.Reset;
+                    // ContrInfo.GET;
+
+                    objPeriod.RESET;
+                    objPeriod.SETRANGE(objPeriod.Closed, FALSE);
+                    IF objPeriod.FIND('-') THEN BEGIN
+                        SelectedPeriod := objPeriod."Date Opened";
+                        varPeriodMonth := objPeriod."Period Month";
+                        SalCard.GET(Rec."No.");
+                    END;
+
+                    //For Multiple Payroll
+                    IF ContrInfo."Multiple Payroll" THEN BEGIN
+                        PayrollDefined := '';
+                        PayrollType.RESET;
+                        PayrollType.SETCURRENTKEY(EntryNo);
+                        IF PayrollType.FINDFIRST THEN BEGIN
+                            NoofRecords := PayrollType.COUNT;
+                            i := 0;
+                            REPEAT
+                                i += 1;
+                                PayrollDefined := PayrollDefined + '&' + PayrollType."Payroll Code";
+                                IF i < NoofRecords THEN
+                                    PayrollDefined := PayrollDefined + ','
+                            UNTIL PayrollType.NEXT = 0;
+                        END;
+                        //Selection := STRMENU(PayrollDefined,NoofRecords);
+
+                        PayrollType.RESET;
+                        PayrollType.SETRANGE(PayrollType.EntryNo, Selection);
+                        IF PayrollType.FIND('-') THEN BEGIN
+                            PayrollCode := PayrollType."Payroll Code";
+                        END;
+                    END;
+
+                    //Delete all Records from the prPeriod Transactions for Reprocessing
+                    objPeriod.RESET;
+                    objPeriod.SETRANGE(objPeriod.Closed, FALSE);
+                    IF objPeriod.FINDFIRST THEN BEGIN
+
+                        //IF ContrInfo."Multiple Payroll" THEN BEGIN
+                        ObjPayrollTransactions.RESET;
+                        ObjPayrollTransactions.SETRANGE(ObjPayrollTransactions."Payroll Period", objPeriod."Date Opened");
+                        IF ObjPayrollTransactions.FIND('-') THEN BEGIN
+                            ObjPayrollTransactions.DELETEALL;
+                        END;
+                    END;
+
+                    PayrollEmployerDed.RESET;
+                    PayrollEmployerDed.SETRANGE(PayrollEmployerDed."Payroll Period", SelectedPeriod);
+                    IF PayrollEmployerDed.FIND('-') THEN
+                        PayrollEmployerDed.DELETEALL;
+
+                    //MESSAGE ('Member is %1',PayrollEmployerDed."Membership No");
+
+
+                    IF ContrInfo."Multiple Payroll" THEN
+                        HrEmployee.RESET;
+                    HrEmployee.SETRANGE(HrEmployee.Status, HrEmployee.Status::Active);
+                    IF HrEmployee.FIND('-') THEN BEGIN
+                        ProgressWindow.OPEN('Processing Salary for Employee No. #1#######');
+                        REPEAT
+                            SLEEP(100);
+                            IF NOT SalCard."Suspend Pay" THEN BEGIN
+                                ProgressWindow.UPDATE(1, HrEmployee."No." + ':' + HrEmployee."First Name" + ' ' + HrEmployee."Middle Name" + ' ' + HrEmployee.Surname);
+                                IF SalCard.GET(HrEmployee."No.") THEN
+                                    ProcessPayroll.fnProcesspayroll(HrEmployee."No.", HrEmployee."Joining Date", SalCard."Basic Pay", SalCard."Pays PAYE"
+                                    , SalCard."Pays NSSF", SalCard."Pays NHIF", SelectedPeriod, SelectedPeriod, HrEmployee."Payroll No", '',
+                                    HrEmployee."Date of Leaving", TRUE, HrEmployee."Branch Code", PayrollCode);
+                            END;
+                        UNTIL HrEmployee.NEXT = 0;
+                        ProgressWindow.CLOSE;
+                    END;
+                    MESSAGE('Payroll processing completed successfully.');
+
                 end;
             }
             action("Employee Earnings")
@@ -481,7 +572,7 @@ page 50310 "Payroll Employee Card."
                     PayrollEmp.Reset;
                     PayrollEmp.SetRange(PayrollEmp."No.", Rec."No.");
                     if PayrollEmp.FindFirst then begin
-                        REPORT.Run(50010, true, false, PayrollEmp);
+                        REPORT.Run(51016, true, false, PayrollEmp);
                     end;
                 end;
             }

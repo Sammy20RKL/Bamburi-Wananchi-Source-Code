@@ -36,6 +36,7 @@ Table 51070 "Holiday Savings Table"
             CalcFormula = lookup(Customer."Personal No" where("No." = field("Member No")));
             FieldClass = FlowField;
         }
+        field(8; "Total Paid Out"; Decimal) { DataClassification = ToBeClassified; }
     }
 
     keys

@@ -97,10 +97,10 @@ Report 50003 Liquidity
                 GLAccount.SetFilter(GLAccount.Liquidity, '%1', GLAccount.Liquidity::LocalNotes);
                 if GLAccount.FindSet then begin
                     repeat
-
                         GLEntry.Reset;
                         GLEntry.SetRange(GLEntry."G/L Account No.", GLAccount."No.");
-                        GLEntry.SetFilter(GLEntry."Posting Date", '<=%1', AsAt);
+                        //GLEntry.SetFilter(GLEntry."Posting Date", '<=%1', AsAt);
+                        GLEntry.SETFILTER(GLEntry."Posting Date", DateFilter);
                         if GLEntry.FindSet then begin
                             GLEntry.CalcSums(Amount);
                             LocalNotes += GLEntry.Amount;
@@ -108,13 +108,13 @@ Report 50003 Liquidity
 
                     until GLAccount.Next = 0;
 
+
                 end;
                 BalanceswithCommercialBanks := 0;
                 GLAccount.Reset;
                 GLAccount.SetFilter(GLAccount.Liquidity, '%1', GLAccount.Liquidity::BankBalances);
                 if GLAccount.FindSet then begin
                     repeat
-
                         GLEntry.Reset;
                         GLEntry.SetRange(GLEntry."G/L Account No.", GLAccount."No.");
                         GLEntry.SetFilter(GLEntry."Posting Date", '<=%1', AsAt);
@@ -131,7 +131,7 @@ Report 50003 Liquidity
                 TreasuryBills := 0;
                 TreasuryBonds := 0;
                 GLAccount.Reset;
-                GLAccount.SetFilter(GLAccount.Liquidity, '%1', GLAccount.Liquidity::GovSecurities);
+                GLAccount.SetFilter(GLAccount.Liquidity, '%1', GLAccount.Liquidity::GovSecuritiesBankBalances);
                 if GLAccount.FindSet then begin
                     repeat
 
@@ -189,19 +189,26 @@ Report 50003 Liquidity
                         GLEntry.Reset;
                         GLEntry.SetRange(GLEntry."G/L Account No.", GLAccount."No.");
                         GLEntry.SetFilter(GLEntry."Posting Date", '<=%1', AsAt);
+
                         if GLEntry.FindSet then begin
                             GLEntry.CalcSums(Amount);
-                            LiabilitiesMaturingwithin91Days += GLEntry.Amount * -1;
+                            TotalOtherliabilitiesNew += GLEntry.Amount;
                         end;
 
                     until GLAccount.Next = 0;
 
                 end;
-
-                NETLIQUIDASSETS := LocalNotes + ForeignNotes + BalancesduetoFinanciaInstitutions + BalancesDuetootherSaccosocieties + BalanceswithCommercialBanks + BalanceswithotherFinancialInstitutions + BalanceswithotherSaccoSocieties + TreasuryBills + TreasuryBonds + TimeDeposits
-                  + OverdraftsandMatured;
-                TotalOtherliabilitiesNew := LiabilitiesMaturingwithin91Days + MaturedLiabilities;
-                TotalOtherliabilities := MaturedLiabilities + TotalOtherliabilitiesNew;
+                /* 
+                                NETLIQUIDASSETS := LocalNotes + ForeignNotes + BalancesduetoFinanciaInstitutions + BalancesDuetootherSaccosocieties + BalanceswithCommercialBanks + BalanceswithotherFinancialInstitutions + BalanceswithotherSaccoSocieties + TreasuryBills + TreasuryBonds + TimeDeposits
+                                  + OverdraftsandMatured;
+                                TotalOtherliabilitiesNew := LiabilitiesMaturingwithin91Days + MaturedLiabilities;
+                                TotalOtherliabilities := MaturedLiabilities + TotalOtherliabilitiesNew;
+                                Ratio := (NETLIQUIDASSETS / TotalOtherliabilitiesNew);
+                                Minumholding := 0.1;
+                                Excess := Ratio - Minumholding; */
+                NETLIQUIDASSETS := LocalNotes + ForeignNotes + BalanceswithCommercialBanks - TimeDeposits + BalanceswithotherFinancialInstitutions + BalanceswithotherSaccoSocieties - BalancesduetoFinanciaInstitutions - BalancesDuetootherSaccosocieties
++ OverdraftsandMatured;
+                TotalOtherliabilities := MaturedLiabilities + LiabilitiesMaturingwithin91Days + TotalOtherliabilitiesNew;
                 Ratio := (NETLIQUIDASSETS / TotalOtherliabilitiesNew);
                 Minumholding := 0.1;
                 Excess := Ratio - Minumholding;

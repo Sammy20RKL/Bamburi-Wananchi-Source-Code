@@ -97,7 +97,7 @@ Table 51381 "Loan Products Setup"
         }
         field(44; "Repayment Method"; Option)
         {
-            OptionMembers = Amortised,"Reducing Balance","Straight Line",Constants;
+            OptionMembers = "",Amortised,"Reducing Balance","Straight Line",Constants;
         }
         field(45; "Grace Period - Principle (M)"; Integer)
         {
@@ -422,6 +422,15 @@ Table 51381 "Loan Products Setup"
         field(132; "Loan Calculator"; Boolean)
         {
         }
+        field(133; "Total Loan Book"; Decimal)
+        {
+            CalcFormula = sum("Cust. Ledger Entry"."Amount Posted" where("Loan Type" = field(Code),
+                                                                           "Posting Date" = field("Date Filter"),
+                                                                           "Transaction Type" = filter(Loan | "Loan Repayment"), Reversed = const(false)));
+            FieldClass = FlowField;
+            Editable = false;
+
+        }
     }
 
     keys
@@ -466,7 +475,7 @@ Table 51381 "Loan Products Setup"
 
     var
         SalesSetup: Record "Sales & Receivables Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        //NoSeriesMgt: Codeunit NoSeriesManagement;
         Text000: label 'You cannot change %1 because there are one or more ledger entries associated with this account.';
 
 

@@ -88,13 +88,13 @@ Table 51706 "Checkoff Advice"
         if No = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Safe Custody Agent Nos");
-            NoSeriesMgt.InitSeries(SalesSetup."Safe Custody Agent Nos", xRec."No. Series", 0D, No, "No. Series");
+            //   NoSeriesMgt.InitSeries(SalesSetup."Safe Custody Agent Nos", xRec."No. Series", 0D, No, "No. Series");
         end;
     end;
 
     var
         SalesSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         SaccoEmployers: Record "Sacco Employers";
         CheckOffAdvice: Record "Checkoff Advice";
         CheckoffCalender: Record "Discounting Ledger Entry";

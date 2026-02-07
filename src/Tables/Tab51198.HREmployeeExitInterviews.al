@@ -157,7 +157,7 @@ Table 51198 "HR Employee Exit Interviews"
         if "Exit Interview No" = '' then begin
             HRSetup.Get;
             HRSetup.TestField(HRSetup."Exit Interview Nos");
-            NoSeriesMgt.InitSeries(HRSetup."Exit Interview Nos", xRec."No Series", 0D, "Exit Interview No", "No Series");
+            //  NoSeriesMgt.InitSeries(HRSetup."Exit Interview Nos", xRec."No Series", 0D, "Exit Interview No", "No Series");
         end;
     end;
 
@@ -165,7 +165,7 @@ Table 51198 "HR Employee Exit Interviews"
         OK: Boolean;
         HREmp: Record "HR Employees";
         HRSetup: Record "HR Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        //  NoSeriesMgt: Codeunit NoSeriesManagement;
         EmpFullName: Text;
         IntFullName: Text;
 }

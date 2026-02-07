@@ -2422,7 +2422,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>NHIF Relief</Value>
+                                  <Value>SHIF Relief</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -3278,7 +3278,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>N.H.I.F No:</Value>
+                    <Value>S.H.I.F No:</Value>
                     <Style>
                       <FontFamily>Tahoma</FontFamily>
                       <FontSize>8pt</FontSize>
@@ -4364,7 +4364,6 @@
               </Paragraphs>
               <rd:DefaultName>UserID</rd:DefaultName>
               <Top>0.05903in</Top>
-              <Left>0in</Left>
               <Height>0.08333in</Height>
               <Width>2.26042in</Width>
               <ZIndex>1</ZIndex>

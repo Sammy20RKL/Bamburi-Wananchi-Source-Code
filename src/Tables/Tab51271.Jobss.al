@@ -918,7 +918,7 @@ Table 51271 Jobss
         Cust: Record Customer;
         Cont: Record Contact;
         ContBusinessRelation: Record "Contact Business Relation";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        //NoSeriesMgt: Codeunit NoSeriesManagement;
         DimMgt: Codeunit DimensionManagement;
         Text003: label 'You must run the %1 and %2 functions to create and post the completion entries for this job.';
         Text004: label 'This will delete any unposted WIP entries for this job and allow you to reverse the completion postings for this job.\\Do you wish to continue?';

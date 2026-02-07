@@ -2926,7 +2926,7 @@ Codeunit 50030 "Poly Factory"
         //CALCFIELDS("Committed Shares");
         GenJournalLine.Amount := ROUND(FreedAmt, 0.0005, '>');
         GenJournalLine.Validate(GenJournalLine.Amount);
-        GenJournalLine."Transaction Type" := GenJournalLine."transaction type"::"Shares Capital";
+        GenJournalLine."Transaction Type" := GenJournalLine."Transaction Type"::"Share Capital";
         GenJournalLine."Loan No" := LoanNo;
         GenJournalLine."Shortcut Dimension 1 Code" := Dim1;
         GenJournalLine."Shortcut Dimension 2 Code" := Dim2;

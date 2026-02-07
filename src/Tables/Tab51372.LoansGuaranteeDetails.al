@@ -36,12 +36,6 @@ Table 51372 "Loans Guarantee Details"
                     end;
                 end;
 
-                /*ObjWithApp.RESET;
-                ObjWithApp.SETRANGE(ObjWithApp."Member No.","Member No");
-                IF ObjWithApp.FINDSET=TRUE THEN BEGIN
-                 ERROR('The Member has a pending Withdrawal Application');
-                 END;*/
-
                 MemberCust.Reset;
                 MemberCust.SetRange(MemberCust."No.", "Member No");
                 if MemberCust.Find('-') then begin
@@ -65,22 +59,10 @@ Table 51372 "Loans Guarantee Details"
                 SelfGuaranteedA := 0;
                 Date := Date;
 
-                LoanApps.Reset;
-                LoanApps.SetRange(LoanApps."Client Code", "Member No");
-                LoanApps.SetRange(LoanApps."Loan Product Type", 'SUKUMA');
-                LoanApps.SetRange(LoanApps.Posted, true);
-                if LoanApps.Find('-') then begin
-                    repeat
-                        LoanApps.CalcFields(LoanApps."Outstanding Balance");
-                    until LoanApps.Next = 0;
-                end;
-
-
                 MemberCust.Reset;
                 MemberCust.SetRange(MemberCust."No.", "Member No");
                 if MemberCust.Find('-') then begin
-
-                    MemberCust.CalcFields(MemberCust.TLoansGuaranteed, MemberCust."Current Savings");
+                    MemberCust.CalcFields(MemberCust.TLoansGuaranteed, MemberCust."Current Savings", MemberCust.TLoansGuaranteedS);
                     "Shares *3" := (MemberCust."Current Savings");
                     "TotalLoan Guaranteed" := MemberCust.TLoansGuaranteed;
                 end;
@@ -89,30 +71,17 @@ Table 51372 "Loans Guarantee Details"
                     Cust.CalcFields(Cust."Outstanding Balance", Cust."Current Shares", Cust.TLoansGuaranteed);
                     Name := Cust.Name;
                     "Staff/Payroll No." := Cust."Personal No";
+                    // "Employer Code"
                     "Loan Balance" := Cust."Outstanding Balance";
                     Shares := Cust."Current Shares" * 1;
                     Amont := 0;
-                    //    IF Self THEN BEGIN
-                    //      Amont:=Shares-SwizzsoftFactory.FnGetMemberLiability("Member No");
-                    //    END ELSE BEGIN
-                    //      SelfGuaranteeAmount:=SwizzsoftFactory.FnGetMemberSelfLiability("Member No");
-                    //        IF SelfGuaranteeAmount<=0 THEN BEGIN
-                    //          Amont:=Shares*3-SwizzsoftFactory.FnGetMemberLiability("Member No");
-                    //          IF Amont>Shares THEN
-                    //            Amont:=Shares;
-                    //        END ELSE BEGIN
-                    //          Amont:=Shares-SwizzsoftFactory.FnGetMemberLiability("Member No");
-                    //          END;
-                    //    END;
-                    //    "Amont Guaranteed":="Amont Guaranteed";
-                    //
-                    //  "TotalLoan Guaranteed":=Cust.TLoansGuaranteed;
-                    //  "Free Shares":=(Shares*3)-"TotalLoan Guaranteed";
+
                     //***********************************************************************************************
                     "Free Shares" := 0;
                     if "Self Guarantee" = true then begin
-                        Amont := SwizzsoftFactory.FnGetMemberSelfLiability("Member No");
-                        "TotalLoan Guaranteed" := Cust.TLoansGuaranteedS;
+                        //Amont := SwizzsoftFactory.FnGetMemberSelfLiability("Member No");
+                        Amont := SwizzsoftFactory.FnGetMemberLiability("Member No");
+                        "TotalLoan Guaranteed" := Cust.TLoansGuaranteedS + Cust.TLoansGuaranteed;
                         "Free Shares" := (Shares) - "TotalLoan Guaranteed";
                         // MESSAGE('Sharesis %1',Shares);
 
@@ -122,27 +91,17 @@ Table 51372 "Loans Guarantee Details"
 
                     end else begin
                         if "Self Guarantee" = false then
-                            Message('deposi is %1', Shares);
+                            ;//Message('Member Deposits is %1', Shares);
                         Amont := Shares * 1 - SwizzsoftFactory.FnGetMemberLiability("Member No");
-                        //MESSAGE('amont is %1',Amont);
-                        "TotalLoan Guaranteed" := Cust.TLoansGuaranteed;
-                        //MESSAGE('"TotalLoan Guaranteed" is %1', "TotalLoan Guaranteed");
+
+                        "TotalLoan Guaranteed" := Cust.TLoansGuaranteed + Cust.TLoansGuaranteedS;
 
                         "Free Shares" := (Shares * 1) - "TotalLoan Guaranteed";
-
-                        // MESSAGE(' Free Shares is %1',"Free Shares");
                     end;
                     "Amont Guaranteed" := "Amont Guaranteed";
-                    // IF "Self Guarantee" = TRUE  THEN BEGIN
-                    //  "TotalLoan Guaranteed":=Cust.TLoansGuaranteedS;
-                    //      "Free Shares":=(Shares)-"TotalLoan Guaranteed";
-                    //
-                    //   END ELSE
-                    //    "TotalLoan Guaranteed":=Cust.TLoansGuaranteed;
-                    //    "Free Shares":=(Shares*3)-"TotalLoan Guaranteed";
+
                 end;
-                //IF "Total Loans Guaranteed" > GenSetUp."Maximum No of Guarantees" THEN
-                //ERROR('This member has guaranteed more than %1 loans therefore cannot guarantee any more loans',GenSetUp."Maximum No of Guarantees");
+
                 if "Shares *3" < 1 then
                     Error('Member Must have Deposits');
 
@@ -170,10 +129,9 @@ Table 51372 "Loans Guarantee Details"
         }
         field(7; Substituted; Boolean)
         {
-
             trigger OnValidate()
             begin
-                //TESTFIELD("Substituted Guarantor");
+                TestField("Substituted Guarantor");
             end;
         }
         field(8; Date; Date)
@@ -189,198 +147,81 @@ Table 51372 "Loans Guarantee Details"
         {
 
             trigger OnValidate()
+            var
+                guarantorManagement: Codeunit "Guarantor Management";
+                memberMaximumAbility: Decimal;
+                memberSelfAbility: Decimal;
+                memberPerLoanAbility: Decimal;
+                offsetSelfGuaranteeAmt: Decimal;
             begin
-
-                //*******************************************************************************SELF
-                // LoanGuarantors.RESET;
-                // LoanGuarantors.SETCURRENTKEY(LoanGuarantors."Member No");
-                // LoanGuarantors.SETRANGE(LoanGuarantors."Member No","Member No");
-                // LoanGuarantors.SETRANGE(LoanGuarantors."Application Statu",TRUE);
-                // LoanGuarantors.SETRANGE(LoanGuarantors."Self Guarantee",TRUE);
-                // IF LoanGuarantors.FIND('-') THEN BEGIN
-                // REPEAT
-                //
-                // MAmounttoG:=MAmounttoG+LoanGuarantors."Amont Guaranteed";
-                //  MDeposit:=MAmounttoG;
-                // UNTIL LoanGuarantors.NEXT=0;
-                // END;
-
+                memberMaximumAbility := 0;
+                memberSelfAbility := 0;
+                memberPerLoanAbility := 0;
+                offsetSelfGuaranteeAmt := 0;
 
                 //*************************************************************************
-                MAmounttoG := 0;
-                LoanGuarantors.Reset;
-                LoanGuarantors.SetCurrentkey(LoanGuarantors."Member No");
-                LoanGuarantors.SetRange(LoanGuarantors."Member No", "Member No");
-                LoanGuarantors.SetRange(LoanGuarantors."Application Statu", true);
-                //LoanGuarantors.SETRANGE(LoanGuarantors."Self Guarantee",FALSE);
+                ///Festus - swizzsoft
+                /// 1. Calculate members Guarantor Ability 2 times their Shares, minus what they have guaranteed in total
+                memberMaximumAbility := guarantorManagement.fnGetMemberGuarantorshipLiability("Member No");
 
-                if LoanGuarantors.Find('-') then begin
-                    repeat
-                        /// MESSAGE('loan is %1',LoanGuarantors."Amont Guaranteed");
-
-                        MAmounttoG := MAmounttoG + LoanGuarantors."Amont Guaranteed";
-                        MDeposit := MAmounttoG;
-                    until LoanGuarantors.Next = 0;
+                if memberMaximumAbility < 0 then begin
+                    Error('This member cannot Guarantee any Loan');
                 end;
-                ///END;
-                Message('Amount Guarantee is Still In Application Process %1', MDeposit);
-
-
-                //*********************************************************************
-
-                MemberLedgerEntry.Reset;
-                MemberLedgerEntry.SetRange(MemberLedgerEntry."Loan No", "Loan No");
-                MemberLedgerEntry.SetRange(Reversed, false);
-                if MemberLedgerEntry.Find() = false then
-                    "Original Amount" := "Amont Guaranteed";
-                //**********************************************************************************************88
-
-                AmountGuar := 0;
-                AmountGuarT := 0;
-                LoanGuarantors.Reset;
-                LoanGuarantors.SetRange(LoanGuarantors."Member No", "Member No");
-                if LoanGuarantors.FindSet then begin
-                    repeat
-                        // MESSAGE(FORMAT(LoanGuarantors."Amont Guaranteed"));
-                        AmountGuar := LoanGuarantors."Amont Guaranteed";
-                    //AmountGuarT:=AmountGuar;
-
-                    until LoanGuarantors.Next = 0;
-                    //MESSAGE ('AmountGuar is 1%',AmountGuarT);
+                if memberMaximumAbility < "Amont Guaranteed" then begin
+                    Error('Maximum the member can Guarantee is ' + Format(memberMaximumAbility));
                 end;
-                //MESSAGE ('AmountGuar is 1%',AmountGuar);
+                //*************************************************************************
+                /// 2. get Members self Ability - 25% of their worth, less what they have already self guaranteed them selves
+                if "Self Guarantee" then begin
 
+                    memberSelfAbility := guarantorManagement.fnGetMemberSelfGuarantorshipLiability("Member No");
 
-                ///***********************************************88
-
-
-
-
-                SharesVariance := 0;
-                LoanGuarantors.Reset;
-                LoanGuarantors.SetRange(LoanGuarantors."Member No", "Member No");
-                if LoanGuarantors.Find('-') then begin
-
-                    repeat
-                        LoanGuarantors.CalcFields(LoanGuarantors."Outstanding Balance");
-                        if LoanGuarantors."Outstanding Balance" > 0 then begin
-                            Totals := Totals + LoanGuarantors."Amont Guaranteed";
-                            //MESSAGE('AmountGuar Totals is %1',Totals);
+                    //Confirm if its offset...
+                    // ---------- EXTRA LOGIC FOR TOP-UP ----------Festus
+                    // Check if this loan is a Top-Up
+                    Loans.Reset();
+                    Loans.SetRange("Loan  No.", "Loan No");
+                    if Loans.Find('-') then begin
+                        if Loans."Is Top Up" = true then begin
+                            // Get the loan(s) being offset
+                            LoanOffsets.Reset();
+                            LoanOffsets.SetRange("Loan No.", "Loan No"); // current loan
+                            if LoanOffsets.FindSet() then
+                                repeat
+                                    // For each offset loan, check if this member self-guaranteed it
+                                    LoanGuarantors.Reset();
+                                    LoanGuarantors.SetRange("Loan No", LoanOffsets."Loan Top Up");// "Loan No.");
+                                    LoanGuarantors.SetRange("Member No", "Member No");
+                                    LoanGuarantors.SetRange("Self Guarantee", true);
+                                    if LoanGuarantors.FindFirst() then
+                                        offsetSelfGuaranteeAmt += LoanGuarantors."Committed Shares";
+                                until LoanOffsets.Next() = 0;
                         end;
-                    until LoanGuarantors.Next = 0;
+                    end;
+
+                    // Add any offset self-guarantee amount back to their ability
+                    memberSelfAbility += offsetSelfGuaranteeAmt;
+
+                    if memberSelfAbility < 0 then begin
+                        Error('This member cannot self-Guarantee any Loan');
+                    end;
+                    if memberSelfAbility < "Amont Guaranteed" then begin
+                        Error('Maximum the member can self-Guarantee is ' + Format(memberSelfAbility));
+                    end;
                 end;
-
-
-                //"Free Shares":=(Shares*3)-"TotalLoan Guaranteed";
-
-                //**************************************************************************************************SEPH
-
-                //**************************************************************************************************SEPH
-
-
-                //  IF Cust.GET("Member No") THEN BEGIN
-                //  Cust.CALCFIELDS(Cust."Outstanding Balance",Cust."Current Shares",Cust.TLoansGuaranteed);
-                //  Shares:=Cust."Current Shares"*1;
-                //  Amont:=0;
-                //    IF "Self Guarantee" THEN BEGIN
-                //      Amont:=Shares-SwizzsoftFactory.FnGetMemberLiability("Member No");
-                //      "Free Shares":=Shares-SwizzsoftFactory.FnGetMemberLiability("Member No");
-                //           MESSAGE('"Free Shares" is %1',"Free Shares");
-                //
-                //    END ELSE BEGIN
-                //
-                //
-                //
-                //      SelfGuaranteeAmount:=SwizzsoftFactory.FnGetMemberSelfLiability("Member No");
-                //     MESSAGE('sef is %1',SelfGuaranteeAmount);
-                //
-                //        IF SelfGuaranteeAmount<=0 THEN BEGIN
-                //
-                //          Amont:=Shares*3-SwizzsoftFactory.FnGetMemberLiability("Member No");
-                //          IF Amont>Shares THEN
-                //
-                //            Amont:=Shares;
-                //          "Free Shares":=(Shares*3)-SwizzsoftFactory.FnGetMemberLiability("Member No");
-                //        END ELSE BEGIN
-                //          Amont:=Shares-SwizzsoftFactory.FnGetMemberLiability("Member No");
-                //          "Free Shares":=Shares-SwizzsoftFactory.FnGetMemberLiability("Member No");
-                //          END;
-                //
-                //    END;
-                // IF "Self Guarantee" = TRUE THEN BEGIN
-                //    IF "Amont Guaranteed">Amont THEN
-                //      ERROR('Amount guaranteed cannot exceed '+FORMAT(Amont));
-                // END ELSE BEGIN
-                //    IF "Amont Guaranteed">Amont THEN
-                //      MESSAGE('Amount guaranteed cannot exceed '+FORMAT(Amont));
-                //   END;
-                //   END;
-                //MESSAGE('here');
-                if Cust.Get("Member No") then begin
-                    Cust.CalcFields(Cust."Outstanding Balance", Cust."Current Shares", Cust.TLoansGuaranteed);
-                    Shares := Cust."Current Shares" * 1;
-                    Amont := 0;
-                    // // // // // // //    IF "Self Guarantee" = TRUE THEN BEGIN
-                    // // // // // // //    //  MESSAGE('2here');
-                    // // // // // // //    //  MESSAGE (FORMAT(Shares));
-                    // // // // // // //      Amont:=Shares-SwizzsoftFactory.FnGetMemberSelfLiability("Member No");
-                    // // // // // // //     // MESSAGE('3here');
-                    // // // // // // //
-                    // // // // // // //      "Free Shares":=Shares-SwizzsoftFactory.FnGetMemberSelfLiability("Member No");
-                    // // // // // // //           //MESSAGE('"Free Shares11" is %1',"Free Shares");
-                    // // // // // // //
-                    // // // // // // //    END ELSE BEGIN
-                    // // // // // // //                MemberLiability:=SwizzsoftFactory.FnGetMemberLiability("Member No");
-                    // // // // // // //                 "Free Shares":=(Shares*1)-SwizzsoftFactory.FnGetMemberLiability("Member No");
-                    // // // // // // //
-                    // // // // // // //                 Amont:=Shares*1-SwizzsoftFactory.FnGetMemberLiability("Member No");
-                    // // // // // // //               IF MemberLiability>Shares THEN
-                    // // // // // // //                 ERROR('You do not have enough Deposits to Guarantee');
-                    // // // // // // //
-                    // // // // // // //
-                    // // // // // // // END;
-
-
+                //*************************************************************************
+                /// 3. Get the max they can guarantee 25% of their worth,.... member cannot guarantee the same loan more than 25% of their worth
+                memberPerLoanAbility := guarantorManagement.fnGetMemberGuarantorshipLiabilityperLoan("Member No", Rec."Loan No");
+                if memberPerLoanAbility < 0 then begin
+                    Error('This member cannot Guarantee this Loan');
                 end;
-                if "Self Guarantee" = true then begin
-                    LoanApp.Reset;
-                    LoanApp.SetRange("Loan  No.", "Loan No");
-                    if LoanApp.Find('-') then
-                        LoanApp.CalcFields("Self GuarantorShip Liability");
-                    Message('amount mj is %1', LoanApp."Self GuarantorShip Liability");
-                    if LoanApp."Is Top Up" = true then
-                        Amont := LoanApp."Self GuarantorShip Liability"
-
-                    else
-                        Amont := Shares - SwizzsoftFactory.FnGetMemberLiability("Member No");
-                end else begin
-                    if "Self Guarantee" = false then
-                        MemberLiability := SwizzsoftFactory.FnGetMemberLiability("Member No");
-                    "Free Shares" := (Shares) - SwizzsoftFactory.FnGetMemberLiability("Member No");
-                    Amont := Shares - SwizzsoftFactory.FnGetMemberLiability("Member No");
+                if memberPerLoanAbility < "Amont Guaranteed" then begin
+                    Error('Maximum the member can Guarantee this loan is KES' + Format(memberPerLoanAbility));
                 end;
-
-
-                // MESSAGE('shares Are %1| Free Shares Are %2',Shares,"Free Shares");
-
-                "free Share" := Amont;
-                //MESSAGE('amount is %1',Amont);
-
-                // MESSAGE('MAmounttoG is %1',MAmounttoG);
-
-                vardiff := (Amont - MAmounttoG);
-                Message(Format(Amont));
-
-
-                if "Self Guarantee" = true then begin
-                    if "Amont Guaranteed" >= Amont then
-                        Error('Amount guaranteed cannot exceed ' + Format(vardiff));
-                end else begin
-                    vardiff := (Amont - MAmounttoG);
-                    Message(Format(vardiff));
-                    if "Amont Guaranteed" >= vardiff then
-                        Error('Amount guaranteed cannot exceed ' + Format(vardiff));
-                end;
+                //*************************************************************************
+                "Committed Shares" := "Amont Guaranteed";
+                "Original Amount" := "Amont Guaranteed";
+                Date := Today;
             end;
         }
         field(12; "Staff/Payroll No."; Code[20])
@@ -409,7 +250,8 @@ Table 51372 "Loans Guarantee Details"
         }
         field(16; "Outstanding Balance"; Decimal)
         {
-            CalcFormula = sum("Member Ledger Entry".Amount where("Transaction Type" = filter(Loan | "Loan Repayment"),
+            CalcFormula = sum("Cust. Ledger Entry"."Amount Posted" where("Transaction Type" = filter(Loan | "Loan Repayment"),
+                                                                  Reversed = const(false),
                                                                   "Loan No" = field("Loan No")));
             FieldClass = FlowField;
         }
@@ -425,7 +267,7 @@ Table 51372 "Loans Guarantee Details"
         }
         field(18; "Loans Outstanding"; Decimal)
         {
-            CalcFormula = sum("Member Ledger Entry".Amount where("Transaction Type" = filter(Loan | "Loan Repayment"),
+            CalcFormula = sum("Cust. Ledger Entry"."Amount Posted" where("Transaction Type" = filter(Loan | "Loan Repayment"),
                                                                   "Loan No" = field("Loan No")));
             FieldClass = FlowField;
 
@@ -439,7 +281,7 @@ Table 51372 "Loans Guarantee Details"
         }
         field(19; "Guarantor Outstanding"; Decimal)
         {
-            CalcFormula = sum("Member Ledger Entry".Amount where("Customer No." = field("Member No"),
+            CalcFormula = sum("Cust. Ledger Entry"."Amount Posted" where("Customer No." = field("Member No"),
                                                                   "Transaction Type" = filter(Loan | "Loan Repayment")));
             FieldClass = FlowField;
         }
@@ -513,7 +355,6 @@ Table 51372 "Loans Guarantee Details"
         }
         field(32; "TotalLoan Guaranteed"; Decimal)
         {
-            Description = '`';
         }
         field(33; Totals; Decimal)
         {
@@ -550,7 +391,7 @@ Table 51372 "Loans Guarantee Details"
         }
         field(69162; "Oustanding Interest"; Decimal)
         {
-            CalcFormula = sum("Member Ledger Entry".Amount where("Customer No." = field("Member No"),
+            CalcFormula = sum("Cust. Ledger Entry"."Amount Posted" where("Customer No." = field("Member No"),
                                                                   "Transaction Type" = filter("Interest Paid"),
                                                                   "Loan No" = field("Loan No")));
             FieldClass = FlowField;
@@ -596,12 +437,20 @@ Table 51372 "Loans Guarantee Details"
 
             trigger OnValidate()
             begin
-                "free Share" := Amont;
+                //"free Share" := Amont;
             end;
         }
         field(69171; Posted; Boolean)
         {
             DataClassification = ToBeClassified;
+        }
+
+
+        field(504; "Loan Outstanding Balance"; Decimal)
+        {
+            Caption = 'Loan Outstanding Balance';
+            DataClassification = ToBeClassified;
+            DecimalPlaces = 2 : 20;
         }
     }
 
@@ -627,6 +476,21 @@ Table 51372 "Loans Guarantee Details"
     end;
 
     var
+        AvailableSH: Decimal;
+        MemberNo: Text;
+        MemberName: Text;
+        EmployerCode: Text;
+        TotalOutstandingBal: Decimal;
+        OutStandingBal: Decimal;
+        FNo: Integer;
+        // AmountGuar: Decimal;
+        OutstandingBAlSt: Decimal;
+        Company: Record "Company Information";
+        CommittedShares: Decimal;
+        ObjLoanGuar: Record "Loans Guarantee Details";
+        ApprovedAmt: Decimal;
+        LoanProductName: Text[50];
+        Loantypes: Record "Loan Products Setup";
         AmountGuarT: Decimal;
         MDeposit: Decimal;
         MAmounttoG: Decimal;
@@ -634,6 +498,7 @@ Table 51372 "Loans Guarantee Details"
         Cust: Record Customer;
         LoanGuarantors: Record "Loans Guarantee Details";
         Loans: Record "Loans Register";
+        LoanOffsets: Record "Loan Offset Details";
         LoansR: Record "Loans Register";
         LoansG: Integer;
         GenSetUp: Record "Sacco General Set-Up";
@@ -659,7 +524,7 @@ Table 51372 "Loans Guarantee Details"
         Self: Boolean;
         SelfGuaranteeAmount: Decimal;
         Amont: Decimal;
-        MemberLedgerEntry: Record "Member Ledger Entry";
+        CustLedgerEntry: Record "Cust. Ledger Entry";
         AmountGuar: Decimal;
         vardiff: Decimal;
         MemberLiability: Decimal;
@@ -667,5 +532,6 @@ Table 51372 "Loans Guarantee Details"
     local procedure UPDATEG()
     begin
     end;
+
 }
 

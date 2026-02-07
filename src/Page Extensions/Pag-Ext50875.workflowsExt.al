@@ -5,8 +5,8 @@ pageextension 50875 "workflowsExt" extends Workflows
         CustomWorkFlowEvents: Codeunit "Custom Workflow Events";
         WorkflowRepsonse: Codeunit "Custom Workflow Responses";
     begin
-        CustomWorkFlowEvents.OnAddWorkflowEventsToLibrary();//();
-        WorkflowRepsonse.OnAddWorkflowResponsePredecessorsToLibrary();//();
-        Message('done');
+        CustomWorkFlowEvents.AddEventsToLib();//();
+        WorkflowRepsonse.AddResponsesToLib();//();
+        Message('Done!');
     end;
 }

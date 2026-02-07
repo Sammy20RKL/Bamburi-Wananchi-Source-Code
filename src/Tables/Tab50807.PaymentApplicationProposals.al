@@ -515,22 +515,22 @@ Table 50807 "Payment Application Proposals"
     var
         BankAccReconLine: Record "Bank Acc. Reconciliation Lines";
         AppliedPmtEntry: Record "Applied Payment Entrys";
-        BankAccReconPost: Codeunit "Bank Acc. Reconciliation Posts";
+    // BankAccReconPost: Codeunit "Bank Acc. Reconciliation Posts";
     begin
         TestField("Applies-to Entry No.");
         AppliedPmtEntry.TransferFields(Rec);
         BankAccReconLine.Get("Statement Type", "Bank Account No.", "Statement No.", "Statement Line No.");
 
-        case "Account Type" of
-            "account type"::Customer:
-                BankAccReconPost.ApplyCustLedgEntry(
-                  AppliedPmtEntry, '', BankAccReconLine."Transaction Date",
-                  "Pmt. Disc. Due Date", "Pmt. Disc. Tolerance Date", "Remaining Pmt. Disc. Possible");
-            "account type"::Vendor:
-                BankAccReconPost.ApplyVendLedgEntry(
-                  AppliedPmtEntry, '', BankAccReconLine."Transaction Date",
-                  "Pmt. Disc. Due Date", "Pmt. Disc. Tolerance Date", "Remaining Pmt. Disc. Possible");
-        end;
+        // case "Account Type" of
+        //     "account type"::Customer:
+        //         BankAccReconPost.ApplyCustLedgEntry(
+        //           AppliedPmtEntry, '', BankAccReconLine."Transaction Date",
+        //           "Pmt. Disc. Due Date", "Pmt. Disc. Tolerance Date", "Remaining Pmt. Disc. Possible");
+        //     "account type"::Vendor:
+        //         BankAccReconPost.ApplyVendLedgEntry(
+        //           AppliedPmtEntry, '', BankAccReconLine."Transaction Date",
+        //           "Pmt. Disc. Due Date", "Pmt. Disc. Tolerance Date", "Remaining Pmt. Disc. Possible");
+        // end;
     end;
 
     local procedure UpdateRemainingAmountExclDiscount()

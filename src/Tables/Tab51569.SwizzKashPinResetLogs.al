@@ -82,7 +82,7 @@ Table 51569 "SwizzKash Pin Reset Logs"
 
     var
         SaccoNoSeries: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        //  NoSeriesMgt: Codeunit NoSeriesManagement;
         Accounts: Record Vendor;
         Temp: Code[15];
         OldRec: Record "Cheque Book Register";

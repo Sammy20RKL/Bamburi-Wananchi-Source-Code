@@ -181,7 +181,7 @@ Table 51316 "Salary Processing Header"
 
     var
         NoSetup: Record "Purchases & Payables Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        //  NoSeriesMgt: Codeunit NoSeriesManagement;
         cust: Record Customer;
         "GL Account": Record "G/L Account";
         BANKACC: Record "Bank Account";

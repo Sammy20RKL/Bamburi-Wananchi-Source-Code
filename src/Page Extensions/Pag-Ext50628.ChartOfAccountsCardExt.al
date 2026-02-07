@@ -108,6 +108,7 @@ pageextension 50628 "ChartOfAccountsCardExt" extends "G/L Account Card"
                     Caption = 'Other Mkopo Paramters';
                     ApplicationArea = all;
                 }
+                field("Budget Controlled"; Rec."Budget Controlled") { ApplicationArea = All; }
             }
         }
 

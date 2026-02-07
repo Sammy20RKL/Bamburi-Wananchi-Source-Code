@@ -325,14 +325,14 @@ Table 51550 "Loan Recovery Header"
         if "Document No" = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Loan Recovery Nos.");
-            NoSeriesMgt.InitSeries(SalesSetup."Loan Recovery Nos.", xRec."No. Series", 0D, "Document No", "No. Series");
+            // NoSeriesMgt.InitSeries(SalesSetup."Loan Recovery Nos.", xRec."No. Series", 0D, "Document No", "No. Series");
         end;
         "Global Dimension 1 Code" := 'BOSA';
     end;
 
     var
         SalesSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         Cust: Record Customer;
         LoanDetails: Record "Loan Member Loans";
         LoanRec: Record "Loans Register";

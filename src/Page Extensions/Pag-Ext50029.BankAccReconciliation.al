@@ -8,7 +8,6 @@ pageextension 50029 "Bank Acc. Reconciliation" extends "Bank Acc. Reconciliation
     actions
     {
         addfirst(processing)
-
         {
 
             action("Bank Acc. Recon. - Test")

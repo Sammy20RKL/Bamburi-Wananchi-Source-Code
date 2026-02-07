@@ -37,3 +37,20 @@ Table 51323 "Employee Unused Relief."
     }
 }
 
+table 59053 "Employee Unused Relief Buffer"
+{
+    fields
+    {
+        field(10; "Employee No."; Code[20]) { }
+        field(13; "Period Month"; Integer) { }
+        field(14; "Period Year"; Integer) { }
+        field(11; "Unused Relief"; Decimal) { }
+        field(12; "Unused Relief(LCY)"; Decimal) { }
+        field(15; "Payroll Period"; Date) { }
+    }
+
+    keys
+    {
+        key(PK; "Employee No.", "Period Month", "Period Year") { Clustered = true; }
+    }
+}

@@ -362,6 +362,7 @@
                                     <FontStyle>Italic</FontStyle>
                                     <FontFamily>Calibri</FontFamily>
                                     <FontWeight>Bold</FontWeight>
+                                    <Format>#,0.00;(#,0.00)</Format>
                                     <TextDecoration>None</TextDecoration>
                                   </Style>
                                 </TextRun>
@@ -430,58 +431,6 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>TotalComputer</rd:DefaultName>
-                          <Style>
-                            <Border />
-                            <TopBorder>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Width>1pt</Width>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Width>1pt</Width>
-                            </RightBorder>
-                            <VerticalAlign>Bottom</VerticalAlign>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                  </TablixCells>
-                </TablixRow>
-                <TablixRow>
-                  <Height>0.25in</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox13">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontStyle>Italic</FontStyle>
-                                    <FontFamily>Calibri</FontFamily>
-                                    <FontWeight>Bold</FontWeight>
-                                    <TextDecoration>None</TextDecoration>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox13</rd:DefaultName>
                           <Style>
                             <Border />
                             <TopBorder>
@@ -876,11 +825,11 @@
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
-                <TablixMember />
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>DataSet_Result</DataSetName>
-            <Height>5.56676in</Height>
+            <Left>0.125in</Left>
+            <Height>5.31676in</Height>
             <Width>7.27583in</Width>
             <Style>
               <Border>
@@ -889,10 +838,10 @@
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>5.56676in</Height>
+        <Height>5.76676in</Height>
         <Style />
       </Body>
-      <Width>7.27583in</Width>
+      <Width>7.57583in</Width>
       <Page>
         <PageHeader>
           <Height>1.29167in</Height>
@@ -904,10 +853,10 @@
               <Value>=First(Fields!Company_Picture.Value, "DataSet_Result")</Value>
               <MIMEType>image/png</MIMEType>
               <Sizing>Fit</Sizing>
-              <Top>1.29117cm</Top>
-              <Left>0.40835cm</Left>
-              <Height>1.62984cm</Height>
-              <Width>3.33479cm</Width>
+              <Top>0.65616cm</Top>
+              <Left>0.62002cm</Left>
+              <Height>2.26485cm</Height>
+              <Width>2.84796cm</Width>
               <Style>
                 <Border />
                 <TopBorder>
@@ -932,10 +881,10 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
-              <Top>0.50833in</Top>
-              <Left>5.58937in</Left>
+              <Top>0.25833in</Top>
+              <Left>5.71438in</Left>
               <Height>0.23395in</Height>
-              <Width>1.53125in</Width>
+              <Width>1.40624in</Width>
               <ZIndex>1</ZIndex>
               <Style>
                 <Border>
@@ -964,10 +913,10 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox2</rd:DefaultName>
-              <Top>0.50833in</Top>
-              <Left>4.34632in</Left>
+              <Top>0.25833in</Top>
+              <Left>4.59632in</Left>
               <Height>0.22562in</Height>
-              <Width>1.1875in</Width>
+              <Width>1.11806in</Width>
               <ZIndex>2</ZIndex>
               <Style>
                 <Border>
@@ -988,6 +937,7 @@
                     <TextRun>
                       <Value>SHARE CERTIFICATE</Value>
                       <Style>
+                        <FontFamily>Constantia</FontFamily>
                         <FontSize>14pt</FontSize>
                         <FontWeight>Bold</FontWeight>
                       </Style>
@@ -999,10 +949,10 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox3</rd:DefaultName>
-              <Top>0.85833in</Top>
-              <Left>1.63451in</Left>
-              <Height>0.29167in</Height>
-              <Width>2.70833in</Width>
+              <Top>0.64784in</Top>
+              <Left>1.43479in</Left>
+              <Height>0.3in</Height>
+              <Width>3.28542in</Width>
               <ZIndex>3</ZIndex>
               <Style>
                 <Border>
@@ -1033,10 +983,10 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox4</rd:DefaultName>
-              <Top>0.50833in</Top>
-              <Left>1.63451in</Left>
+              <Top>0.24228in</Top>
+              <Left>1.43479in</Left>
               <Height>0.25in</Height>
-              <Width>2.60416in</Width>
+              <Width>3.02055in</Width>
               <ZIndex>4</ZIndex>
               <Style>
                 <Border>
@@ -1063,8 +1013,8 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox6</rd:DefaultName>
-              <Top>0.85833in</Top>
-              <Left>4.58937in</Left>
+              <Top>0.53951in</Top>
+              <Left>4.86437in</Left>
               <Height>0.19471in</Height>
               <Width>1in</Width>
               <ZIndex>5</ZIndex>
@@ -1093,15 +1043,15 @@
                     </TextRun>
                   </TextRuns>
                   <Style>
-                    <TextAlign>Left</TextAlign>
+                    <TextAlign>Right</TextAlign>
                   </Style>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox7</rd:DefaultName>
-              <Top>0.85833in</Top>
-              <Left>5.61715in</Left>
+              <Top>0.53951in</Top>
+              <Left>5.86715in</Left>
               <Height>0.19471in</Height>
-              <Width>1.53125in</Width>
+              <Width>1.25347in</Width>
               <ZIndex>6</ZIndex>
               <Style>
                 <Border>

@@ -2,7 +2,7 @@
 Page 50005 "Posted Payment Line"
 {
     PageType = List;
-    SourceTable = "Payment Line";
+    SourceTable = "Payment Line New";// "Payments Line";
 
     layout
     {
@@ -14,7 +14,7 @@ Page 50005 "Posted Payment Line"
                 {
                     ApplicationArea = Basic;
                 }
-                field("Transaction Type Description"; Rec."Transaction Type Description")
+                field("Transaction Type Description"; Rec."Transaction Name")
                 {
                     ApplicationArea = Basic;
                 }
@@ -62,29 +62,29 @@ Page 50005 "Posted Payment Line"
                     ApplicationArea = Basic;
                     Visible = false;
                 }
-                field("W/TAX Code"; Rec."W/TAX Code")
+                field("W/TAX Code"; Rec."Withholding Tax Code")
                 {
                     ApplicationArea = Basic;
                     Visible = false;
                 }
-                field("W/TAX Amount"; Rec."W/TAX Amount")
+                field("W/TAX Amount"; Rec."Withholding Tax Amount")
                 {
                     ApplicationArea = Basic;
                     Visible = false;
                 }
-                field("W/TAX Amount(LCY)"; Rec."W/TAX Amount(LCY)")
-                {
-                    ApplicationArea = Basic;
-                    Visible = false;
-                }
+                // field("W/TAX Amount(LCY)"; Rec."W/TAX Amount(LCY)")
+                // {
+                //     ApplicationArea = Basic;
+                //     Visible = false;
+                // }
                 field("Net Amount"; Rec."Net Amount")
                 {
                     ApplicationArea = Basic;
                 }
-                field("Net Amount(LCY)"; Rec."Net Amount(LCY)")
-                {
-                    ApplicationArea = Basic;
-                }
+                // field("Net Amount(LCY)"; Rec."Net Amount(LCY)")
+                // {
+                //     ApplicationArea = Basic;
+                // }
                 field("Applies-to Doc. Type"; Rec."Applies-to Doc. Type")
                 {
                     ApplicationArea = Basic;

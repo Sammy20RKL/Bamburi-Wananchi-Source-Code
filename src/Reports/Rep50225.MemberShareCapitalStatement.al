@@ -2,294 +2,192 @@
 Report 50225 "Member Share Capital Statement"
 {
     ApplicationArea = All;
-    Caption = 'Member Share Capital Statement';
-    RDLCLayout = './Layouts/MemberShareCapitalStatement.rdl';
+    RDLCLayout = './Layouts/MemberShares2Statement.rdl';
     UsageCategory = ReportsAndAnalysis;
-
-
 
     dataset
     {
         dataitem(Customer; Customer)
         {
             RequestFilterFields = "No.", "Loan Product Filter", "Outstanding Balance", "Date Filter";
-            column(Payroll_Staff_No; "Payroll/Staff No")
-            {
-            }
-            column(Employer_Name; "Employer Name")
-            {
-            }
-            column(PayrollStaffNo_Members; "Payroll/Staff No")
-            {
-            }
-            column(No_Members; "No.")
-            {
-            }
-            column(MobilePhoneNo_MembersRegister; "Mobile Phone No")
-            {
-            }
-            column(Name_Members; Name)
-            {
-            }
-            column(EmployerCode_Members; "Employer Code")
-            {
-            }
-            column(EmployerName; EmployerName)
-            {
-            }
-            // column(PageNo_Members; CurrReport.PageNo)
-            // {
-            // }
-            column(Registration_Date; "Registration Date")
-            {
-            }
-            column(Shares_Retained; "Shares Retained")
-            {
-            }
-            column(ShareCapBF; ShareCapBF)
-            {
-            }
-            column(IDNo_Members; "ID No.")
-            {
-            }
-            column(GlobalDimension2Code_Members; "Global Dimension 2 Code")
-            {
-            }
-            column(Company_Name; Company.Name)
-            {
-            }
-            column(Company_Address; Company.Address)
-            {
-            }
-            column(Company_Picture; Company.Picture)
-            {
-            }
 
-            column(Company_Phone; Company."Phone No.")
-            {
-            }
-            column(Company_SMS; Company."Phone No.")
-            {
-            }
-            column(Company_Email; Company."E-Mail")
-            {
-            }
+            column(Payroll_Staff_No; "Payroll/Staff No") { }
+            column(Employer_Name; EmployerName) { }
+            column(PayrollStaffNo_Members; "Payroll/Staff No") { }
+            column(No_Members; "No.") { }
+            column(MobilePhoneNo_MembersRegister; "Mobile Phone No") { }
+            column(Name_Members; Name) { }
+            column(Registration_Date; "Registration Date") { }
+            column(EmployerCode_Members; "Employer Code") { }
+            column(EmployerName; EmployerName) { }
+            column(PageNo_Members; CurrReport.PageNo) { }
+            column(Shares_Retained; "Shares Retained") { }
+            column(ShareCapBF; ShareCapBF) { }
+            column(IDNo_Members; "ID No.") { }
+            column(GlobalDimension2Code_Members; "Global Dimension 2 Code") { }
+            column(Company_Name; Company.Name) { }
+            column(Company_Address; Company.Address) { }
+            column(Company_Picture; Company.Picture) { }
+            column(Company_Phone; Company."Phone No.") { }
+            column(Company_SMS; Company."Phone No.") { }
+            column(Company_Email; Company."E-Mail") { }
 
-            dataitem(Share; "Member Ledger Entry")
+            dataitem(Share; "Cust. Ledger Entry")
             {
-                DataItemLink = "Customer No." = field("No."), "Posting Date" = field("Date Filter");
+                DataItemLink = "Customer No." = field("No.");
                 DataItemTableView = sorting("Posting Date") where("Transaction Type" = const("Share Capital"), Reversed = filter(false));
-                column(openBalances; OpenBalance)
-                {
-                }
-                column(CLosingBalances; CLosingBalance)
-                {
-                }
-                column(Description_Shares; Share.Description)
-                {
-                }
-                column(DocumentNo_Shares; Share."Document No.")
-                {
-                }
-                column(PostingDate_Shares; Share."Posting Date")
-                {
-                }
-                column(CreditAmount_Shares; Share."Credit Amount")
-                {
-                }
-                column(DebitAmount_Shares; Share."Debit Amount")
-                {
-                }
-                column(Amount_Shares; Share.Amount) //"Amount Posted"
-                {
-                }
-                column(TransactionType_Shares; Share."Transaction Type")
-                {
-                }
-                column(Shares_Description; Share.Description)
-                {
-                }
-                column(BalAccountNo_Shares; Share."Bal. Account No.")
-                {
-                }
-                column(BankCodeShares; BankCodeShares)
-                {
-                }
-                column(USER1; Share."User ID")
-                {
-                }
 
-                trigger OnAfterGetRecord()
-                begin
-                    CLosingBalance := CLosingBalance - Share.Amount;
-                    BankCodeShares := GetBankCode(Share);
-                    //...................................
-                    if Share.Amount < 0 then begin
-                        Share."Credit Amount" := (Share.Amount * -1);
-                    end else
-                        if Share.Amount > 0 then begin
-                            Share."Debit Amount" := (Share.Amount);
-                        end;
-                end;
+                column(OpeningBal; OpeningBal) { }
+                column(ClosingBal; ClosingBal) { }
+                column(TransactionType_Shares; Share."Transaction Type") { }
+                column(Amount_Shares; Share."Amount Posted") { }
+                column(Description_Shares; Share.Description) { }
+                column(DocumentNo_Shares; Share."Document No.") { }
+                column(PostingDate_Shares; Share."Posting Date") { }
+                column(DebitAmount_Shares; Share."Debit Amount") { }
+                column(CreditAmount_Shares; Share."Credit Amount") { }
+                column(Deposits_Description; Share.Description) { }
+                column(BalAccountNo_Shares; Share."Bal. Account No.") { }
+                column(BankCodeDeposits; BankCodeDeposits) { }
+                column(USER2; Share."User ID") { }
 
                 trigger OnPreDataItem()
                 begin
-                    CLosingBalance := ShareCapBF;
-                    OpenBalance := ShareCapBF;
+                    // Initialize Opening and Closing Balance
+                    ShareCapBF := 0;
+                    ClosingBal := ShareCapBF;
+                    OpeningBal := ShareCapBF;
+
+                    // **Step 1: Compute Opening Balance (Before AsAt)**
+                    Share.Reset();
+                    Share.SetRange("Customer No.", Customer."No.");
+                    Share.SetRange(Reversed, false);
+                    Share.SetFilter("Transaction Type", 'Share Capital');
+                    Share.SetFilter("Posting Date", '..' + Format(AsAt)); // Transactions before AsAt
+
+                    if Share.FindSet() then
+                        repeat
+                            // Assign Credit and Debit Amounts based on Amount Posted
+                            AssignCreditDebitAmounts(Share."Amount Posted", Share."Credit Amount", Share."Debit Amount");
+
+                            // Compute net balance
+                            ShareCapBF += Share."Credit Amount" - Share."Debit Amount";
+                        until Share.Next() = 0;
+
+                    // Store Opening Balance
+                    ClosingBal := ShareCapBF;
+                    OpeningBal := ShareCapBF;
+
+                    // **Step 2: Fetch Only Transactions from AsAt to Today**
+                    Share.Reset();
+                    Share.SetRange("Customer No.", Customer."No.");
+                    Share.SetRange(Reversed, false);
+                    Share.SetFilter("Transaction Type", 'Share Capital');
+                    Share.SetRange("Posting Date", AsAt, Today); // Only transactions from AsAt onwards
                 end;
+
+                trigger OnAfterGetRecord()
+                begin
+                    // Assign Credit and Debit Amounts based on Amount Posted
+                    AssignCreditDebitAmounts(Share."Amount Posted", Share."Credit Amount", Share."Debit Amount");
+
+                    // Update Closing Balance dynamically
+                    ClosingBal := ClosingBal - Share."Amount Posted";
+
+                    // Retrieve Bank Code
+                    BankCodeDeposits := GetBankCode(Share);
+                end;
+
             }
 
             trigger OnAfterGetRecord()
             begin
-                SaccoEmp.Reset;
+                SaccoEmp.Reset();
                 SaccoEmp.SetRange(SaccoEmp.Code, "Employer Code");
-                if SaccoEmp.Find('-') then
-                    EmployerName := SaccoEmp.Description;
+                if SaccoEmp.FindFirst() then
+                    EmployerName := SaccoEmp.Description
+                else
+                    EmployerName := 'Unknown';
 
-                HolidayBF := 0;
-                SharesBF := 0;
-                InsuranceBF := 0;
-                ShareCapBF := 0;
-                RiskBF := 0;
-                HseBF := 0;
-                Dep1BF := 0;
-                Dep2BF := 0;
-                if DateFilterBF <> '' then begin
-                    Cust.Reset;
-                    Cust.SetRange(Cust."Customer No.", "No.");
-                    //ABEL COMMENT
-                    Cust.SetFilter(Cust."Date Filter", DateFilterBF);
-                    //ABEL COMMENT
-                    if Cust.Find('-') then begin
-                        // Cust.CalcFields(Cust.sha, Cust."Current Shares", Cust."Insurance Fund", Cust."Holiday Savings");
-                        // SharesBF := Cust."Current Shares";
-                        // ShareCapBF := Cust."Shares Retained";
-                        // RiskBF := Cust."Insurance Fund";
-                        // HolidayBF := Cust."Holiday Savings";
-                    end;
-                end;
+                // ShareCapBF := 0;
+                // if GetFilter("Date Filter") <> '' then begin
+                //     DateFilterBF := '..' + Format(CalcDate('-1D', GetRangeMin("Date Filter")));
+                //     Cust.Reset;
+                //     Cust.SetRange(Cust."No.", "No.");
+                //     Cust.SetFilter(Cust."Date Filter", DateFilterBF);
+                //     if Cust.FindFirst() then begin
+                //         Cust.CalcFields(Cust."Shares Retained", Cust."Current Shares", Cust."Insurance Fund", Cust."Holiday Savings");
+                //         ShareCapBF := Cust."Shares Retained";
+                //     end;
+                // end else
+                //     Error('Date Filter Required');
             end;
 
             trigger OnPreDataItem()
             begin
-                /*
-                IF GETFILTER("Date Filter") <> '' THEN
-                DateFilterBF:='..'+ FORMAT(CALCDATE('-1D',GETRANGEMIN("Date Filter")));
-                */
-
                 if GetFilter("Date Filter") <> '' then
                     DateFilterBF := '..' + Format(CalcDate('-1D', GetRangeMin("Date Filter")));
-                //DateFilterBF:='..'+ FORMAT(GETRANGEMIN("Date Filter"));
-
             end;
         }
     }
 
     requestpage
     {
-
         layout
         {
+            area(content)
+            { field(From; AsAt) { } }
         }
-
-        actions
-        {
-        }
-    }
-
-    labels
-    {
+        actions { }
     }
 
     trigger OnPreReport()
     begin
-        Company.Get();
+        if not Company.Get() then
+            Error('Company Information record is missing.');
         Company.CalcFields(Company.Picture);
+
+        // Set AsAt to the beginning of the current year if not provided
+        if AsAt = 0D then
+            AsAt := DMY2Date(1, 1, Date2DMY(Today, 3));
+
+        //DateFilter := '..' + Format(AsAt);
     end;
 
-    var
-        OpenBalance: Decimal;
-        CLosingBalance: Decimal;
-        OpenBalanceXmas: Decimal;
-        CLosingBalanceXmas: Decimal;
-        Cust: Record "Cust. Ledger Entry";
-        OpeningBal: Decimal;
-        ClosingBal: Decimal;
-        FirstRec: Boolean;
-        PrevBal: Integer;
-        BalBF: Decimal;
-        LoansR: Record "Loans Register";
-        DateFilterBF: Text[150];
-        SharesBF: Decimal;
-        InsuranceBF: Decimal;
-        LoanBF: Decimal;
-        PrincipleBF: Decimal;
-        InterestBF: Decimal;
-        ShowZeroBal: Boolean;
-        ClosingBalSHCAP: Decimal;
-        ShareCapBF: Decimal;
-        RiskBF: Decimal;
-        DividendBF: Decimal;
-        Company: Record "Company Information";
-        OpenBalanceHse: Decimal;
-        CLosingBalanceHse: Decimal;
-        OpenBalanceDep1: Decimal;
-        CLosingBalanceDep1: Decimal;
-        OpenBalanceDep2: Decimal;
-        CLosingBalanceDep2: Decimal;
-        HseBF: Decimal;
-        Dep1BF: Decimal;
-        Dep2BF: Decimal;
-        OpeningBalInt: Decimal;
-        ClosingBalInt: Decimal;
-        InterestPaid: Decimal;
-        SumInterestPaid: Decimal;
-        OpenBalanceRisk: Decimal;
-        CLosingBalanceRisk: Decimal;
-        OpenBalanceDividend: Decimal;
-        ClosingBalanceDividend: Decimal;
-        OpenBalanceHoliday: Decimal;
-        ClosingBalanceHoliday: Decimal;
-        LoanSetup: Record "Loan Products Setup";
-        LoanName: Text[50];
-        SaccoEmp: Record "Sacco Employers";
-        EmployerName: Text[100];
-        OpenBalanceLoan: Decimal;
-        ClosingBalanceLoan: Decimal;
-        BankCodeShares: Text;
-        BankCodeDeposits: Text;
-        BankCodeDividend: Text;
-        BankCodeRisk: Text;
-        BankCodeInsurance: Text;
-        BankCodeLoan: Text;
-        BankCodeInterest: Text;
-        HolidayBF: Decimal;
-        BankCodeHoliday: Code[50];
-        ClosingBalHoliday: Decimal;
-        OpeningBalHoliday: Decimal;
-        BankCodeFOSAShares: Code[50];
-        ClosingBalanceFOSAShares: Decimal;
-        OpenBalanceFOSAShares: Decimal;
-        OpenBalancesPepeaShares: Decimal;
-        ClosingBalancePepeaShares: Decimal;
-        BankCodePepeaShares: Code[50];
-        OpenBalancesVanShares: Decimal;
-        ClosingBalanceVanShares: Decimal;
-        BankCodeVanShares: Code[50];
-        ApprovedAmount_Interest: Decimal;
-        LonRepaymentSchedule: Record "Loan Repayment Schedule";
-
-
-    local procedure GetBankCode(MembLedger: Record "Member Ledger Entry"): Text
+    local procedure GetBankCode(MembLedger: Record "Cust. Ledger Entry"): Text
     var
         BankLedger: Record "Bank Account Ledger Entry";
     begin
         BankLedger.Reset;
         BankLedger.SetRange("Posting Date", MembLedger."Posting Date");
-        BankLedger.SetRange("Document No.", MembLedger."Document No.");
+        // BankLedger.SetRange("Document No.", MembLedger."Document No.");
+        // BankLedger.SetRange("Transaction No.", MembLedger."Transaction No.");
         if BankLedger.FindFirst then
             exit(BankLedger."Bank Account No.");
-        exit('');
+        exit('BankCodeError');
     end;
-}
 
+    local procedure AssignCreditDebitAmounts(AmountPosted: Decimal; var CreditAmount: Decimal; var DebitAmount: Decimal)
+    begin
+        if AmountPosted < 0 then
+            CreditAmount := AmountPosted * -1
+        else if AmountPosted > 0 then
+            DebitAmount := AmountPosted;
+    end;
+
+    var
+        //Cust: Record "Cust. Ledger Entry";
+        Cust: Record Customer;
+        AsAt: Date;
+        OpeningBal: Decimal;
+        ClosingBal: Decimal;
+        DateFilterBF: Text[150];
+        ShareCapBF: Decimal;
+        Company: Record "Company Information";
+        SaccoEmp: Record "Sacco Employers";
+        EmployerName: Text[100];
+        BankCodeDeposits: Text;
+        loans: Record "Loans Register";
+
+
+}

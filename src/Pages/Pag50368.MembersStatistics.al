@@ -22,6 +22,11 @@ page 50368 "Members Statistics"
                 {
                     ApplicationArea = Basic;
                 }
+                field("Welfare Contr"; Rec."Welfare Contr")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Welfare Contribution';
+                }
                 field("Shares Retained"; Rec."Shares Retained")
                 {
                     ApplicationArea = Basic;

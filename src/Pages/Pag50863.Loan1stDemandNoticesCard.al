@@ -133,38 +133,37 @@ page 50863 "Loan 1st Demand Notices Card"
 
                     trigger OnAction()
                     begin
-                        //  ObjDemands.RESET;
-                        //  ObjDemands.SETRANGE(ObjDemands."Loan In Default","Loan In Default");
-                        //  ObjDemands.SETFILTER(ObjDemands."Document No",'<>%1',"Document No");
-                        //  IF ObjDemands.FIND('-')=FALSE THEN BEGIN
-                        //    "Notice Type":="Notice Type"::"1st Demand Notice";
-                        //    //"Demand Notice Date":=TODAY;
                         ObjLoans.Reset;
                         ObjLoans.SetRange(ObjLoans."Loan  No.", Rec."Loan In Default");
                         if ObjLoans.FindSet then begin
-                            Report.Run(51516925, true, true, ObjLoans);
+                            Report.Run(50053, true, true, ObjLoans);
                         end;
                         Commit;
                         PreviewOn := true;
                         Rec.Modify;
-                        //END;
-
-                        //  ObjDemands.RESET;
-                        //  ObjDemands.SETRANGE(ObjDemands."Loan In Default","Loan In Default");
-                        //  IF ObjDemands.FINDSET THEN BEGIN
-                        //    IF ObjDemands.COUNT>1 THEN BEGIN
-                        //    "Notice Type":="Notice Type"::"2nd Demand Notice";
-                        //    "Demand Notice Date":=TODAY;
-                        //        ObjLoans.RESET;
-                        //        ObjLoans.SETRANGE(ObjLoans."Loan  No.","Loan In Default");
-                        //        IF ObjLoans.FINDSET THEN BEGIN
-                        //          REPORT.RUN(51516915,TRUE,TRUE,ObjLoans);
-                        //          END;
-                        //         END;
-                        //      END;
-
                     end;
                 }
+                action("Loan Aging-Member")
+                {
+                    ApplicationArea = Basic;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    Image = Report;
+
+                    trigger OnAction()
+                    var
+                        ObjLoans: Record Customer; // Ensure ObjLoans is declared correctly
+                    begin
+                        ObjLoans.RESET;
+                        ObjLoans.SETRANGE(ObjLoans."No.", Rec."Member No");
+
+                        if ObjLoans.FindSet() then begin
+                            Report.Run(50041, true, true, ObjLoans);
+                        end;
+                    end;
+                }
+
+
                 action("1st Notice ")
                 {
                     ApplicationArea = Basic;
@@ -174,55 +173,101 @@ page 50863 "Loan 1st Demand Notices Card"
                     PromotedCategory = Process;
 
                     trigger OnAction()
+                    var
+                        TempBlob: Codeunit "Temp Blob";
+                        RecRef: RecordRef;
+                        OutStr: OutStream;
+                        InStr: InStream;
+                        FileName: Text;
+                        Cust: Record Customer;
+                        EmailMessage: Codeunit "Email Message";
+                        Email: Codeunit Email;
+                        BodyText: Text;
+                        Companyinfo: Record "Company Information";
                     begin
-                        if PreviewOn = false then begin
+                        if not PreviewOn then
                             Error('Kindly Preview The Report First To Confirm');
-                        end;
+
                         Rec.TestField("Loan In Default");
                         Rec.TestField("Notice Type");
                         Rec.TestField("Demand Notice Date");
-                        Rec.TestField("Notice Type");
 
-                        cust.Reset;
-                        cust.SetRange(cust."No.", Rec."Member No");
-                        if cust.Find('-') then begin
-                            //PhoneNo:=Cust."Phone No.";
+                        CompanyInfo.Get();
+                        if not Cust.Get(Rec."Member No") then
+                            Error('Member not found.');
 
-                            SMSMessage.Reset;
-                            if SMSMessage.Find('+') then begin
-                                iEntryNo := SMSMessage."Entry No";
-                                iEntryNo := iEntryNo + 1;
-                            end
-                            else begin
-                                iEntryNo := 1;
-                            end;
+                        // === 1. Generate the report as PDF ===
+                        ObjLoans.Reset;
+                        ObjLoans.SetRange(ObjLoans."Loan  No.", Rec."Loan In Default");
+                        if not ObjLoans.FindSet then
+                            Error('Please select the loan in Arrears');
 
-                            SMSMessage.Reset;
-                            SMSMessage.Init;
-                            SMSMessage."Entry No" := iEntryNo;
-                            SMSMessage."Account No" := Rec."Member No";
-                            SMSMessage."Date Entered" := Rec."Demand Notice Date";
-                            SMSMessage."Time Entered" := Time;
-                            SMSMessage.Source := 'LOAN DEF1';
-                            SMSMessage."Entered By" := UserId;
-                            SMSMessage."Sent To Server" := SMSMessage."sent to server"::No;
-                            SMSMessage."SMS Message" := 'Defaulter First Notice: Dear ,' + Rec."Member Name" + ' you have defaulted  '
-                            + Rec."Loan Product Name" + ' with Arrears of KSHs.' + Format(ROUND(Rec."Amount In Arrears", 1, '=')) +
-                                                      ' at Polytech SACCO LTD. ';
+                        RecRef.GetTable(ObjLoans);
 
-                            SMSMessage."Telephone No" := cust."Mobile Phone No";
-                            cust.Reset;
-                            if cust.Get(Rec."Member No") then
-                                SMSMessage."Telephone No" := cust."Mobile Phone No";
-                            SMSMessage.Insert;
+                        TempBlob.CreateOutStream(OutStr);
+                        Report.SaveAs(Report::"Loan Defaulter 1st Notice", '', ReportFormat::Pdf, OutStr, RecRef);
+
+                        TempBlob.CreateInStream(InStr);
+                        FileName := StrSubstNo('%1_%2.pdf', Cust."No.", Rec."Loan In Default");
+
+                        // === 2. Compose the email ===
+                        BodyText := 'Defaulter First Notice: Dear ,' + Rec."Member Name" + ' you have defaulted  '
+                                    + Rec."Loan Product Name" + ' with Arrears of KSHs.' + Format(ROUND(Rec."Amount In Arrears", 1, '=')) +
+                                    ' at Bamburi Wananchi SACCO LTD.  <br></br>' +
+                                    'A demand letter with more information has been attached to this mail.' +
+                                     '</br>' +
+                                    'Kind regards,' + '<br></br>' +
+
+                                    Companyinfo.Name + '</br>' + Companyinfo.Address + '</br>' + Companyinfo.City + '</br>' +
+                                    Companyinfo."Post Code" + '</br>' + Companyinfo."Country/Region Code" + '</br>' +
+                                    Companyinfo."Phone No." + '</br>' + Companyinfo."E-Mail";
+
+
+                        EmailMessage.Create(Cust."E-Mail", 'Loan Default Notice', BodyText, true);
+                        EmailMessage.AddAttachment(FileName, 'application/pdf', InStr);
+
+                        // === 3. Send the email ===
+                        if Cust."E-Mail" <> '' then
+                            Email.Send(EmailMessage);
+
+                        //4.Send the Message now
+                        SMSMessage.Reset;
+                        if SMSMessage.Find('+') then begin
+                            iEntryNo := SMSMessage."Entry No";
+                            iEntryNo := iEntryNo + 1;
+                        end
+                        else begin
+                            iEntryNo := 1;
                         end;
+
+                        SMSMessage.Reset;
+                        SMSMessage.Init;
+                        SMSMessage."Entry No" := iEntryNo;
+                        SMSMessage."Account No" := Rec."Member No";
+                        SMSMessage."Date Entered" := Rec."Demand Notice Date";
+                        SMSMessage."Time Entered" := Time;
+                        SMSMessage.Source := 'LOAN DEF1';
+                        SMSMessage."Entered By" := UserId;
+                        SMSMessage."Sent To Server" := SMSMessage."sent to server"::No;
+                        SMSMessage."SMS Message" := 'Defaulter First Notice: Dear ,' + Rec."Member Name" + ' you have defaulted  '
+                                                    + Rec."Loan Product Name" + ' with Arrears of KSHs.' + Format(ROUND(Rec."Amount In Arrears", 1, '=')) +
+                                                  ' at Bamburi Wananchi SACCO LTD. ';
+
+                        SMSMessage."Telephone No" := cust."Mobile Phone No";
+                        cust.Reset();
+                        if cust.Get(Rec."Member No") then
+                            SMSMessage."Telephone No" := cust."Mobile Phone No";
+                        SMSMessage.Insert();
+
+                        //update vales
                         Rec.DEFAUTER := true;
                         Rec.SECONDNOTE := true;
                         Rec."Second Letter Date" := Today;
                         Rec."Notice Type" := Rec."notice type"::"2nd Demand Notice";
-                        Rec.Modify;
+                        Rec.Modify();
                         // END;
-                        Message('Notified successfully');
+
+                        Message('Email and SMS sent successfully.');
                         CurrPage.Close;
                     end;
                 }
@@ -314,88 +359,6 @@ page 50863 "Loan 1st Demand Notices Card"
                     end;
                 }
             }
-            group(Approvals)
-            {
-                Caption = 'Approvals';
-                action(Approval)
-                {
-                    ApplicationArea = Basic;
-                    Caption = 'Approvals';
-                    Image = Approval;
-                    Promoted = true;
-                    PromotedCategory = Category4;
-                    Visible = false;
-
-                    trigger OnAction()
-                    var
-                        ApprovalEntries: Page "Approval Entries";
-                    begin
-                        /*
-                        DocumentType:=DocumentType::PackageLodging;
-                        ApprovalEntries.Setfilters(DATABASE::"Safe Custody Package Register",DocumentType,"Package ID");
-                        ApprovalEntries.RUN;
-                        */
-
-                    end;
-                }
-                action("Send Approval Request")
-                {
-                    ApplicationArea = Basic;
-                    Caption = 'Send A&pproval Request';
-                    Enabled = (not OpenApprovalEntriesExist) and EnabledApprovalWorkflowsExist;
-                    Image = SendApprovalRequest;
-                    Promoted = true;
-                    PromotedCategory = Category4;
-                    Visible = false;
-
-                    trigger OnAction()
-                    var
-                        Text001: label 'This transaction is already pending approval';
-                        ApprovalsMgmt: Codeunit "Approvals Mgmt.";
-                    begin
-                        /*//Check Item and Agent Attachment
-                        ObjAgents.RESET;
-                        ObjAgents.SETRANGE(ObjAgents."Package ID","Package ID");
-                        ObjAgents.SETFILTER(ObjAgents."Agent Name",'<>%1','');
-                        IF ObjAgents.FINDSET=FALSE THEN BEGIN
-                          ERROR('You have to specify atleast 1 package agent');
-                          END;
-                        
-                        ObjItems.RESET;
-                        ObjItems.SETRANGE(ObjItems."Package ID","Package ID");
-                        ObjItems.SETFILTER(ObjItems."Item Description",'<>%1','');
-                        IF ObjItems.FINDSET=FALSE THEN BEGIN
-                          ERROR('You have to specify atleast 1 package item');
-                          END;
-                        
-                        IF ApprovalsMgmt.CheckPackageLodgeApprovalsWorkflowEnabled(Rec) THEN
-                          ApprovalsMgmt.OnSendPackageLodgeForApproval(Rec)
-                        
-                          */
-
-                    end;
-                }
-                action("Cancel Approval Request")
-                {
-                    ApplicationArea = Basic;
-                    Caption = 'Cancel Approval Request';
-                    Enabled = CanCancelApprovalForRecord;
-                    Image = Cancel;
-                    Promoted = true;
-                    PromotedCategory = Category4;
-                    Visible = false;
-
-                    trigger OnAction()
-                    var
-                        ApprovalsMgmt: Codeunit "Approvals Mgmt.";
-                    begin
-                        /*IF ApprovalsMgmt.CheckPackageLodgeApprovalsWorkflowEnabled(Rec) THEN
-                          ApprovalsMgmt.OnCancelPackageLodgeApprovalRequest(Rec);*/
-
-
-                    end;
-                }
-            }
         }
     }
 
@@ -444,12 +407,12 @@ page 50863 "Loan 1st Demand Notices Card"
         ObjVendors: Record Vendor;
         ObjAccTypes: Record 51436;
         AvailableBal: Decimal;
-        ObjLoans: Record 51371;
+        ObjLoans: Record "Loans Register";
         ObjDemands: Record 51926;
         VarAuctioneerDetailsVisible: Boolean;
         SMSMessage: Record 51471;
         iEntryNo: Integer;
-        cust: Record 51364;
+        cust: Record Customer;
         PreviewOn: Boolean;
 
     local procedure FNenableVisbility()

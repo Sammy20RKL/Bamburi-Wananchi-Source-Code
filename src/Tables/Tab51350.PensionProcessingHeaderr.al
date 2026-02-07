@@ -161,7 +161,7 @@ Table 51350 "Pension Processing Headerr"
         if No = '' then begin
             NoSetup.Get();
             NoSetup.TestField(NoSetup."Salary Processing Nos");
-            NoSeriesMgt.InitSeries(NoSetup."Salary Processing Nos", xRec."No. Series", 0D, No, "No. Series");
+            // NoSeriesMgt.InitSeries(NoSetup."Salary Processing Nos", xRec."No. Series", 0D, No, "No. Series");
         end;
 
         "Date Entered" := Today;
@@ -184,7 +184,7 @@ Table 51350 "Pension Processing Headerr"
 
     var
         NoSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         cust: Record Customer;
         "GL Account": Record "G/L Account";
         BANKACC: Record "Bank Account";

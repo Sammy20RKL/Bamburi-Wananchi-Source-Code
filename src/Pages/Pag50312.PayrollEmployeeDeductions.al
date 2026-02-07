@@ -35,12 +35,12 @@ page 50312 "Payroll Employee Deductions."
                 field("Interest Charged"; Rec."Interest Charged")
                 {
                     ApplicationArea = Basic;
-                    Editable = false;
+                    Editable = TRUE;
                 }
                 field(Amount; Rec.Amount)
                 {
                     ApplicationArea = Basic;
-                    Editable = false;
+                    Editable = TRUE;//
                 }
                 field("Amount(LCY)"; Rec."Amount(LCY)")
                 {

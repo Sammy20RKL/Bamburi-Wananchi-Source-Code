@@ -55,6 +55,13 @@ codeunit 50015 "PostCustomerExtension"
         end;
     end;
 
+    // //3)-------------This is to Ignore the checks for missing entries...
+    // [EventSubscriber(ObjectType::Codeunit, Codeunit::"Gen. Jnl.-Post Reverse", 'OnBeforeReverse', '', false, false)]
+    // local procedure IgnoreCLECheck(var IsHandled: Boolean)
+    // begin
+    //     IsHandled := true;
+    // end;
+
     [EventSubscriber(ObjectType::Codeunit, 12, 'OnBeforePostGenJnlLine', '', false, false)]
     local procedure PostGenJournalLine(var GenJournalLine: Record "Gen. Journal Line"; Balancing: Boolean)
     begin
@@ -70,16 +77,16 @@ codeunit 50015 "PostCustomerExtension"
     local procedure PostMemb(var GenJournalLine: Record "Gen. Journal Line"; Balancing: Boolean)
     var
         CreatedPostingGroup: Code[50];
-        SurestepFactory: Codeunit "Swizzsoft Factory";
+        SwizzsoftFactory: Codeunit "Swizzsoft Factory";
         LoanProductSetUpList: record "Loan Products Setup";
     begin
         MemberReg.Reset();
         MemberReg.SetCurrentKey(MemberReg."No.");
         MemberReg.SetRange(MemberReg."No.", GenJournalLine."Account No.");
         if MemberReg.FindSet() then begin
-            If (MemberReg."Customer Type" <> MemberReg."Customer Type"::Checkoff) and (GenJournalLine."Transaction Type" = GenJournalLine."Transaction Type"::" ") then begin
-                Error('Please Input a transaction Type ');
-            end;
+            // If (MemberReg."Customer Type" <> MemberReg."Customer Type"::Checkoff) and (GenJournalLine."Transaction Type" = GenJournalLine."Transaction Type"::" ") then begin
+            //     Error('Please Input a transaction Type ');
+            // end;
         end;
 
 
@@ -163,129 +170,11 @@ codeunit 50015 "PostCustomerExtension"
                 end;
             end;
         end;
-        // if (GenJournalLine."Transaction Type" = GenJournalLine."transaction type"::"Partial Disbursement") then begin
-        //     if GenJournalLine."Loan No" = '' then begin
-        //         Error('Loan No Field is empty! Loan No must be specified for %1', GenJournalLine."Account No.");
-        //     end;
-        //     LoanApp.Reset;
-        //     LoanApp.SetCurrentkey(LoanApp."Loan  No.");
-        //     LoanApp.SetRange(LoanApp."Loan  No.", GenJournalLine."Loan No");
-        //     if LoanApp.Find('-') then begin
-        //         if LoanTypes.Get(LoanApp."Loan Product Type") then begin
-        //             // LoanTypes.TestField(LoanTypes."Receivable Interest Account");
-        //             // GenJournalLine."Posting Group" := LoanTypes."Receivable Interest Account";
-        //             // GenJournalLine.Modify();
-        //             Found := true;
-        //         end;
-        //     end;
-        // end;
-        // if (GenJournalLine."Transaction Type" = GenJournalLine."transaction type"::"Loan Due") then begin
-        //     if GenJournalLine."Loan No" = '' then begin
-        //         Error('Loan No Field is empty! Loan No must be specified for %1', GenJournalLine."Account No.");
-        //     end;
-        //     LoanApp.Reset;
-        //     LoanApp.SetCurrentkey(LoanApp."Loan  No.");
-        //     LoanApp.SetRange(LoanApp."Loan  No.", GenJournalLine."Loan No");
-        //     if LoanApp.Find('-') then begin
-        //         if LoanTypes.Get(LoanApp."Loan Product Type") then begin
-        //             // LoanTypes.TestField(LoanTypes."Receivable Interest Account");
-        //             // GenJournalLine."Posting Group" := LoanTypes."Receivable Interest Account";
-        //             // GenJournalLine.Modify();
-        //             Found := true;
-        //         end;
-        //     end;
-        // end;
-        // if (GenJournalLine."Transaction Type" = GenJournalLine."transaction type"::"Penalty Charged") then begin
-        //     if GenJournalLine."Loan No" = '' then begin
-        //         Error('Loan No Field is empty! Loan No must be specified for %1', GenJournalLine."Account No.");
-        //     end;
-        //     LoanApp.Reset;
-        //     LoanApp.SetCurrentkey(LoanApp."Loan  No.");
-        //     LoanApp.SetRange(LoanApp."Loan  No.", GenJournalLine."Loan No");
-        //     if LoanApp.Find('-') then begin
-        //         if LoanTypes.Get(LoanApp."Loan Product Type") then begin
-        //             LoanTypes.TestField(LoanTypes."Penalty Charged Account");
-        //             //FnCheckIfPostingGroupIsSetUp,If != Then SetUp
-        //             GenJournalLine."Posting Group" := FnHandlePostingGroup(LoanTypes."Penalty Charged Account", 'PENALTYCHRG-' + FORMAT(COPYSTR(LoanTypes.Code, 1, 7)));
-        //             ;
-        //             Found := true;
-        //             Found := true;
-        //             GenJournalLine.Modify();
-        //         end;
-        //     end;
-        // end;
-        // if (GenJournalLine."Transaction Type" = GenJournalLine."transaction type"::"Penalty Paid") then begin
-        //     if GenJournalLine."Loan No" = '' then begin
-        //         Error('Loan No Field is empty! Loan No must be specified for %1', GenJournalLine."Account No.");
-        //     end;
-        //     LoanApp.Reset;
-        //     LoanApp.SetCurrentkey(LoanApp."Loan  No.");
-        //     LoanApp.SetRange(LoanApp."Loan  No.", GenJournalLine."Loan No");
-        //     if LoanApp.Find('-') then begin
-        //         if LoanTypes.Get(LoanApp."Loan Product Type") then begin
-        //             LoanTypes.TestField(LoanTypes."Penalty Paid Account");
-        //             //FnCheckIfPostingGroupIsSetUp,If != Then SetUp
-        //             GenJournalLine."Posting Group" := FnHandlePostingGroup(LoanTypes."Penalty Paid Account", 'PENALTYPAID-' + FORMAT(COPYSTR(LoanTypes.Code, 1, 6)));
-        //             ;
-        //             Found := true;
-        //             GenJournalLine.Modify();
-        //         end;
-        //     end;
-        // end;
-        // if (GenJournalLine."Transaction Type" = GenJournalLine."transaction type"::"Application Fee") then begin
-        //     if GenJournalLine."Loan No" = '' then begin
-        //         Error('Loan No Field is empty! Loan No must be specified for %1', GenJournalLine."Account No.");
-        //     end;
-        //     LoanApp.Reset;
-        //     LoanApp.SetCurrentkey(LoanApp."Loan  No.");
-        //     LoanApp.SetRange(LoanApp."Loan  No.", GenJournalLine."Loan No");
-        //     if LoanApp.Find('-') then begin
-        //         if LoanTypes.Get(LoanApp."Loan Product Type") then begin
-        //             productcharges.Reset();
-        //             productcharges.SetRange(productcharges."Product Code", LoanTypes.Code);
-        //             productcharges.SetRange(productcharges.Code, 'APP');
-        //             if productcharges.Find('-') then begin
-        //                 productcharges.TestField(productcharges."G/L Account");
-        //                 //FnCheckIfPostingGroupIsSetUp,If != Then SetUp
-        //                 GenJournalLine."Posting Group" := FnHandlePostingGroup(productcharges."G/L Account", 'APP-' + FORMAT(COPYSTR(LoanTypes.Code, 1, 10)));
-        //                 ;
-        //                 Found := true;
-        //                 GenJournalLine.Modify();
-        //             end else begin
-        //                 Error('Product Charges Account Not Found. Please Contact System Administrator');
-        //             end;
-        //         end;
-        //     end;
-        // end;
 
-        // if (GenJournalLine."Transaction Type" = GenJournalLine."transaction type"::"Appraisal Fee") then begin
-        //     if GenJournalLine."Loan No" = '' then begin
-        //         Error('Loan No Field is empty! Loan No must be specified for %1', GenJournalLine."Account No.");
-        //     end;
-        //     LoanApp.Reset;
-        //     LoanApp.SetCurrentkey(LoanApp."Loan  No.");
-        //     LoanApp.SetRange(LoanApp."Loan  No.", GenJournalLine."Loan No");
-        //     if LoanApp.Find('-') then begin
-        //         if LoanTypes.Get(LoanApp."Loan Product Type") then begin
-        //             productcharges.Reset();
-        //             productcharges.SetRange(productcharges."Product Code", LoanTypes.Code);
-        //             productcharges.SetRange(productcharges.Code, 'APPR');
-        //             if productcharges.Find('-') then begin
-        //                 productcharges.TestField(productcharges."G/L Account");
-        //                 GenJournalLine."Posting Group" := FnHandlePostingGroup(productcharges."G/L Account", 'APPR-' + FORMAT(COPYSTR(LoanTypes.Code, 1, 10)));
-        //                 ;
-        //                 Found := true;
-        //                 GenJournalLine.Modify();
-        //             end else begin
-        //                 Error('Product Charges Account Not Found. Please Contact System Administrator');
-        //             end;
-        //         end;
-        //     end;
-        // end;
         //................................Ensure that global dimension 2(Branch) is not empty!...critical
         if GenJournalLine."Shortcut Dimension 2 Code" = '' then begin
             GenJournalLine."Shortcut Dimension 2 Code" := '';
-            GenJournalLine."Shortcut Dimension 2 Code" := SurestepFactory.FnGetMemberBranch((GenJournalLine."Account No."));
+            GenJournalLine."Shortcut Dimension 2 Code" := SwizzsoftFactory.FnGetMemberBranch((GenJournalLine."Account No."));
             GenJournalLine.Modify();
         end;
         //................................Ensure that activity code used is accurate
@@ -337,11 +226,11 @@ codeunit 50015 "PostCustomerExtension"
 
     local procedure CheckDimensions(var GenJournalLine: Record "Gen. Journal Line"; Balancing: Boolean)
     var
-        SurestepFactory: Codeunit "Swizzsoft Factory";
+        SwizzsoftFactory: Codeunit "Swizzsoft Factory";
     begin
         if GenJournalLine."Shortcut Dimension 2 Code" = '' then begin
             GenJournalLine."Shortcut Dimension 2 Code" := '';
-            GenJournalLine."Shortcut Dimension 2 Code" := SurestepFactory.FnGetMemberBranchUsingFosaAccount(GenJournalLine."Account No.");
+            GenJournalLine."Shortcut Dimension 2 Code" := SwizzsoftFactory.FnGetMemberBranchUsingFosaAccount(GenJournalLine."Account No.");
             GenJournalLine.Modify();
         end;
     end;
@@ -357,18 +246,6 @@ codeunit 50015 "PostCustomerExtension"
         end;
     end;
 
-    procedure GetMaxEntryNo(): Integer
-    var
-        CustLedgerEntry: Record "Cust. Ledger Entry";
-        MaxEntryNo: Integer;
-    begin
-        if CustLedgerEntry.FindLast() then
-            MaxEntryNo := CustLedgerEntry."Entry No.";
-
-        // Message('Max Entry No.: %1', MaxEntryNo);
-        exit(MaxEntryNo);
-    end;
-
     [EventSubscriber(ObjectType::Codeunit, codeunit::"Gen. Jnl.-Post Line", 'OnAfterInitCustLedgEntry', '', false, false)]
     procedure InsertCustomTransactionFields(GenJournalLine: Record "Gen. Journal Line"; var CustLedgerEntry: Record "Cust. Ledger Entry")
     var
@@ -376,7 +253,6 @@ codeunit 50015 "PostCustomerExtension"
         sfactory: Codeunit "Swizzsoft Factory";
     begin
         CustLedgerEntry.LockTable();
-        CustLedgerEntry."Entry No." := GetMaxEntryNo() + 1;
         CustLedgerEntry."Transaction Type" := GenJournalLine."Transaction Type";
         CustLedgerEntry."Loan No" := GenJournalLine."Loan No";
         CustLedgerEntry."Loan product Type" := FnGetLoanProductType(GenJournalLine."Loan No");

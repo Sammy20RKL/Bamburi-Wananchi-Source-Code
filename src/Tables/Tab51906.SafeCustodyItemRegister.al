@@ -101,7 +101,7 @@ Table 51906 "Safe Custody Item Register"
         if "Item ID" = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Safe Custody Item Nos");
-            NoSeriesMgt.InitSeries(SalesSetup."Safe Custody Item Nos", xRec."No. Series", 0D, "Item ID", "No. Series");
+            //NoSeriesMgt.InitSeries(SalesSetup."Safe Custody Item Nos", xRec."No. Series", 0D, "Item ID", "No. Series");
         end;
 
         "Date Received" := Today;
@@ -110,6 +110,6 @@ Table 51906 "Safe Custody Item Register"
 
     var
         SalesSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
 }
 

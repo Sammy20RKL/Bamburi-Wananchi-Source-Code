@@ -261,7 +261,7 @@ tableextension 50080 "BankAccountExt" extends "Bank Account"
         if "No." = '' then begin
             GLSetup.Get;
             GLSetup.TestField("Bank Account Nos.");
-            NoSeriesMgt.InitSeries(GLSetup."Bank Account Nos.", xRec."No. Series", 0D, "No.", "No. Series");
+            // NoSeriesMgt.InitSeries(GLSetup."Bank Account Nos.", xRec."No. Series", 0D, "No.", "No. Series");
         end;
 
         if not InsertFromContact then
@@ -315,7 +315,7 @@ tableextension 50080 "BankAccountExt" extends "Bank Account"
         BankAccLedgEntry: Record "Bank Account Ledger Entry";
         CommentLine: Record "Comment Line";
         PostCode: Record "Post Code";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         MoveEntries: Codeunit MoveEntries;
         UpdateContFromBank: Codeunit "BankCont-Update";
         DimMgt: Codeunit DimensionManagement;
@@ -333,16 +333,16 @@ tableextension 50080 "BankAccountExt" extends "Bank Account"
 
     procedure AssistEdit(OldBankAcc: Record "Bank Account"): Boolean
     begin
-        BankAcc := Rec;
-        GLSetup.Get;
-        GLSetup.TestField("Bank Account Nos.");
-        if NoSeriesMgt.SelectSeries(GLSetup."Bank Account Nos.", OldBankAcc."No. Series", BankAcc."No. Series") then begin
-            GLSetup.Get;
-            GLSetup.TestField("Bank Account Nos.");
-            NoSeriesMgt.SetSeries(BankAcc."No.");
-            Rec := BankAcc;
-            exit(true);
-        end;
+        // BankAcc := Rec;
+        // GLSetup.Get;
+        // GLSetup.TestField("Bank Account Nos.");
+        // if NoSeriesMgt.SelectSeries(GLSetup."Bank Account Nos.", OldBankAcc."No. Series", BankAcc."No. Series") then begin
+        //     GLSetup.Get;
+        //     GLSetup.TestField("Bank Account Nos.");
+        //     NoSeriesMgt.SetSeries(BankAcc."No.");
+        //     Rec := BankAcc;
+        //     exit(true);
+        // end;
     end;
 
 
@@ -441,7 +441,7 @@ tableextension 50080 "BankAccountExt" extends "Bank Account"
 
     procedure GetCreditTransferMessageNo(): Code[20]
     var
-        NoSeriesManagement: Codeunit NoSeriesManagement;
+        NoSeriesManagement: Codeunit "No. Series";
     begin
         TestField("Credit Transfer Msg. Nos.");
         exit(NoSeriesManagement.GetNextNo("Credit Transfer Msg. Nos.", Today, true));
@@ -450,7 +450,7 @@ tableextension 50080 "BankAccountExt" extends "Bank Account"
 
     procedure GetDirectDebitMessageNo(): Code[20]
     var
-        NoSeriesManagement: Codeunit NoSeriesManagement;
+        NoSeriesManagement: Codeunit "No. Series";
     begin
         TestField("Direct Debit Msg. Nos.");
         exit(NoSeriesManagement.GetNextNo("Direct Debit Msg. Nos.", Today, true));

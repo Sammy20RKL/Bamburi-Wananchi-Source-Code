@@ -142,13 +142,13 @@ Table 51508 "Account Agent Details"
         if "Agent Serial No" = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Agent Serial Nos");
-            NoSeriesmgt.InitSeries(SalesSetup."Agent Serial Nos", xRec."No. Series", 0D, "Agent Serial No", "No. Series");
+            // NoSeriesmgt.InitSeries(SalesSetup."Agent Serial Nos", xRec."No. Series", 0D, "Agent Serial No", "No. Series");
         end;
     end;
 
     var
         CUST: Record Customer;
-        NoSeriesmgt: Codeunit NoSeriesManagement;
+        NoSeriesmgt: Codeunit "No. Series";
         SalesSetup: Record "Sacco No. Series";
 }
 

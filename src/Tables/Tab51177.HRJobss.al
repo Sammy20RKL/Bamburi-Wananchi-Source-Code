@@ -145,7 +145,7 @@ Table 51177 "HR Jobss"
         if "Job ID" = '' then begin
             HRSetup.Get;
             HRSetup.TestField(HRSetup."Job Nos");
-            NoSeriesMgt.InitSeries(HRSetup."Job Nos", xRec."No series", 0D, "Job ID", "No series");
+            // NoSeriesMgt.InitSeries(HRSetup."Job Nos", xRec."No series", 0D, "Job ID", "No series");
         end;
 
         "Date Created" := Today;
@@ -160,6 +160,6 @@ Table 51177 "HR Jobss"
         NoOfPosts: Decimal;
         HREmp: Record "HR Employees";
         HRSetup: Record "HR Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+    //  NoSeriesMgt: Codeunit NoSeriesManagement;
 }
 

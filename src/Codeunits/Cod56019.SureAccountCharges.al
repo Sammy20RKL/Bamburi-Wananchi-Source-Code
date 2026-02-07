@@ -163,7 +163,7 @@ codeunit 56019 "SureAccountCharges"
         GenJournalLine.Description := 'Share Capital';
         // GenJournalLine.Amount := (GenSetup."share Capital") * -1;
         GenJournalLine.Validate(GenJournalLine.Amount);
-        GenJournalLine."Transaction Type" := GenJournalLine."transaction type"::"Shares Capital";
+        GenJournalLine."Transaction Type" := GenJournalLine."Transaction Type"::"Share Capital";
         GenJournalLine."Shortcut Dimension 1 Code" := 'BOSA';
         GenJournalLine."Shortcut Dimension 2 Code" := Memb."Global Dimension 2 Code";
         GenJournalLine.Validate(GenJournalLine."Shortcut Dimension 1 Code");

@@ -146,7 +146,7 @@ Table 51191 "HR Transport Allocations H"
         if "Transport Allocation No" = '' then begin
             HRSetup.Get;
             HRSetup.TestField(HRSetup."Transport Req Nos");
-            NoSeriesMgt.InitSeries(HRSetup."Transport Req Nos", xRec."No. Series", 0D, "Transport Allocation No", "No. Series");
+            //  NoSeriesMgt.InitSeries(HRSetup."Transport Req Nos", xRec."No. Series", 0D, "Transport Allocation No", "No. Series");
         end;
 
         "Authorized  By" := UserId;
@@ -165,7 +165,7 @@ Table 51191 "HR Transport Allocations H"
         Text0001: label 'You cannot modify an Approved or Closed Record';
         Text001: label 'Your identification is set up to process from %1 %2 only.';
         HRSetup: Record "HR Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        // NoSeriesMgt: Codeunit NoSeriesManagement;
         HRDrivers: Record "HR Drivers";
         PurchHeader: Record "Purchase Header";
 }

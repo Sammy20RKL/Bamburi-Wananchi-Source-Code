@@ -261,7 +261,7 @@ Table 51513 "Cheque Discounting"
         if "Transaction No" = '' then begin
             NoSetup.Get();
             NoSetup.TestField(NoSetup."Transaction Nos.");
-            NoSeriesMgt.InitSeries(NoSetup."Transaction Nos.", xRec."No. Series", 0D, "Transaction No", "No. Series");
+            // NoSeriesMgt.InitSeries(NoSetup."Transaction Nos.", xRec."No. Series", 0D, "Transaction No", "No. Series");
         end;
         "Created By" := UserId;
         "Date Created" := Today;
@@ -275,7 +275,7 @@ Table 51513 "Cheque Discounting"
         AccountTypes: Record "Account Types-Saving Products";
         ATMApp: Record "Members Nominee Temp";
         NoSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         Trans: Record Transactions;
         Gensetup: Record "Sacco General Set-Up";
         ChequeDiscountingComm: Decimal;

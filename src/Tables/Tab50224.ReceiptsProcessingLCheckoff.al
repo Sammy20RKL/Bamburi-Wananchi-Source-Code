@@ -168,8 +168,20 @@ table 50224 "ReceiptsProcessing_L-Checkoff"
         field(33; "Xmas Contribution"; Decimal)
         {
         }
+        field(34; "Total Amount"; Decimal)
+        {
+            Caption = 'Total Amount';
+            DecimalPlaces = 0 : 20;
+        }
+        field(35; "Total Interest"; Decimal)
+        {
+            Caption = 'Total Interest';
+        }
+        field(36; "Interest Amount"; Decimal)
+        {
+            Caption = 'Interest Amount';
+        }
     }
-
     keys
     {
         key(Key1; "Receipt Header No", "Receipt Line No")

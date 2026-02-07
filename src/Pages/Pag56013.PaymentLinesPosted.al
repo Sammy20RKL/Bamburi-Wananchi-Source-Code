@@ -5,7 +5,7 @@ Page 56013 "Payment Lines Posted"
     InsertAllowed = false;
     ModifyAllowed = false;
     PageType = ListPart;
-    SourceTable = "Payment Line";
+    SourceTable = "Payment Line New";
 
     layout
     {
@@ -277,7 +277,7 @@ Page 56013 "Payment Lines Posted"
                 {
                     ApplicationArea = Basic;
                 }
-                field("W/Tax Rate"; Rec."W/TAX Code")
+                field("W/Tax Rate"; Rec."Withholding Tax Code")
                 {
                     ApplicationArea = Basic;
                 }

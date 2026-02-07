@@ -116,7 +116,7 @@ Table 51495 "Loan trunch Disburesment"
         if "Document No" = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Trunch Disbursment Nos");
-            NoSeriesMgt.InitSeries(SalesSetup."Trunch Disbursment Nos", xRec."No. Series", 0D, "Document No", "No. Series");
+            // NoSeriesMgt.InitSeries(SalesSetup."Trunch Disbursment Nos", xRec."No. Series", 0D, "Document No", "No. Series");
         end;
 
         "User ID" := UserId;
@@ -126,6 +126,6 @@ Table 51495 "Loan trunch Disburesment"
         Cust: Record Customer;
         LoansRec: Record "Loans Register";
         SalesSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
 }
 

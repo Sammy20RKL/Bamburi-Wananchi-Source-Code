@@ -76,7 +76,7 @@ Table 51911 "ATM Card Receipt Batch"
         if "Batch No." = '' then begin
             SalesSetup.Get();
             SalesSetup.TestField(SalesSetup."ATM Card Batch Nos");
-            NoSeriesMgt.InitSeries(SalesSetup."ATM Card Batch Nos", xRec."No. Series", 0D, "Batch No.", "No. Series");
+            //   NoSeriesMgt.InitSeries(SalesSetup."ATM Card Batch Nos", xRec."No. Series", 0D, "Batch No.", "No. Series");
         end;
 
         "Date Requested" := Today;
@@ -86,7 +86,7 @@ Table 51911 "ATM Card Receipt Batch"
 
     var
         SalesSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         EntryNo: Integer;
 }
 

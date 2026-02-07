@@ -100,7 +100,7 @@ Report 50303 "Member Shares Certificate"
                     TotalSharecap := 0;
 
                     TotalShares := MembersReg."Current Shares" + MembersReg."Share Capital";
-                    CertificateNo := 'DEVS' + Format(MembersReg."No.");
+                    CertificateNo := 'POLYTECH && ' + Format(MembersReg."No.");
                     IDnoMember := MembersReg."ID No.";
                     FullName := MembersReg.Name;
                     TotalCurrectshares := MembersReg."Current Shares";

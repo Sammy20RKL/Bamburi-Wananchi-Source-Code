@@ -206,9 +206,10 @@
             <Value>=First(Fields!Company_Picture.Value, "DataSet_Result")</Value>
             <MIMEType>image/png</MIMEType>
             <Sizing>FitProportional</Sizing>
+            <Top>0.06389in</Top>
             <Left>0.20949cm</Left>
-            <Height>2.05562cm</Height>
-            <Width>4.09557cm</Width>
+            <Height>2.10782cm</Height>
+            <Width>3.27083cm</Width>
             <ZIndex>7</ZIndex>
             <Style>
               <Border>

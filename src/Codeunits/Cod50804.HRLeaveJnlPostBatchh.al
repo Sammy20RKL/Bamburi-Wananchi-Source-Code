@@ -27,8 +27,8 @@ Codeunit 50804 "HR Leave Jnl.-Post Batchh"
         FAJnlSetup: Record "HR Setup";
         InsuranceJnlPostLine: Codeunit "HR Leave Jnl.-Post Line";
         InsuranceJnlCheckLine: Codeunit "HR Leave Jnl.-Check Line";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
-        NoSeriesMgt2: array[10] of Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
+        NoSeriesMgt2: array[10] of Codeunit "No. Series";
         DimMgt: Codeunit DimensionManagement;
         Window: Dialog;
         LineCount: Integer;
@@ -209,12 +209,12 @@ Codeunit 50804 "HR Leave Jnl.-Post Batchh"
                 end;
             end;
             if InsuranceJnlBatch."No. Series" <> '' then
-                NoSeriesMgt.SaveNoSeries;
-            if NoSeries.Find('-') then
-                repeat
-                    Evaluate(PostingNoSeriesNo, NoSeries.Description);
-                    NoSeriesMgt2[PostingNoSeriesNo].SaveNoSeries;
-                until NoSeries.Next = 0;
+                // NoSeriesMgt.SaveNoSeries;
+                if NoSeries.Find('-') then
+                    repeat
+                        Evaluate(PostingNoSeriesNo, NoSeries.Description);
+                    // NoSeriesMgt2[PostingNoSeriesNo].SaveNoSeries;
+                    until NoSeries.Next = 0;
 
             Commit;
             Clear(InsuranceJnlCheckLine);

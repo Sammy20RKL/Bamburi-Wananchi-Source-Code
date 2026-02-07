@@ -260,7 +260,7 @@ Table 50802 "Bank Acc. ReconciliationAUT"
 
     procedure MatchSingle(DateRange: Integer)
     var
-        MatchBankRecLines: Codeunit "Match Bank Rec. Liness";
+    // MatchBankRecLines: Codeunit "Match Bank Rec. Liness";
     begin
         // MatchBankRecLines.MatchSingle(Rec, DateRange);
     end;
@@ -269,12 +269,12 @@ Table 50802 "Bank Acc. ReconciliationAUT"
     procedure ImportBankStatement()
     var
         DataExch: Record "Data Exch.";
-        ProcessBankAccRecLines: Codeunit "Process Bank Acc. Rec Liness";
+    // ProcessBankAccRecLines: Codeunit "Process Bank Acc. Rec Liness";
     begin
-        if BankAccountCouldBeUsedForImport then begin
-            DataExch.Init;
-            ProcessBankAccRecLines.ImportBankStatement(Rec, DataExch);
-        end;
+        // if BankAccountCouldBeUsedForImport then begin
+        //     DataExch.Init;
+        //     ProcessBankAccRecLines.ImportBankStatement(Rec, DataExch);
+        // end;
     end;
 
     local procedure ValidateShortcutDimCode(FieldNumber: Integer; var ShortcutDimCode: Code[20])
@@ -371,10 +371,10 @@ Table 50802 "Bank Acc. ReconciliationAUT"
 
     local procedure ImportAndProcessStatement(BankAccReconciliation: Record "Bank Acc. ReconciliationAUT"; DataExch: Record "Data Exch.")
     var
-        ProcessBankAccRecLines: Codeunit "Process Bank Acc. Rec Liness";
+    // ProcessBankAccRecLines: Codeunit "Process Bank Acc. Rec Liness";
     begin
-        if not ProcessBankAccRecLines.ImportBankStatement(BankAccReconciliation, DataExch) then
-            exit;
+        // if not ProcessBankAccRecLines.ImportBankStatement(BankAccReconciliation, DataExch) then
+        //     exit;
 
         Commit;
         Codeunit.Run(Codeunit::"Match Bank Pmt. Appl.", BankAccReconciliation);

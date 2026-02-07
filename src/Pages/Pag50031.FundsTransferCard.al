@@ -17,7 +17,7 @@ page 50031 "Funds Transfer Card"
                 field("Pay Mode"; Rec."Pay Mode")
                 {
                     ApplicationArea = Basic;
-                    OptionCaption = ',Cash,Cheque,standing Order';
+                    OptionCaption = ',Cash,Cheque,Standing Order,RTGS,EFT';
                 }
                 field("Document Date"; Rec."Document Date")
                 {
@@ -202,8 +202,12 @@ page 50031 "Funds Transfer Card"
                 var
                     Text001: label 'This request is already pending approval';
                 begin
-                    // if ApprovalsMgmt.CheckFundsTransferApprovalsWorkflowEnabled(Rec) then
-                    //     ApprovalsMgmt.OnSendFundsTransferForApproval(Rec);
+                    if Confirm('Are you sure you want to send this approval request', false) = true then begin
+                        SwizzApprovalsCodeUnit.OnSendFundsTransferForApproval(rec."No.", Rec);
+                        Message('Approval Request Sent!');
+                        CurrPage.Close();
+                    end;
+
                 end;
             }
             action("Cancel Approval Request")
@@ -219,7 +223,8 @@ page 50031 "Funds Transfer Card"
                     Approvalmgt: Codeunit "Approvals Mgmt.";
                 begin
                     if Confirm('Are you sure you want to cancel this approval request', false) = true then begin
-                        // ApprovalsMgmt.OnCancelFundsTransferApprovalRequest(Rec);
+                        //SwizzApprovalsCodeUnit.OnCancelFundsTransferApprovalRequest(rec."No.", Rec);
+                        Message('Not allowed');
                     end;
                 end;
             }
@@ -240,7 +245,7 @@ page 50031 "Funds Transfer Card"
         FHeader: Record 51056;
         FLine: Record 51005;
         DocumentType: Option Quote,"Order",Invoice,"Credit Memo","Blanket Order","Return Order"," ","Purchase Requisition",RFQ,"Store Requisition","Payment Voucher",MembershipApplication,LoanApplication,LoanDisbursement,ProductApplication,StandingOrder,MembershipWithdrawal,ATMCard,GuarantorRecovery,FundsTransfer;
-        ApprovalsMgmt: Codeunit "Approvals Mgmt.";
+        SwizzApprovalsCodeUnit: Codeunit SurestepApprovalsCodeUnit;
 
     local procedure CheckRequiredItems()
     begin

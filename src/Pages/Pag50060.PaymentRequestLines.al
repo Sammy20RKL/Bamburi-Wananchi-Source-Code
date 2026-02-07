@@ -2,7 +2,7 @@
 page 50060 "Payment Request Lines"
 {
     PageType = ListPart;
-    SourceTable = "Payment Line";
+    SourceTable = "Payment Line New";
 
     layout
     {

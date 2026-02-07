@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <Height>2in</Height>
+        <Style />
+      </Body>
+      <Width>6.5in</Width>
+      <Page>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="LeaveTypeCode">
+          <DataField>LeaveTypeCode</DataField>
+        </Field>
+        <Field Name="No_Employee">
+          <DataField>No_Employee</DataField>
+        </Field>
+        <Field Name="FirstName_Employee">
+          <DataField>FirstName_Employee</DataField>
+        </Field>
+        <Field Name="MiddleName_Employee">
+          <DataField>MiddleName_Employee</DataField>
+        </Field>
+        <Field Name="LastName_Employee">
+          <DataField>LastName_Employee</DataField>
+        </Field>
+        <Field Name="Department">
+          <DataField>Department</DataField>
+        </Field>
+        <Field Name="Entitlement">
+          <DataField>Entitlement</DataField>
+        </Field>
+        <Field Name="EntitlementFormat">
+          <DataField>EntitlementFormat</DataField>
+        </Field>
+        <Field Name="Leave_Balance">
+          <DataField>Leave_Balance</DataField>
+        </Field>
+        <Field Name="Leave_BalanceFormat">
+          <DataField>Leave_BalanceFormat</DataField>
+        </Field>
+        <Field Name="Balance">
+          <DataField>Balance</DataField>
+        </Field>
+        <Field Name="BalanceFormat">
+          <DataField>BalanceFormat</DataField>
+        </Field>
+        <Field Name="Adjustment">
+          <DataField>Adjustment</DataField>
+        </Field>
+        <Field Name="AdjustmentFormat">
+          <DataField>AdjustmentFormat</DataField>
+        </Field>
+        <Field Name="BroughtForward">
+          <DataField>BroughtForward</DataField>
+        </Field>
+        <Field Name="BroughtForwardFormat">
+          <DataField>BroughtForwardFormat</DataField>
+        </Field>
+        <Field Name="Recall">
+          <DataField>Recall</DataField>
+        </Field>
+        <Field Name="RecallFormat">
+          <DataField>RecallFormat</DataField>
+        </Field>
+        <Field Name="Taken">
+          <DataField>Taken</DataField>
+        </Field>
+        <Field Name="TakenFormat">
+          <DataField>TakenFormat</DataField>
+        </Field>
+        <Field Name="Absent">
+          <DataField>Absent</DataField>
+        </Field>
+        <Field Name="AbsentFormat">
+          <DataField>AbsentFormat</DataField>
+        </Field>
+        <Field Name="Company_Name">
+          <DataField>Company_Name</DataField>
+        </Field>
+        <Field Name="Comp_Logo">
+          <DataField>Comp_Logo</DataField>
+        </Field>
+        <Field Name="Email">
+          <DataField>Email</DataField>
+        </Field>
+        <Field Name="Website">
+          <DataField>Website</DataField>
+        </Field>
+        <Field Name="Tel_No">
+          <DataField>Tel_No</DataField>
+        </Field>
+        <Field Name="Address">
+          <DataField>Address</DataField>
+        </Field>
+        <Field Name="City">
+          <DataField>City</DataField>
+        </Field>
+        <Field Name="Country">
+          <DataField>Country</DataField>
+        </Field>
+        <Field Name="Post_Code">
+          <DataField>Post_Code</DataField>
+        </Field>
+        <Field Name="Global_Dimension_1_Code">
+          <DataField>Global_Dimension_1_Code</DataField>
+        </Field>
+        <Field Name="LeaveEarnedToDate">
+          <DataField>LeaveEarnedToDate</DataField>
+        </Field>
+        <Field Name="LeaveEarnedToDateFormat">
+          <DataField>LeaveEarnedToDateFormat</DataField>
+        </Field>
+        <Field Name="LeaveLiability">
+          <DataField>LeaveLiability</DataField>
+        </Field>
+        <Field Name="LeaveLiabilityFormat">
+          <DataField>LeaveLiabilityFormat</DataField>
+        </Field>
+        <Field Name="LeaveBalToDate">
+          <DataField>LeaveBalToDate</DataField>
+        </Field>
+        <Field Name="LeaveBalToDateFormat">
+          <DataField>LeaveBalToDateFormat</DataField>
+        </Field>
+        <Field Name="Forfeited">
+          <DataField>Forfeited</DataField>
+        </Field>
+        <Field Name="ForfeitedFormat">
+          <DataField>ForfeitedFormat</DataField>
+        </Field>
+        <Field Name="LeaveTypeFilter">
+          <DataField>LeaveTypeFilter</DataField>
+        </Field>
+        <Field Name="ReportFilters">
+          <DataField>ReportFilters</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>

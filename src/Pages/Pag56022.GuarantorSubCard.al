@@ -49,7 +49,7 @@ Page 56022 "Guarantor Sub Card"
                 field(Status; Rec.Status)
                 {
                     ApplicationArea = Basic;
-                    Editable = true;
+                    Editable = false;
                 }
                 field("Created By"; Rec."Created By")
                 {
@@ -99,7 +99,7 @@ Page 56022 "Guarantor Sub Card"
 
                     trigger OnAction()
                     var
-                        SrestepApprovalsCodeUnit: Codeunit SwizzsoftApprovalsCodeUnit;
+                        SrestepApprovalsCodeUnit: Codeunit SurestepApprovalsCodeUnit;
                         text001: label 'This batch is already pending approval';
                         GuarantorshipSubstitutionL: Record "Guarantorship Substitution L";
                     begin
@@ -129,7 +129,7 @@ Page 56022 "Guarantor Sub Card"
                                 until GSubLine.Next = 0;
                             end;
                             //End Add All Replaced Amounts
-                            Commited := LGuarantor."Amont Guaranteed";
+                            Commited := LGuarantor."Committed Shares";
                             if TotalReplaced < Commited then
                                 Error('Guarantors replaced do not cover the whole amount');
                         end;
@@ -137,6 +137,8 @@ Page 56022 "Guarantor Sub Card"
                         //Approval code  here
                         if Confirm('Send Approval Request?', false) = true then begin
                             SrestepApprovalsCodeUnit.SendGuarantorSubRequestForApproval(rec."Document No", Rec);
+                            Message('Approval Request Successfully sent!');
+                            CurrPage.Close();
                         end;
                         //...................
                     end;
@@ -166,6 +168,98 @@ Page 56022 "Guarantor Sub Card"
                 }
 
 
+                action("Process Self_Substitution")
+                {
+                    ApplicationArea = Basic;
+                    Image = Apply;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    Enabled = AllowPosting;
+                    trigger OnAction()
+                    begin
+
+                        IF Rec.Status <> Rec.Status::Approved THEN
+                            ERROR('This Application has to be Approved');
+
+                        LGuarantor.RESET;
+                        LGuarantor.SETRANGE(LGuarantor."Loan No", Rec."Loan Guaranteed");
+                        LGuarantor.SETRANGE(LGuarantor."Member No", Rec."Substituting Member");
+                        IF LGuarantor.FINDSET THEN BEGIN
+                            MESSAGE(FORMAT(LGuarantor."Loan No"));
+                            TotalReplaced := 0;
+                            GSubLine.RESET;
+                            GSubLine.SETRANGE(GSubLine."Document No", Rec."Document No");
+                            GSubLine.SETRANGE(GSubLine."Member No", Rec."Substituting Member");
+                            IF GSubLine.FINDSET THEN BEGIN
+                                REPEAT
+                                    TotalReplaced := TotalReplaced + GSubLine."Sub Amount Guaranteed";
+                                UNTIL GSubLine.NEXT = 0;
+                            END;
+
+                            // MESSAGE('total amount is %', TotalReplaced);
+                            //Compare with committed shares
+                            Commited := LGuarantor."Amont Guaranteed";
+                            IF TotalReplaced < Commited THEN
+                                SubGAmount := 0;
+                            GSubLine.RESET;
+                            GSubLine.SETRANGE(GSubLine."Document No", Rec."Document No");
+                            GSubLine.SETRANGE(GSubLine."Member No", Rec."Substituting Member");
+                            IF GSubLine.FINDSET THEN BEGIN
+
+                                NewLGuar.RESET;
+                                NewLGuar.SETRANGE(NewLGuar."Member No", Rec."Substituting Member");
+                                NewLGuar.SETRANGE(NewLGuar."Loan No", Rec."Loan Guaranteed");
+                                IF NewLGuar.FIND('-') THEN
+                                    SubGAmount := NewLGuar."Amont Guaranteed" + GSubLine."Sub Amount Guaranteed";
+                                // MESSAGE('new amount is %1', SubGAmount);
+                                //MESSAGE('here');
+                                NewLGuar."Amont Guaranteed" := SubGAmount;
+                            END;
+                            LGuarantor.Substituted := TRUE;
+                            LGuarantor."Committed Shares" := 0;
+                            LGuarantor."Amont Guaranteed" := 0;
+                            LGuarantor."Guar Sub Doc No." := Rec."Document No";
+                            LGuarantor.Modify();
+                            //End Edit Loan Guar
+
+                            Rec.Substituted := TRUE;
+                            Rec."Date Substituted" := TODAY;
+                            Rec."Substituted By" := USERID;
+                            Rec.MODIFY;
+                        END;
+
+                        NewLGuar.RESET;
+                        NewLGuar.SETRANGE(NewLGuar."Member No", GSubLine."Substitute Member");
+                        NewLGuar.SETRANGE(NewLGuar."Loan No", GSubLine."Loan No.");
+                        IF NewLGuar.FIND('-') THEN BEGIN
+                            SubGAmount := NewLGuar."Amont Guaranteed" + GSubLine."Sub Amount Guaranteed";
+
+                            NewLGuar."Amont Guaranteed" := SubGAmount;
+                            NewLGuar.MODIFY;
+                            MESSAGE(FORMAT(NewLGuar."Amont Guaranteed"));
+                            GSubLine."self  substitute" := TRUE;
+                            GSubLine.MODIFY;
+
+                            Rec.Substituted := TRUE;
+                            Rec."Date Substituted" := TODAY;
+                            Rec."Substituted By" := USERID;
+                            Rec.MODIFY;
+
+                            MESSAGE('Guarantor Substituted Succesfully');
+                        END;
+                        LGuarantor.RESET;
+                        LGuarantor.SETRANGE(LGuarantor."Loan No", Rec."Loan Guaranteed");
+                        LGuarantor.SETRANGE(LGuarantor."Member No", Rec."Substituting Member");
+                        IF LGuarantor.FINDSET THEN BEGIN
+                            LGuarantor.Substituted := TRUE;
+                            LGuarantor."Committed Shares" := 0;
+                            LGuarantor."Amont Guaranteed" := 0;
+                            LGuarantor."Guar Sub Doc No." := Rec."Document No";
+                            //CurrPage.UPDATE(FALSE);
+                            LGuarantor.MODIFY;
+                        END;
+                    end;
+                }
                 action("Process Substitution")
                 {
                     ApplicationArea = Basic;
@@ -176,20 +270,15 @@ Page 56022 "Guarantor Sub Card"
 
                     trigger OnAction()
                     begin
-
                         Rec.TestField(Status, Rec.Status::Approved);
-                        if Rec."Created By" <> UserId then begin
-                            Error('Restricted! you can only process a record you created!');
-                        end;
+                        // if Rec."Created By" <> UserId then begin
+                        //     Error('Restricted! you can only process a record you created!');
+                        // end;
                         LGuarantor.Reset;
                         LGuarantor.SetRange(LGuarantor."Loan No", Rec."Loan Guaranteed");
                         LGuarantor.SetRange(LGuarantor."Member No", Rec."Substituting Member");
                         if LGuarantor.FindSet then begin
                             //Add All Replaced Amounts
-                            if LGuarantor.Substituted = true then begin
-                                Error('The Guarantor has already being Substituted');
-                            end;
-
                             TotalReplaced := 0;
                             GSubLine.Reset;
                             GSubLine.SetRange(GSubLine."Document No", Rec."Document No");
@@ -202,9 +291,13 @@ Page 56022 "Guarantor Sub Card"
                             //End Add All Replaced Amounts
 
                             //Compare with committed shares
-                            Commited := LGuarantor."Amont Guaranteed";
+                            Commited := LGuarantor."Committed Shares";
+
+                            //get amount to be replaced
+                            Commited := CalculateAmountCommitted(rec."Substituting Member", Rec."Loan Guaranteed");
+
                             if TotalReplaced < Commited then
-                                Message('Guarantors replaced do not cover the whole amount');
+                                Error('Guarantors replaced do not cover the whole amount');
                             //End Compare with committed Shares
 
                             //Create Lines
@@ -215,29 +308,52 @@ Page 56022 "Guarantor Sub Card"
                                 repeat
                                     NewLGuar.Init;
                                     NewLGuar."Loan No" := Rec."Loan Guaranteed";
+                                    NewLGuar."Guar Sub Doc No." := Rec."Document No";
                                     NewLGuar."Member No" := GSubLine."Substitute Member";
                                     NewLGuar.Validate(NewLGuar."Member No");
                                     NewLGuar.Name := GSubLine."Substitute Member Name";
+                                    NewLGuar."Committed Shares" := GSubLine."Sub Amount Guaranteed";
                                     NewLGuar."Amont Guaranteed" := CalculateAmountGuaranteed(GSubLine."Sub Amount Guaranteed", TotalReplaced, GSubLine."Amount Guaranteed");
-                                    NewLGuar."Substituted Guarantor" := GSubLine."Member No";
-                                    NewLGuar.Shares := GSubLine."Substitute Member Deposits";
+                                    NewLGuar.Insert;
 
-                                    NewLGuar.Insert();
+                                    //Audit Entries
+                                    if (UserId <> 'MOBILE') and (UserId <> 'ATM') and (UserId <> 'AGENCY') then begin
+                                        EntryNos := 0;
+                                        if Audit.FindLast then
+                                            EntryNos := 1 + Audit."Entry No";
+                                        Audit.Init;
+                                        Audit."Entry No" := EntryNos;
+                                        Audit."Transaction Type" := 'Guarantor Substitution';
+                                        Audit."Loan Number" := Rec."Loan Guaranteed";
+                                        Audit."Document Number" := Rec."Document No";
+                                        Audit."Account Number" := GSubLine."Substitute Member";
+                                        Audit.UsersId := UserId;
+                                        Audit.Amount := GSubLine."Sub Amount Guaranteed";
+                                        Audit.Date := Today;
+                                        Audit.Time := Time;
+                                        Audit.Source := 'GUARANTOR SUBSTITUTION';
+                                        Audit.Insert;
+                                        Commit();
+                                    end;
+                                //End Audit Entries
                                 until GSubLine.Next = 0;
                             end;
                             //End Create Lines
 
+                            //Edit Loan Guar
                             LGuarantor.Substituted := true;
+                            LGuarantor."Amont Guaranteed" := 0;
+                            LGuarantor."Committed Shares" := 0;
+                            LGuarantor."Guar Sub Doc No." := Rec."Document No";
+                            LGuarantor.Modify(true);
+                            //End Edit Loan Guar
 
                             Rec.Substituted := true;
                             Rec."Date Substituted" := Today;
                             Rec."Substituted By" := UserId;
-                            Rec.Status := Rec.Status::Closed;
-                            if Rec.Modify() = true then begin
-                                Message('Guarantor Substituted Succesfully');
-                            end;
+                            Rec.Modify(true);
 
-                            LGuarantor.Modify;
+                            Message('Guarantor Substituted Succesfully');
                         end;
                     end;
                 }
@@ -266,6 +382,7 @@ Page 56022 "Guarantor Sub Card"
     end;
 
     var
+        SubGAmount: Decimal;
         LGuarantor: Record "Loans Guarantee Details";
         GSubLine: Record "Guarantorship Substitution L";
         LoaneeNoEditable: Boolean;
@@ -277,6 +394,8 @@ Page 56022 "Guarantor Sub Card"
         AllowPosting: Boolean;
         CancelApproval: Boolean;
         NewLGuar: Record "Loans Guarantee Details";
+        Audit: Record "Audit Entries";
+        EntryNos: Integer;
 
     local procedure FNAddRecordRestriction()
     begin
@@ -303,6 +422,19 @@ Page 56022 "Guarantor Sub Card"
         AmtGuar := ((AmountReplaced / TotalAmount) * AmountGuaranteed);
 
         exit(AmtGuar);
+    end;
+
+    local procedure CalculateAmountCommitted(GuarantorNumber: Code[20]; loanNumber: Code[20]) committedAmount: Decimal
+    var
+        guarantorTable: Record "Loans Guarantee Details";
+    begin
+        committedAmount := 0;
+        guarantorTable.Reset();
+        guarantorTable.SetRange(guarantorTable."Loan No", loanNumber);
+        guarantorTable.SetRange(guarantorTable."Member No", GuarantorNumber);
+        if guarantorTable.Find('-') then begin
+            committedAmount := guarantorTable."Committed Shares";
+        end;
     end;
 
     local procedure Controls()

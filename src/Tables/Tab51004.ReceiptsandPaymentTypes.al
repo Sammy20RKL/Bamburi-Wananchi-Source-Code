@@ -16,15 +16,15 @@ Table 51004 "Receipts and Payment Types"
             trigger OnValidate()
             begin
 
-                PayLine.Reset;
-                PayLine.SetRange(PayLine."Payment Type", Code);
-                if PayLine.Find('-') then
-                    Error('This Transaction Code Is Already in Use You cannot Modify');
+                // PayLine.Reset;
+                // PayLine.SetRange(PayLine."Payment Type", Code);
+                // if PayLine.Find('-') then
+                //     Error('This Transaction Code Is Already in Use You cannot Modify');
 
-                PayLine.Reset;
-                PayLine.SetRange(PayLine."Payment Type", Code);
-                if PayLine.Find('-') then
-                    Error('This Transaction Code Is Already in Use You Cannot Delete');
+                // PayLine.Reset;
+                // PayLine.SetRange(PayLine."Payment Type", Code);
+                // if PayLine.Find('-') then
+                //     Error('This Transaction Code Is Already in Use You Cannot Delete');
             end;
         }
         field(3; "Account Type"; Option)
@@ -40,10 +40,10 @@ Table 51004 "Receipts and Payment Types"
                 else
                     "Direct Expense" := false;
 
-                PayLine.Reset;
-                PayLine.SetRange(PayLine."Payment Type", Code);
-                if PayLine.Find('-') then
-                    Error('This Transaction Code Is Already in Use You cannot Modify');
+                // PayLine.Reset;
+                // PayLine.SetRange(PayLine."Payment Type", Code);
+                // if PayLine.Find('-') then
+                //     Error('This Transaction Code Is Already in Use You cannot Modify');
             end;
         }
         field(4; Type; Option)
@@ -136,7 +136,7 @@ Table 51004 "Receipts and Payment Types"
         }
         field(21; "VAT Withheld Code"; Code[10])
         {
-            TableRelation = "Tariff Codes".Code;
+            TableRelation = "Tariff Codes"."Tax Code";
         }
         field(22; "G/L Account Name"; Text[100])
         {
@@ -163,14 +163,14 @@ Table 51004 "Receipts and Payment Types"
 
     trigger OnDelete()
     begin
-        PayLine.Reset;
-        PayLine.SetRange(PayLine."Payment Type", Code);
-        if PayLine.Find('-') then
-            Error('This Transaction Code Is Already in Use You Cannot Delete');
+        // PayLine.Reset;
+        // PayLine.SetRange(PayLine."Payment Type", Code);
+        // if PayLine.Find('-') then
+        Error('This Transaction Code Is Already in Use You Cannot Delete');
     end;
 
     var
         GLAcc: Record "G/L Account";
-        PayLine: Record "Payment Line";
+        PayLine: Record "Payment Line New";
 }
 

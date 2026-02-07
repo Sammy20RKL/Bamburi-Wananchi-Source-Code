@@ -1385,7 +1385,7 @@ Table 51430 "Product Applications Details"
         if "No." = '' then begin
             PurchSetup.Get;
             PurchSetup.TestField(PurchSetup."Applicants Nos.");
-            NoSeriesMgt.InitSeries(PurchSetup."Applicants Nos.", xRec."No. Series", 0D, "No.", "No. Series");
+            //NoSeriesMgt.InitSeries(PurchSetup."Applicants Nos.", xRec."No. Series", 0D, "No.", "No. Series");
         end;
         "Created By" := UserId;
         "Captured By" := UserId;
@@ -1415,7 +1415,7 @@ Table 51430 "Product Applications Details"
         GenBusPostingGrp: Record "Gen. Business Posting Group";
         RMSetup: Record "Marketing Setup";
         ServiceItem: Record "Service Item";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         MoveEntries: Codeunit MoveEntries;
         UpdateContFromVend: Codeunit "VendCont-Update";
         DimMgt: Codeunit DimensionManagement;

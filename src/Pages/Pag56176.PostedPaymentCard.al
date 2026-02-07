@@ -5,7 +5,7 @@ Page 56176 "Posted Payment Card"
     InsertAllowed = false;
     ModifyAllowed = false;
     PageType = Card;
-    SourceTable = "Payment Header";
+    SourceTable = "Payments Header";
     SourceTableView = where("Payment Type" = const(Normal),
                             Posted = const(true));
 
@@ -35,7 +35,7 @@ Page 56176 "Posted Payment Card"
                 {
                     ApplicationArea = Basic;
                 }
-                field("Bank Account"; Rec."Bank Account")
+                field("Bank Account"; Rec."Paying Bank Account")
                 {
                     ApplicationArea = Basic;
                 }
@@ -172,6 +172,6 @@ Page 56176 "Posted Payment Card"
     }
 
     var
-        PHeader: Record "Payment Header";
+        PHeader: Record "Payments Header";
 }
 

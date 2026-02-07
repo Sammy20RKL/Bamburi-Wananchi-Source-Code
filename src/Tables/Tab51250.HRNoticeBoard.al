@@ -106,13 +106,13 @@ Table 51250 "HR Notice Board"
         if "No." = '' then begin
             HRSetup.Get;
             HRSetup.TestField(HRSetup."Notice Board Nos.");
-            NoSeriesMgt.InitSeries(HRSetup."Notice Board Nos.", xRec."No. Series", 0D, "No.", "No. Series");
+            //NoSeriesMgt.InitSeries(HRSetup."Notice Board Nos.", xRec."No. Series", 0D, "No.", "No. Series");
         end;
         "Notice Date" := Today;
     end;
 
     var
         HRSetup: Record "HR Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        // NoSeriesMgt: Codeunit NoSeriesManagement;
         NoticeInfoSetup: Record "HR Notice Board Info Setup";
 }

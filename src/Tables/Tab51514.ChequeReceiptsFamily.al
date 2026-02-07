@@ -65,7 +65,7 @@ Table 51514 "Cheque Receipts-Family"
         if "No." = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Cheque Receipts Nos");
-            NoSeriesmgt.InitSeries(SalesSetup."Cheque Receipts Nos", xRec."No. Series", 0D, "No.", "No. Series");
+            // NoSeriesmgt.InitSeries(SalesSetup."Cheque Receipts Nos", xRec."No. Series", 0D, "No.", "No. Series");
         end;
 
         "Transaction Time" := Time;
@@ -73,7 +73,7 @@ Table 51514 "Cheque Receipts-Family"
     end;
 
     var
-        NoSeriesmgt: Codeunit NoSeriesManagement;
+        NoSeriesmgt: Codeunit "No. Series";
         SalesSetup: Record "Sacco No. Series";
 }
 

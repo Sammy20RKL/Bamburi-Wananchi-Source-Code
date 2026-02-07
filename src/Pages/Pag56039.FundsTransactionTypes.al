@@ -33,6 +33,11 @@ Page 56039 "Funds Transaction Types"
                 field("Default Grouping"; Rec."Default Grouping")
                 {
                 }
+                field("Withholding Tax Chargeable"; Rec."Withholding Tax Chargeable")
+                {
+                }
+                field("Withholding Tax Code"; Rec."Withholding Tax Code")
+                { }
             }
         }
     }

@@ -124,6 +124,14 @@ page 50321 "Payroll Posting Group."
                 {
                     ApplicationArea = Basic;
                 }
+                field("Housing Levy Employer Acc"; Rec."Housing Levy Employer Acc")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Housing Levy Employee Acc"; Rec."Housing Levy Employee Acc")
+                {
+                    ApplicationArea = Basic;
+                }
             }
         }
     }

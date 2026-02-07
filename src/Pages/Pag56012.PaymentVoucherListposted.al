@@ -8,7 +8,7 @@ Page 56012 "Payment Voucher List posted"
     ModifyAllowed = false;
     PageType = List;
     PromotedActionCategories = 'New,Process,Reports,Approval,Budgetary Control,Cancellation,Category7_caption,Category8_caption,Category9_caption,Category10_caption';
-    SourceTable = "Payment Header";
+    SourceTable = "Payments Header";
     SourceTableView = where("Payment Type" = filter(Normal),
                             Posted = filter(true));
 
@@ -123,6 +123,6 @@ Page 56012 "Payment Voucher List posted"
     end;
 
     var
-        PHeader2: Record "Payment Header";
+        PHeader2: Record "Payments Header";
 }
 

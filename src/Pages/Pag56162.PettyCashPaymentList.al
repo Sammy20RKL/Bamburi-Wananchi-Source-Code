@@ -6,7 +6,7 @@ Page 56162 "PettyCash Payment List"
     DeleteAllowed = false;
     RefreshOnActivate = true;
     PageType = List;
-    SourceTable = "Payment Header";
+    SourceTable = "Payments Header";
     SourceTableView = where("Payment Type" = const("Petty Cash"),
                             Posted = const(false));
     UsageCategory = Lists;

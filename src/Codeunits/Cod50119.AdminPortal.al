@@ -40,7 +40,7 @@ Codeunit 50119 AdminPortal
         LoanApprovalCommiteeexisting: Record 51429;
         ReturnList: Text;
         objMember: Record 51364;
-        Paymentheader: Record "Payment Header";
+        Paymentheader: Record "Payments Header";
         NewApplicationNumber: Integer;
         OnlineUser: Record 51489;
         ObjExistingOnlineUser: Record 51489;

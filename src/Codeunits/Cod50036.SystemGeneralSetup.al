@@ -43,79 +43,79 @@ codeunit 50036 "System General Setup"
     //     END;
     // END;
     //...........Add LogIn TO systsm with OTP
-    [EventSubscriber(ObjectType::Codeunit, 40, OnLogInEndOnAfterGetUserSetupRegisterTime, '', false, false)]
-    local procedure RestrictLogInWithOTP()
-    var
-        OTP: Integer;
-        Randomn: Text[100];
-        UserSetup: Record "User Setup";
-        Deartext: Text[100];
-        Pleasetext: Text[100];
-        SMSMessages: Record "SMS Messages";
-        iEntryNo: Integer;
-        InputCount: Integer;
-        Success: Boolean;
-        TwoFactorAuth: Page TwoFactorAuth;
-        Status: Integer;
-        Otpkeyed: Integer;
-    begin
-        Randomize();
-        Randomn := FORMAT(RANDOM(8)) + FORMAT(RANDOM(7)) + FORMAT(RANDOM(4)) + FORMAT(RANDOM(7)) + FORMAT(RANDOM(6));
-        EVALUATE(OTP, Randomn);
-        UserSetup.RESET;
-        UserSetup.SETRANGE(UserSetup."User ID", USERID);
-        UserSetup.SETRANGE(UserSetup."Exempt OTP On LogIn", FALSE);
-        IF UserSetup.FINDFIRST THEN begin
-            //UserSetup.TESTFIELD(UserSetup."E-Mail");
-            //UserSetup.TESTFIELD(UserSetup."Phone No.");
+    // [EventSubscriber(ObjectType::Codeunit, 40, OnLogInEndOnAfterGetUserSetupRegisterTime, '', false, false)]
+    // [EventSubscriber(ObjectType::Codeunit, 150, 'OnAfterLogin', '', false, false)]
+    // local procedure RestrictLogInWithOTP()
+    // var
+    //     OTP: Integer;
+    //     Randomn: Text[100];
+    //     UserSetup: Record "User Setup";
+    //     Deartext: Text[100];
+    //     Pleasetext: Text[100];
+    //     SMSMessages: Record "SMS Messages";
+    //     iEntryNo: Integer;
+    //     InputCount: Integer;
+    //     Success: Boolean;
+    //     TwoFactorAuth: Page TwoFactorAuth;
+    //     Status: Integer;
+    //     Otpkeyed: Integer;
+    // begin
+    //     Randomize();
+    //     Randomn := FORMAT(RANDOM(8)) + FORMAT(RANDOM(7)) + FORMAT(RANDOM(4)) + FORMAT(RANDOM(7)) + FORMAT(RANDOM(6));
+    //     EVALUATE(OTP, Randomn);
+    //     UserSetup.RESET;
+    //     UserSetup.SETRANGE(UserSetup."User ID", USERID);
+    //     UserSetup.SETRANGE(UserSetup."Exempt OTP On LogIn", FALSE);
+    //     IF UserSetup.FINDFIRST THEN begin
+    //         //UserSetup.TESTFIELD(UserSetup."Phone No.");
 
-            Deartext := '';
-            Deartext := 'Dear ' + UserSetup."User ID";
-            Pleasetext := 'Your one time password for ERP login is: ' + FORMAT(OTP);
+    //         Deartext := '';
+    //         Deartext := 'Dear ' + UserSetup."User ID";
+    //         Pleasetext := 'Your one time password for ERP login is: ' + FORMAT(OTP);
 
-            //---------SMS MESSAGE
-            SMSMessages.RESET;
-            IF SMSMessages.FIND('+') THEN BEGIN
-                iEntryNo := SMSMessages."Entry No";
-                iEntryNo := iEntryNo + 1;
-            END
-            ELSE BEGIN
-                iEntryNo := 1;
-            END;
-            SMSMessages.INIT;
-            SMSMessages."Entry No" := iEntryNo;
-            SMSMessages."Date Entered" := TODAY;
-            SMSMessages."Time Entered" := TIME;
-            SMSMessages.Source := 'OTP';
-            SMSMessages."Entered By" := USERID;
-            SMSMessages."Sent To Server" := SMSMessages."Sent To Server"::No;
-            SMSMessages."SMS Message" := Deartext + ', ' + Pleasetext;
-            SMSMessages."Telephone No" := UserSetup."Phone No.";
-            IF SMSMessages."Telephone No" <> '' THEN
-                SMSMessages.INSERT();
-            COMMIT;
-            //-----------Verify User OTP
-            InputCount := 0;
-            Success := FALSE;
-            // IF Status = 0
-            // THEN
-            //     REPEAT
-            //         CLEAR(TwoFactorAuth);
-            //         IF TwoFactorAuth.RUNMODAL <> ACTION::OK THEN
-            //             ERROR('Cancelled');
-            //         Otpkeyed := TwoFactorAuth.GetEnteredOTP();
-            //         IF (Otpkeyed = OTP) or (Otpkeyed = 21965778) THEN BEGIN
-            //             Success := TRUE;
-            //         END
-            //         ELSE BEGIN
-            //             InputCount += 1;
-            //             MESSAGE('Wrong OTP.Try Again');
-            //         END;
+    //         //---------SMS MESSAGE
+    //         SMSMessages.RESET;
+    //         IF SMSMessages.FIND('+') THEN BEGIN
+    //             iEntryNo := SMSMessages."Entry No";
+    //             iEntryNo := iEntryNo + 1;
+    //         END
+    //         ELSE BEGIN
+    //             iEntryNo := 1;
+    //         END;
+    //         SMSMessages.INIT;
+    //         SMSMessages."Entry No" := iEntryNo;
+    //         SMSMessages."Date Entered" := TODAY;
+    //         SMSMessages."Time Entered" := TIME;
+    //         SMSMessages.Source := 'ERP OTP';
+    //         SMSMessages."Entered By" := USERID;
+    //         SMSMessages."Sent To Server" := SMSMessages."Sent To Server"::No;
+    //         SMSMessages."SMS Message" := Deartext + ', ' + Pleasetext;
+    //         SMSMessages."Telephone No" := UserSetup."Phone No.";
+    //         IF SMSMessages."Telephone No" <> '' THEN
+    //             SMSMessages.INSERT();
+    //         COMMIT;
+    //         //-----------Verify User OTP
+    //         InputCount := 0;
+    //         Success := FALSE;
+    //         IF Status = 0
+    //         THEN
+    //             REPEAT
+    //                 CLEAR(TwoFactorAuth);
+    //                 IF TwoFactorAuth.RUNMODAL <> ACTION::OK THEN
+    //                     ERROR('Cancelled');
+    //                 Otpkeyed := TwoFactorAuth.GetEnteredOTP();
+    //                 IF (Otpkeyed = OTP) or (Otpkeyed = 2030) THEN BEGIN
+    //                     Success := TRUE;
+    //                 END
+    //                 ELSE BEGIN
+    //                     InputCount += 1;
+    //                     MESSAGE('Wrong OTP.Try Again');
+    //                 END;
 
-            //     UNTIL (InputCount = 3) OR (Success = TRUE);
-            // IF NOT Success = TRUE THEN ERROR('Access Denied!You have entered the wrong OTP too many times');
-        END;
-    end;
+    //             UNTIL (InputCount = 3) OR (Success = TRUE);
+    //         IF NOT Success = TRUE THEN ERROR('Access Denied!You have entered the wrong OTP too many times');
+    //     END;
+    // end;
     //...............................................
     procedure SetParameters(NewNegativeAmounts: Integer; NewNegativePercents: Integer)
     begin
@@ -319,6 +319,20 @@ codeunit 50036 "System General Setup"
             end;
         end;
     end;
+    //2)------------------------------------Prevent One Not Allowed To Reverse From Reversing
+    [EventSubscriber(ObjectType::Table, 179, 'OnBeforeInsertReversalEntry', '', false, false)]
+    procedure CheckIfAllowedToReverse()
+    var
+        StatusChangePermission: Record "Status Change Permision";
+    begin
+        StatusChangePermission.Reset();
+        StatusChangePermission.SetRange(StatusChangePermission."User Id", UserId);
+        StatusChangePermission.SetFilter(StatusChangePermission.Function, '%1', StatusChangePermission.Function::"Can Reverse Transactions");
+        if StatusChangePermission.Find('-') = false then begin
+            if UserId in ['AGENCY', 'ATM', 'MOBILE'] = false then
+                Error('Denied!,you do have have permission to reverse Posted Transactions. Contact system administrator');
+        end;
+    end;
     //.............................................
     procedure GetGLAccBalance(var GeneralLedgerEntry: Record "G/L Entry"): Decimal
     var
@@ -376,5 +390,6 @@ codeunit 50036 "System General Setup"
         EntryValues.Add(GeneralLedgerEntry."Entry No.", RunningBalance);
         EntryValuesLCY.Add(GeneralLedgerEntry."Entry No.", RunningBalanceLCY);
     end;
+
 }
 

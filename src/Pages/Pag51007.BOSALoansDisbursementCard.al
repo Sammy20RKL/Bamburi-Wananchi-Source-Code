@@ -1,8 +1,6 @@
 Page 51007 "BOSA Loans Disbursement Card"
 {
     DeleteAllowed = false;
-    // Editable = false;
-    // ModifyAllowed = false;
     PageType = Card;
     InsertAllowed = false;
     PromotedActionCategories = 'New,Process,Reports,Approval,Budgetary Control,Cancellation,Category7_caption,Category8_caption,Category9_caption,Category10_caption';
@@ -171,6 +169,10 @@ Page 51007 "BOSA Loans Disbursement Card"
                     ApplicationArea = Basic;
                     Editable = false;
                 }
+                field("Disburesment Type"; Rec."Disburesment Type")
+                {
+                    ApplicationArea = Basic;
+                }
                 field("Loan Status"; Rec."Loan Status")
                 {
                     ApplicationArea = Basic;
@@ -184,7 +186,7 @@ Page 51007 "BOSA Loans Disbursement Card"
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ApplicationArea = Basic;
-                    Editable = true;
+                    Editable = false;
                 }
                 field("Repayment Frequency"; Rec."Repayment Frequency")
                 {
@@ -259,6 +261,11 @@ Page 51007 "BOSA Loans Disbursement Card"
                 Editable = MNoEditable;
                 SubPageLink = "Loan No" = field("Loan  No."), "Client Code" = field("Client Code");
             }
+            part(Missings; "Missing Contributions")
+            {
+                Caption = 'Missing Contributions';
+                SubPageLink = "Loan Number" = field("Loan  No."), "Member Number" = field("Client Code");
+            }
         }
         area(factboxes)
         {
@@ -282,50 +289,81 @@ Page 51007 "BOSA Loans Disbursement Card"
                     PromotedIsBig = true;
                     Promoted = true;
                     PromotedCategory = Process;
-                    Visible = true;
+                    // Visible = false;
                     trigger OnAction()
                     var
                         FundsUserSetup: Record "Funds User Setup";
                         CustLed: Record "Cust. Ledger Entry";
+                        MissingAmount: Decimal;
+                        Member: Record Customer;
                     begin
                         If FnCanPostLoans(UserId) = false then begin
                             Error('Prohibited ! You are not allowed to POST this Loan');
                         end;
-                        // if "Mode of Disbursement" <> "Mode of Disbursement"::Cheque then begin
-                        //     Error('Prohibited ! Mode of disbursement cannot be ' + Format("Mode of Disbursement"));
-                        // end;
+                        // Check email Address
+                        // if Member.Get(Rec."Client Code") then
+                        //     if Member."E-Mail" = '' then
+                        //         Error('Prohibited! Please add an email address for this member');
+
+                        if (Rec."Loan Product Type" = '21') or (Rec."Loan Product Type" = '26') then begin
+                            Rec."Paying Bank Account No" := ' '
+                        end;
+                        if Rec."Disburesment Type" <> Rec."Disburesment Type"::"Tranche/Multiple Disbursement" then
+                            Rec.TestField("Paying Bank Account No");
                         if Rec.Posted = true then begin
+                            Error('Prohibited ! The loan is already Posted');
+                        end;
+                        Rec.CalcFields("Outstanding Balance");
+                        if Rec."Outstanding Balance" > 0 then begin
                             Error('Prohibited ! The loan is already Posted');
                         end;
                         if Rec."Loan Status" <> Rec."Loan Status"::Approved then begin
                             Error('Prohibited ! The loan is Status MUST be Approved');
                         end;
+
+                        if Rec."Paying Bank Account No" <> '' then
+                            if Confirm('Are you sure you want to Disburse this Loan from Bank Account. ' + Format(Rec."Paying Bank Account No") + ' ?', false) = false then begin
+                                exit;
+                            end;
                         if Confirm('Are you sure you want to POST Loan Approved amount of Ksh. ' + Format(Rec."Approved Amount") + ' to member -' + Format(Rec."Client Name") + ' ?', false) = false then begin
                             exit;
-                        end
-                        else begin
-                            // FundsUserSetup.GET(USERID);
-                            // TemplateName := FundsUserSetup."Payment Journal Template";
-                            // BatchName := FundsUserSetup."Payment Journal Batch";
+                        end else begin
 
                             TemplateName := 'GENERAL';
                             BatchName := 'LOANS';
-                            LoanApps.Reset;
+
+
+                            //....................Ensure that If Batch doesnt exist then create
+                            IF NOT GenBatch.GET(TemplateName, BatchName) THEN BEGIN
+                                GenBatch.INIT;
+                                GenBatch."Journal Template Name" := TemplateName;
+                                GenBatch.Name := BatchName;
+                                GenBatch.Insert();
+                            END;
+                            //....................Reset General Journal Lines
+                            GenJournalLine.Reset();
+                            GenJournalLine.SETRANGE("Journal Template Name", TemplateName);
+                            GenJournalLine.SETRANGE("Journal Batch Name", BatchName);
+                            GenJournalLine.DeleteAll();
+
+                            LoanApps.Reset();
                             LoanApps.SetRange(LoanApps."Loan  No.", Rec."Loan  No.");
                             if LoanApps.FindSet then begin
                                 repeat
-                                    // CustLed.Reset();
-                                    // CustLed.Init();
-                                    // CustLed."Entry No." := CustLed."Entry No." + 2000;
+                                    VarAmounttoDisburse := Rec."Approved Amount";
+                                    MissingAmount := 0;
 
-                                    FnInsertBOSALines(LoanApps, LoanApps."Loan  No.");
-                                    // exit;
+                                    // MissingAmount := FnCheckMissingContributions(Rec."Client Code");
+                                    // VarAmounttoDisburse := VarAmounttoDisburse - MissingAmount;
+
+                                    FnInsertBOSALines(LoanApps, LoanApps."Loan  No.", VarAmounttoDisburse);
+                                    //exit;
                                     GenJournalLine.RESET;
                                     GenJournalLine.SETRANGE("Journal Template Name", TemplateName);
                                     GenJournalLine.SETRANGE("Journal Batch Name", BatchName);
                                     if GenJournalLine.Find('-') then begin
                                         CODEUNIT.RUN(CODEUNIT::"Gen. Jnl.-Post Batch", GenJournalLine);
-                                        FnSendNotifications(); //Send Notifications
+
                                         Rec."Loan Status" := Rec."Loan Status"::Issued;
                                         Rec.Posted := true;
                                         Rec."Posted By" := UserId;
@@ -334,14 +372,35 @@ Page 51007 "BOSA Loans Disbursement Card"
                                         Rec."Approval Status" := Rec."Approval Status"::Approved;
                                         Rec."Loans Category-SASRA" := Rec."Loans Category-SASRA"::Perfoming;
                                         Rec.Modify();
-                                        //...................Recover Overdraft Loan On Loan
-                                        SFactory.FnRecoverOnLoanOverdrafts(Rec."Client Code");
-
+                                        //Send Notifications
+                                        FnSendNotifications();
+                                        // SendMail();//--------email Addresses in the System
 
                                     end;
                                 until LoanApps.Next = 0;
                                 //.................................................
                                 Message('Loan has successfully been posted and member notified');
+
+                                //Audit Entries
+                                if (UserId <> 'MOBILE') and (UserId <> 'ATM') and (UserId <> 'AGENCY') then begin
+                                    EntryNos := 0;
+                                    if Audit.FindLast then
+                                        EntryNos := 1 + Audit."Entry No";
+                                    Audit.Init();
+                                    Audit."Entry No" := EntryNos;
+                                    Audit."Transaction Type" := 'Loan Disbursement';
+                                    Audit."Loan Number" := Rec."Loan  No.";
+                                    Audit."Document Number" := Rec."Loan  No.";
+                                    Audit.UsersId := UserId;
+                                    Audit.Amount := Rec."Requested Amount";
+                                    Audit.Date := Today;
+                                    Audit.Time := Time;
+                                    Audit.Source := 'LOAN Disbursement';
+                                    Audit.Insert();
+                                    Commit();
+                                end;
+                                //End Audit Entries
+                                CurrPage.Update();
                                 CurrPage.close();
                             end;
                         end;
@@ -419,6 +478,35 @@ Page 51007 "BOSA Loans Disbursement Card"
                     RunObject = Page "Loan Offset Detail List";
                     RunPageLink = "Loan No." = field("Loan  No."), "Client Code" = field("Client Code");
                 }
+                action("Reoppen Application")
+                {
+                    ApplicationArea = basic;
+                    Caption = 'Re open Application';
+                    Image = Open;
+                    Promoted = true;
+                    PromotedCategory = Process;
+
+                    trigger OnAction()
+                    begin
+                        if Rec.Posted = true then begin
+                            Error('Prohibited ! The loan is already Posted');
+                        end;
+                        Rec.CalcFields("Outstanding Balance");
+                        if Rec."Outstanding Balance" > 0 then begin
+                            Error('Prohibited ! The loan is already Posted');
+                        end;
+
+                        if Confirm('Are you sure you want to re open this Loan?', true) = true then begin
+                            Rec."loan status" := Rec."loan status"::Application;
+                            Rec."Approval Status" := Rec."Approval Status"::Open;
+                            // Rec."Appraisal Status":=Rec."Appraisal Status"::
+                            Rec.Modify(true);
+
+                            Message('Loan Application Re-Opened Successfly');
+                            CurrPage.Close();
+                        end;
+                    end;
+                }
             }
         }
     }
@@ -461,10 +549,13 @@ Page 51007 "BOSA Loans Disbursement Card"
     trigger OnOpenPage()
     begin
         Rec.SetRange(Posted, false);
+        // Rec.SetRange("Loan Status",issued);
     end;
 
     var
         ClientCode: Code[40];
+        Audit: record "Audit Entries";
+        EntryNos: Integer;
         DirbursementDate: Date;
         VarAmounttoDisburse: Decimal;
         LoanGuar: Record "Loans Guarantee Details";
@@ -724,17 +815,6 @@ Page 51007 "BOSA Loans Disbursement Card"
         end;
     end;
 
-    procedure SendMail()
-    begin
-        GenSetUp.Get;
-        if Cust.Get(LoanApps."Client Code") then begin
-            eMAIL := Cust."E-Mail (Personal)";
-        end;
-        if GenSetUp."Send Email Notifications" = true then begin
-            Notification.CreateMessage('Dynamics NAV', GenSetUp."Sender Address", eMAIL, 'Loan Receipt Notification', 'Loan application ' + LoanApps."Loan  No." + ' , ' + LoanApps."Loan Product Type" + ' has been received and is being processed' + ' (Dynamics NAV ERP)', true, false);
-            //Notification.Send;
-        end;
-    end;
 
     local procedure FnCheckForTestFields()
     var
@@ -765,6 +845,8 @@ Page 51007 "BOSA Loans Disbursement Card"
             end;
         end;
     end;
+
+
 
     local procedure FnSendLoanApprovalNotifications()
     var
@@ -875,7 +957,116 @@ Page 51007 "BOSA Loans Disbursement Card"
         exit(Balance);
     end;
 
-    local procedure FnInsertBOSALines(var LoanApps: Record "Loans Register"; LoanNo: Code[30])
+    local procedure FnCheckMissingContributions(memberNumber: Code[20]) MissingAmount: Decimal
+    var
+        DepositRec: Record "Cust. Ledger Entry";
+        CurrentYear: Integer;
+        StartMonth, CurrentMonth, i : Integer;
+        MissingMonths: List of [Integer];
+        Found: Boolean;
+        StartDate, EndDate, PostingDate : Date;
+        monthlyContribution: Decimal;
+    begin
+        MissingAmount := 0;
+        monthlyContribution := GetMonthlyContribution(memberNumber);
+
+        CurrentYear := Date2DMY(Today, 3);
+        CurrentMonth := Date2DMY(Today, 2);
+        StartMonth := 1;
+
+        for i := StartMonth to CurrentMonth do begin
+            Found := false;
+
+            StartDate := DMY2Date(i, 1, CurrentYear);
+            EndDate := CALCDATE('<1M>', StartDate) - 1;
+
+            PostingDate := DirbursementDate;
+
+            StartDate := DMY2Date(1, i, CurrentYear);
+            EndDate := CALCDATE('<1M>', StartDate) - 1;
+
+            DepositRec.Reset();
+            DepositRec.SetRange("Customer No.", memberNumber);
+            DepositRec.SetRange("Posting Date", StartDate, EndDate);
+            DepositRec.SetRange("Transaction Type", DepositRec."Transaction Type"::"Deposit Contribution");
+
+            if DepositRec.FindFirst() then
+                Found := true;
+
+            if not Found then begin
+                MissingMonths.Add(i);
+                MissingAmount := MissingAmount + monthlyContribution;
+                FnInsertMissingContributions(
+                    memberNumber,
+                    monthlyContribution,
+                    Format(StartDate, 0, '<Month Text>'),
+                    PostingDate);
+
+                FnInsertMissingLines(
+                    memberNumber,
+                    monthlyContribution,
+                    Format(StartDate, 0, '<Month Text>'),
+                    StartDate,
+                    i,
+                    CurrentYear
+                    );
+            end;
+        end;
+    end;
+
+
+
+    procedure GetMonthlyContribution(MemberNo: Code[20]) Amount: Decimal
+    var
+        memberRegister: Record Customer;
+    begin
+        Amount := 0;
+        if memberRegister.Get(MemberNo) then
+            Amount := memberRegister."Monthly Contribution";
+    end;
+
+    procedure FnInsertMissingLines(MemberNo: Code[20]; AmountPosted: Decimal; monthDeducted: Code[50]; postingDate: Date; iMonth: Integer; CurrentYear: Integer)
+    var
+        missingTable: Record "Missing Contributions";
+    begin
+        missingTable.Init();
+        missingTable."Loan Number" := Rec."Loan  No.";
+        missingTable."Member Number" := Rec."Client Code";
+        missingTable.AmountPosted := AmountPosted;
+        missingTable.Description := 'Loan-Deposits Contribution for ' + monthDeducted;
+        missingTable."Batch No" := BatchName;
+        missingTable."Member Name" := Rec."Client Name";
+        missingTable."Month Missing" := DMY2Date(1, iMonth, CurrentYear);
+        missingTable."Month Name" := monthDeducted;
+
+        missingTable.Insert(true);
+    end;
+
+    procedure FnInsertMissingContributions(MemberNo: Code[20]; AmountPosted: Decimal; monthDeducted: Code[50]; postingDate: Date)
+    var
+    begin
+
+        LineNo := LineNo + 10000;
+        DirbursementDate := Rec."Loan Disbursement Date";
+
+        SFactory.FnCreateGnlJournalLine(TemplateName
+        , BatchName
+        , Rec."Loan  No."
+        , LineNo
+        , GenJournalLine."Transaction Type"::"Deposit Contribution"
+        , GenJournalLine."Account Type"::Customer
+        , LoanApps."Client Code"
+        , DirbursementDate
+        , -AmountPosted
+        , 'BOSA'
+        , Rec."Loan  No."
+        , 'Loan-Deposits Contribution for ' + monthDeducted
+        , ''
+        );
+    end;
+
+
+    local procedure FnInsertBOSALines(var LoanApps: Record "Loans Register"; LoanNo: Code[30]; VarAmounttoDisburse: Decimal)
     var
         EndMonth: Date;
         RemainingDays: Integer;
@@ -889,23 +1080,12 @@ Page 51007 "BOSA Loans Disbursement Card"
         //--------------------Generate Schedule
         Sfactorycode.FnGenerateRepaymentSchedule(Rec."Loan  No.");
         DirbursementDate := Rec."Loan Disbursement Date";
-        VarAmounttoDisburse := Rec."Approved Amount";
+        // VarAmosunttoDisburse := Rec."Approved Amount";
         //....................PRORATED DAYS
         EndMonth := CALCDATE('-1D', CALCDATE('1M', DMY2DATE(1, DATE2DMY(Today, 2), DATE2DMY(Today, 3))));
         RemainingDays := (EndMonth - Today) + 1;
         TMonthDays := DATE2DMY(EndMonth, 1);
-        //....................Ensure that If Batch doesnt exist then create
-        IF NOT GenBatch.GET(TemplateName, BatchName) THEN BEGIN
-            GenBatch.INIT;
-            GenBatch."Journal Template Name" := TemplateName;
-            GenBatch.Name := BatchName;
-            GenBatch.INSERT;
-        END;
-        //....................Reset General Journal Lines
-        GenJournalLine.RESET;
-        GenJournalLine.SETRANGE("Journal Template Name", TemplateName);
-        GenJournalLine.SETRANGE("Journal Batch Name", BatchName);
-        GenJournalLine.DELETEALL;
+
         //....................Loan Posting Lines
         GenSetUp.GET;
         DActivity := '';
@@ -916,7 +1096,7 @@ Page 51007 "BOSA Loans Disbursement Card"
         END;
         //**************Loan Principal Posting**********************************
         LineNo := LineNo + 10000;
-        SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Rec."Loan  No.", LineNo, GenJournalLine."Transaction Type"::Loan, GenJournalLine."Account Type"::Customer, LoanApps."Client Code", DirbursementDate, VarAmounttoDisburse, 'BOSA', LoanApps."Loan  No.", 'Loan Disbursement - ' + LoanApps."Loan Product Type", LoanApps."Loan  No.");
+        SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Rec."Loan  No.", LineNo, GenJournalLine."Transaction Type"::Loan, GenJournalLine."Account Type"::Customer, LoanApps."Client Code", DirbursementDate, Rec."Approved Amount", 'BOSA', LoanApps."Loan  No.", 'Loan Disbursement - ' + LoanApps."Loan Product Type", LoanApps."Loan  No.");
         //--------------------------------RECOVER OVERDRAFT()-------------------------------------------------------
         //Code Here
 
@@ -935,7 +1115,7 @@ Page 51007 "BOSA Loans Disbursement Card"
                     //If there is top up commission charged write it here start
                     LineNo := LineNo + 10000;
                     SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, LoanApps."Loan  No.", LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"G/L Account", GenSetUp."Top up Account", DirbursementDate, LoanTopUp.Commision * -1, 'BOSA', Rec."Batch No.", 'Commision on top up - ', LoanTopUp."Loan Top Up");
-                    //If there is top up commission charged write it here end
+
                     AmountTop := (LoanTopUp."Principle Top Up" + LoanTopUp."Interest Top Up" + LoanTopUp.Commision);
                     VarAmounttoDisburse := VarAmounttoDisburse - (LoanTopUp."Principle Top Up" + LoanTopUp."Interest Top Up" + LoanTopUp.Commision);
                 UNTIL LoanTopUp.NEXT = 0;
@@ -944,7 +1124,6 @@ Page 51007 "BOSA Loans Disbursement Card"
         //If there is top up commission charged write it here start // "Loan Insurance"
         //If there is top up commission charged write it here end
 
-        NetAmount := Rec."Approved Amount" - (Rec."Loan Processing Fee" + Rec."Loan Dirbusement Fee" + Rec."Loan Insurance" + AmountTop);
         //***************************Loan Product Charges code
         PCharges.Reset();
         PCharges.SETRANGE(PCharges."Product Code", Rec."Loan Product Type");
@@ -977,13 +1156,19 @@ Page 51007 "BOSA Loans Disbursement Card"
                 GenJournalLine.VALIDATE(GenJournalLine.Amount);
                 GenJournalLine."Shortcut Dimension 1 Code" := DActivity;
                 GenJournalLine."Shortcut Dimension 2 Code" := DBranch;
-                IF GenJournalLine.Amount <> 0 THEN GenJournalLine.INSERT;
-
+                IF GenJournalLine.Amount <> 0 THEN begin
+                    GenJournalLine.INSERT;
+                    VarAmounttoDisburse := VarAmounttoDisburse - (GenJournalLine.Amount * -1);
+                end;
             UNTIL PCharges.NEXT = 0;
+
         END;
+
+        NetAmount := VarAmounttoDisburse - (Rec."Loan Processing Fee" + Rec."Loan Dirbusement Fee" + Rec."Loan Insurance" /* + AmountTop */);
+
         //end of code
         //.....Valuation
-        VarAmounttoDisburse := VarAmounttoDisburse - (Rec."Loan Processing Fee" + Rec."Loan Dirbusement Fee" + Rec."Loan Insurance");
+        VarAmounttoDisburse := VarAmounttoDisburse - (/* Rec."Loan Processing Fee"  + */Rec."Loan Dirbusement Fee" /*+ Rec."Loan Insurance"*/);
         LineNo := LineNo + 10000;
         SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, LoanApps."Loan  No.", LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"G/L Account", GenSetUp."Asset Valuation Cost", DirbursementDate, LoanApps."Valuation Cost" * -1, 'BOSA', Rec."Batch No.", 'Loan Principle Amount ' + Format(LoanApps."Loan  No."), '');
         VarAmounttoDisburse := VarAmounttoDisburse - LoanApps."Valuation Cost";
@@ -1001,23 +1186,118 @@ Page 51007 "BOSA Loans Disbursement Card"
         VarAmounttoDisburse := VarAmounttoDisburse - LoanApps."Legal Cost";
         //------------------------------------2. CREDIT MEMBER BANK A/C---------------------------------------------------------------------------------------------
         LineNo := LineNo + 10000;
-        SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Rec."Loan  No.", LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"Bank Account", LoanApps."Paying Bank Account No", DirbursementDate, VarAmounttoDisburse * -1, 'BOSA', LoanApps."Loan  No.", 'Loan Principle Amount ' + Format(Rec."Loan  No."), '');
+        // SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Rec."Loan  No.", LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"Bank Account", LoanApps."Paying Bank Account No", DirbursementDate, VarAmounttoDisburse * -1, 'BOSA', LoanApps."Loan  No.", 'Loan Principle Amount ' + Format(Rec."Loan  No."), '');
+
+        // Choose Account Based on Disbursement Type & Loan Product
+        case LoanApps."Loan Product Type" of
+            '21':
+                begin
+                    SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Rec."Loan  No.", LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"G/L Account", '101053', DirbursementDate, VarAmounttoDisburse * -1, 'BOSA', LoanApps."Loan  No.", Format(Rec."Loan  No.") + ' Loan disbursed for ' + LoanApps."Client Name", '');
+                end;
+            '26':
+                begin
+                    SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Rec."Loan  No.", LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"G/L Account", '201215', DirbursementDate, VarAmounttoDisburse * -1, 'BOSA', LoanApps."Loan  No.", Format(Rec."Loan  No.") + ' Loan disbursed for ' + LoanApps."Client Name", '');
+                end;
+            else begin
+                if LoanApps."Disburesment Type" = LoanApps."disburesment type"::"Full/Single disbursement" then begin
+                    SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Rec."Loan  No.", LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"Bank Account", LoanApps."Paying Bank Account No", DirbursementDate, VarAmounttoDisburse * -1, 'BOSA', LoanApps."Loan  No.", Format(Rec."Loan  No.") + ' Loan disbursed for ' + LoanApps."Client Name", '');
+                end else
+                    if LoanApps."Disburesment Type" = LoanApps."disburesment type"::"Tranche/Multiple Disbursement" then begin
+                        SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Rec."Loan  No.", LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"G/L Account", '201209', DirbursementDate, VarAmounttoDisburse * -1, 'BOSA', LoanApps."Loan  No.", Format(Rec."Loan  No.") + ' Loan disbursed for ' + LoanApps."Client Name", '');
+                    end;
+            end;
+        end;
+
     end;
 
     local procedure FnSendNotifications()
     var
         msg: Text[250];
         PhoneNo: Text[250];
+        LoanDate: Date;
+        DueDate: Date;
     begin
+        msg := '';
         LoansR.Reset();
         LoansR.SetRange(LoansR."Loan  No.", Rec."Loan  No.");
         if LoansR.Find('-') then begin
-            msg := '';
-            msg := 'Dear Member, Your ' + Format(LoansR."Loan Product Type Name") + ' loan application of KSHs.' + Format(Rec."Requested Amount") + ' has been processed and it will be deposited to your Bank Account.';
+
+            msg := 'Dear ' + SplitString(LoansR."Client Name", ' ') +
+                   ', Your ' + Format(LoansR."Loan Product Type Name") +
+                   ' loan application of KSHs.' + Format(Rec."Requested Amount") +
+                   ' has been processed and deposited to your Account, ' +
+                   ' The loan repayment start date will be ' + FORMAT(Rec."Repayment Start Date");
+
             PhoneNo := FnGetPhoneNo(Rec."Client Code");
             SendSMSMessage(Rec."Client Code", msg, PhoneNo);
         end;
     end;
+
+    procedure SendMail()
+    var
+        EmailBody: Text[2000]; // Increased length to avoid truncation
+        EmailSubject: Text[150];
+        EmailAddress: Text[100];
+        CompanyInfo: Record "Company Information";
+        Member: Record Customer;
+        MemberName: Text[100];
+        EmailHelper: Codeunit Emailcodeunit;
+        PhoneNo: Text[50];
+        Loan: Record "Loans Register";
+    begin
+        // Initialize
+        EmailBody := '';
+        EmailSubject := 'Polytech Loan Application';
+        CompanyInfo.Get();
+
+        // Get Member Info
+        if Member.Get(Rec."Client Code") then begin
+            EmailAddress := Member."E-Mail";
+            MemberName := Member.Name;
+        end;
+
+        // Get Loan Info
+        if Loan.Get(Rec."Loan  No.") then begin
+            EmailBody :=
+                'Dear <b>' + SplitString(Loan."Client Name", ' ') + '</b>,<br/><br/>' +
+                'Your ' + Format(Loan."Loan Product Type Name") +
+                ' loan application of KShs. ' + Format(Rec."Requested Amount") +
+                ' has been processed and deposited into your account.<br/>' +
+                'The loan repayment start date will be  ' + Format(Rec."Repayment Start Date") + '.<br/><br/>' +
+                'Thank you for choosing Polytech Sacco. ' + '.<br/><br/>' +
+                'Kind regards,<br/><br/>' +
+                CompanyInfo.Name + '<br/>' +
+                CompanyInfo."Address 2" + '<br/>' +
+                CompanyInfo.City + '<br/>' +
+                // CompanyInfo."Country/Region Code" + '<br/>' +
+                CompanyInfo."Phone No." + '<br/>' +
+                CompanyInfo."E-Mail" + '<br/>' +
+                CompanyInfo."Home Page";
+
+        end;
+
+        // Send Email
+        if EmailBody <> '' then
+            EmailHelper.SendMail(EmailAddress, EmailSubject, EmailBody);
+    end;
+
+    LOCAL PROCEDURE SplitString(sText: Text; separator: Text) Token: Text;
+    VAR
+        Pos: Integer;
+        Tokenq: Text;
+    BEGIN
+        Pos := STRPOS(sText, separator);
+        IF Pos > 0 THEN BEGIN
+            Token := COPYSTR(sText, 1, Pos - 1);
+            IF Pos + 1 <= STRLEN(sText) THEN
+                sText := COPYSTR(sText, Pos + 1)
+            ELSE
+                sText := '';
+        END ELSE BEGIN
+            Token := sText;
+            sText := '';
+        END;
+    END;
 
     local procedure SendSMSMessage(BOSANo: Code[20]; msg: Text[250]; PhoneNo: Text[250])
     begin
@@ -1061,6 +1341,7 @@ Page 51007 "BOSA Loans Disbursement Card"
             if (Member."Phone No." <> '') and (Member."Phone No." <> '0') then begin
                 exit(Member."Phone No.");
             end;
+
             Vendor.Reset();
             Vendor.SetRange(Vendor."BOSA Account No", ClientCode);
             if Vendor.Find('-') then begin

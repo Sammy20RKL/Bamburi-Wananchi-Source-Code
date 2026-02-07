@@ -12,7 +12,7 @@ table 50248 "ReceiptsProcessing_H-Checkoff"
                 if No = '' then begin
                     NoSetup.Get();
                     NoSetup.TestField(NoSetup."Bosa Transaction Nos");
-                    NoSeriesMgt.InitSeries(NoSetup."Bosa Transaction Nos", xRec."No. Series", 0D, No, "No. Series");
+                    // NoSeriesMgt.InitSeries(NoSetup."Bosa Transaction Nos", xRec."No. Series", 0D, No, "No. Series");
                 end;
             end;
         }
@@ -158,7 +158,7 @@ table 50248 "ReceiptsProcessing_H-Checkoff"
         if No = '' then begin
             NoSetup.Get();
             NoSetup.TestField(NoSetup."Bosa Transaction Nos");
-            NoSeriesMgt.InitSeries(NoSetup."Bosa Transaction Nos", xRec."No. Series", 0D, No, "No. Series");
+            No := NoSeries.GetNextNo(NoSetup."Bosa Transaction Nos");
         end;
 
         "Date Entered" := Today;
@@ -184,7 +184,7 @@ table 50248 "ReceiptsProcessing_H-Checkoff"
 
     var
         NoSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeries: Codeunit "No. Series";
         cust: Record Customer;
         "GL Account": Record "G/L Account";
         BANKACC: Record "Bank Account";

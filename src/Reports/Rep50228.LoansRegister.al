@@ -2,7 +2,7 @@
 Report 50228 "Loans Register"
 {
     ApplicationArea = All;
-    RDLCLayout = './Layouts/Loans Register.rdl';
+    RDLCLayout = './Layouts/LoansRegister.rdl';
     UsageCategory = ReportsAndAnalysis;
 
 
@@ -11,7 +11,7 @@ Report 50228 "Loans Register"
         dataitem(Loans; "Loans Register")
         {
             DataItemTableView = sorting("Staff No") order(ascending) where(Posted = const(true));
-            RequestFilterFields = Source, "Loan Product Type", "Application Date", "Issued Date", "Batch No.", "Captured By", "Branch Code", "Outstanding Balance", "Loan  No.", "Top Up Amount";
+            RequestFilterFields = Source, "Loan Product Type", "Client Code", "Application Date", "Issued Date", "Batch No.", "Captured By", "Branch Code", "Outstanding Balance", "Loan  No.", "Top Up Amount";
             column(ReportForNavId_4645; 4645)
             {
             }
@@ -21,7 +21,22 @@ Report 50228 "Loans Register"
             column(Top_Up_Amount; "Top Up Amount")
             {
             }
-            column(COMPANYNAME; COMPANYNAME)
+            // column(COMPANYNAME; COMPANYNAME)
+            // {
+            // }
+            column(CompanyName; CompanyInfo.Name)
+            {
+            }
+            column(CompanyAddress; CompanyInfo.Address)
+            {
+            }
+            column(CompanyPhone; CompanyInfo."Phone No.")
+            {
+            }
+            column(CompanyPic; CompanyInfo.Picture)
+            {
+            }
+            column(CompanyEmail; CompanyInfo."E-Mail")
             {
             }
             column(CurrReport_PAGENO; CurrReport.PageNo)
@@ -52,6 +67,9 @@ Report 50228 "Loans Register"
             {
             }
             column(Loans__Client_Name_; "Client Name")
+            {
+            }
+            column(ID_NO; "ID NO")
             {
             }
             column(Loans__Requested_Amount_; "Requested Amount")
@@ -183,31 +201,55 @@ Report 50228 "Loans Register"
 
             trigger OnAfterGetRecord()
             begin
-
                 LCount := LCount + 1;
-
             end;
 
-            trigger OnPreDataItem()
-            begin
 
-                if LoanProdType.Get(Loans.GetFilter(Loans."Loan Product Type")) then
-                    LoanType := LoanProdType."Product Description";
+            // trigger OnPreDataItem()
+            // begin
+
+            //     if LoanProdType.Get(Loans.GetFilter(Loans."Loan Product Type")) then begin
+            //         LoanType := LoanProdType."Product Description";
+            //     end;
+            //     LCount := 0;
+
+            //     if Loans.GetFilter(Loans."Branch Code") <> '' then begin
+            //         DValue.Reset;
+            //         DValue.SetRange(DValue."Global Dimension No.", 2);
+            //         DValue.SetRange(DValue.Code, Loans.GetFilter(Loans."Branch Code"));
+            //         if DValue.Find('-') then
+            //             RFilters := 'Branch: ' + DValue.Name;
+
+            //     end;
+
+
+
+            //     //Datefilter:=Loans.GETRANGEMAX(Loans."Date filter");
+            //     //Loans.SETRANGE(Loans."Date filter",0D,Datefilter);
+            // end;
+            trigger OnPreDataItem()
+            var
+                LoanProductTypeFilter: Text;
+                BranchCodeFilter: Text;
+            begin
+                LoanProductTypeFilter := Loans.GetFilter("Loan Product Type");
+                BranchCodeFilter := Loans.GetFilter("Branch Code");
+
+                // if (LoanProductTypeFilter <> '') and (StrLen(LoanProductTypeFilter) <= MaxStrLen(LoanProdType.Code)) then
+                //     if LoanProdType.Get(LoanProductTypeFilter) then
+                //         LoanType := LoanProdType."Product Description";
+                LoanType := LowerCase(Loans."Loan Product Type Name");
+                if StrLen(LoanType) > 0 then
+                    LoanType := UpperCase(CopyStr(LoanType, 1, 1)) + CopyStr(LoanType, 2);
+
                 LCount := 0;
 
-                if Loans.GetFilter(Loans."Branch Code") <> '' then begin
-                    DValue.Reset;
-                    DValue.SetRange(DValue."Global Dimension No.", 2);
-                    DValue.SetRange(DValue.Code, Loans.GetFilter(Loans."Branch Code"));
-                    if DValue.Find('-') then
+                if BranchCodeFilter <> '' then begin
+                    DValue.SetRange("Global Dimension No.", 2);
+                    DValue.SetRange(Code, BranchCodeFilter);
+                    if DValue.FindFirst then
                         RFilters := 'Branch: ' + DValue.Name;
-
                 end;
-
-
-
-                //Datefilter:=Loans.GETRANGEMAX(Loans."Date filter");
-                //Loans.SETRANGE(Loans."Date filter",0D,Datefilter);
             end;
         }
     }
@@ -230,10 +272,16 @@ Report 50228 "Loans Register"
     labels
     {
     }
+    trigger OnPreReport()
+    begin
+        CompanyInfo.Get();
+        CompanyInfo.CalcFields(CompanyInfo.Picture);
+    end;
 
     var
         RPeriod: Decimal;
         BatchL: Code[100];
+        CompanyInfo: Record "Company Information";
         Batches: Record "Loan Disburesment-Batching";
         LocationFilter: Code[20];
         TotalApproved: Decimal;

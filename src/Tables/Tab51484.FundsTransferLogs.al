@@ -122,13 +122,13 @@ Table 51484 "Funds Transfer Logs"
         if "Document No" = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Transaction Nos.");
-            NoSeriesMgt.InitSeries(SalesSetup."Transaction Nos.", xRec."No. Series", 0D, "Document No", "No. Series");
+            //   NoSeriesMgt.InitSeries(SalesSetup."Transaction Nos.", xRec."No. Series", 0D, "Document No", "No. Series");
         end;
     end;
 
     var
         SalesSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        // NoSeriesMgt: Codeunit NoSeriesManagement;
         Vendor: Record Vendor;
         AccountTypes: Record "Account Types-Saving Products";
 }

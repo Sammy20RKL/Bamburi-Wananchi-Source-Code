@@ -144,6 +144,10 @@ page 50327 "payroll Transaction Code."
                         ApplicationArea = Basic;
                     }
                 }
+                field("Include in Levy Calculation"; Rec."Include in Levy Calculation")
+                {
+                    ApplicationArea = Basic;
+                }
                 group(Control1102756068)
                 {
                     Caption = 'Select one';

@@ -137,6 +137,14 @@ Table 51324 "Payroll Posting Groups."
             DataClassification = ToBeClassified;
             TableRelation = "G/L Account";
         }
+        field(42; "Housing Levy Employer Acc"; Code[50])
+        {
+            TableRelation = "G/L Account";
+        }
+        field(43; "Housing Levy Employee Acc"; Code[50])
+        {
+            TableRelation = "G/L Account";
+        }
     }
 
     keys

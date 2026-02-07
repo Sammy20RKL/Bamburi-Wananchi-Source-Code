@@ -158,7 +158,7 @@ Table 51457 "Bank Transfer Header Details"
         if No = '' then begin
             NoSetup.Get();
             NoSetup.TestField(NoSetup."EFT Header Nos.");
-            NoSeriesMgt.InitSeries(NoSetup."EFT Header Nos.", xRec."No. Series", 0D, No, "No. Series");
+            //NoSeriesMgt.InitSeries(NoSetup."EFT Header Nos.", xRec."No. Series", 0D, No, "No. Series");
         end;
 
 
@@ -175,7 +175,7 @@ Table 51457 "Bank Transfer Header Details"
 
     var
         NoSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         Accounts: Record Vendor;
         Members: Record Vendor;
         AccountHolders: Record Vendor;

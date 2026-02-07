@@ -7,7 +7,7 @@ Page 56165 "Posted Payment List"
     InsertAllowed = false;
     ModifyAllowed = false;
     PageType = List;
-    SourceTable = "Payment Header";
+    SourceTable = "Payments Header";
     SourceTableView = where("Payment Type" = const(Normal),
                             Posted = const(true));
     UsageCategory = Lists;

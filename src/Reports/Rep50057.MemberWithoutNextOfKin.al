@@ -1,12 +1,12 @@
-/* Report 50057 "MemberWithoutNextOfKin"
+Report 50057 "MemberWithoutNextOfKin"
 {
     ApplicationArea = All;
-    Caption = 'Members Without Next report.';
-    RDLCLayout = './Layouts/MemberWithoutNextOfKin.rdl';
+    Caption = 'Members without Next report.';
+    RDLCLayout = './Layout/MemberWithoutNextOfKin.rdlc';
     UsageCategory = ReportsAndAnalysis;
     dataset
     {
-        dataitem(Customer; "Member Register")
+        dataitem(Customer; Customer)
         {
             DataItemTableView = sorting("No.") order(descending);
 
@@ -29,7 +29,7 @@
             column(Name; Name) { }
             column(ID_No_; "ID No.") { }
             column(EntryNo; EntryNo) { }
-            column(Mobile_Phone_No; "Mobile Phone No") { }
+            column(Phone_No_; "Phone No.") { }
 
 
 
@@ -71,6 +71,8 @@
     begin
         CompanyInfo.Get();
         Datefilter := Customer.GetFilter("Date Filter");
+        CompanyInfo.CalcFields(CompanyInfo.Picture);
+
     end;
 
     var
@@ -78,7 +80,7 @@
         EntryNo: Integer;
         Sharecapital: Decimal;
         Datefilter: Text[100];
+        Cust: Record Customer;
         Gensetup: Record "Sacco General Set-Up";
-    //NextOfKin: Record "Accounts Next Of Kin Details";
+        NextOfKin: Record "Members Next Kin Details";
 }
- */

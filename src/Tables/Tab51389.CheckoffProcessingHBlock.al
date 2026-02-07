@@ -12,7 +12,7 @@ Table 51389 "Checkoff Processing H(Block)"
                 if No = '' then begin
                     NoSetup.Get();
                     NoSetup.TestField(NoSetup."Checkoff Proc Block Nos");
-                    NoSeriesMgt.InitSeries(NoSetup."Checkoff Proc Block Nos", xRec."No. Series", 0D, No, "No. Series");
+                    //NoSeriesMgt.InitSeries(NoSetup."Checkoff Proc Block Nos", xRec."No. Series", 0D, No, "No. Series");
                 end;
             end;
         }
@@ -170,7 +170,7 @@ Table 51389 "Checkoff Processing H(Block)"
         if No = '' then begin
             NoSetup.Get();
             NoSetup.TestField(NoSetup."Checkoff Proc Block Nos");
-            NoSeriesMgt.InitSeries(NoSetup."Checkoff Proc Block Nos", xRec."No. Series", 0D, No, "No. Series");
+            //NoSeriesMgt.InitSeries(NoSetup."Checkoff Proc Block Nos", xRec."No. Series", 0D, No, "No. Series");
         end;
 
         "Date Entered" := Today;
@@ -193,7 +193,7 @@ Table 51389 "Checkoff Processing H(Block)"
 
     var
         NoSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         cust: Record Customer;
         "GL Account": Record "G/L Account";
         BANKACC: Record "Bank Account";

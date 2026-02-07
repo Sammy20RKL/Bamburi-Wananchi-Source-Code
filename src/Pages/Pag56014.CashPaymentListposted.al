@@ -6,7 +6,7 @@ Page 56014 "Cash Payment List posted"
     InsertAllowed = false;
     ModifyAllowed = false;
     PageType = List;
-    SourceTable = "Payment Header";
+    SourceTable = "Payments Header";
     SourceTableView = where("Payment Type" = const("Petty Cash"));//,
                                                                   // Posted = const(Yes));
 
@@ -65,14 +65,14 @@ Page 56014 "Cash Payment List posted"
         Rec."Payment Type" := Rec."payment type"::"Cash Purchase";
         if FundsSetup.Get then begin
             FundsSetup.TestField(FundsSetup."Cash Account");
-            Rec."Bank Account" := FundsSetup."Cash Account";
-            Rec.Validate("Bank Account");
+            Rec."Paying Bank Account" := FundsSetup."Cash Account";
+            Rec.Validate("Paying Bank Account");
         end;
     end;
 
     trigger OnOpenPage()
     begin
-        Rec.SetRange("User ID", UserId);
+        // Rec.SetRange(UserId, UserId);
     end;
 
     var

@@ -381,7 +381,7 @@ table 50544 "Over Draft Register"
         if "Over Draft No" = '' then begin
             SaccoSetup.Get;
             SaccoSetup.TestField(SaccoSetup."Overdraft Nos");
-            NoSeriesMgt.InitSeries(SaccoSetup."Overdraft Nos", xRec."No. Series", 0D, "Over Draft No", "No. Series");
+            //  NoSeriesMgt.InitSeries(SaccoSetup."Overdraft Nos", xRec."No. Series", 0D, "Over Draft No", "No. Series");
         end;
     end;
 
@@ -394,7 +394,7 @@ table 50544 "Over Draft Register"
         GenSetUp: Record "Overdraft Setup";
         vendor: Record Vendor;
         SaccoSetup: Record "Overdraft Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         excees: Decimal;
         OverGenSetUp: Record "Overdraft Setup";
         currYear: Integer;

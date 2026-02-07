@@ -654,7 +654,7 @@ Table 51398 "Sacco General Set-Up"
         field(182; "Package Retrieval Charge"; Decimal)
         {
         }
-        field(183; "Package Retrieval Charge Acc"; Code[4])
+        field(183; "Package Retrieval Charge Acc"; Code[40])
         {
             TableRelation = "G/L Account"."No.";
         }
@@ -802,7 +802,16 @@ Table 51398 "Sacco General Set-Up"
         {
             DataClassification = ToBeClassified;
         }
-        field(222; "Top up Account"; Code[20]) { }//"Banks Charges"
+        field(222; "Top up Account"; Code[10])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "G/L Account"."No.";
+        }//"Banks Charges"
+        field(224; "HolidaySavings Payout Bank"; Code[30])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Bank Account"."No.";
+        }
         field(223; "Banks Charges"; Code[20]) { }//"Banks Charges"
         field(932; "Form Fee"; Decimal)
         {
@@ -892,7 +901,15 @@ Table 51398 "Sacco General Set-Up"
         field(1619; "Dividends Capitalization Rate"; Decimal)
         {
         }
-
+        field(1620; "Last Reoder Date"; Date)
+        {
+        }
+        field(1621; "Last Reminder Reorder Date"; Date)
+        {
+        }
+        field(1622; "Negative Reminder Time"; Time)
+        {
+        }
     }
 
     keys

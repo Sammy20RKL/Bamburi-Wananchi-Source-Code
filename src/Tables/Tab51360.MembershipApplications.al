@@ -102,27 +102,56 @@ Table 51360 "Membership Applications"
                 "Phone No." := UpperCase("Phone No.")
             end;
         }
+        // field(8; "Global Dimension 11 Code"; Code[20])
+        // {
+        //     CaptionClass = '1,1,1';
+        //     Caption = 'Global Dimension 1 Code';
+        //     TableRelation = "Dimension Value".Code where("Global Dimension No." = const(1));
+
+        //     trigger OnValidate()
+        //     begin
+        //         DimValue.Reset;
+        //         DimValue.SetRange(DimValue.Code, "Global Dimension 1 Code");
+        //         if DimValue.Find('-') then begin
+        //         end;
+        //     end;
+        // }
+        // field(9; "Global Dimension 21 Code"; Code[20])
+        // {
+        //     CaptionClass = '1,1,2';
+        //     Caption = 'Global Dimension 2 Code';
+        //     TableRelation = "Dimension Value".Code where("Global Dimension No." = const(2));
+
+        //     trigger OnValidate()
+        //     begin
+        //         DimValue.Reset;
+        //         DimValue.SetRange(DimValue.Code, "Global Dimension 2 Code");
+        //         if DimValue.Find('-') then begin
+        //             "Member Branch Code" := DimValue.Code;//"Branch Codes";
+        //             "Global Dimension 2 Code" := DimValue.Code;
+        //         end;
+        //     end;
+        // }
+
         field(8; "Global Dimension 1 Code"; Code[20])
         {
             CaptionClass = '1,1,1';
-            Caption = 'Global Dimension 1 Code';
+            Caption = 'Activity Code';
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(1));
+            editable = false;
         }
         field(9; "Global Dimension 2 Code"; Code[20])
         {
             CaptionClass = '1,1,2';
-            Caption = 'Global Dimension 2 Code';
+            Caption = 'Branch';
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(2));
 
-            // trigger OnValidate()
-            // begin
-            //     DimValue.Reset;
-            //     DimValue.SetRange(DimValue.Code, "Global Dimension 2 Code");
-            //     if DimValue.Find('-') then begin
-            //         "Member Branch Code" := DimValue.Code;//"Branch Codes";
-            //         "Global Dimension 2 Code" := DimValue.Code;
-            //     end;
-            // end;
+            editable = true;
+
+            trigger OnValidate()
+            begin
+
+            end;
         }
         field(10; "Customer Posting Group"; Code[10])
         {
@@ -204,7 +233,6 @@ Table 51360 "Membership Applications"
         }
         field(68005; "E-Mail (Personal)"; Text[50])
         {
-
             trigger OnValidate()
             begin
                 if "E-Mail (Personal)" <> '' then begin
@@ -233,7 +261,7 @@ Table 51360 "Membership Applications"
         field(68008; Location; Text[50])
         {
         }
-        field(68009; "Sub-Location"; Text[20])
+        field(68009; "Sub-Location"; Text[50])
         {
         }
         field(68010; District; Text[50])
@@ -339,7 +367,7 @@ Table 51360 "Membership Applications"
         field(68024; "Insurance Contribution"; Decimal)
         {
         }
-        field(68025; Province; Code[20])
+        field(68025; Province; Code[50])
         {
         }
         field(68026; "Current File Location"; Code[50])
@@ -1453,7 +1481,16 @@ Table 51360 "Membership Applications"
             OptionMembers = Salary,Business,Pension,Others;
         }
         field(69232; "Specific Source of Funds"; code[50]) { }
+        field(69140; "Move To"; Integer)
+        {
+        }
+
+        field(69141; "Post Code"; Code[20])
+        {
+        }
+
     }
+
 
     keys
     {
@@ -1486,8 +1523,8 @@ Table 51360 "Membership Applications"
         fieldgroup(DropDown; "No.", Name, "Phone No.", "Global Dimension 2 Code", "Global Dimension 1 Code")
         {
         }
-    }
 
+    }
     trigger OnDelete()
     var
         CampaignTargetGr: Record "Campaign Target Group";
@@ -1509,7 +1546,9 @@ Table 51360 "Membership Applications"
         if "No." = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Member Application Nos");
-            NoSeriesMgt.InitSeries(SalesSetup."Member Application Nos", xRec."No. Series", 0D, "No.", "No. Series");
+            "No. Series" := xRec."No. Series";
+            "No." := NoSeriesMgt.GetNextNo(SalesSetup."Member Application Nos", WorkDate(), true)
+            //NoSeriesMgt.InitSeries(SalesSetup."Member Application Nos", xRec."No. Series", 0D, "No.", "No. Series");
         end;
 
         GenSetUp.Get();
@@ -1588,7 +1627,7 @@ Table 51360 "Membership Applications"
         StatusPermissions: Record "Status Change Permision";
         RefundsR: Record Refunds;
         Text016: label 'You cannot change the contents of the %1 field because this %2 has one or more posted ledger entries.';
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         PostCode: Record "Post Code";
         Stations: Record "Member Section";
         User: Record User;

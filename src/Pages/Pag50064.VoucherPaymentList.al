@@ -4,7 +4,7 @@ page 50064 "Voucher Payment List"
     // CardPageID = "Voucher Payment Header";
     DeleteAllowed = false;
     PageType = List;
-    SourceTable = "Payment Header";
+    SourceTable = "Payments Header";
     SourceTableView = where("Payment Type" = const(Normal),
                             Posted = const(false));
 
@@ -63,8 +63,8 @@ page 50064 "Voucher Payment List"
         Rec."Payment Type" := Rec."payment type"::"Cash Purchase";
         if FundsSetup.Get then begin
             FundsSetup.TestField(FundsSetup."Cash Account");
-            Rec."Bank Account" := FundsSetup."Cash Account";
-            Rec.Validate("Bank Account");
+            Rec."Paying Bank Account" := FundsSetup."Cash Account";
+            Rec.Validate("Paying Bank Account");
         end;
     end;
 

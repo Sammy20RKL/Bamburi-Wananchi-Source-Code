@@ -17,12 +17,13 @@ Report 51314 "Payroll JournalTransfer."
             trigger OnAfterGetRecord()
             begin
                 //For use when posting Pension and NSSF
-                PostingGroup.Get('POLYTECH');
+                PostingGroup.Get('SALARY');
                 PostingGroup.TestField("SSF Employer Account");
                 PostingGroup.TestField("SSF Employee Account");
                 objEmp.SetRange(objEmp."No.", "No.");
                 if objEmp.Find('-') then begin
                     strEmpName := '[' + "No." + '] ' + objEmp."Full Name";
+                    strSaccoNo := objEmp."Sacco Membership No.";
                 end;
                 LineNumber := LineNumber + 1000;
                 PeriodTrans.Reset;
@@ -31,53 +32,102 @@ Report 51314 "Payroll JournalTransfer."
                 if PeriodTrans.Find('-') then begin
                     repeat
                         PeriodText := PeriodName;//Format(PeriodTrans."Payroll Period") + ' to ' + Format(CALCDATE('CM', PeriodTrans."Payroll Period"));
+                        glAccNo := '';
+
                         if PeriodTrans."Journal Account Code" <> '' then begin
+                            // Initialize amounts
                             AmountToDebit := 0;
                             AmountToCredit := 0;
-                            if PeriodTrans."Post As" = PeriodTrans."post as"::Debit then
-                                AmountToDebit := PeriodTrans.Amount;
 
-                            if PeriodTrans."Post As" = PeriodTrans."post as"::Credit then
-                                AmountToCredit := PeriodTrans.Amount;
+                            // Determine posting direction
+                            case PeriodTrans."Post As" of
+                                PeriodTrans."Post As"::Debit:
+                                    AmountToDebit := PeriodTrans.Amount;
+                                PeriodTrans."Post As"::Credit:
+                                    AmountToCredit := PeriodTrans.Amount;
+                            end;
+
+                            // Map Journal Account Type to IntegerPostAs
+                            case PeriodTrans."Journal Account Type" of
+                                PeriodTrans."Journal Account Type"::Customer:
+                                    IntegerPostAs := 0;
+                                PeriodTrans."Journal Account Type"::Member:
+                                    IntegerPostAs := 0;
+                                PeriodTrans."Journal Account Type"::"G/L Account":
+                                    IntegerPostAs := 1;
+                            end;
+
                             if PeriodTrans."Journal Account Type" = 1 then
                                 IntegerPostAs := 0;
                             if PeriodTrans."Journal Account Type" = 2 then
                                 IntegerPostAs := 1;
+
+                            // Special case for BPAY
                             if PeriodTrans."Transaction Code" = 'BPAY' then
                                 IntegerPostAs := 2;
 
+                            // Default Sacco Transaction Type
                             SaccoTransactionType := Saccotransactiontype::" ";
 
-                            if PeriodTrans."coop parameters" = PeriodTrans."coop parameters"::loan then
-                                SaccoTransactionType := Tntype::"Loan Repayment";
-                            if PeriodTrans."coop parameters" = PeriodTrans."coop parameters"::"loan Interest" then
-                                SaccoTransactionType := Tntype::"Interest Paid";
-                            if PeriodTrans."coop parameters" = PeriodTrans."coop parameters"::shares then
-                                SaccoTransactionType := Tntype::"Deposit Contribution";
-                            if PeriodTrans."coop parameters" = PeriodTrans."coop parameters"::Welfare then
-                                SaccoTransactionType := Tntype::"Benevolent Fund";
-                            // if PeriodTrans."coop parameters" = PeriodTrans."coop parameters"::Likizo then
-                            //     SaccoTransactionType := Tntype::Holiday_Savers;
-                            if PeriodTrans."coop parameters" = PeriodTrans."coop parameters"::"Share Capital" then
-                                SaccoTransactionType := Tntype::"Shares Capital";
+                            // Determine Sacco Transaction Type
+                            case PeriodTrans."coop parameters" of
+                                PeriodTrans."coop parameters"::loan:
+                                    SaccoTransactionType := Tntype::"Loan Repayment";
+                                PeriodTrans."coop parameters"::"loan Interest":
+                                    SaccoTransactionType := Tntype::"Interest Paid";
+                                PeriodTrans."coop parameters"::shares:
+                                    SaccoTransactionType := Tntype::"Deposit Contribution";
+                                PeriodTrans."coop parameters"::Welfare:
+                                    SaccoTransactionType := Tntype::"Benevolent Fund";
+                                PeriodTrans."coop parameters"::Likizo:
+                                    SaccoTransactionType := Tntype::"Holiday Savings";
+                                PeriodTrans."coop parameters"::"Share Capital":
+                                    SaccoTransactionType := Tntype::"Share Capital";
+                                PeriodTrans."coop parameters"::"Insurance Contribution":
+                                    SaccoTransactionType := Tntype::"Insurance Contribution";
+                                PeriodTrans."coop parameters"::"Holiday Savings":
+                                    SaccoTransactionType := Tntype::"Holiday Savings";
+                                else
+                                    // leave the “blank” value, or log/raise an error if that’s safer
+                                    SaccoTransactionType := Saccotransactiontype::" ";
+                            end;
+                            if PeriodTrans."Transaction Name".Contains('Insurance') then SaccoTransactionType := Tntype::"Insurance Contribution";
 
-                            if PeriodTrans."Journal Account Type" = PeriodTrans."journal account type"::Customer then begin
-                                PeriodTrans."Journal Account Type" := PeriodTrans."journal account type"::Customer;
-                            end else
-                                if PeriodTrans."Journal Account Type" = PeriodTrans."journal account type"::"G/L Account" then begin
-                                    PeriodTrans."Journal Account Type" := PeriodTrans."journal account type"::"G/L Account";
-
-                                end;
-                            if PeriodTrans."Transaction Code" = 'BENEV' then begin //LOAN APP FEE //LOAN INSURANCE
-                                PeriodTrans."Journal Account Type" := PeriodTrans."journal account type"::Customer;
+                            // Handle specific transaction codes
+                            if PeriodTrans."Transaction Code" = 'BENEV' then begin
+                                PeriodTrans."Journal Account Type" := PeriodTrans."Journal Account Type"::Customer;
                                 SaccoTransactionType := Tntype::"Benevolent Fund";
                             end;
-                            if (PeriodTrans."Transaction Code" <> 'BPAY')
-                        then begin
-                                CreateJnlEntry(IntegerPostAs, PeriodTrans."Journal Account Code",
-                                GlobalDim1, '', CopyStr(PeriodText + ' ' + PeriodTrans."Transaction Name" + '-' + PeriodTrans."Employee Code", 1, 30), AmountToDebit, AmountToCredit,
-                                PeriodTrans."Post As", PeriodTrans."Loan Number", SaccoTransactionType, GlobalDim3, "No.");
-                            end
+
+
+                            // Ensure account type is assigned correctly
+                            case PeriodTrans."Journal Account Type" of
+                                PeriodTrans."Journal Account Type"::Customer:
+                                    PeriodTrans."Journal Account Type" := PeriodTrans."Journal Account Type"::Customer;
+
+                                PeriodTrans."Journal Account Type"::"G/L Account":
+                                    begin
+                                        PeriodTrans."Journal Account Type" := PeriodTrans."Journal Account Type"::"G/L Account";
+                                        glAccNo := PeriodTrans."Journal Account Code"; // Now actively assigning
+                                    end;
+                            end;
+
+                            // Only post if there's a transaction code
+                            if PeriodTrans."Transaction Code" <> '' then
+                                CreateJnlEntry(
+                                    IntegerPostAs,
+                                    PeriodTrans."Journal Account Code",
+                                    GlobalDim1,
+                                    '',
+                                    CopyStr(PeriodText + ' ' + PeriodTrans."Transaction Name" + '-' + PeriodTrans."Employee Code", 1, 30),
+                                    AmountToDebit,
+                                    AmountToCredit,
+                                    PeriodTrans."Post As",
+                                    PeriodTrans."Loan Number",
+                                    SaccoTransactionType,
+                                    GlobalDim3,
+                                    strSaccoNo
+                                );
                         end;
 
 
@@ -199,6 +249,8 @@ Report 51314 "Payroll JournalTransfer."
         SaccoTransactionType: Enum TransactionTypesEnum; //Option " ","Deposit Contribution","Interest Paid","Benevolent Fund","Loan Repayment","Loan Application Fee Paid","Loan Insurance Paid";
         EmployerDed: Record "Payroll Employer Deductions.";
         GlobalDim3: Code[10];
+        strSaccoNo: Code[20];
+        glAccNo: Code[20];
         kk: Record "Payroll Calender.";
         UserSetup: Record "User Setup";
         DocumentNo: Code[10];
@@ -224,12 +276,21 @@ Report 51314 "Payroll JournalTransfer."
         GeneraljnlLine."Transaction Type" := TransType;
         GeneraljnlLine."Posting Date" := varPostingDate;
         GeneraljnlLine."Loan No" := LoanNo;
-        if TransType <> Transtype::" " then begin
+        // GeneraljnlLine."Account Type" := AccountType;
+
+        if Description.Contains('House Levy') or Description.Contains('S.H.I.F') or Description.Contains('N.H.I.F R') or Description.Contains('SHIF Relief') then begin
+            GeneraljnlLine."Account Type" := GeneraljnlLine."account type"::"G/L Account";
+            GeneraljnlLine."Transaction Type" := GeneraljnlLine."Transaction Type"::" ";
+        end else if Description.Contains('Insurance') or Description.Contains('Holiday savings') then begin
+            GeneraljnlLine."Account Type" := GeneraljnlLine."account type"::Customer;
+            GeneraljnlLine."Account No." := AccountNo;
+        end else if TransType <> Transtype::" " then begin
             GeneraljnlLine."Account Type" := GeneraljnlLine."account type"::Customer;
             GeneraljnlLine."Account No." := AccountNo;
         end;
-        if GeneraljnlLine."Account Type" = GeneraljnlLine."account type"::"G/L Account" then
-            GeneraljnlLine."Account No." := AccountNo;
+        if GeneraljnlLine."Account Type" = GeneraljnlLine."account type"::"G/L Account" then begin
+            GeneraljnlLine."Account No." := glAccNo;
+        end;
         GeneraljnlLine.Description := Description;
         if PostAs = Postas::Debit then begin
             GeneraljnlLine."Debit Amount" := ROUND(DebitAmount, 0.01, '=');

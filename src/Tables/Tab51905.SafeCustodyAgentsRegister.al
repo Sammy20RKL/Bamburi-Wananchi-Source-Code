@@ -124,7 +124,7 @@ Table 51905 "Safe Custody Agents Register"
         if "Agent ID" = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Safe Custody Agent Nos");
-            NoSeriesMgt.InitSeries(SalesSetup."Safe Custody Agent Nos", xRec."No. Series", 0D, "Agent ID", "No. Series");
+            //    NoSeriesMgt.InitSeries(SalesSetup."Safe Custody Agent Nos", xRec."No. Series", 0D, "Agent ID", "No. Series");
         end;
 
         "Created By" := UserId;
@@ -139,7 +139,7 @@ Table 51905 "Safe Custody Agents Register"
 
     var
         SalesSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         ObjCust: Record Customer;
 }
 

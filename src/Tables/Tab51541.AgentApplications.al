@@ -189,7 +189,7 @@ Table 51541 "Agent Applications"
         if "Agent Code" = '' then begin
             NoSetup.Get;
             NoSetup.TestField(NoSetup."Agency Application Nos");
-            NoSeriesMgt.InitSeries(NoSetup."Agency Application Nos", xRec."No. Series", 0D, "Agent Code", "No. Series");
+            //  NoSeriesMgt.InitSeries(NoSetup."Agency Application Nos", xRec."No. Series", 0D, "Agent Code", "No. Series");
         end;
 
         "Entered By" := UserId;
@@ -209,7 +209,7 @@ Table 51541 "Agent Applications"
 
     var
         NoSetup: Record "General Ledger Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         WithdrawLimit: Record "Agent Withdrawal Limits";
         Vend: Record Vendor;
         Member: Record Customer;

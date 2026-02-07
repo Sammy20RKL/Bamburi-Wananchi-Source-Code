@@ -136,7 +136,7 @@ Table 51290 "File Movement Header"
         if "No." = '' then begin
             GenLedgerSetup.Get;
             GenLedgerSetup.TestField(GenLedgerSetup."File Movement Nos");
-            NoSeriesMgt.InitSeries(GenLedgerSetup."File Movement Nos", xRec."No. Series", 0D, "No.", "No. Series");
+            //  NoSeriesMgt.InitSeries(GenLedgerSetup."File Movement Nos", xRec."No. Series", 0D, "No.", "No. Series");
         end;
         //Set To Defaut On Insert A New Rec-Kimoo
         "Date Requested" := Today;
@@ -157,7 +157,7 @@ Table 51290 "File Movement Header"
 
     var
         GenLedgerSetup: Record "General Ledger Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        //  NoSeriesMgt: Codeunit NoSeriesManagement;
         Vendor: Record Vendor;
 }
 

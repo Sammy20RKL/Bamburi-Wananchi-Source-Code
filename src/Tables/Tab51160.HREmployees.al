@@ -11,12 +11,12 @@ Table 51160 "HR Employees"
         field(1; "No."; Code[20])
         {
             Editable = true;
-            TableRelation = Customer."No.";
+            //TableRelation = Customer."No.";
             trigger OnValidate()
             begin
                 if "No." <> xRec."No." then begin
                     HrSetup.Get;
-                    NoSeriesMgt.TestManual(HrSetup."Employee Nos.");
+                    NoSeries.TestManual(HrSetup."Employee Nos.");
                     "No. Series" := '';
                 end;
             end;
@@ -96,6 +96,10 @@ Table 51160 "HR Employees"
         {
             SubType = Bitmap;
         }
+        field(20; "Birth Date"; Date)
+        {
+            Caption = 'Birth Date';
+        }
         field(21; "ID Number"; Text[30])
         {
         }
@@ -106,9 +110,9 @@ Table 51160 "HR Employees"
         field(23; "UIF Number"; Text[30])
         {
         }
-        field(24; Gender; Option)
+        field(24; Gender; Enum "Employee Gender HR")
         {
-            OptionMembers = " ",Male,Female;
+            // OptionMembers = " ",Male,Female;
         }
         field(25; "Country Code"; Code[20])
         {
@@ -134,7 +138,7 @@ Table 51160 "HR Employees"
         {
             Editable = false;
             OptionCaption = 'Active,Inactive';
-            OptionMembers = Active,Inactive;
+            OptionMembers = Active,Inactive,New;
 
             trigger OnValidate()
             begin
@@ -164,7 +168,7 @@ Table 51160 "HR Employees"
                 end;
             end;
         }
-        field(37; Office; Code[20])
+        field(37; Office; Code[50])
         {
             Description = 'Dimension 2';
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(2),
@@ -279,15 +283,15 @@ Table 51160 "HR Employees"
         field(58; "Contract Type"; Option)
         {
             Caption = 'Contract Status';
-            OptionCaption = 'Contract,Secondment,Temporary,Volunteer,Project Staff,Consultant-Contract,Consultant,Deployed,Board,Committee,Full Time';
-            OptionMembers = Contract,Secondment,"Temporary",Volunteer,"Project Staff","Consultant-Contract",Consultant,Deployed,Board,Committee,"Full Time";
+            OptionCaption = 'Contract,Deployed,Board,Committee,Full Time';
+            OptionMembers = Contract,Deployed,Board,Committee,"Full Time";
         }
-        field(59; "Contract End Date"; Date)
-        {
-        }
-        field(60; "Notice Period"; Code[20])
-        {
-        }
+        // field(59; "Contract End Date"; Date)
+        // {
+        // }
+        // field(60; "Notice Period"; Code[20])
+        // {
+        // }
         field(61; "Union Member?"; Boolean)
         {
         }
@@ -357,18 +361,18 @@ Table 51160 "HR Employees"
         field(84; "Length Of Service"; Text[80])
         {
         }
-        field(85; "End Of Probation Date"; Date)
-        {
-        }
-        field(86; "Pension Scheme Join"; Date)
-        {
-        }
+        // field(85; "End Of Probation Date"; Date)
+        // {
+        // }
+        // field(86; "Pension Scheme Join"; Date)
+        // {
+        // }
         field(87; "Time Pension Scheme"; Text[80])
         {
         }
-        field(88; "Medical Scheme Join"; Date)
-        {
-        }
+        // field(88; "Medical Scheme Join"; Date)
+        // {
+        // }
         field(89; "Time Medical Scheme"; Text[80])
         {
             //This property is currently not supported
@@ -739,19 +743,19 @@ Table 51160 "HR Employees"
         {
             TableRelation = "Payroll Employee."."No.";
         }
-        field(167; "Served Notice Period"; Boolean)
-        {
-        }
-        field(168; "Exit Interview Date"; Date)
-        {
-        }
-        field(169; "Exit Interview Done by"; Code[20])
-        {
-            TableRelation = "HR Employees"."No.";
-        }
-        field(170; "Allow Re-Employment In Future"; Boolean)
-        {
-        }
+        // field(167; "Served Notice Period"; Boolean)
+        // {
+        // }
+        // field(168; "Exit Interview Date"; Date)
+        // {
+        // }
+        // field(169; "Exit Interview Done by"; Code[20])
+        // {
+        //     TableRelation = "HR Employees"."No.";
+        // }
+        // field(170; "Allow Re-Employment In Future"; Boolean)
+        // {
+        // }
         field(171; "Medical Scheme Name #2"; Text[15])
         {
 
@@ -1074,8 +1078,8 @@ Table 51160 "HR Employees"
         }
         field(2004; "Total Leave Taken"; Decimal)
         {
-            CalcFormula = - sum("HR Leave Ledger Entries"."No. of days" where("Staff No." = field("No."),
-                                                                             "Posting Date" = field("Date Filter"),
+            CalcFormula = - sum("HR Leave Ledger Entries Lv"."No. of days" where("Staff No." = field("No."),
+                                                                             //  "Posting Date" = field("Date Filter"),
                                                                              "Leave Entry Type" = const(Negative),
                                                                              Closed = const(false),
                                                                              "Leave Type" = const('ANNUAL')));
@@ -1093,9 +1097,9 @@ Table 51160 "HR Employees"
         }
         field(2008; "Reimbursed Leave Days"; Decimal)
         {
-            CalcFormula = sum("HR Leave Ledger Entries"."No. of days" where("Staff No." = field("No."),
-                                                                             "Posting Date" = field("Date Filter"),
-                                                                             "Leave Entry Type" = const(Reimbursement),
+            CalcFormula = sum("HR Leave Ledger Entries Lv"."No. of days" where("Staff No." = field("No."),
+                                                                             //  "Posting Date" = field("Date Filter"),
+                                                                             //  "Leave Entry Type" = const(Reimbursement),
                                                                              "Leave Type" = field("Leave Type Filter"),
                                                                              Closed = const(false)));
             DecimalPlaces = 2 : 2;
@@ -1112,8 +1116,8 @@ Table 51160 "HR Employees"
         }
         field(2023; "Allocated Leave Days"; Decimal)
         {
-            CalcFormula = sum("HR Leave Ledger Entries"."No. of days" where("Staff No." = field("No."),
-                                                                             "Posting Date" = field("Date Filter"),
+            CalcFormula = sum("HR Leave Ledger Entries Lv"."No. of days" where("Staff No." = field("No."),
+                                                                             //  "Posting Date" = field("Date Filter"),
                                                                              "Leave Entry Type" = const(Positive),
                                                                              Closed = const(false)));
             FieldClass = FlowField;
@@ -1130,39 +1134,39 @@ Table 51160 "HR Employees"
         field(2024; "End of Contract Date"; Date)
         {
         }
-        field(2040; "Leave Period Filter"; Code[20])
-        {
-            FieldClass = FlowFilter;
-            TableRelation = "HR Leave Periods"."Starting Date" where("New Fiscal Year" = const(false));
-        }
+        // field(2040; "Leave Period Filter"; Code[20])
+        // {
+        //     FieldClass = FlowFilter;
+        //     TableRelation = "HR Leave Periods"."Starting Date" where("New Fiscal Year" = const(false));
+        // }
         field(3971; "Annual Leave Account"; Decimal)
         {
-            CalcFormula = sum("HR Leave Ledger Entries"."No. of days" where("Leave Type" = const('ANNUAL'),
-                                                                             "Staff No." = field("No."),
-                                                                             "Leave Entry Type" = filter(<> Reimbursement)));
+            CalcFormula = sum("HR Leave Ledger Entries Lv"."No. of days" where("Leave Type" = const('ANNUAL'),
+                                                                             "Staff No." = field("No.")));
+            //  "Leave Entry Type" = filter(<> Reimbursement)));
             FieldClass = FlowField;
         }
         field(3972; "Compassionate Leave Acc."; Decimal)
         {
-            CalcFormula = sum("HR Leave Ledger Entries"."No. of days" where("Leave Type" = const('COMPASSIONATE'),
+            CalcFormula = sum("HR Leave Ledger Entries Lv"."No. of days" where("Leave Type" = const('COMPASSIONATE'),
                                                                              "Staff No." = field("No.")));
             FieldClass = FlowField;
         }
         field(3973; "Maternity Leave Acc."; Decimal)
         {
-            CalcFormula = sum("HR Leave Ledger Entries"."No. of days" where("Leave Type" = const('MATERNITY'),
+            CalcFormula = sum("HR Leave Ledger Entries Lv"."No. of days" where("Leave Type" = const('MATERNITY'),
                                                                              "Staff No." = field("No.")));
             FieldClass = FlowField;
         }
         field(3974; "Paternity Leave Acc."; Decimal)
         {
-            CalcFormula = sum("HR Leave Ledger Entries"."No. of days" where("Leave Type" = const('PATERNITY'),
+            CalcFormula = sum("HR Leave Ledger Entries Lv"."No. of days" where("Leave Type" = const('PATERNITY'),
                                                                              "Staff No." = field("No.")));
             FieldClass = FlowField;
         }
         field(3975; "Sick Leave Acc."; Decimal)
         {
-            CalcFormula = sum("HR Leave Ledger Entries"."No. of days" where("Leave Type" = const('SICK'),
+            CalcFormula = sum("HR Leave Ledger Entries Lv"."No. of days" where("Leave Type" = const('SICK'),
                                                                              "Staff No." = field("No.")));
             FieldClass = FlowField;
         }
@@ -1478,20 +1482,21 @@ Table 51160 "HR Employees"
             HrSetup.Get;
             if "Contract Type" = "contract type"::Deployed then begin
                 HrSetup.TestField(HrSetup."Deployed Nos");
-                NoSeriesMgt.InitSeries(HrSetup."Deployed Nos", xRec."No. Series", 0D, "No.", "No. Series");
+                "No." := NoSeries.GetNextNo(HrSetup."Deployed Nos");
             end
             else
                 if "Contract Type" = "contract type"::"Full Time" then begin
                     HrSetup.TestField(HrSetup."Full Time Nos");
-                    NoSeriesMgt.InitSeries(HrSetup."Full Time Nos", xRec."No. Series", 0D, "No.", "No. Series");
+                    "No." := NoSeries.GetNextNo(HrSetup."Full Time Nos");
+
                 end else
                     if "Contract Type" = "contract type"::Board then begin
                         HrSetup.TestField(HrSetup."Board Nos");
-                        NoSeriesMgt.InitSeries(HrSetup."Board Nos", xRec."No. Series", 0D, "No.", "No. Series");
+                        "No." := NoSeries.GetNextNo(HrSetup."Board Nos");
                     end else
                         if "Contract Type" = "contract type"::Committee then begin
                             HrSetup.TestField(HrSetup."Committee Nos");
-                            NoSeriesMgt.InitSeries(HrSetup."Committee Nos", xRec."No. Series", 0D, "No.", "No. Series");
+                            "No." := NoSeries.GetNextNo(HrSetup."Committee Nos");
                         end;
         end;
     end;
@@ -1512,7 +1517,7 @@ Table 51160 "HR Employees"
         Res: Record Resource;
         PostCode: Record "Post Code";
         SalespersonPurchaser: Record "Salesperson/Purchaser";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeries: Codeunit "No. Series";
         OK: Boolean;
         User: Record "User Setup";
         ERROR1: label 'Employee Career History Starting Information already exist.';

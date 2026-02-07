@@ -10,8 +10,8 @@ Table 51406 "BOSA Transfers"
             trigger OnValidate()
             begin
                 if No <> xRec.No then begin
-                    NoSetup.Get(0);
-                    NoSeriesMgt.TestManual(No);
+                    NoSetup.Get;
+                    NoSeries.TestManual(No);
                     "No. Series" := '';
                 end;
             end;
@@ -73,7 +73,7 @@ Table 51406 "BOSA Transfers"
         if No = '' then begin
             NoSetup.Get;
             NoSetup.TestField(NoSetup."BOSA Transfer Nos");
-            NoSeriesMgt.InitSeries(NoSetup."BOSA Transfer Nos", xRec."No. Series", 0D, No, "No. Series");
+            No := NoSeries.GetNextNo(NoSetup."BOSA Transfer Nos");
         end;
         "Transaction Date" := Today;
     end;
@@ -92,6 +92,6 @@ Table 51406 "BOSA Transfers"
 
     var
         NoSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeries: Codeunit "No. Series";
 }
 

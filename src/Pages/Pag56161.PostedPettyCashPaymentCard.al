@@ -5,7 +5,7 @@ Page 56161 "Posted PettyCash Payment Card"
     InsertAllowed = false;
     ModifyAllowed = false;
     PageType = Card;
-    SourceTable = "Payment Header";
+    SourceTable = "Payments Header";
     SourceTableView = where("Payment Type" = const("Petty Cash"),
                             Posted = const(true));
 
@@ -36,7 +36,7 @@ Page 56161 "Posted PettyCash Payment Card"
                     ApplicationArea = Basic;
                     Visible = false;
                 }
-                field("Bank Account"; Rec."Bank Account")
+                field("Bank Account"; Rec."Paying Bank Account")
                 {
                     ApplicationArea = Basic;
                 }
@@ -160,6 +160,6 @@ Page 56161 "Posted PettyCash Payment Card"
     }
 
     var
-        PHeader: Record "Payment Header";
+        PHeader: Record "Payments Header";
 }
 

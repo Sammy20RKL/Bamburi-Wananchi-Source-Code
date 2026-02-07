@@ -1,13 +1,12 @@
 #pragma warning disable AA0005, AA0008, AA0018, AA0021, AA0072, AA0137, AA0201, AA0204, AA0206, AA0218, AA0228, AL0254, AL0424, AS0011, AW0006 // ForNAV settings
 Table 51319 "Payroll Employee Transactions."
 {
-    // version Payroll ManagementV1.0(Surestep Systems)
-
 
     fields
     {
         field(9; "Sacco Membership No."; Code[20])
         {
+            TableRelation = customer."No.";
         }
         field(10; "No."; Code[20])
         {
@@ -79,6 +78,7 @@ Table 51319 "Payroll Employee Transactions."
                  end;
                  end;*/
             end;
+
         }
         field(12; "Transaction Name"; Text[100])
         {
@@ -91,7 +91,6 @@ Table 51319 "Payroll Employee Transactions."
         }
         field(14; Amount; Decimal)
         {
-
             trigger OnValidate()
             begin
                 Employee.Reset;
@@ -100,7 +99,7 @@ Table 51319 "Payroll Employee Transactions."
                     if Employee."Currency Code" = '' then
                         "Amount(LCY)" := Amount
                     else
-                        "Amount(LCY)" := Round(CurrExchRate.ExchangeAmtFCYToLCY(Today, Employee."Currency Code", Amount, Employee."Currency Factor"));
+                        "Amount(LCY)" := ROUND(CurrExchRate.ExchangeAmtFCYToLCY(Today, Employee."Currency Code", Amount, Employee."Currency Factor"));
                 end;
             end;
         }
@@ -194,27 +193,19 @@ Table 51319 "Payroll Employee Transactions."
         }
         field(33; "Loan Number"; Code[20])
         {
-            // TableRelation = "Loans Register"."Loan  No." WHERE("Client Code" = FIELD("No."),
-            //                                                 "Loan Product Type" = FIELD("Transaction Code"));
+            TableRelation = "Loans Register"."Loan  No." where("Client Code" = field("Sacco Membership No."));
 
-            // trigger OnValidate()
-            // begin
+            trigger OnValidate()
+            begin
+                Loans.Reset();
+                if Loans.Get("Loan Number") then begin
 
-            //     // if Loans.Get("Loan Number") then begin
-            //     Loans.CalcFields(Loans."Outstanding Balance", Loans."Outstanding Interest");
-            //     if Loans."Outstanding Balance" > 0 then begin
-            //         Balance := Loans."Outstanding Balance";
-            //         "Amtzd Loan Repay Amt" := Loans.Repayment;
-            //         Amount := Loans."Loan Principle Repayment";
-            //         "Original Amount" := Loans."Approved Amount";
-            //         //"Outstanding Interest":=Loans."Oustanding Interest"+Loans."Interest Buffer";
-            //         //"Outstanding Interest":=Loans."Loan Interest Repayment";//Loans."Oustanding Interest";
-            //         MESSAGE('%1-%2-%3', Balance, "Amtzd Loan Repay Amt", Amount);
-            //         rec.Modify;
-            //     end;
-
-            //     // end;
-            // end;
+                    Loans.CalcFields(Loans."Outstanding Balance", Loans."Oustanding Interest");
+                    Balance := Loans."Outstanding Balance";
+                    "Outstanding Interest" := Loans."Oustanding Interest";
+                    // Rec.Modify//(true);
+                end;
+            end;
         }
         field(34; "Payroll Code"; Code[20])
         {
@@ -252,13 +243,13 @@ Table 51319 "Payroll Employee Transactions."
         field(45; "Original Deduction Amount"; Decimal)
         {
 
-            trigger OnValidate()
-            begin
-                Amount := "Original Deduction Amount";
-                Amount := "Original Deduction Amount" - "Outstanding Interest";
-                "Interest Charged" := "Outstanding Interest";//FnLoan("Loan Number","Payroll Period");
-                "Amount(LCY)" := Amount;
-            end;
+            // trigger OnValidate()
+            // begin
+            //     Amount := "Original Deduction Amount";
+            //     Amount := "Original Deduction Amount" - "Outstanding Interest";
+            //     "Interest Charged" := "Outstanding Interest";//FnLoan("Loan Number","Payroll Period");
+            //     "Amount(LCY)" := Amount;
+            // end;
         }
         field(46; "Interest Charged"; Decimal)
         {

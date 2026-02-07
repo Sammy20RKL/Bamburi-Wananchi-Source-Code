@@ -97,7 +97,7 @@ Table 51475 "HISA Allocation"
                     end;
                 end;
 
-                /*IF ("Transaction Type" = "Transaction Type"::"Shares Capital") THEN BEGIN
+                /*IF ("Transaction Type" = "Transaction Type"::"Share Capital") THEN BEGIN
                 IF Cust.GET("Member No") THEN BEGIN
                 Cust.CALCFIELDS(Cust."Shares Retained");
                 IF Amount > (Cust."Share Capital"+Cust."Shares Retained") THEN

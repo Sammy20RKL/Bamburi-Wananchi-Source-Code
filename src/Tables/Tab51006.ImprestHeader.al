@@ -587,7 +587,7 @@ Table 51006 "Imprest Header"
             GenLedgerSetup.Get;
             if "Payment Type" = "payment type"::Imprest then begin
                 GenLedgerSetup.TestField(GenLedgerSetup."Imprest Nos");
-                NoSeriesMgt.InitSeries(GenLedgerSetup."Imprest Nos", xRec."No. Series", 0D, "No.", "No. Series");
+                //   NoSeriesMgt.InitSeries(GenLedgerSetup."Imprest Nos", xRec."No. Series", 0D, "No.", "No. Series");
             end
         end;
 
@@ -633,7 +633,7 @@ Table 51006 "Imprest Header"
         Vend: Record Vendor;
         FA: Record "Fixed Asset";
         BankAcc: Record "Bank Account";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        // NoSeriesMgt: Codeunit NoSeriesManagement;
         GenLedgerSetup: Record "Funds General Setup";
         RecPayTypes: Record "Funds Transaction Types";
         EntryNo: Integer;

@@ -82,13 +82,13 @@ Table 51286 "HR Insurance Schemes"
         if "Scheme No" = '' then begin
             HRSetup.Get;
             HRSetup.TestField(HRSetup."HR Insurance Sch Nos");
-            NoSeriesMgt.InitSeries(HRSetup."HR Insurance Sch Nos", xRec."No. Series", 0D, "Scheme No", "No. Series");
+            // NoSeriesMgt.InitSeries(HRSetup."HR Insurance Sch Nos", xRec."No. Series", 0D, "Scheme No", "No. Series");
         end;
     end;
 
     var
         Insurer1: Record Vendor;
         HRSetup: Record "HR Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
 }
 

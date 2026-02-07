@@ -198,7 +198,7 @@ Page 50048 "Loan Recovery Card"
                                             GenJournalLine."Transaction Type" := GenJournalLine."Transaction Type"::"Loan Repayment";
                                             GenJournalLine."Loan No" := RecoveryLines."Loan No.";
                                             GenJournalLine."Shortcut Dimension 1 Code" := 'BOSA';
-                                            GenJournalLine."Shortcut Dimension 2 Code" := surestepFactory.FnGetMemberBranch(RecoveryLines."BOSA Account No");
+                                            GenJournalLine."Shortcut Dimension 2 Code" := SwizzsoftFactory.FnGetMemberBranch(RecoveryLines."BOSA Account No");
                                             IF GenJournalLine.Amount <> 0 THEN begin
                                                 GenJournalLine.INSERT;
                                             end;
@@ -219,7 +219,7 @@ Page 50048 "Loan Recovery Card"
                                             GenJournalLine."Transaction Type" := GenJournalLine."Transaction Type"::"Interest Paid";
                                             GenJournalLine."Loan No" := RecoveryLines."Loan No.";
                                             GenJournalLine."Shortcut Dimension 1 Code" := 'BOSA';
-                                            GenJournalLine."Shortcut Dimension 2 Code" := surestepFactory.FnGetMemberBranch(RecoveryLines."BOSA Account No");
+                                            GenJournalLine."Shortcut Dimension 2 Code" := SwizzsoftFactory.FnGetMemberBranch(RecoveryLines."BOSA Account No");
                                             IF GenJournalLine.Amount <> 0 THEN begin
                                                 GenJournalLine.INSERT;
                                             end;
@@ -239,7 +239,7 @@ Page 50048 "Loan Recovery Card"
                                             GenJournalLine.VALIDATE(GenJournalLine.Amount);
                                             GenJournalLine."Transaction Type" := GenJournalLine."Transaction Type"::"Deposit Contribution";
                                             GenJournalLine."Shortcut Dimension 1 Code" := 'BOSA';
-                                            GenJournalLine."Shortcut Dimension 2 Code" := surestepFactory.FnGetMemberBranch(RecoveryLines."BOSA Account No");
+                                            GenJournalLine."Shortcut Dimension 2 Code" := SwizzsoftFactory.FnGetMemberBranch(RecoveryLines."BOSA Account No");
                                             IF GenJournalLine.Amount <> 0 THEN begin
                                                 GenJournalLine.INSERT;
                                             end;
@@ -281,7 +281,7 @@ Page 50048 "Loan Recovery Card"
         CancelApprovalEnabled: Boolean;
         PostEnabled: Boolean;
         FieldEditable: Boolean;
-        surestepFactory: Codeunit "Swizzsoft Factory";
+        SwizzsoftFactory: Codeunit "Swizzsoft Factory";
         GenJournalLine: Record "Gen. Journal Line";
         Vendor: Record vendor;
         ABC: Decimal;

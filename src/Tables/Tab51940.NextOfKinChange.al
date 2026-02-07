@@ -94,7 +94,7 @@ Table 51940 "Next Of Kin Change"
         if "Document No" = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Member Agent/NOK Change");
-            NoSeriesMgt.InitSeries(SalesSetup."Member Agent/NOK Change", xRec."No. Series", 0D, "Document No", "No. Series");
+            //   NoSeriesMgt.InitSeries(SalesSetup."Member Agent/NOK Change", xRec."No. Series", 0D, "Document No", "No. Series");
         end;
 
         "Captured On" := Today;
@@ -103,7 +103,7 @@ Table 51940 "Next Of Kin Change"
 
     var
         SalesSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         ObjAccount: Record Vendor;
         ObjCust: Record Customer;
         ObjLoans: Record "Loans Register";

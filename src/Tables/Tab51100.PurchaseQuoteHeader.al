@@ -746,7 +746,7 @@ Table 51100 "Purchase Quote Header"
         Text049: label '%1 is set up to process from %2 %3 only.';
         Text050: label 'Reservations exist for this order. These reservations will be canceled if a date conflict is caused by this change.\\';
         PurchSetup: Record "Purchases & Payables Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        //NoSeriesMgt: Codeunit NoSeriesManagement;
         location: Record Location;
         PurchHeader: Record "Purchase Header";
 

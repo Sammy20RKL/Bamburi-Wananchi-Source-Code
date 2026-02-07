@@ -2,7 +2,7 @@
 Page 56158 "PettyCash Payment Card"
 {
     PageType = Card;
-    SourceTable = "Payment Header";
+    SourceTable = "Payments Header";
 
     RefreshOnActivate = true;
     Caption = 'Petty Cash Application';
@@ -32,7 +32,7 @@ Page 56158 "PettyCash Payment Card"
                     ApplicationArea = Basic;
                     Visible = false;
                 }
-                field("Bank Account"; Rec."Bank Account")
+                field("Bank Account"; Rec."Paying Bank Account")
                 {
                     ApplicationArea = Basic;
                 }
@@ -251,7 +251,7 @@ Page 56158 "PettyCash Payment Card"
         DocType: Option Quote,"Order",Invoice,"Credit Memo","Blanket Order","Return Order","None","Payment Voucher","Petty Cash",Imprest,Requisition,ImprestSurrender,Interbank,TransportRequest,Maintenance,Fuel,ImporterExporter,"Import Permit","Export Permit",TR,"Safari Notice","Student Applications","Water Research","Consultancy Requests","Consultancy Proposals","Meals Bookings","General Journal","Student Admissions","Staff Claim",KitchenStoreRequisition,"Leave Application","Staff Advance","Staff Advance Accounting";
         TableID: Integer;
         ApprovalsMgmt: Codeunit "Approvals Mgmt.";
-        PHeader: Record "Payment Header";
+        PHeader: Record "Payments Header";
         X: page "Accountant Role Center";
 
     local procedure CheckRequiredItems()
@@ -259,7 +259,7 @@ Page 56158 "PettyCash Payment Card"
         // Rec.TestField(Status, Rec.Status::Approved);
         Rec.TestField("Posting Date");
         Rec.TestField(Payee);
-        Rec.TestField("Bank Account");
+        Rec.TestField("Paying Bank Account");
         Rec.TestField("Payment Description");
         Rec.TestField("Global Dimension 1 Code");
         Rec.TestField("Global Dimension 2 Code");

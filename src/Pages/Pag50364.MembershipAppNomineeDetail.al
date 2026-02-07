@@ -15,11 +15,17 @@ page 50364 "Membership App Nominee Detail"
                     ApplicationArea = Basic;
                     ShowMandatory = true;
                 }
+
                 field(Relationship; Rec.Relationship)
                 {
                     ApplicationArea = Basic;
                     Editable = true;
                     ShowMandatory = true;
+                }
+
+                field(Beneficiary; Rec.Beneficiary)
+                {
+                    ApplicationArea = Basic;
                 }
                 field("Next Of Kin Type"; Rec."Next Of Kin Type")
                 {

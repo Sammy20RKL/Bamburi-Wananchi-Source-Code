@@ -24,7 +24,7 @@ Table 51471 "SMS Messages"
         field(6; "Entered By"; Code[50])
         {
         }
-        field(7; "SMS Message"; Text[250])
+        field(7; "SMS Message"; Text[550])
         {
         }
         field(8; "Sent To Server"; Option)
@@ -98,6 +98,6 @@ Table 51471 "SMS Messages"
 
     var
         NoSetup: Record "General Ledger Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+    // NoSeriesMgt: Codeunit NoSeriesManagement;
 }
 

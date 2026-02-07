@@ -205,7 +205,7 @@ Table 51904 "Safe Custody Package Register"
         if "Package ID" = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Safe Custody Package Nos");
-            NoSeriesMgt.InitSeries(SalesSetup."Safe Custody Package Nos", xRec."No. Series", 0D, "Package ID", "No. Series");
+            //NoSeriesMgt.InitSeries(SalesSetup."Safe Custody Package Nos", xRec."No. Series", 0D, "Package ID", "No. Series");
         end;
 
         "Date Received" := Today;
@@ -222,7 +222,7 @@ Table 51904 "Safe Custody Package Register"
 
     var
         SalesSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         ObjAccount: Record Vendor;
         ObjVendors: Record Vendor;
         ObjAccTypes: Record "Account Types-Saving Products";

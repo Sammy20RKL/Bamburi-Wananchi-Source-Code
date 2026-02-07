@@ -373,7 +373,7 @@ Table 51458 "EFT Details"
         if No = '' then begin
             NoSetup.Get();
             NoSetup.TestField(NoSetup."EFT Details Nos.");
-            NoSeriesMgt.InitSeries(NoSetup."EFT Details Nos.", xRec."No. Series", 0D, No, "No. Series");
+            // NoSeriesMgt.InitSeries(NoSetup."EFT Details Nos.", xRec."No. Series", 0D, No, "No. Series");
         end;
 
         "Date Entered" := Today;
@@ -389,7 +389,7 @@ Table 51458 "EFT Details"
 
     var
         NoSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         Accounts: Record Vendor;
         Members: Record Vendor;
         AccountHolders: Record Vendor;

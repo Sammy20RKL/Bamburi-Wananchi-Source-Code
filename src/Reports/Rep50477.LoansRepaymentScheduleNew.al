@@ -98,9 +98,13 @@ Report 50477 "Loans Repayment Schedule New"
                 column(ROUND__Monthly_Interest__10_____; ROUND("Loan Repayment Schedule"."Monthly Interest", 1, '>'))
                 {
                 }
-                column(LoanBalance; ROUND(LoanBalance, 1, '>'))
-                {
-                }
+                // column(LoanBalance; ROUND(LoanBalance, 1, '>'))
+                // {
+                // }
+
+                column(LoanBalance; "Loan Repayment Schedule"."Loan Balance") { }
+
+                column(IncrementField; i) { } // Incrementing field
                 column(Loan_Repayment_Schedule__Repayment_Code_; "Repayment Code")
                 {
                 }

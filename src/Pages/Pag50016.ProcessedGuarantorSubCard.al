@@ -152,13 +152,12 @@ page 50016 "Processed Guarantor Sub Card"
                 trigger OnAction()
                 begin
                     if Rec.Status <> Rec.Status::Approved then
-                        //ERROR('This Application has to be Approved');
+                        ERROR('This Application has to be Approved');
 
-                        LGuarantor.Reset;
+                    LGuarantor.Reset;
                     LGuarantor.SetRange(LGuarantor."Loan No", Rec."Loan Guaranteed");
                     LGuarantor.SetRange(LGuarantor."Member No", Rec."Substituting Member");
                     if LGuarantor.FindSet then begin
-
                         GSubLine.Reset;
                         GSubLine.SetRange(GSubLine."Document No", Rec."Document No");
                         GSubLine.SetRange(GSubLine."Member No", Rec."Substituting Member");
@@ -167,7 +166,6 @@ page 50016 "Processed Guarantor Sub Card"
                             LGuarantor."Substituted Guarantor" := GSubLine."Substitute Member";
                             LGuarantor."Substituted Guarantor Name" := GSubLine."Substitute Member Name";
                             LGuarantor.Modify;
-
 
                             LGuarantor.Init;
                             LGuarantor."Loan No" := Rec."Loan Guaranteed";

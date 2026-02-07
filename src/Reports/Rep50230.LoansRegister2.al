@@ -2,7 +2,7 @@
 Report 50230 "Loans Register2"
 {
     DefaultLayout = RDLC;
-    RDLCLayout = './Layouts/Loans Register.rdlc';
+    RDLCLayout = './Layouts/Loans Register2.rdlc';
 
     dataset
     {

@@ -38,6 +38,7 @@ pageextension 50880 "GeneralLedgerSetUpExt" extends "General Ledger Setup"
                 {
                     ApplicationArea = Basic;
                 }
+                field("Paybill C2b Account"; Rec."Paybill C2b Account") { ApplicationArea = Basic; }
                 field(AirTimeSettlAcc; Rec.AirTimeSettlAcc)
                 {
                     ApplicationArea = Basic;

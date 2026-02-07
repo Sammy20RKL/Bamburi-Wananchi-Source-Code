@@ -127,7 +127,7 @@ Table 51344 "Inspection Header"
 
     trigger OnDelete()
     var
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         PurchPayablesSetup: Record "Purchases & Payables Setup";
     begin
     end;
@@ -138,7 +138,7 @@ Table 51344 "Inspection Header"
             PurchPayblesSetup.Get;
             ;
             PurchPayblesSetup.TestField(PurchPayblesSetup."Inspection Nos");
-            NoSeriesMgt.InitSeries(PurchPayblesSetup."Inspection Nos", xRec."No. Series", 0D, "No.", "No. Series");
+            // NoSeriesMgt.InitSeries(PurchPayblesSetup."Inspection Nos", xRec."No. Series", 0D, "No.", "No. Series");
         end;
     end;
 
@@ -148,7 +148,7 @@ Table 51344 "Inspection Header"
         InspectionLine: Record "Inspection Line";
         PurchHeaderNo: Code[20];
         PurchPayblesSetup: Record "Purchases & Payables Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         PurchLine: Record "Purchase Line Replica";
 }
 

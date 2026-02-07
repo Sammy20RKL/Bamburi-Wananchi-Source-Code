@@ -13,7 +13,7 @@ Table 51512 "Loan Collateral Register"
             begin
                 if "Document No" <> xRec."Document No" then begin
                     SalesSetup.Get;
-                    NoSeriesmgt.TestManual(SalesSetup."Collateral Register No");
+                    NoSeries.TestManual(SalesSetup."Collateral Register No");
                     "No. Series" := '';
                 end;
             end;
@@ -373,7 +373,8 @@ Table 51512 "Loan Collateral Register"
         if "Document No" = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Collateral Register No");
-            NoSeriesmgt.InitSeries(SalesSetup."Collateral Register No", xRec."No. Series", 0D, "Document No", "No. Series");
+            "Document No" := NoSeries.GetNextNo(SalesSetup."Collateral Register No");
+
         end;
 
 
@@ -381,7 +382,7 @@ Table 51512 "Loan Collateral Register"
     end;
 
     var
-        NoSeriesmgt: Codeunit NoSeriesManagement;
+        NoSeries: Codeunit "No. Series";
         SalesSetup: Record "Sacco No. Series";
         Cust: Record Customer;
         ObjFAPostingGroup: Record "FA Posting Group";

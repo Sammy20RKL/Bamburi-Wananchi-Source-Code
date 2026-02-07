@@ -11,7 +11,7 @@ table 50138 "Membership Exist"
             begin
                 if "No." <> xRec."No." then begin
                     SalesSetup.Get;
-                    NoSeriesMgt.TestManual(SalesSetup."Closure  Nos");
+                    NoSeries.TestManual(SalesSetup."Closure  Nos");
                     "No. Series" := '';
                 end;
             end;
@@ -63,7 +63,7 @@ table 50138 "Membership Exist"
                     //.......................
                     "Total Loans FOSA" := LoanTotalFOSA;
                     "Total Oustanding Int FOSA" := IntTotalFOSA;
-                    "Total Lesses" := "Total Loan" + "Total Interest";
+                    "Total Lesses" := "Total Loan" + "Total Interest" + "Ledger Fee";
                     "Net Payable to the Member" := "Total Adds" - "Total Lesses";
                 end;
             end;
@@ -101,8 +101,8 @@ table 50138 "Membership Exist"
         }
         field(12; "Mode Of Disbursement"; Option)
         {
-            OptionCaption = 'FOSA Account/Vendor,Cheque';
-            OptionMembers = "Vendor","Cheque";
+            OptionCaption = 'G/L Account,Customer,Vendor,Bank Account,Fixed Asset,IC Partner,Employee,Member,Investor';
+            OptionMembers = "G/L Account",Customer,Vendor,"Bank Account","Fixed Asset","IC Partner",Employee,Member,Investor;
         }
         // field(13; "Paying Bank"; Code[20])
         // {
@@ -114,6 +114,7 @@ table 50138 "Membership Exist"
         //             if "Paying Bank" = '' then
         //                 Error('You Must Specify the Paying bank');
         //         end;
+
         //     end;
         // }
         field(14; "Cheque No."; Code[20])
@@ -204,7 +205,7 @@ table 50138 "Membership Exist"
         field(34; "Share Capital"; Decimal)
         {
             // CalcFormula = - sum("Cust. Ledger Entry"."Amount Posted" where("Customer No." = field("Member No."),
-            //                                                        "Transaction Type" = const("Shares Capital"),
+            //                                                        "Transaction Type" = const("Share Capital"),
             //                                                        Reversed = const(false)));
             // Editable = false;
             // FieldClass = FlowField;
@@ -285,7 +286,28 @@ table 50138 "Membership Exist"
         field(52; "Paying Bank"; Code[20])
         {
 #pragma warning disable AL0275
-            TableRelation = "Bank Account"."No.";
+            //TableRelation = "Bank Account"."No.";    Caption = 'Disbursement Account No.';
+            Caption = 'Disbursment Account No.';
+            TableRelation = "G/L Account"."No." WHERE(Blocked = CONST(false)); // Default Relation
+
+            trigger OnValidate()
+            var
+                GLAcc: Record "G/L Account";
+                BankAcc: Record "Bank Account";
+            begin
+                IF "Mode Of Disbursement" = "Mode Of Disbursement"::"G/L Account" then begin
+                    if not GLAcc.Get("Paying Bank") then
+                        Error('The entered G/L Account does not exist.');
+                end
+                ELSE IF "Mode Of Disbursement" = "Mode Of Disbursement"::"Bank Account" then begin
+                    if not BankAcc.Get("Paying Bank") then
+                        Error('The entered Bank Account does not exist.');
+                end;
+            end;
+        }
+        field(53; "Ledger Fee"; Decimal)
+        {
+
         }
     }
 
@@ -306,7 +328,8 @@ table 50138 "Membership Exist"
         if "No." = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Closure  Nos");
-            NoSeriesMgt.InitSeries(SalesSetup."Closure  Nos", xRec."No. Series", 0D, "No.", "No. Series");
+            "No." := NoSeries.GetNextNo(SalesSetup."Closure  Nos");
+
         end;
 
         GenSetup.Get;
@@ -316,7 +339,7 @@ table 50138 "Membership Exist"
 
     var
         SalesSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeries: Codeunit "No. Series";
         Cust: Record Customer;
         Loans: Record "Loans Register";
         MemLed: Record "Cust. Ledger Entry";
@@ -325,7 +348,7 @@ table 50138 "Membership Exist"
         GenSetup: Record "Sacco General Set-Up";
         IntTotalFOSA: Decimal;
         LoanTotalFOSA: Decimal;
-        // SFactory: Codeunit "SURESTEP Factory";
+        // SFactory: Codeunit "SWIZZSFT Factory";
         VarLoanDue: Decimal;
         Closure: Record "Membership Exist";
         ExitingMember: Text;

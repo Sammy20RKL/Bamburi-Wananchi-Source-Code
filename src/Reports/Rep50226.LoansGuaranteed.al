@@ -2,7 +2,7 @@
 Report 50226 "Loans Guaranteed"
 {
     ApplicationArea = all;
-    RDLCLayout = './Layouts/LoansGuaranteed.rdl';
+    RDLCLayout = './Layouts/LoansGuaranteedNew.rdl';
     UsageCategory = ReportsAndAnalysis;
     Caption = 'Loans Guaranteed Report';
 
@@ -24,7 +24,7 @@ Report 50226 "Loans Guaranteed"
             column(Company_Picture; Company.Picture)
             {
             }
-            column(Company_Phone; Company."Phone No.")
+            column(Company_Phone_No; Company."Phone No.")
             {
             }
             column(Company_SMS; Company."Phone No.")
@@ -32,6 +32,14 @@ Report 50226 "Loans Guaranteed"
             }
             column(Company_Email; Company."E-Mail")
             {
+            }
+            column(Company_Fax_No; Company."Fax No.")
+            {
+
+            }
+            column(Company_Address_2; company."Address 2")
+            {
+
             }
 
             column(No_Members; Customer."No.")

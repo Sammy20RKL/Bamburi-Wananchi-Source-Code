@@ -66,8 +66,9 @@ page 50423 "Sacco Employers card"
             {
                 ApplicationArea = Basic;
             }
-            field("Join Date"; Rec."Join Date")
+            field("Join Date2"; Rec."Join Date2")
             {
+                Caption = 'Join Date';
                 ApplicationArea = Basic;
             }
         }

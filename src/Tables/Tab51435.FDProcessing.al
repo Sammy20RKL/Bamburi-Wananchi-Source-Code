@@ -565,7 +565,7 @@ Table 51435 "FD Processing"
         if "Document No." = '' then begin
             ObjSaccoSetup.Get;
             ObjSaccoSetup.TestField(ObjSaccoSetup."Fixed Deposit Placement");
-            NoSeriesMgt.InitSeries(ObjSaccoSetup."Fixed Deposit Placement", xRec."Document No.", 0D, "Document No.", "Fixed Deposit Nos");
+            //  NoSeriesMgt.InitSeries(ObjSaccoSetup."Fixed Deposit Placement", xRec."Document No.", 0D, "Document No.", "Fixed Deposit Nos");
 
 
         end;
@@ -582,7 +582,7 @@ Table 51435 "FD Processing"
         ItemCrossReference: Record "Item Reference";
         RMSetup: Record "Marketing Setup";
         ServiceItem: Record "Service Item";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         MoveEntries: Codeunit MoveEntries;
         UpdateContFromVend: Codeunit "VendCont-Update";
         DimMgt: Codeunit DimensionManagement;

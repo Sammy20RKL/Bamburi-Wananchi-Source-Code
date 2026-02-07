@@ -34,7 +34,7 @@ Table 51002 "Receipt Header"
                 end;
             end;
         }
-        field(14; "Bank Name"; Text[50])
+        field(14; "Bank Name"; Text[250])
         {
             Editable = false;
         }
@@ -283,7 +283,8 @@ Table 51002 "Receipt Header"
         if "No." = '' then begin
             Setup.Get;
             Setup.TestField(Setup."Receipt Nos");
-            NoSeriesMgt.InitSeries(Setup."Receipt Nos", xRec."No. Series", 0D, "No.", "No. Series");
+            "No." := NoSeries.GetNextNo(Setup."Receipt Nos");
+            // NoSeriesMgt.InitSeries(Setup."Receipt Nos", xRec."No. Series", 0D, "No.", "No. Series");
         end;
         "User ID" := UserId;
         Date := Today;
@@ -301,7 +302,7 @@ Table 51002 "Receipt Header"
     end;
 
     var
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeries: Codeunit "No. Series";
         Setup: Record "Funds General Setup";
         BankAcc: Record "Bank Account";
         ok: Boolean;

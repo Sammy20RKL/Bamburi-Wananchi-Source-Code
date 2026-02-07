@@ -33,6 +33,10 @@ page 50322 "Payroll General Setup."
                 {
                     ApplicationArea = Basic;
                 }
+                field("SHIF deduction %"; Rec."SHIF deduction %")
+                {
+                    ApplicationArea = basic;
+                }
             }
             group(NSSF)
             {
@@ -73,6 +77,10 @@ page 50322 "Payroll General Setup."
             }
             group(Mortgage)
             {
+                field("Housing Levy (%)"; Rec."Housing Levy (%)")
+                {
+                    ApplicationArea = Basic;
+                }
             }
             group("Owner Occupier Interest")
             {

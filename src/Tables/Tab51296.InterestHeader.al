@@ -161,7 +161,7 @@ Table 51296 "Interest Header"
         if "No." = '' then begin
             NoSetup.Get();
             NoSetup.TestField(NoSetup."Billing Nos.");
-            NoSeriesMgt.InitSeries(NoSetup."Billing Nos.", xRec."No. Series", 0D, "No.", "No. Series");
+            //  NoSeriesMgt.InitSeries(NoSetup."Billing Nos.", xRec."No. Series", 0D, "No.", "No. Series");
         end;
 
         Cashier := UserId;
@@ -182,7 +182,7 @@ Table 51296 "Interest Header"
     end;
 
     var
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         UserSetup: Record "User Setup";
         NoSetup: Record "Sacco No. Series";
         CUST: Record Customer;

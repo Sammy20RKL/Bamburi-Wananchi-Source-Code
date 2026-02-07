@@ -1313,7 +1313,7 @@ page 50853 "Loan Application MICRO(Approv)"
                 SMSMessage.Source := 'GUARANTORSHIP';
                 SMSMessage."Entered By" := UserId;
                 SMSMessage."Sent To Server" := SMSMessage."sent to server"::No;
-                SMSMessage."SMS Message" := 'Dear Member,You have guaranteed ' + Format(Rec."Client Name")
+                SMSMessage."SMS Message" := 'Dear Member, You have guaranteed ' + Format(Rec."Client Name")
                 + ' ' + Rec."Loan Product Type" + ' of KES. ' + Format(Rec."Approved Amount") + ',' + ' ' + 'Call,' + ' ' + compinfo."Phone No." + ',if in dispute .' + ' ' + compinfo.Name + ' ' + GenSetUp."Customer Care No";
                 Cust.Reset;
                 Cust.SetRange(Cust."No.", Rec."Client Code");
@@ -1710,7 +1710,7 @@ page 50853 "Loan Application MICRO(Approv)"
     local procedure FnBoosterLoansDisbursement(ObjLoanDetails: Record 51371; LineNo: Integer): Code[40]
     var
         GenJournalLine: Record "Gen. Journal Line";
-        CUNoSeriesManagement: Codeunit NoSeriesManagement;
+        CUNoSeriesManagement: Codeunit "No. Series";
         DocNumber: Code[100];
         loanTypes: Record 51381;
         ObjLoanX: Record 51371;

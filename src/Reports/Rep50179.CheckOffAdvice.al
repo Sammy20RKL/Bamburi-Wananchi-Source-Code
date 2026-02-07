@@ -324,20 +324,6 @@ Report 50179 "Check Off Advice"
                             AssetL := AssetL;//
                         until loans.Next = 0;
                     end;
-                    // //quic fee
-                    // loans.Reset;
-                    // loans.SetRange(loans."Client Code", "Members Register"."No.");
-                    // loans.SetRange(loans."Loan Product Type", 'Likizo');
-                    // loans.SetFilter(loans."Outstanding Balance", '>0');
-                    // loans.SetAutocalcFields(loans."Outstanding Balance");
-                    // loans.SetRange(loans.Posted, true);
-                    // if loans.Find('-') then begin
-                    //     repeat
-                    //         Likizo := loans."Loan Principle Repayment" + loans."Loan Interest Repayment";
-                    //         Likizo := Likizo;//
-                    //     until loans.Next = 0;
-                    // end;
-
 
                     MonthlyAdvice := HOUSING + AlphaSavings + Juniorcontribution + DEPOSIT + Likizo + normloan + College + scfee + emmerg + Quick + karibu + AssetL + Makeover + Premium;
 

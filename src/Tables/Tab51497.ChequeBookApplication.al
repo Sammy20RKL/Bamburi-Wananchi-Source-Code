@@ -178,7 +178,7 @@ Table 51497 "Cheque Book Application"
         if "No." = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Cheque Application Nos");
-            Noseriesmgt.InitSeries(SalesSetup."Cheque Application Nos", xRec."No. Series", 0D, "No.", "No. Series");
+            //Noseriesmgt.InitSeries(SalesSetup."Cheque Application Nos", xRec."No. Series", 0D, "No.", "No. Series");
         end;
 
 
@@ -198,7 +198,7 @@ Table 51497 "Cheque Book Application"
 
     var
         Vend: Record Vendor;
-        Noseriesmgt: Codeunit NoSeriesManagement;
+        Noseriesmgt: Codeunit "No. Series";
         SalesSetup: Record "Sacco No. Series";
         acctypes: Record "Account Types-Saving Products";
         LASTNUMBER: Code[60];

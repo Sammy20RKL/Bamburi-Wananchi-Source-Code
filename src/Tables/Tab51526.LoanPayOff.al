@@ -99,13 +99,13 @@ Table 51526 "Loan PayOff"
         if "Document No" = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Loan PayOff Nos");
-            NoSeriesMgt.InitSeries(SalesSetup."Loan PayOff Nos", xRec."No. Series", 0D, "Document No", "No. Series");
+            //NoSeriesMgt.InitSeries(SalesSetup."Loan PayOff Nos", xRec."No. Series", 0D, "Document No", "No. Series");
         end;
     end;
 
     var
         SalesSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         Cust: Record Customer;
 }
 

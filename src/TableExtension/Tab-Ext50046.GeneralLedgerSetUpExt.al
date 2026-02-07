@@ -149,6 +149,10 @@ tableextension 50046 "General Ledger SetUpExt" extends "General Ledger Setup"
         field(50022; "family account bank"; Code[20]) { }
         field(50023; "equity bank acc"; Code[20]) { }
         field(50024; "coop bank acc"; Code[20]) { }
+        field(50025; "Paybill C2b Account"; Code[20])
+        {
+            TableRelation = "Bank Account"."No.";
+        }
         field(54250; "Base No. Series"; Option)
         {
             OptionCaption = ' ,Responsibility Center,Shortcut Dimension 1,Shortcut Dimension 2,Shortcut Dimension 3,Shortcut Dimension 4';
@@ -280,20 +284,20 @@ tableextension 50046 "General Ledger SetUpExt" extends "General Ledger Setup"
               NameOfField);
     end;
 
-    local procedure DeleteIntrastatJnl()
-    var
-        IntrastatJnlBatch: Record "Intrastat Jnl. Batch";
-        IntrastatJnlLine: Record "Intrastat Jnl. Line";
-    begin
-        IntrastatJnlBatch.SetRange(Reported, false);
-        IntrastatJnlBatch.SetRange("Amounts in Add. Currency", true);
-        if IntrastatJnlBatch.Find('-') then
-            repeat
-                IntrastatJnlLine.SetRange("Journal Template Name", IntrastatJnlBatch."Journal Template Name");
-                IntrastatJnlLine.SetRange("Journal Batch Name", IntrastatJnlBatch.Name);
-                IntrastatJnlLine.DeleteAll;
-            until IntrastatJnlBatch.Next = 0;
-    end;
+    // local procedure DeleteIntrastatJnl()
+    // var
+    //     IntrastatJnlBatch: Record "Intrastat Jnl. Batch";
+    //     IntrastatJnlLine: Record "Intrastat Jnl. Line";
+    // begin
+    //     IntrastatJnlBatch.SetRange(Reported, false);
+    //     IntrastatJnlBatch.SetRange("Amounts in Add. Currency", true);
+    //     if IntrastatJnlBatch.Find('-') then
+    //         repeat
+    //             IntrastatJnlLine.SetRange("Journal Template Name", IntrastatJnlBatch."Journal Template Name");
+    //             IntrastatJnlLine.SetRange("Journal Batch Name", IntrastatJnlBatch.Name);
+    //             IntrastatJnlLine.DeleteAll;
+    //         until IntrastatJnlBatch.Next = 0;
+    // end;
 
     local procedure DeleteAnalysisView()
     begin

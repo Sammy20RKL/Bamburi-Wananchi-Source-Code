@@ -73,7 +73,7 @@ Table 51247 "HR Rewards Header"
         if "No." = '' then begin
             HRSetup.Get;
             HRSetup.TestField(HRSetup."Company Documents");
-            NoSeriesMgt.InitSeries(HRSetup."Company Documents", xRec."No Series", 0D, "No.", "No Series");
+            //NoSeriesMgt.InitSeries(HRSetup."Company Documents", xRec."No Series", 0D, "No.", "No Series");
         end;
         "User ID" := UserId;
     end;
@@ -85,7 +85,7 @@ Table 51247 "HR Rewards Header"
 
     var
         HRSetup: Record "HR Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        // NoSeriesMgt: Codeunit NoSeriesManagement;
         HREmployee: Record "HR Employees";
 }
 

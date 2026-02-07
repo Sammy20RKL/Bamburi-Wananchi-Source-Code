@@ -26,7 +26,7 @@ Report 51005 "RETURN ON INVESTMENT"
             column(name; Company.Name)
             {
             }
-            column(CoreCapital; CoreCapital)
+            column(CoreCapital; CoreCapitalOld)
             {
             }
             column(TotalAssets; TotalAssets)
@@ -128,6 +128,7 @@ Report 51005 "RETURN ON INVESTMENT"
                             CoreCapitalOld += GLEntry.Amount * -1;
                         end
                     until GLAccount.Next = 0;
+                    //Message('Corecapital is %1', CoreCapitalOld);
 
                 end;
                 GLAccount.Reset;
@@ -141,7 +142,6 @@ Report 51005 "RETURN ON INVESTMENT"
                             GLEntry.CalcSums(Amount);
                             NetSurplusaftertax += (GLEntry.Amount * 50 / 100) * -1;
                         end;
-
                     until GLAccount.Next = 0;
 
                 end;
@@ -197,7 +197,7 @@ Report 51005 "RETURN ON INVESTMENT"
                 //TotalAssets
                 TotalAssets := 0;
                 GLAccount.Reset;
-                GLAccount.SetRange(GLAccount."No.", '14300');
+                GLAccount.SetRange(GLAccount."No.", '199999');//14300
                 GLAccount.SetFilter(GLAccount."Date Filter", '<=%1', AsAt);
                 if GLAccount.FindSet then begin
                     GLAccount.CalcFields(GLAccount."Net Change");
@@ -301,19 +301,19 @@ Report 51005 "RETURN ON INVESTMENT"
 
                 Excessdeficiency3 := LandBuildingstoAssetsRatio - MaxLandBuildingtoAssetrequirementNew;
                 if (FinancialAssets > 0) and (CoreCapital > 0) then
-                    FinancialinvestmentstoCorecapital := FinancialAssets / CoreCapital;
+                    FinancialinvestmentstoCorecapital := FinancialAssets / CoreCapitalOld;
                 MaximumfinancialinvestmentstoCorecapital := 0.4;
                 ExcessCoreCapital := FinancialinvestmentstoCorecapital - MaximumfinancialinvestmentstoCorecapital;
                 if (Equityinvestment > 0) and (CoreCapital > 0) then
-                    EquityinvestmentstoCoreCapitalRatio := Equityinvestment / CoreCapital;
+                    EquityinvestmentstoCoreCapitalRatio := Equityinvestment / CoreCapitalOld;
                 MaxfinancialinvestmentstoTotalDepositsliablitiesRatio := 0.2;
                 ExcessEquity := EquityinvestmentstoCoreCapitalRatio - MaxfinancialinvestmentstoTotalDepositsliablitiesRatio;
                 if (SubsidiaryandRelated > 0) and (CoreCapital > 0) then
-                    SubsidiaryrelatedentityinvestmenttoCoreCapitalRatio := SubsidiaryandRelated / CoreCapital;
+                    SubsidiaryrelatedentityinvestmenttoCoreCapitalRatio := SubsidiaryandRelated / CoreCapitalOld;
                 MaximumSubsidiaryinvestmenttoTotalassetsRatio := 0.5;
                 ExcessSubsidiary := SubsidiaryrelatedentityinvestmenttoCoreCapitalRatio - MaximumSubsidiaryinvestmenttoTotalassetsRatio;
                 if (SubsidiaryandRelated > 0) and (CoreCapital > 0) then
-                    OtherinvestmentstoCoreCapitalRatio := Otherinvestments / CoreCapital;
+                    OtherinvestmentstoCoreCapitalRatio := Otherinvestments / CoreCapitalOld;
                 MaximumOtherinvestmentstoCoreCapital := 0.3;
                 ExcessOtherInvestment := OtherinvestmentstoCoreCapitalRatio - MaximumOtherinvestmentstoCoreCapital;
                 //MESSAGE('%1|%2|%3',Equityinvestment,CoreCapital,EquityinvestmentstoCoreCapitalRatio);

@@ -66,6 +66,6 @@ Table 51972 Feedback
     var
         Feedback: Record Feedback;
         SaccoNoSeries: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
 }
 

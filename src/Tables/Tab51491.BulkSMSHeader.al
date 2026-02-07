@@ -75,7 +75,7 @@ Table 51491 "Bulk SMS Header"
         if No = '' then begin
             NoSetup.Get;
             NoSetup.TestField(NoSetup."SMS Request Series");
-            NoSeriesMgt.InitSeries(NoSetup."SMS Request Series", xRec."No. Series", 0D, No, "No. Series");
+            // NoSeriesMgt.InitSeries(NoSetup."SMS Request Series", xRec."No. Series", 0D, No, "No. Series");
         end;
 
         "Date Entered" := Today;
@@ -85,6 +85,6 @@ Table 51491 "Bulk SMS Header"
 
     var
         NoSetup: Record "Sacco No. Series";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+    // NoSeriesMgt: Codeunit NoSeriesManagement;
 }
 

@@ -54,6 +54,7 @@ Page 56032 "Loan Products Setup List"
                 {
                     ApplicationArea = Basic;
                 }
+                field("Total Loan Book"; Rec."Total Loan Book") { ApplicationArea = Basic; }
                 field("No of Installment"; Rec."No of Installment")
                 {
                     ApplicationArea = Basic;

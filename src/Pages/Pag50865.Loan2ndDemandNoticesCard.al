@@ -151,7 +151,7 @@ page 50865 "Loan 2nd  Demand Notices Card"
                             ObjLoans.Reset;
                             ObjLoans.SetRange(ObjLoans."Loan  No.", Rec."Loan In Default");
                             if ObjLoans.FindSet then begin
-                                Report.Run(51516925, true, true, ObjLoans);
+                                Report.Run(50053, true, true, ObjLoans);
                             end;
                         end;
 
@@ -256,9 +256,9 @@ page 50865 "Loan 2nd  Demand Notices Card"
                                 SMSMessage.Source := 'LOAN DEF2';
                                 SMSMessage."Entered By" := UserId;
                                 SMSMessage."Sent To Server" := SMSMessage."sent to server"::No;
-                                SMSMessage."SMS Message" := 'Dear ' + LoanGuar.Name + ' This is to notify you that '
+                                SMSMessage."SMS Message" := 'Dear ' + LoanGuar.Name + '. This is to notify you that '
                                 + Rec."Member Name" + ' has defaulted a loan you had guaranteed of KSHs.' + Format(Rec."Loan Issued") +
-                                                          ' which you guarantee Ksh.' + Format(LoanGuar."Original Amount") + ',of your Deposit at POLYTECH SACCO LTD. ';
+                                                          ' which you guaranteed Ksh.' + Format(LoanGuar."Original Amount") + ',of your Deposit at POLYTECH SACCO LTD. ';
                                 cust.Reset;
                                 cust.SetRange(cust."No.", LoanGuar."Member No");
                                 if cust.Find('-') then begin
@@ -301,7 +301,7 @@ page 50865 "Loan 2nd  Demand Notices Card"
                         ObjLoans.Reset;
                         ObjLoans.SetRange(ObjLoans."Loan  No.", Rec."Loan In Default");
                         if ObjLoans.FindSet then begin
-                            Report.Run(51516915, true, true, ObjLoans);
+                            Report.Run(50054, true, true, ObjLoans);
                         end;
                         //   END;
                         // //
@@ -365,7 +365,7 @@ page 50865 "Loan 2nd  Demand Notices Card"
                         ObjLoans.Reset;
                         ObjLoans.SetRange(ObjLoans."Loan  No.", Rec."Loan In Default");
                         if ObjLoans.FindSet then begin
-                            Report.Run(51516916, true, true, ObjLoans);
+                            Report.Run(50055, true, true, ObjLoans);
                         end;
                     end;
                 }

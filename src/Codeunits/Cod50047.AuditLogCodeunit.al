@@ -108,7 +108,9 @@ codeunit 50047 "Audit Log Codeunit"
                                 //Insert Logout log
                                 AuditLog.Init();
                                 AuditLog.LockTable(true);
-                                AuditLog."Entry No" := LastEntryNo + 1;
+                                AuditLog."Entry No" := GetMaxEntryNo() + 1;
+
+                                //AuditLog."Entry No" := LastEntryNo + 1;
                                 AuditLog."User ID" := UserId;
                                 AuditLog."Session Type" := AuditLog."Session Type"::Insert;
                                 AuditLog."Event Date/Time" := CurrentDateTime;
@@ -119,7 +121,7 @@ codeunit 50047 "Audit Log Codeunit"
                                 AuditLog."Transaction Date" := Today;
                                 AuditLog."Account Type ID" := GenJournalLine."Account Type";
                                 AuditLog."Transaction Time" := Time;
-                                AuditLog."Authorized By" := SurestepFactory.FnGetDocumentApprover(GenJournalLine."Document No.");
+                                AuditLog."Authorized By" := SwizzsoftFactory.FnGetDocumentApprover(GenJournalLine."Document No.");
                                 if GenJournalLine.Amount < 0 then begin
                                     AuditLog."Transaction Type" := AuditLog."Transaction Type"::Credit;
                                     AuditLog."Transaction Amount" := (GenJournalLine.Amount) * -1;
@@ -128,7 +130,7 @@ codeunit 50047 "Audit Log Codeunit"
                                         AuditLog."Transaction Type" := AuditLog."Transaction Type"::Debit;
                                         AuditLog."Transaction Amount" := (GenJournalLine.Amount);
                                     end;
-                                AuditLog."Transacting Branch ID" := SurestepFactory.FnGetUserBranch();
+                                AuditLog."Transacting Branch ID" := SwizzsoftFactory.FnGetUserBranch();
                                 SessionTracker.Reset();
                                 SessionTracker.SetRange(SessionTracker."User ID", AuditLog."User ID");
                                 if SessionTracker.FindLast() then begin
@@ -148,7 +150,9 @@ codeunit 50047 "Audit Log Codeunit"
                                 //Insert Logout log
                                 AuditLog.Init();
                                 AuditLog.LockTable(true);
-                                AuditLog."Entry No" := LastEntryNo + 1;
+                                AuditLog."Entry No" := GetMaxEntryNo() + 1;
+
+                                //AuditLog."Entry No" := LastEntryNo + 1;
                                 AuditLog."User ID" := UserId;
                                 AuditLog."Session Type" := AuditLog."Session Type"::Insert;
                                 AuditLog."Event Date/Time" := CurrentDateTime;
@@ -159,7 +163,7 @@ codeunit 50047 "Audit Log Codeunit"
                                 AuditLog."Transaction Date" := Today;
                                 AuditLog."Account Type ID" := GenJournalLine."Account Type";
                                 AuditLog."Transaction Time" := Time;
-                                AuditLog."Authorized By" := SurestepFactory.FnGetDocumentApprover(GenJournalLine."Document No.");
+                                AuditLog."Authorized By" := SwizzsoftFactory.FnGetDocumentApprover(GenJournalLine."Document No.");
                                 if GenJournalLine.Amount < 0 then begin
                                     AuditLog."Transaction Type" := AuditLog."Transaction Type"::Credit;
                                     AuditLog."Transaction Amount" := (GenJournalLine.Amount) * -1;
@@ -168,7 +172,7 @@ codeunit 50047 "Audit Log Codeunit"
                                         AuditLog."Transaction Type" := AuditLog."Transaction Type"::Debit;
                                         AuditLog."Transaction Amount" := (GenJournalLine.Amount);
                                     end;
-                                AuditLog."Transacting Branch ID" := SurestepFactory.FnGetUserBranch();
+                                AuditLog."Transacting Branch ID" := SwizzsoftFactory.FnGetUserBranch();
                                 SessionTracker.Reset();
                                 SessionTracker.SetRange(SessionTracker."User ID", AuditLog."User ID");
                                 if SessionTracker.FindLast() then begin
@@ -189,7 +193,9 @@ codeunit 50047 "Audit Log Codeunit"
                                 //Insert Logout log
                                 AuditLog.Init();
                                 AuditLog.LockTable(true);
-                                AuditLog."Entry No" := LastEntryNo + 1;
+                                AuditLog."Entry No" := GetMaxEntryNo() + 1;
+
+                                //AuditLog."Entry No" := LastEntryNo + 1;
                                 AuditLog."User ID" := UserId;
                                 AuditLog."Session Type" := AuditLog."Session Type"::Insert;
                                 AuditLog."Event Date/Time" := CurrentDateTime;
@@ -200,7 +206,7 @@ codeunit 50047 "Audit Log Codeunit"
                                 AuditLog."Transaction Date" := Today;
                                 AuditLog."Account Type ID" := GenJournalLine."Account Type";
                                 AuditLog."Transaction Time" := Time;
-                                AuditLog."Authorized By" := SurestepFactory.FnGetDocumentApprover(GenJournalLine."Document No.");
+                                AuditLog."Authorized By" := SwizzsoftFactory.FnGetDocumentApprover(GenJournalLine."Document No.");
                                 if GenJournalLine.Amount < 0 then begin
                                     AuditLog."Transaction Type" := AuditLog."Transaction Type"::Credit;
                                     AuditLog."Transaction Amount" := (GenJournalLine.Amount) * -1;
@@ -209,7 +215,7 @@ codeunit 50047 "Audit Log Codeunit"
                                         AuditLog."Transaction Type" := AuditLog."Transaction Type"::Debit;
                                         AuditLog."Transaction Amount" := (GenJournalLine.Amount);
                                     end;
-                                AuditLog."Transacting Branch ID" := SurestepFactory.FnGetUserBranch();
+                                AuditLog."Transacting Branch ID" := SwizzsoftFactory.FnGetUserBranch();
                                 SessionTracker.Reset();
                                 SessionTracker.SetRange(SessionTracker."User ID", AuditLog."User ID");
                                 if SessionTracker.FindLast() then begin
@@ -230,7 +236,9 @@ codeunit 50047 "Audit Log Codeunit"
                                 //Insert Logout log
                                 AuditLog.Init();
                                 AuditLog.LockTable(true);
-                                AuditLog."Entry No" := LastEntryNo + 1;
+                                AuditLog."Entry No" := GetMaxEntryNo() + 1;
+
+                                //AuditLog."Entry No" := LastEntryNo + 1;
                                 AuditLog."User ID" := UserId;
                                 AuditLog."Session Type" := AuditLog."Session Type"::Insert;
                                 AuditLog."Event Date/Time" := CurrentDateTime;
@@ -241,7 +249,7 @@ codeunit 50047 "Audit Log Codeunit"
                                 AuditLog."Transaction Date" := Today;
                                 AuditLog."Account Type ID" := GenJournalLine."Account Type";
                                 AuditLog."Transaction Time" := Time;
-                                AuditLog."Authorized By" := SurestepFactory.FnGetDocumentApprover(GenJournalLine."Document No.");
+                                AuditLog."Authorized By" := SwizzsoftFactory.FnGetDocumentApprover(GenJournalLine."Document No.");
                                 if GenJournalLine.Amount < 0 then begin
                                     AuditLog."Transaction Type" := AuditLog."Transaction Type"::Credit;
                                     AuditLog."Transaction Amount" := (GenJournalLine.Amount) * -1;
@@ -250,7 +258,7 @@ codeunit 50047 "Audit Log Codeunit"
                                         AuditLog."Transaction Type" := AuditLog."Transaction Type"::Debit;
                                         AuditLog."Transaction Amount" := (GenJournalLine.Amount);
                                     end;
-                                AuditLog."Transacting Branch ID" := SurestepFactory.FnGetUserBranch();
+                                AuditLog."Transacting Branch ID" := SwizzsoftFactory.FnGetUserBranch();
                                 SessionTracker.Reset();
                                 SessionTracker.SetRange(SessionTracker."User ID", AuditLog."User ID");
                                 if SessionTracker.FindLast() then begin
@@ -283,14 +291,16 @@ codeunit 50047 "Audit Log Codeunit"
                 //Insert Logout log
                 AuditLog.Init();
                 AuditLog.LockTable(true);
-                AuditLog."Entry No" := LastEntryNo + 1;
+                AuditLog."Entry No" := GetMaxEntryNo() + 1;
+
+                //AuditLog."Entry No" := LastEntryNo + 1;
                 AuditLog."User ID" := AccountLoggedIn;
                 AuditLog."Session Type" := AuditLog."Session Type"::Read;
                 AuditLog."Page Viewed" := CopyStr(PageViewed, 1, 2048);
                 AuditLog."Event Date/Time" := CurrentDateTime;
                 AuditLog."Transaction Date" := Today;
                 AuditLog."Transaction Time" := Time;
-                AuditLog."Transacting Branch ID" := SurestepFactory.FnGetAccountUserBranch(UserId);
+                AuditLog."Transacting Branch ID" := SwizzsoftFactory.FnGetAccountUserBranch(UserId);
                 SessionTracker.Reset();
                 SessionTracker.SetRange(SessionTracker."User ID", AccountLoggedIn);
                 if SessionTracker.FindLast() then begin
@@ -320,14 +330,15 @@ codeunit 50047 "Audit Log Codeunit"
                 //Insert Logout log
                 AuditLog.Init();
                 AuditLog.LockTable(true);
-                AuditLog."Entry No" := LastEntryNo + 1;
+                AuditLog."Entry No" := GetMaxEntryNo() + 1;
+                //AuditLog."Entry No" := LastEntryNo + 1
                 AuditLog."User ID" := AccountLoggedIn;
                 AuditLog."Session Type" := AuditLog."Session Type"::Modify;
                 AuditLog."Page Viewed" := CopyStr(PageViewed, 1, 2048);
                 AuditLog."Event Date/Time" := CurrentDateTime;
                 AuditLog."Transaction Date" := Today;
                 AuditLog."Transaction Time" := Time;
-                AuditLog."Transacting Branch ID" := SurestepFactory.FnGetAccountUserBranch(UserId);
+                AuditLog."Transacting Branch ID" := SwizzsoftFactory.FnGetAccountUserBranch(UserId);
                 SessionTracker.Reset();
                 SessionTracker.SetRange(SessionTracker."User ID", AccountLoggedIn);
                 if SessionTracker.FindLast() then begin
@@ -342,9 +353,20 @@ codeunit 50047 "Audit Log Codeunit"
 
     end;
 
+    procedure GetMaxEntryNo(): Integer
+    var
+        AuditLog: Record "System Log Trails";
+        MaxEntryNo: Integer;
+    begin
+        if AuditLog.FindLast() then
+            MaxEntryNo := AuditLog."Entry No";
+        exit(MaxEntryNo);
+    end;
+
+
     var
         AuditLog: Record "System Log Trails";
         SessionTracker: record "Active Session";
         UserSetUp: Record "User Setup";
-        SurestepFactory: Codeunit "SURESTEP Factory";
+        SwizzsoftFactory: Codeunit "SWIZZSFT Factory";
 }
