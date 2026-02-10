@@ -2,7 +2,7 @@
 Page 56451 "Loan Reschedule list"
 {
     CardPageID = "Loan Reschedulin card";
-    Caption = 'Loan Rescheduling Card';
+    Caption = 'Loan Rescheduling List';
     PageType = List;
     SourceTable = "Loan Rescheduling";
 

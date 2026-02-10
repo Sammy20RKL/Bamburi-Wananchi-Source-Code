@@ -8,6 +8,7 @@ Page 57309 "Loans Rescheduled Card"
     SourceTableView = where(Posted = filter(true),
                             Rescheduled = filter(true),
                             "Loan Status" = const(Issued),
+                            "Loan Status" = const(Approved),
                             "Outstanding Balance" = filter(> 0));
 
     layout

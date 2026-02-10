@@ -102,11 +102,12 @@ Page 56031 "Loans Posted Card"
                 field(Installments; Rec.Installments)
                 {
                     ApplicationArea = Basic;
-                    Editable = InstallmentEditable;
+                    Editable = true;// InstallmentEditable;
 
                     trigger OnValidate()
                     begin
-                        Rec.TestField(Posted, false);
+
+                        //  Rec.TestField(Posted, false);
                     end;
                 }
                 field("Approved Repayment"; Rec."Approved Repayment")
@@ -435,22 +436,20 @@ Page 56031 "Loans Posted Card"
                     Promoted = true;
                     PromotedCategory = "process";
                     ShortCutKey = 'Ctrl+F7';
-
                     trigger OnAction()
+                    var
+                        LoanApp: Record "Loans Register";
                     begin
                         if Rec.Posted then
                             SFactory.FnGenerateRepaymentSchedule(Rec."Loan  No.");
 
-                        LoanApp.Reset;
-                        LoanApp.SetRange(LoanApp."Loan  No.", Rec."Loan  No.");
-                        if LoanApp.Find('-') then begin
-                            Report.Run(50477, true, false, LoanApp);
-                        end;
+                        LoanApp.Reset();
+                        LoanApp.SetRange("Loan  No.", Rec."Loan  No.");
+
+                        // Run without request page - filter is applied automatically
+                        Report.Run(50477, true, false, LoanApp);
                     end;
-
                 }
-
-
                 separator(Action1102755012)
                 {
                 }

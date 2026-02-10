@@ -139,28 +139,22 @@ Codeunit 50009 "Swizzsoft Factory"
                         // TotalMRepay := (InterestRate / 12 / 100) / (1 - Power((1 + (InterestRate / 12 / 100)), -RepayPeriod)) * LoanAmount;
                         // LInterest := ROUND(LBalance / 100 / 12 * InterestRate);
                         // LPrincipal := TotalMRepay - LInterest;
-                    end;
-
-                    if LoansRec."Repayment Method" = LoansRec."repayment method"::"Straight Line" then begin
+                    end else if LoansRec."Repayment Method" = LoansRec."repayment method"::"Straight Line" then begin
                         LoansRec.TestField(LoansRec.Interest);
                         LoansRec.TestField(LoansRec.Installments);
                         LPrincipal := LoanAmount / RepayPeriod;
                         LInterest := (InterestRate / 12 / 100) * LoanAmount;// / RepayPeriod;
-                    end;
-
-                    if LoansRec."Repayment Method" = LoansRec."repayment method"::"Reducing Balance" then begin
+                    end else if LoansRec."Repayment Method" = LoansRec."repayment method"::"Reducing Balance" then begin
                         LoansRec.TestField(LoansRec.Interest);
                         LoansRec.TestField(LoansRec.Installments);
                         LPrincipal := LoanAmount / RepayPeriod;
                         LInterest := (InterestRate / 12 / 100) * LBalance;
-                    end;
+                    end else begin
+                        LoansRec.TestField(LoansRec.Interest);
+                        LoansRec.TestField(LoansRec.Installments);
+                        LPrincipal := LoanAmount / RepayPeriod;
+                        LInterest := (InterestRate / 12 / 100) * LoanAmount;// / RepayPeriod;
 
-                    if LoansRec."Repayment Method" = LoansRec."repayment method"::Constants then begin
-
-                        LoansRec.TestField(LoansRec.Repayment);
-
-                        LPrincipal := LoansRec.Repayment;
-                        LInterest := Round((LoansRec."Loan Interest Repayment") / LoansRec.Installments, 0.0001, '>');
                     end;
 
                     //Grace Period
@@ -193,6 +187,7 @@ Codeunit 50009 "Swizzsoft Factory"
                     RSchedule.Insert;
                     WhichDay := Date2dwy(RSchedule."Repayment Date", 1);
                 until LBalance < 1;
+
             end;
         end;
 

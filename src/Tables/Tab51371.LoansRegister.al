@@ -359,8 +359,11 @@ Table 51371 "Loans Register"
                 if Cust.FindSet then begin
                     if Cust.Status <> Cust.Status::Active then begin
                         Error('Only Active Members can apply for Loans');
+
                     end;
+
                 end;
+
                 /*
                 Cust.RESET;
                 Cust.SETRANGE(Cust."No.","Client Code");

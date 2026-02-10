@@ -13,6 +13,7 @@ Page 57308 "Loans Rescheduled List"
                      where(Posted = filter(true),
                      Rescheduled = filter(true),
                             "Loan Status" = const(Issued),
+                            "Loan Status" = const(Approved),
                             "Outstanding Balance" = filter(> 0));
     UsageCategory = Lists;
 

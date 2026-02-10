@@ -1,4 +1,3 @@
-
 page 57006 "Bamburi Checkoff Card"
 {
     DeleteAllowed = false;
@@ -104,15 +103,6 @@ page 57006 "Bamburi Checkoff Card"
         area(processing)
         {
             // 1. Import Checkoff
-            // action(ImportItems)
-            // {
-            //     Caption = 'Import CheckOff';
-            //     Promoted = true;
-            //     PromotedCategory = Process;
-            //     Image = Import;
-            //     ApplicationArea = All;
-
-            //     RunObject = xmlport "Bamburi Checkoff Import";
             action(ImportItems)
             {
                 Caption = 'Import CheckOff';
@@ -133,7 +123,7 @@ page 57006 "Bamburi Checkoff Card"
                     CurrPage.Update(false);
                 end;
             }
-            // }        
+
             // 2. Validate Receipts
             action("Validate Receipts")
             {
@@ -166,6 +156,31 @@ page 57006 "Bamburi Checkoff Card"
                     Message('Successfully validated');
                 end;
             }
+
+            // NEW ACTION: Auto-Distribute Loans
+            action("Distribute Total Loans")
+            {
+                Caption = 'Distribute Total Loans';
+                Promoted = true;
+                PromotedCategory = Process;
+                Image = Allocate;
+                ApplicationArea = All;
+                ToolTip = 'Automatically distribute the Total Loans amount across individual loan types based on member''s active loans and repayment schedules';
+
+                trigger OnAction()
+                var
+                    LoanDistribution: Codeunit "Bamburi Loan Distribution";
+                begin
+                    if Rec."Loan CutOff Date" = 0D then
+                        Error('Please specify the Loan CutOff Date before distributing loans.');
+
+                    if Confirm('This will automatically distribute Total Loans Amount across individual loan Product Type fields for all members. Continue?', true) then begin
+                        LoanDistribution.ProcessAllCheckoffLines(Rec.No, Rec."Loan CutOff Date");
+                        CurrPage.Update(true);
+                    end;
+                end;
+            }
+
             // 3. Refresh Page
             action(RefreshPage)
             {
@@ -187,6 +202,7 @@ page 57006 "Bamburi Checkoff Card"
                     Message('Page refreshed and data updated.');
                 end;
             }
+
             // 4. Post Checkoff
             action("Post check off")
             {
@@ -195,7 +211,6 @@ page 57006 "Bamburi Checkoff Card"
                 Image = Post;
                 Promoted = true;
                 PromotedCategory = Process;
-                // PromotedIsBig = true;
 
                 trigger OnAction()
                 var
@@ -222,10 +237,9 @@ page 57006 "Bamburi Checkoff Card"
                     Datefilter := '..' + Format(Rec."Loan CutOff Date");
                     IssueDate := Rec."Loan CutOff Date";
                     //General Journals
-                    // if FundsUSer.Get(UserId) then begin
                     Jtemplate := 'GENERAL';
                     Jbatch := 'CHECKOFF';
-                    // end;
+
                     //Delete journal
                     Gnljnline.Reset();
                     Gnljnline.SetRange("Journal Template Name", Jtemplate);
@@ -234,7 +248,6 @@ page 57006 "Bamburi Checkoff Card"
                         Gnljnline.DeleteAll;
                     end;
 
-                    // Rec.CalcFields("Scheduled Amount");
                     if Rec."Scheduled Amount" <> Rec.Amount then begin
                         ERROR('Scheduled Amount Is Not Equal To Cheque Amount');
                     end;
@@ -245,22 +258,21 @@ page 57006 "Bamburi Checkoff Card"
                     Gnljnline."Journal Template Name" := Jtemplate;
                     Gnljnline."Journal Batch Name" := Jbatch;
                     Gnljnline."Line No." := LineN;
-                    Gnljnline."Account Type" := Rec."Account Type";//Gnljnline."Account Type"::"Bank Account";// Rec."Account Type";
+                    Gnljnline."Account Type" := Gnljnline."Account Type"::"Bank Account";
                     Gnljnline."Account No." := Rec."Account No";
                     Gnljnline.Validate(Gnljnline."Account No.");
+                    // Gnljnline."Document Type" := Gnljnline."Document Type"::Invoice;
                     Gnljnline."Document No." := Rec."Document No";
                     Gnljnline."Posting Date" := Rec."Posting date";
                     Gnljnline.Description := 'CHECKOFF ' + Rec.Remarks;
-                    Gnljnline.Amount := (Rec."Scheduled Amount");//Minus welfare amount
+                    Gnljnline.Amount := (Rec."Scheduled Amount");
                     Gnljnline.Validate(Gnljnline.Amount);
                     Gnljnline."Shortcut Dimension 1 Code" := 'BOSA';
-                    Gnljnline."Shortcut Dimension 2 Code" := 'NAIROBI';
+                    Gnljnline."Shortcut Dimension 2 Code" := 'BWS';
                     Gnljnline.Validate(Gnljnline."Shortcut Dimension 1 Code");
                     Gnljnline.Validate(Gnljnline."Shortcut Dimension 2 Code");
                     if Gnljnline.Amount <> 0 then
                         Gnljnline.Insert(true);
-                    //End Of control
-
 
                     RcptBufLines.Reset;
                     RcptBufLines.SetRange(RcptBufLines."Receipt Header No", Rec.No);
@@ -340,7 +352,6 @@ page 57006 "Bamburi Checkoff Card"
                             FnPostLoansBal();
 
                             // Process Welfare.... Festus
-                            // ################KINDLY NOTE - WELFARE BALANCES ITSELF----
                             if RcptBufLines."Welfare Contribution" > 0 then begin
                                 welfareProcessing.fnPostWelfare(RcptBufLines."Member No",
                                                                 Jtemplate, Jbatch,
@@ -348,7 +359,7 @@ page 57006 "Bamburi Checkoff Card"
                                                                 Rec."Document No",
                                                                 Rec."Posting date",
                                                                 320,
-                                                                Rec."Account Type",
+                                                                Rec."Account Type"::"Bank Account",
                                                                 Rec."Account No"
                                                             );
 
@@ -367,10 +378,9 @@ page 57006 "Bamburi Checkoff Card"
                         Page.Run(page::"General Journal", Gnljnline);
                         Message('CheckOff Successfully Generated');
                     end;
-
-
                 end;
             }
+
             // 5. Mark as Posted
             action("Processed Checkoff")
             {
@@ -397,6 +407,7 @@ page 57006 "Bamburi Checkoff Card"
     begin
         Rec."Posting date" := Today;
         Rec."Date Entered" := Today;
+        Rec."Account Type" := Rec."Account Type"::"Bank Account";
     end;
 
     var
@@ -405,7 +416,6 @@ page 57006 "Bamburi Checkoff Card"
         GenJournalLine: Record "Gen. Journal Line";
         PDate: Date;
         DocNo: Code[20];
-        // RunBal: Decimal;
         emergencyLoanBalance: Decimal;
         KivukioLoanBalance: Decimal;
         NormalLoan1Balance: Decimal;
@@ -421,7 +431,6 @@ page 57006 "Bamburi Checkoff Card"
         merchandiseLoanBalance: Decimal;
         welfarecontributionbalance: Decimal;
         ReceiptsProcessingLines: Record "Bamburi CheckoffLines";
-        // LineNo: Integer;
         LBatches: Record "Loan Disburesment-Batching";
         Jtemplate: Code[30];
         JBatch: Code[30];
@@ -469,18 +478,14 @@ page 57006 "Bamburi Checkoff Card"
         ScheduleRepayment: Decimal;
 
     local procedure FnValidateMembers()
-    var
     begin
         RcptBufLines.Reset;
         RcptBufLines.SetRange(RcptBufLines."Receipt Header No", Rec.No);
         if RcptBufLines.Find('-') then begin
             repeat
-
                 Memb.Reset;
                 Memb.SetRange(Memb."Personal No", RcptBufLines."Staff/Payroll No");
-                //Memb.SETRANGE(Memb."Employer Code",RcptBufLines."Employer Code");
                 if Memb.Find('-') then begin
-
                     RcptBufLines."Member No" := Memb."No.";
                     RcptBufLines.Name := Memb.Name;
                     RcptBufLines."ID No." := Memb."ID No.";
@@ -492,189 +497,159 @@ page 57006 "Bamburi Checkoff Card"
     end;
 
     local procedure FnValidateAmounts()
-    var
     begin
-
     end;
 
     local procedure FnPostLoansBal()
     var
         loanNumber: Code[50];
-    // balance: Decimal;
     begin
-        //Emergency_Loan
-        emergencyLoanBalance := 0;
-        emergencyLoanBalance := RcptBufLines."Emergency Loan Amount";
-        if emergencyLoanBalance > 0 then begin
-
-            loanNumber := fnGetLoanNumber(RcptBufLines, emergencyLoanBalance, Rec."Loan CutOff Date", 'EMER');
-            if loanNumber = '' then begin
-                FnTransferExcessToUnallocatedFunds(RcptBufLines, emergencyLoanBalance, 'Excess Payments for Emergency Loan');
+        // Emergency Loan
+        if RcptBufLines."Emergency Loan Amount" > 0 then begin
+            loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."Emergency Loan Amount", Rec."Loan CutOff Date", 'EMER');
+            if loanNumber <> '' then begin
+                FnPostDistributedLoan(RcptBufLines, loanNumber,
+                    RcptBufLines."Emergency Loan Interest",
+                    RcptBufLines."Emergency Loan  Principle",
+                    'EMER');
             end else begin
-                emergencyLoanBalance := FnPostInterestBal(RcptBufLines, emergencyLoanBalance, Rec."Loan CutOff Date", 'EMER', loanNumber);
-                emergencyLoanBalance := FnPostPrincipleBal(RcptBufLines, emergencyLoanBalance, loanNumber);
-
-                FnTransferExcessToUnallocatedFunds(RcptBufLines, emergencyLoanBalance, 'Excess Payments for Emergency Loan');
-            end;
-        end;
-        //Kivukio_Loan_
-        KivukioloanBalance := 0;
-        KivukioloanBalance := RcptBufLines."Kivukio Loan Amount";
-        if KivukioloanBalance > 0 then begin
-
-            loanNumber := fnGetLoanNumber(RcptBufLines, KivukioloanBalance, Rec."Loan CutOff Date", 'KIVUK');
-            if loanNumber = '' then begin
-                FnTransferExcessToUnallocatedFunds(RcptBufLines, KivukioloanBalance, 'Excess Payments for Kivukio Loan');
-            end else begin
-                KivukioloanBalance := FnPostInterestBal(RcptBufLines, KivukioloanBalance, Rec."Loan CutOff Date", 'KIVUK', loanNumber);
-                KivukioloanBalance := FnPostPrincipleBal(RcptBufLines, KivukioloanBalance, loanNumber);
-
-                FnTransferExcessToUnallocatedFunds(RcptBufLines, KivukioloanBalance, 'Excess Payments for Kivukio Loan');
-            end;
-        end;
-        //Normal_Loan_1
-        NormalLoan1Balance := 0;
-        NormalLoan1Balance := RcptBufLines."Normal Loan 1 Amount";
-        if NormalLoan1Balance > 0 then begin
-
-            loanNumber := fnGetLoanNumber(RcptBufLines, NormalLoan1Balance, Rec."Loan CutOff Date", 'NORM1');
-            if loanNumber = '' then begin
-                FnTransferExcessToUnallocatedFunds(RcptBufLines, NormalLoan1Balance, 'Excess Payments for Normal loan 1');
-            end else begin
-                NormalLoan1Balance := FnPostInterestBal(RcptBufLines, NormalLoan1Balance, Rec."Loan CutOff Date", 'NORM1', loanNumber);
-                NormalLoan1Balance := FnPostPrincipleBal(RcptBufLines, NormalLoan1Balance, loanNumber);
-
-                FnTransferExcessToUnallocatedFunds(RcptBufLines, NormalLoan1Balance, 'Excess Payments for Normal loan 1');
-            end;
-        end;
-        //Mwokozi_Loan
-        MwokoziLoanBalance := 0;
-        MwokoziLoanBalance := RcptBufLines."Mwokozi Loan Amount";
-        if MwokoziLoanBalance > 0 then begin
-
-            loanNumber := fnGetLoanNumber(RcptBufLines, MwokoziLoanBalance, Rec."Loan CutOff Date", 'MWOK');
-            if loanNumber = '' then begin
-                FnTransferExcessToUnallocatedFunds(RcptBufLines, MwokoziLoanBalance, 'Excess Payments for Mwokozi Loan');
-            end else begin
-                MwokoziLoanBalance := FnPostInterestBal(RcptBufLines, MwokoziLoanBalance, Rec."Loan CutOff Date", 'MWOK', loanNumber);
-                MwokoziLoanBalance := FnPostPrincipleBal(RcptBufLines, MwokoziLoanBalance, loanNumber);
-
-                FnTransferExcessToUnallocatedFunds(RcptBufLines, MwokoziLoanBalance, 'Excess Payments for Mwokozi loan');
-            end;
-        end;
-        //School_fees_loan
-        schoolFeesLoanBalance := 0;
-        schoolFeesLoanBalance := RcptBufLines."School Fees Amount";
-        if schoolFeesLoanBalance > 0 then begin
-
-            loanNumber := fnGetLoanNumber(RcptBufLines, schoolFeesLoanBalance, Rec."Loan CutOff Date", 'SCHLOAN');
-            if loanNumber = '' then begin
-                FnTransferExcessToUnallocatedFunds(RcptBufLines, schoolFeesLoanBalance, 'Excess Payments for School Fee loan');
-            end else begin
-                schoolFeesLoanBalance := FnPostInterestBal(RcptBufLines, schoolFeesLoanBalance, Rec."Loan CutOff Date", 'SCHLOAN', loanNumber);
-                schoolFeesLoanBalance := FnPostPrincipleBal(RcptBufLines, schoolFeesLoanBalance, loanNumber);
-
-                FnTransferExcessToUnallocatedFunds(RcptBufLines, schoolFeesLoanBalance, 'Excess Payments for School Fee loan');
-            end;
-        end;
-        //Normal_loan_2
-        NormalLoan2Balance := 0;
-        NormalLoan2Balance := ROUND(RcptBufLines."Normal Loan 2 Amount", 1, '=');
-        if NormalLoan2Balance > 0 then begin
-
-            loanNumber := fnGetLoanNumber(RcptBufLines, NormalLoan2Balance, Rec."Loan CutOff Date", 'NORM2');
-            if loanNumber = '' then begin
-                FnTransferExcessToUnallocatedFunds(RcptBufLines, NormalLoan2Balance, 'Excess Payments for Normal loan 2');
-            end else begin
-                NormalLoan2Balance := FnPostInterestBal(RcptBufLines, NormalLoan2Balance, Rec."Loan CutOff Date", 'NORM2', loanNumber);
-                NormalLoan2Balance := FnPostPrincipleBal(RcptBufLines, NormalLoan2Balance, loanNumber);
-
-                FnTransferExcessToUnallocatedFunds(RcptBufLines, NormalLoan2Balance, 'Excess Payments for Normal loan 2');
-            end;
-        end;
-        //Normal_Loan_3
-        NormalLoan3Balance := 0;
-        NormalLoan3Balance := RcptBufLines."Normal Loan 3 Amount";
-        if NormalLoan3Balance > 0 then begin
-
-            loanNumber := fnGetLoanNumber(RcptBufLines, NormalLoan3Balance, Rec."Loan CutOff Date", 'NORM3');
-            if loanNumber = '' then begin
-                FnTransferExcessToUnallocatedFunds(RcptBufLines, NormalLoan3Balance, 'Excess Payments for Normal loan 3');
-            end else begin
-                NormalLoan3Balance := FnPostInterestBal(RcptBufLines, NormalLoan3Balance, Rec."Loan CutOff Date", 'NORM3', loanNumber);
-                NormalLoan3Balance := FnPostPrincipleBal(RcptBufLines, NormalLoan3Balance, loanNumber);
-
-                FnTransferExcessToUnallocatedFunds(RcptBufLines, NormalLoan3Balance, 'Excess Payments for Normal loan 3');
-            end;
-        end;
-        //Normal_loan_4_
-        normalLoan4Balance := 0;
-        normalLoan4Balance := RcptBufLines."Normal loan 4 Amount";
-        if normalLoan4Balance > 0 then begin
-
-            loanNumber := fnGetLoanNumber(RcptBufLines, normalLoan4Balance, Rec."Loan CutOff Date", 'NORM4');
-            if loanNumber = '' then begin
-                FnTransferExcessToUnallocatedFunds(RcptBufLines, normalLoan4Balance, 'Excess Payments for Normal loan 4');
-            end else begin
-                normalLoan4Balance := FnPostInterestBal(RcptBufLines, normalLoan4Balance, Rec."Loan CutOff Date", 'NORM4', loanNumber);
-                normalLoan4Balance := FnPostPrincipleBal(RcptBufLines, normalLoan4Balance, loanNumber);
-
-                FnTransferExcessToUnallocatedFunds(RcptBufLines, normalLoan4Balance, 'Excess Payments for Normal loan 4');
-            end;
-        end;
-        //HALLO_HALLO_loan_
-        normal21LoanBalance := 0;
-        normal21LoanBalance := RcptBufLines."HALLO HALLO Loan Amount";
-        if normal21LoanBalance > 0 then begin
-
-            loanNumber := fnGetLoanNumber(RcptBufLines, normal21LoanBalance, Rec."Loan CutOff Date", 'HALL');
-            if loanNumber = '' then begin
-                FnTransferExcessToUnallocatedFunds(RcptBufLines, normal21LoanBalance, 'Excess Payments for Hallo Hallo loan');
-            end else begin
-                normal21LoanBalance := FnPostInterestBal(RcptBufLines, normal21LoanBalance, Rec."Loan CutOff Date", 'HALL', loanNumber);
-                normal21LoanBalance := FnPostPrincipleBal(RcptBufLines, normal21LoanBalance, loanNumber);
-
-                FnTransferExcessToUnallocatedFunds(RcptBufLines, normal21LoanBalance, 'Excess Payments for Hallo Hallo loan');
-            end;
-        end;
-        //Instant_loan_
-        InstantLoanBalance := 0;
-        InstantLoanBalance := RcptBufLines."Instant Loan Amount";
-        if InstantLoanBalance > 0 then begin
-
-            loanNumber := fnGetLoanNumber(RcptBufLines, InstantLoanBalance, Rec."Loan CutOff Date", 'INST');
-            if loanNumber = '' then begin
-                FnTransferExcessToUnallocatedFunds(RcptBufLines, InstantLoanBalance, 'Excess Payments for Instant Loan');
-            end else begin
-                InstantLoanBalance := FnPostInterestBal(RcptBufLines, InstantLoanBalance, Rec."Loan CutOff Date", 'INST', loanNumber);
-                InstantLoanBalance := FnPostPrincipleBal(RcptBufLines, InstantLoanBalance, loanNumber);
-
-                FnTransferExcessToUnallocatedFunds(RcptBufLines, InstantLoanBalance, 'Excess Payments for Instant Loan');
+                FnTransferExcessToUnallocatedFunds(RcptBufLines, RcptBufLines."Emergency Loan Amount", 'Excess Payments for Emergency Loan');
             end;
         end;
 
-        //New_Product_Loan
-        NewproductLoanBalance := 0;
-        NewproductLoanBalance := RcptBufLines."New Product Loan Amount";
-        if NewproductLoanBalance > 0 then begin
-
-            loanNumber := fnGetLoanNumber(RcptBufLines, NewproductLoanBalance, Rec."Loan CutOff Date", 'NEWPRO');
-            if loanNumber = '' then begin
-                FnTransferExcessToUnallocatedFunds(RcptBufLines, NewproductLoanBalance, 'Excess Payments for New Product Loan');
+        // Kivukio Loan
+        if RcptBufLines."Kivukio Loan Amount" > 0 then begin
+            loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."Kivukio Loan Amount", Rec."Loan CutOff Date", 'KIVUK');
+            if loanNumber <> '' then begin
+                FnPostDistributedLoan(RcptBufLines, loanNumber,
+                    RcptBufLines."Kivukio Loan Interest",
+                    RcptBufLines."Kivukio Loan Principle",
+                    'KIVUK');
             end else begin
-                NewproductLoanBalance := FnPostInterestBal(RcptBufLines, NewproductLoanBalance, Rec."Loan CutOff Date", 'NEWPRO', loanNumber);
-                NewproductLoanBalance := FnPostPrincipleBal(RcptBufLines, NewproductLoanBalance, loanNumber);
-
-                FnTransferExcessToUnallocatedFunds(RcptBufLines, NewproductLoanBalance, 'Excess Payments for New Product Loan');
+                FnTransferExcessToUnallocatedFunds(RcptBufLines, RcptBufLines."Kivukio Loan Amount", 'Excess Payments for Kivukio Loan');
             end;
         end;
 
+        // Normal Loan 1
+        if RcptBufLines."Normal Loan 1 Amount" > 0 then begin
+            loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."Normal Loan 1 Amount", Rec."Loan CutOff Date", 'NORM1');
+            if loanNumber <> '' then begin
+                FnPostDistributedLoan(RcptBufLines, loanNumber,
+                    RcptBufLines."Normal Loan 1 Interest",
+                    RcptBufLines."Normal Loan 1 Principle",
+                    'NORM1');
+            end else begin
+                FnTransferExcessToUnallocatedFunds(RcptBufLines, RcptBufLines."Normal Loan 1 Amount", 'Excess Payments for Normal loan 1');
+            end;
+        end;
+
+        // Mwokozi Loan
+        if RcptBufLines."Mwokozi Loan Amount" > 0 then begin
+            loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."Mwokozi Loan Amount", Rec."Loan CutOff Date", 'MWOK');
+            if loanNumber <> '' then begin
+                FnPostDistributedLoan(RcptBufLines, loanNumber,
+                    RcptBufLines."Mwokozi Loan Interest",
+                    RcptBufLines."Mwokozi Loan Principle",
+                    'MWOK');
+            end else begin
+                FnTransferExcessToUnallocatedFunds(RcptBufLines, RcptBufLines."Mwokozi Loan Amount", 'Excess Payments for Mwokozi Loan');
+            end;
+        end;
+
+        // School Fees Loan
+        if RcptBufLines."School Fees Amount" > 0 then begin
+            loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."School Fees Amount", Rec."Loan CutOff Date", 'SCHLOAN');
+            if loanNumber <> '' then begin
+                FnPostDistributedLoan(RcptBufLines, loanNumber,
+                    RcptBufLines."School Fees Interest",
+                    RcptBufLines."School Fees Principle",
+                    'SCHLOAN');
+            end else begin
+                FnTransferExcessToUnallocatedFunds(RcptBufLines, RcptBufLines."School Fees Amount", 'Excess Payments for School Fee loan');
+            end;
+        end;
+
+        // Normal Loan 2
+        if RcptBufLines."Normal Loan 2 Amount" > 0 then begin
+            loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."Normal Loan 2 Amount", Rec."Loan CutOff Date", 'NORM2');
+            if loanNumber <> '' then begin
+                FnPostDistributedLoan(RcptBufLines, loanNumber,
+                    RcptBufLines."Normal Loan 2 Interest",
+                    RcptBufLines."Normal Loan 2 Principle",
+                    'NORM2');
+            end else begin
+                FnTransferExcessToUnallocatedFunds(RcptBufLines, RcptBufLines."Normal Loan 2 Amount", 'Excess Payments for Normal loan 2');
+            end;
+        end;
+
+        // Normal Loan 3
+        if RcptBufLines."Normal Loan 3 Amount" > 0 then begin
+            loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."Normal Loan 3 Amount", Rec."Loan CutOff Date", 'NORM3');
+            if loanNumber <> '' then begin
+                FnPostDistributedLoan(RcptBufLines, loanNumber,
+                    RcptBufLines."Normal Loan 3 Interest",
+                    RcptBufLines."Normal Loan 3 Principle",
+                    'NORM3');
+            end else begin
+                FnTransferExcessToUnallocatedFunds(RcptBufLines, RcptBufLines."Normal Loan 3 Amount", 'Excess Payments for Normal loan 3');
+            end;
+        end;
+
+        // Normal Loan 4
+        if RcptBufLines."Normal loan 4 Amount" > 0 then begin
+            loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."Normal loan 4 Amount", Rec."Loan CutOff Date", 'NORM4');
+            if loanNumber <> '' then begin
+                FnPostDistributedLoan(RcptBufLines, loanNumber,
+                    RcptBufLines."Normal loan 4 Interest",
+                    RcptBufLines."Normal loan 4 Principle",
+                    'NORM4');
+            end else begin
+                FnTransferExcessToUnallocatedFunds(RcptBufLines, RcptBufLines."Normal loan 4 Amount", 'Excess Payments for Normal loan 4');
+            end;
+        end;
+
+        // HALLO HALLO Loan
+        if RcptBufLines."HALLO HALLO Loan Amount" > 0 then begin
+            loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."HALLO HALLO Loan Amount", Rec."Loan CutOff Date", 'HALL');
+            if loanNumber <> '' then begin
+                FnPostDistributedLoan(RcptBufLines, loanNumber,
+                    RcptBufLines."HALLO HALLO Loan Interest",
+                    RcptBufLines."HALLO HALLO Loan Principle",
+                    'HALL');
+            end else begin
+                FnTransferExcessToUnallocatedFunds(RcptBufLines, RcptBufLines."HALLO HALLO Loan Amount", 'Excess Payments for Hallo Hallo loan');
+            end;
+        end;
+
+        // Instant Loan
+        if RcptBufLines."Instant Loan Amount" > 0 then begin
+            loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."Instant Loan Amount", Rec."Loan CutOff Date", 'INST');
+            if loanNumber <> '' then begin
+                FnPostDistributedLoan(RcptBufLines, loanNumber,
+                    RcptBufLines."Instant Loan Interest",
+                    RcptBufLines."Instant Loan Principle",
+                    'INST');
+            end else begin
+                FnTransferExcessToUnallocatedFunds(RcptBufLines, RcptBufLines."Instant Loan Amount", 'Excess Payments for Instant Loan');
+            end;
+        end;
+
+        // New Product Loan
+        if RcptBufLines."New Product Loan Amount" > 0 then begin
+            loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."New Product Loan Amount", Rec."Loan CutOff Date", 'NEWPRO');
+            if loanNumber <> '' then begin
+                FnPostDistributedLoan(RcptBufLines, loanNumber,
+                    RcptBufLines."New Product Loan Interest",
+                    RcptBufLines."New Product Loan Principle",
+                    'NEWPRO');
+            end else begin
+                FnTransferExcessToUnallocatedFunds(RcptBufLines, RcptBufLines."New Product Loan Amount", 'Excess Payments for New Product Loan');
+            end;
+        end;
     end;
-
 
     local procedure FnInsertMemberContribution(Jtemplate: Code[30]; Jbatch: code[30]; memberNo: Code[15]; documentNo: code[30];
     transDescription: Code[30]; transAmount: Decimal; TransactionType: Option " ","Registration Fee","Share Capital","Interest Paid","Loan Repayment","Deposit Contribution","Insurance Contribution","Benevolent Fund",Loan,"Unallocated Funds",Dividend,"FOSA Account"): Code[50]
-    var
     begin
         LineN := LineN + 10000;
         Gnljnline.Init;
@@ -689,7 +664,7 @@ page 57006 "Bamburi Checkoff Card"
         Gnljnline.Description := transDescription;
         Gnljnline.Amount := transAmount * -1;
         Gnljnline.Validate(Gnljnline.Amount);
-        Gnljnline."Transaction Type" := TransactionType;//Gnljnline."transaction type"::"Deposit Contribution";
+        Gnljnline."Transaction Type" := TransactionType;
         Gnljnline."Shortcut Dimension 1 Code" := 'BOSA';
         Gnljnline."Shortcut Dimension 2 Code" := FnGetMemberBranch(memberNo);
         Gnljnline.Validate(Gnljnline."Shortcut Dimension 1 Code");
@@ -698,159 +673,61 @@ page 57006 "Bamburi Checkoff Card"
             Gnljnline.Insert();
     end;
 
-    local procedure FnInsertWelfareContribution(Jtemplate: Code[30]; Jbatch: code[30]; memberNo: Code[15]; documentNo: code[30];
-    transDescription: Code[100]; transAmount: Decimal; TransactionType: Option " ","Registration Fee","Share Capital","Interest Paid","Loan Repayment","Deposit Contribution","Insurance Contribution","Benevolent Fund",Loan,"Unallocated Funds",Dividend,"FOSA Account","Welfare Contribution"): Code[50]
-    var
-    begin
-        // Welfare contribution
-        begin
-            LineN := LineN + 10000;
-            Gnljnline.Init;
-            Gnljnline."Journal Template Name" := Jtemplate;
-            Gnljnline."Journal Batch Name" := Jbatch;
-            Gnljnline."Line No." := LineN;
-            Gnljnline."Account Type" := Gnljnline."bal. account type"::Customer;
-            Gnljnline."Account No." := memberNo;
-            Gnljnline.Validate(Gnljnline."Account No.");
-            Gnljnline."Document No." := documentNo;
-            Gnljnline."Posting Date" := Rec."Posting date";
-            Gnljnline.Description := transDescription;
-            Gnljnline.Amount := transAmount;
-            Gnljnline.Validate(Gnljnline.Amount);
-            Gnljnline."Transaction Type" := TransactionType;//Gnljnline."transaction type"::"Welfare Contribution";
-            Gnljnline."Shortcut Dimension 1 Code" := 'BOSA';
-            Gnljnline."Shortcut Dimension 2 Code" := FnGetMemberBranch(memberNo);
-            Gnljnline.Validate(Gnljnline."Shortcut Dimension 1 Code");
-            Gnljnline.Validate(Gnljnline."Shortcut Dimension 2 Code");
-            if Gnljnline.Amount <> 0 then
-                Gnljnline.Insert();
-        end;
-        //End of welfare contribution
-    end;
+    // local procedure FnPostInterestBal(ObjRcptBuffer: Record "Bamburi CheckoffLines"; postingAmount: Decimal; LoanCutoffDate: Date; loanCode: Code[10]; loanNumber: Code[50]) balance: Decimal
+    // var
+    //     AmountToDeduct: Decimal;
+    //     InterestToRecover: Decimal;
+    // begin
+    //     if postingAmount > 0 then begin
+    //         LoanApp.Reset;
+    //         LoanApp.SetCurrentkey(Source, "Issued Date", "Loan Product Type", "Client Code", "Staff No");
+    //         LoanApp.SetRange(LoanApp."Client Code", ObjRcptBuffer."Member No");
+    //         LoanApp.SetRange(LoanApp."Loan Product Type", loanCode);
+    //         LoanApp.SetRange(LoanApp."Loan  No.", loanNumber);
+    //         if LoanApp.Find('-') then begin
+    //             AmountToDeduct := postingAmount;
+    //             LoanApp.CalcFields("Oustanding Interest");
 
-    local procedure FnInsertWelfareAccountCredit(Jtemplate: Code[30]; Jbatch: code[30]; memberNo: Code[15]; documentNo: code[30];
-    transDescription: Code[30]; transAmount: Decimal; TransactionType: Option " ","Registration Fee","Share Capital","Interest Paid","Loan Repayment","Deposit Contribution","Insurance Contribution","Benevolent Fund",Loan,"Unallocated Funds",Dividend,"FOSA Account","Welfare Contribution"): Code[50]
-    var
-    begin
-        // Welfare contribution
-        begin
-            LineN := LineN + 10000;
-            Gnljnline.Init;
-            Gnljnline."Journal Template Name" := Jtemplate;
-            Gnljnline."Journal Batch Name" := Jbatch;
-            Gnljnline."Line No." := LineN;
-            Gnljnline."Account Type" := Gnljnline."bal. account type"::"G/L Account";
-            Gnljnline."Account No." := '200908';
-            Gnljnline.Validate(Gnljnline."Account No.");
-            Gnljnline."Document No." := documentNo;
-            Gnljnline."Posting Date" := Rec."Posting date";
-            Gnljnline.Description := transDescription;
-            Gnljnline.Amount := transAmount * -1;
-            Gnljnline.Validate(Gnljnline.Amount);
-            Gnljnline."Transaction Type" := TransactionType;//Gnljnline."transaction type"::"Welfare Contribution";
-            Gnljnline."Shortcut Dimension 1 Code" := 'BOSA';
-            Gnljnline."Shortcut Dimension 2 Code" := FnGetMemberBranch(memberNo);
-            Gnljnline.Validate(Gnljnline."Shortcut Dimension 1 Code");
-            Gnljnline.Validate(Gnljnline."Shortcut Dimension 2 Code");
-            if Gnljnline.Amount <> 0 then
-                Gnljnline.Insert();
-        end;
-        //End of welfare contribution
-    end;
+    //             if AmountToDeduct = 0 then exit;
 
-    local procedure FnInsertWelfareCommisionCredit(Jtemplate: Code[30]; Jbatch: code[30]; memberNo: Code[15]; documentNo: code[30];
-   transDescription: Code[30]; transAmount: Decimal; TransactionType: Option " ","Registration Fee","Share Capital","Interest Paid","Loan Repayment","Deposit Contribution","Insurance Contribution","Benevolent Fund",Loan,"Unallocated Funds",Dividend,"FOSA Account","Welfare Contribution"): Code[50]
-    var
-    begin
-        // Welfare contribution
-        begin
-            LineN := LineN + 10000;
-            Gnljnline.Init;
-            Gnljnline."Journal Template Name" := Jtemplate;
-            Gnljnline."Journal Batch Name" := Jbatch;
-            Gnljnline."Line No." := LineN;
-            Gnljnline."Account Type" := Gnljnline."bal. account type"::"G/L Account";
-            Gnljnline."Account No." := '301424';
-            Gnljnline.Validate(Gnljnline."Account No.");
-            Gnljnline."Document No." := documentNo;
-            Gnljnline."Posting Date" := Rec."Posting date";
-            Gnljnline.Description := transDescription;
-            Gnljnline.Amount := transAmount * -1;
-            Gnljnline.Validate(Gnljnline.Amount);
-            Gnljnline."Transaction Type" := TransactionType;//Gnljnline."transaction type"::"Welfare Contribution";
-            Gnljnline."Shortcut Dimension 1 Code" := 'BOSA';
-            Gnljnline."Shortcut Dimension 2 Code" := FnGetMemberBranch(memberNo);
-            Gnljnline.Validate(Gnljnline."Shortcut Dimension 1 Code");
-            Gnljnline.Validate(Gnljnline."Shortcut Dimension 2 Code");
-            if Gnljnline.Amount <> 0 then
-                Gnljnline.Insert();
-        end;
-        //End of welfare contribution
-    end;
+    //             if LoanApp."Oustanding Interest" > 0 then begin
+    //                 InterestToRecover := (LoanApp."Oustanding Interest");
+    //                 if postingAmount >= InterestToRecover then
+    //                     AmountToDeduct := InterestToRecover
+    //                 else
+    //                     AmountToDeduct := postingAmount;
 
+    //                 LineN := LineN + 10000;
+    //                 Gnljnline.Init;
+    //                 Gnljnline."Journal Template Name" := Jtemplate;
+    //                 Gnljnline."Journal Batch Name" := Jbatch;
+    //                 Gnljnline."Line No." := LineN;
+    //                 Gnljnline."Account Type" := Gnljnline."bal. account type"::Customer;
+    //                 Gnljnline."Account No." := LoanApp."Client Code";
+    //                 Gnljnline.Validate(Gnljnline."Account No.");
+    //                 Gnljnline."Document No." := Rec."Document No";
+    //                 Gnljnline."Posting Date" := Rec."Posting date";
+    //                 Gnljnline.Description := LoanApp."Loan Product Type" + '-Loan Interest Paid ';
+    //                 Gnljnline.Amount := -1 * AmountToDeduct;
+    //                 Gnljnline.Validate(Gnljnline.Amount);
+    //                 Gnljnline."Transaction Type" := Gnljnline."transaction type"::"Interest Paid";
+    //                 Gnljnline."Loan No" := LoanApp."Loan  No.";
 
-    local procedure FnPostInterestBal(ObjRcptBuffer: Record "Bamburi CheckoffLines"; postingAmount: Decimal; LoanCutoffDate: Date; loanCode: Code[10]; loanNumber: Code[50]) balance: Decimal
-    var
-        AmountToDeduct: Decimal;
-        InterestToRecover: Decimal;
-    begin
-        if postingAmount > 0 then begin
-            LoanApp.Reset;
-            LoanApp.SetCurrentkey(Source, "Issued Date", "Loan Product Type", "Client Code", "Staff No");
-            LoanApp.SetRange(LoanApp."Client Code", ObjRcptBuffer."Member No");
-            LoanApp.SetRange(LoanApp."Loan Product Type", loanCode);
-            LoanApp.SetRange(LoanApp."Loan  No.", loanNumber);
-            if LoanApp.Find('-') then begin// FindSet() then begin
-                AmountToDeduct := postingAmount;
-                // repeat
-                LoanApp.CalcFields("Oustanding Interest");
-
-                if AmountToDeduct = 0 then exit;
-
-                // Check if the outstanding interest is greater than 0
-                if LoanApp."Oustanding Interest" > 0 then begin
-
-                    InterestToRecover := (LoanApp."Oustanding Interest");
-                    if postingAmount >= InterestToRecover then
-                        AmountToDeduct := InterestToRecover
-                    else
-                        AmountToDeduct := postingAmount;
-
-                    LineN := LineN + 10000;
-                    Gnljnline.Init;
-                    Gnljnline."Journal Template Name" := Jtemplate;
-                    Gnljnline."Journal Batch Name" := Jbatch;
-                    Gnljnline."Line No." := LineN;
-                    Gnljnline."Account Type" := Gnljnline."bal. account type"::Customer;
-                    Gnljnline."Account No." := LoanApp."Client Code";
-                    Gnljnline.Validate(Gnljnline."Account No.");
-                    Gnljnline."Document No." := Rec."Document No";
-                    Gnljnline."Posting Date" := Rec."Posting date";
-                    Gnljnline.Description := LoanApp."Loan Product Type" + '-Loan Interest Paid ';
-                    Gnljnline.Amount := -1 * AmountToDeduct;
-                    Gnljnline.Validate(Gnljnline.Amount);
-                    Gnljnline."Transaction Type" := Gnljnline."transaction type"::"Interest Paid";
-                    Gnljnline."Loan No" := LoanApp."Loan  No.";
-
-                    Gnljnline."Shortcut Dimension 1 Code" := 'BOSA';
-                    Gnljnline."Shortcut Dimension 2 Code" := FnGetMemberBranch(LoanApp."Client Code");
-                    Gnljnline.Validate(Gnljnline."Shortcut Dimension 1 Code");
-                    Gnljnline.Validate(Gnljnline."Shortcut Dimension 2 Code");
-                    if Gnljnline.Amount <> 0 then
-                        Gnljnline.Insert;
-                    postingAmount := postingAmount - AmountToDeduct;
-                end;
-                // until LoanApp.Next() = 0;
-                balance := postingAmount;
-            end;
-            //return balance
-            exit(balance);
-        end;
-    end;
-
+    //                 Gnljnline."Shortcut Dimension 1 Code" := 'BOSA';
+    //                 Gnljnline."Shortcut Dimension 2 Code" := FnGetMemberBranch(LoanApp."Client Code");
+    //                 Gnljnline.Validate(Gnljnline."Shortcut Dimension 1 Code");
+    //                 Gnljnline.Validate(Gnljnline."Shortcut Dimension 2 Code");
+    //                 if Gnljnline.Amount <> 0 then
+    //                     Gnljnline.Insert;
+    //                 postingAmount := postingAmount - AmountToDeduct;
+    //             end;
+    //             balance := postingAmount;
+    //         end;
+    //         exit(balance);
+    //     end;
+    // end;
 
     local procedure fnGetLoanNumber(ObjRcptBuffer: Record "Bamburi CheckoffLines"; RunningBalance: Decimal; LoanCutoffDate: Date; loanCode: Code[10]) loanNumber: Code[50]
-    var
     begin
         loanNumber := '';
         LoanApp.Reset;
@@ -862,12 +739,9 @@ page 57006 "Bamburi Checkoff Card"
         if LoanApp.FindFirst() then begin
             repeat
                 LoanApp.CalcFields("Outstanding Balance");
-
-                // Check if the outstanding Balance is greater than 0
                 if LoanApp."Outstanding Balance" > 0 then begin
                     loanNumber := LoanApp."Loan  No.";
                 end;
-
             until LoanApp.Next() = 0;
         end;
         if loanNumber = '' then begin
@@ -881,70 +755,56 @@ page 57006 "Bamburi Checkoff Card"
                 repeat
                     LoanApp.CalcFields("Outstanding Balance");
                     LoanApp.CalcFields("Oustanding Interest");
-
-                    // Check if the outstanding Interest is greater than 0
                     if LoanApp."Oustanding Interest" > 0 then begin
                         loanNumber := LoanApp."Loan  No.";
                     end;
-
                 until LoanApp.Next() = 0;
             end;
         end;
         exit(loanNumber);
     end;
 
-    local procedure FnPostPrincipleBal(ObjRcptBuffer: Record "Bamburi CheckoffLines"; RunningBalance: Decimal; loanNumber: Code[50]) balance: Decimal
-    var
-        AmountToDeduct: Decimal;
-        NewOutstandingBal: Decimal;
-    begin
+    // local procedure FnPostPrincipleBal(ObjRcptBuffer: Record "Bamburi CheckoffLines"; RunningBalance: Decimal; loanNumber: Code[50]) balance: Decimal
+    // var
+    //     AmountToDeduct: Decimal;
+    // begin
+    //     if RunningBalance > 0 then begin
+    //         AmountToDeduct := 0;
+    //         balance := RunningBalance;
 
-        if RunningBalance > 0 then begin
-            AmountToDeduct := 0;
-            balance := RunningBalance;
+    //         LoanApp.Reset;
+    //         LoanApp.SetRange(LoanApp."Client Code", ObjRcptBuffer."Member No");
+    //         LoanApp.SetRange(LoanApp."Loan  No.", loanNumber);
+    //         if LoanApp.Find('-') then begin
+    //             AmountToDeduct := RunningBalance;
 
-            LoanApp.Reset;
-            LoanApp.SetRange(LoanApp."Client Code", ObjRcptBuffer."Member No");
-            LoanApp.SetRange(LoanApp."Loan  No.", loanNumber);
-            if LoanApp.Find('-') then begin
-                AmountToDeduct := RunningBalance;
-                // // repeat
-                // LoanApp.CalcFields("Outstanding Balance");
-                // if LoanApp."Outstanding Balance" < RunningBalance then
-                //     AmountToDeduct := LoanApp."Outstanding Balance";
+    //             LineN := LineN + 10000;
+    //             Gnljnline.Init;
+    //             Gnljnline."Journal Template Name" := Jtemplate;
+    //             Gnljnline."Journal Batch Name" := Jbatch;
+    //             Gnljnline."Line No." := LineN;
+    //             Gnljnline."Account Type" := Gnljnline."bal. account type"::Customer;
+    //             Gnljnline."Account No." := LoanApp."Client Code";
+    //             Gnljnline.Validate(Gnljnline."Account No.");
+    //             Gnljnline."Document No." := Rec."Document No";
+    //             Gnljnline."Posting Date" := Rec."Posting date";
+    //             Gnljnline.Description := LoanApp."Loan Product Type" + '-Loan Repayment ';
 
-                // //check if thi has already been posted in the loop..
-                // if AmountToDeduct = 0 then
-                //     exit;
-
-                LineN := LineN + 10000;
-                Gnljnline.Init;
-                Gnljnline."Journal Template Name" := Jtemplate;
-                Gnljnline."Journal Batch Name" := Jbatch;
-                Gnljnline."Line No." := LineN;
-                Gnljnline."Account Type" := Gnljnline."bal. account type"::Customer;
-                Gnljnline."Account No." := LoanApp."Client Code";
-                Gnljnline.Validate(Gnljnline."Account No.");
-                Gnljnline."Document No." := Rec."Document No";
-                Gnljnline."Posting Date" := Rec."Posting date";
-                Gnljnline.Description := LoanApp."Loan Product Type" + '-Loan Repayment ';
-
-                Gnljnline.Amount := RunningBalance * -1;// AmountToDeduct * -1;
-                Gnljnline.Validate(Gnljnline.Amount);
-                Gnljnline."Transaction Type" := Gnljnline."transaction type"::"Loan Repayment";
-                Gnljnline."Loan No" := LoanApp."Loan  No.";
-                Gnljnline."Shortcut Dimension 1 Code" := 'BOSA';
-                Gnljnline."Shortcut Dimension 2 Code" := FnGetMemberBranch(LoanApp."Client Code");
-                Gnljnline.Validate(Gnljnline."Shortcut Dimension 1 Code");
-                Gnljnline.Validate(Gnljnline."Shortcut Dimension 2 Code");
-                if Gnljnline.Amount <> 0 then
-                    Gnljnline.Insert();
-
-            end;
-            balance := RunningBalance - AmountToDeduct;
-        end;
-        exit(balance);
-    end;
+    //             Gnljnline.Amount := RunningBalance * -1;
+    //             Gnljnline.Validate(Gnljnline.Amount);
+    //             Gnljnline."Transaction Type" := Gnljnline."transaction type"::"Loan Repayment";
+    //             Gnljnline."Loan No" := LoanApp."Loan  No.";
+    //             Gnljnline."Shortcut Dimension 1 Code" := 'BOSA';
+    //             Gnljnline."Shortcut Dimension 2 Code" := FnGetMemberBranch(LoanApp."Client Code");
+    //             Gnljnline.Validate(Gnljnline."Shortcut Dimension 1 Code");
+    //             Gnljnline.Validate(Gnljnline."Shortcut Dimension 2 Code");
+    //             if Gnljnline.Amount <> 0 then
+    //                 Gnljnline.Insert();
+    //         end;
+    //         balance := RunningBalance - AmountToDeduct;
+    //     end;
+    //     exit(balance);
+    // end;
 
     local procedure FnGetMemberBranch(MemberNo: Code[50]): Code[100]
     var
@@ -960,36 +820,11 @@ page 57006 "Bamburi Checkoff Card"
 
     local procedure FnTransferExcessToUnallocatedFunds(ObjRcptBuffer: Record "Bamburi CheckoffLines"; RunningBalance: Decimal; description: Code[50])
     var
-
         ObjMember: Record Customer;
     begin
-
         ObjMember.Reset;
         ObjMember.SetRange(ObjMember."No.", ObjRcptBuffer."Member No");
-        // ObjMember.SetRange(ObjMember."Customer Type", ObjMember."customer type"::Member);
         if ObjMember.Find('-') then begin
-
-            LineN := LineN + 10000;
-            Gnljnline.Init;
-            Gnljnline."Journal Template Name" := Jtemplate;
-            Gnljnline."Journal Batch Name" := Jbatch;
-            Gnljnline."Line No." := LineN;
-            Gnljnline."Account Type" := Gnljnline."account type"::Customer;
-            Gnljnline."Account No." := ObjRcptBuffer."Member No";
-            Gnljnline.Validate(Gnljnline."Account No.");
-            Gnljnline."Document No." := Rec."Document No";
-            Gnljnline."Posting Date" := Rec."Posting date";
-            Gnljnline.Description := description;
-            Gnljnline.Amount := RunningBalance * -1;
-            Gnljnline.Validate(Gnljnline.Amount);
-            Gnljnline."Transaction Type" := Gnljnline."transaction type"::"Unallocated Funds";
-            Gnljnline."Shortcut Dimension 1 Code" := 'BOSA';
-            Gnljnline."Shortcut Dimension 2 Code" := ObjMember."Global Dimension 2 Code";
-            Gnljnline.Validate(Gnljnline."Shortcut Dimension 1 Code");
-            Gnljnline.Validate(Gnljnline."Shortcut Dimension 2 Code");
-            if Gnljnline.Amount <> 0 then
-                Gnljnline.Insert;
-        end else begin
             LineN := LineN + 10000;
             Gnljnline.Init;
             Gnljnline."Journal Template Name" := Jtemplate;
@@ -1013,5 +848,62 @@ page 57006 "Bamburi Checkoff Card"
         end;
     end;
 
+    local procedure FnPostDistributedLoan(ObjRcptBuffer: Record "Bamburi CheckoffLines"; loanNumber: Code[50]; InterestAmount: Decimal; PrincipalAmount: Decimal; loanCode: Code[10])
+    var
+        LoanRec: Record "Loans Register";
+    begin
+        // Find the loan record
+        LoanRec.Reset();
+        LoanRec.SetRange("Loan  No.", loanNumber);
+        if not LoanRec.FindFirst() then
+            exit;
 
+        // Post Interest if amount > 0
+        if InterestAmount > 0 then begin
+            LineN := LineN + 10000;
+            Gnljnline.Init;
+            Gnljnline."Journal Template Name" := Jtemplate;
+            Gnljnline."Journal Batch Name" := Jbatch;
+            Gnljnline."Line No." := LineN;
+            Gnljnline."Account Type" := Gnljnline."Account Type"::Customer;
+            Gnljnline."Account No." := ObjRcptBuffer."Member No";
+            Gnljnline.Validate(Gnljnline."Account No.");
+            Gnljnline."Document No." := Rec."Document No";
+            Gnljnline."Posting Date" := Rec."Posting date";
+            Gnljnline.Description := loanCode + '-Loan Interest Paid';
+            Gnljnline.Amount := InterestAmount * -1;
+            Gnljnline.Validate(Gnljnline.Amount);
+            Gnljnline."Transaction Type" := Gnljnline."Transaction Type"::"Interest Paid";
+            Gnljnline."Loan No" := loanNumber;
+            Gnljnline."Shortcut Dimension 1 Code" := 'BOSA';
+            Gnljnline."Shortcut Dimension 2 Code" := FnGetMemberBranch(ObjRcptBuffer."Member No");
+            Gnljnline.Validate(Gnljnline."Shortcut Dimension 1 Code");
+            Gnljnline.Validate(Gnljnline."Shortcut Dimension 2 Code");
+            Gnljnline.Insert();
+        end;
+
+        // Post Principal if amount > 0
+        if PrincipalAmount > 0 then begin
+            LineN := LineN + 10000;
+            Gnljnline.Init;
+            Gnljnline."Journal Template Name" := Jtemplate;
+            Gnljnline."Journal Batch Name" := Jbatch;
+            Gnljnline."Line No." := LineN;
+            Gnljnline."Account Type" := Gnljnline."Account Type"::Customer;
+            Gnljnline."Account No." := ObjRcptBuffer."Member No";
+            Gnljnline.Validate(Gnljnline."Account No.");
+            Gnljnline."Document No." := Rec."Document No";
+            Gnljnline."Posting Date" := Rec."Posting date";
+            Gnljnline.Description := loanCode + '-Loan Repayment';
+            Gnljnline.Amount := PrincipalAmount * -1;
+            Gnljnline.Validate(Gnljnline.Amount);
+            Gnljnline."Transaction Type" := Gnljnline."Transaction Type"::"Loan Repayment";
+            Gnljnline."Loan No" := loanNumber;
+            Gnljnline."Shortcut Dimension 1 Code" := 'BOSA';
+            Gnljnline."Shortcut Dimension 2 Code" := FnGetMemberBranch(ObjRcptBuffer."Member No");
+            Gnljnline.Validate(Gnljnline."Shortcut Dimension 1 Code");
+            Gnljnline.Validate(Gnljnline."Shortcut Dimension 2 Code");
+            Gnljnline.Insert();
+        end;
+    end;
 }
