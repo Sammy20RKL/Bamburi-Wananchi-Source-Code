@@ -22,7 +22,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto">=First(Fields!Company_Name.Value, "DataSet_Result")</Value>
+                    <Value>=First(Fields!Company_Name.Value, "DataSet_Result")</Value>
                     <Style>
                       <FontFamily>Maiandra GD</FontFamily>
                       <FontSize>15pt</FontSize>
@@ -31,15 +31,15 @@
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Right</TextAlign>
+                  <TextAlign>Center</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>0.01791cm</Top>
-            <Left>9.56352in</Left>
+            <Top>0.3645cm</Top>
+            <Left>2.7059in</Left>
             <Height>0.28125in</Height>
-            <Width>3.44445in</Width>
+            <Width>6.66112in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -57,7 +57,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto">=First(Fields!Company_Address.Value, "DataSet_Result")</Value>
+                    <Value>=First(Fields!Company_Address.Value, "DataSet_Result")</Value>
                     <Style>
                       <FontFamily>Maiandra GD</FontFamily>
                       <FontSize>8pt</FontSize>
@@ -66,15 +66,15 @@
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Right</TextAlign>
+                  <TextAlign>Center</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox3</rd:DefaultName>
-            <Top>0.31607in</Top>
-            <Left>9.82455in</Left>
+            <Top>0.42476in</Top>
+            <Left>2.7059in</Left>
             <Height>0.15625in</Height>
-            <Width>3.18342in</Width>
+            <Width>6.66112in</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -93,7 +93,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto">=First(Fields!Company_Address_2.Value, "DataSet_Result")</Value>
+                    <Value>=First(Fields!Company_Address_2.Value, "DataSet_Result")</Value>
                     <Style>
                       <FontFamily>Maiandra GD</FontFamily>
                       <FontSize>8pt</FontSize>
@@ -102,15 +102,15 @@
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Right</TextAlign>
+                  <TextAlign>Center</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox3</rd:DefaultName>
-            <Top>0.50011in</Top>
-            <Left>9.82455in</Left>
+            <Top>0.65045in</Top>
+            <Left>2.7059in</Left>
             <Height>0.15625in</Height>
-            <Width>3.18342in</Width>
+            <Width>6.66112in</Width>
             <ZIndex>2</ZIndex>
             <Style>
               <Border>
@@ -129,7 +129,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto">=First(Fields!Company_Phone_No.Value, "DataSet_Result")</Value>
+                    <Value>=First(Fields!Company_Phone_No.Value, "DataSet_Result")</Value>
                     <Style>
                       <FontFamily>Maiandra GD</FontFamily>
                       <FontSize>8pt</FontSize>
@@ -138,15 +138,15 @@
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Right</TextAlign>
+                  <TextAlign>Center</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox3</rd:DefaultName>
-            <Top>0.68413in</Top>
-            <Left>9.82455in</Left>
+            <Top>0.82058in</Top>
+            <Left>2.7059in</Left>
             <Height>0.15625in</Height>
-            <Width>3.18342in</Width>
+            <Width>6.66112in</Width>
             <ZIndex>3</ZIndex>
             <Style>
               <Border>
@@ -165,7 +165,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto">=First(Fields!Company_Fax_No.Value, "DataSet_Result")</Value>
+                    <Value>=First(Fields!Company_Fax_No.Value, "DataSet_Result")</Value>
                     <Style>
                       <FontFamily>Maiandra GD</FontFamily>
                       <FontSize>8pt</FontSize>
@@ -174,15 +174,15 @@
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Right</TextAlign>
+                  <TextAlign>Center</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox3</rd:DefaultName>
-            <Top>0.88205in</Top>
-            <Left>9.82455in</Left>
+            <Top>1.0185in</Top>
+            <Left>2.7059in</Left>
             <Height>0.15625in</Height>
-            <Width>3.18342in</Width>
+            <Width>6.66112in</Width>
             <ZIndex>4</ZIndex>
             <Style>
               <Border>
@@ -201,7 +201,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto">=First(Fields!Company_Email.Value, "DataSet_Result")</Value>
+                    <Value>=First(Fields!Company_Email.Value, "DataSet_Result")</Value>
                     <Style>
                       <FontFamily>Maiandra GD</FontFamily>
                       <FontSize>8pt</FontSize>
@@ -212,15 +212,15 @@
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Right</TextAlign>
+                  <TextAlign>Center</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox3</rd:DefaultName>
-            <Top>1.07177in</Top>
-            <Left>9.82455in</Left>
+            <Top>1.17361in</Top>
+            <Left>2.7059in</Left>
             <Height>0.19098in</Height>
-            <Width>3.18342in</Width>
+            <Width>6.66112in</Width>
             <ZIndex>5</ZIndex>
             <Style>
               <Border>
@@ -237,8 +237,8 @@
             <Value>=First(Fields!Company_Picture.Value, "DataSet_Result")</Value>
             <MIMEType>image/png</MIMEType>
             <Sizing>FitProportional</Sizing>
-            <Top>0.01791cm</Top>
-            <Left>0.36234cm</Left>
+            <Top>0.3645cm</Top>
+            <Left>1.57817cm</Left>
             <Height>3.11893cm</Height>
             <Width>3.29848cm</Width>
             <ZIndex>6</ZIndex>
@@ -255,7 +255,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto">MEMBER'S MISSING NEXT OF KIN</Value>
+                    <Value>MEMBER'S MISSING NEXT OF KIN</Value>
                     <Style>
                       <FontFamily>Maiandra GD</FontFamily>
                       <FontWeight>Bold</FontWeight>
@@ -268,10 +268,10 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox16</rd:DefaultName>
-            <Top>3.33059cm</Top>
-            <Left>0.36234cm</Left>
+            <Top>4.05379cm</Top>
+            <Left>1.57817cm</Left>
             <Height>0.6cm</Height>
-            <Width>32.6779cm</Width>
+            <Width>27.00523cm</Width>
             <ZIndex>7</ZIndex>
             <Style>
               <Border>
@@ -284,10 +284,10 @@
             </Style>
           </Textbox>
           <Line Name="Line2">
-            <Top>4.17167cm</Top>
-            <Left>0.36234cm</Left>
+            <Top>4.89486cm</Top>
+            <Left>1.57817cm</Left>
             <Height>0cm</Height>
-            <Width>32.6779cm</Width>
+            <Width>26.41257cm</Width>
             <ZIndex>8</ZIndex>
             <Style>
               <Border>
@@ -342,7 +342,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">No</Value>
+                                  <Value>No</Value>
                                   <Style>
                                     <FontFamily>Maiandra GD</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -397,7 +397,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Member No.</Value>
+                                  <Value>Member No.</Value>
                                   <Style>
                                     <FontFamily>Maiandra GD</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -452,7 +452,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Member Name</Value>
+                                  <Value>Member Name</Value>
                                   <Style>
                                     <FontFamily>Maiandra GD</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -506,7 +506,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">ID No.</Value>
+                                  <Value>ID No.</Value>
                                   <Style>
                                     <FontFamily>Maiandra GD</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -560,7 +560,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Mobile Phone</Value>
+                                  <Value>Mobile Phone</Value>
                                   <Style>
                                     <FontFamily>Maiandra GD</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -616,7 +616,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Status</Value>
+                                  <Value>Status</Value>
                                   <Style>
                                     <FontFamily>Maiandra GD</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -672,7 +672,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Deposits</Value>
+                                  <Value>Deposits</Value>
                                   <Style>
                                     <FontFamily>Maiandra GD</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -728,7 +728,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Share Capital</Value>
+                                  <Value>Share Capital</Value>
                                   <Style>
                                     <FontFamily>Maiandra GD</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -784,7 +784,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">SINK</Value>
+                                  <Value>SINK</Value>
                                   <Style>
                                     <FontFamily>Maiandra GD</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -840,7 +840,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Entrance Fee</Value>
+                                  <Value>Entrance Fee</Value>
                                   <Style>
                                     <FontFamily>Maiandra GD</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -901,7 +901,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!EntryNo.Value</Value>
+                                  <Value>=Fields!EntryNo.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                   </Style>
@@ -954,7 +954,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!No_MembersRegister.Value</Value>
+                                  <Value>=Fields!No_MembersRegister.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>d</Format>
@@ -1008,7 +1008,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!Name_MembersRegister.Value</Value>
+                                  <Value>=Fields!Name_MembersRegister.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                   </Style>
@@ -1059,7 +1059,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!IDNo_MembersRegister.Value</Value>
+                                  <Value>=Fields!IDNo_MembersRegister.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                   </Style>
@@ -1110,7 +1110,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!MobilePhoneNo_MembersRegister.Value</Value>
+                                  <Value>=Fields!MobilePhoneNo_MembersRegister.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                   </Style>
@@ -1143,7 +1143,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!Status_MembersRegister.Value</Value>
+                                  <Value>=Fields!Status_MembersRegister.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>#,0.00;#,0.00-;''</Format>
@@ -1177,7 +1177,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!CurrentShares_MembersRegister.Value</Value>
+                                  <Value>=Fields!CurrentShares_MembersRegister.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>#,0.00;(#,0.00)</Format>
@@ -1211,7 +1211,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!SharesRetained_MembersRegister.Value</Value>
+                                  <Value>=Fields!SharesRetained_MembersRegister.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>n2</Format>
@@ -1245,7 +1245,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!BenevolentFund_MembersRegister.Value</Value>
+                                  <Value>=Fields!BenevolentFund_MembersRegister.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>#,0.00;(#,0.00)</Format>
@@ -1279,7 +1279,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!RegistrationFeePaid_MembersRegister.Value</Value>
+                                  <Value>=Fields!RegistrationFeePaid_MembersRegister.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>#,0.00;(#,0.00)</Format>
@@ -1318,7 +1318,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto" />
+                                  <Value />
                                   <Style>
                                     <FontFamily>Maiandra GD</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1357,7 +1357,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">TOTAL</Value>
+                                  <Value>TOTAL</Value>
                                   <Style>
                                     <FontFamily>Maiandra GD</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1399,7 +1399,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto" />
+                                  <Value />
                                   <Style>
                                     <FontFamily>Maiandra GD</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1435,7 +1435,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto" />
+                                  <Value />
                                   <Style>
                                     <FontFamily>Maiandra GD</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1471,7 +1471,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Sum(Fields!CurrentShares_MembersRegister.Value)</Value>
+                                  <Value>=Sum(Fields!CurrentShares_MembersRegister.Value)</Value>
                                   <Style>
                                     <FontFamily>Maiandra GD</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1508,7 +1508,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Sum(Fields!SharesRetained_MembersRegister.Value)</Value>
+                                  <Value>=Sum(Fields!SharesRetained_MembersRegister.Value)</Value>
                                   <Style>
                                     <FontFamily>Maiandra GD</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1545,7 +1545,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Sum(Fields!BenevolentFund_MembersRegister.Value)</Value>
+                                  <Value>=Sum(Fields!BenevolentFund_MembersRegister.Value)</Value>
                                   <Style>
                                     <FontFamily>Maiandra GD</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1582,7 +1582,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Sum(Fields!RegistrationFeePaid_MembersRegister.Value)</Value>
+                                  <Value>=Sum(Fields!RegistrationFeePaid_MembersRegister.Value)</Value>
                                   <Style>
                                     <FontFamily>Maiandra GD</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1642,8 +1642,8 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>DataSet_Result</DataSetName>
-            <Top>4.34806cm</Top>
-            <Left>0.36234cm</Left>
+            <Top>5.07126cm</Top>
+            <Left>1.57817cm</Left>
             <Height>1.45605cm</Height>
             <Width>26.72541cm</Width>
             <ZIndex>9</ZIndex>
@@ -1654,13 +1654,15 @@
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>6.8333cm</Height>
+        <Height>10.2091cm</Height>
         <Style />
       </Body>
-      <Width>33.2519cm</Width>
+      <Width>29.48173cm</Width>
       <Page>
-        <PageHeight>27cm</PageHeight>
-        <PageWidth>33.5cm</PageWidth>
+        <PageHeight>20cm</PageHeight>
+        <PageWidth>32.5cm</PageWidth>
+        <InteractiveHeight>20cm</InteractiveHeight>
+        <InteractiveWidth>32.5cm</InteractiveWidth>
         <LeftMargin>1cm</LeftMargin>
         <RightMargin>1cm</RightMargin>
         <TopMargin>1cm</TopMargin>

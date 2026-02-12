@@ -157,7 +157,7 @@ page 50367 "Member Account Card"
                 field("Registration Date"; Rec."Registration Date")
                 {
                     ApplicationArea = Basic;
-                    Editable = false;
+                    Editable = true;
                 }
                 field("Global Dimension 1 Code"; Rec."Global Dimension 1 Code"
                 )

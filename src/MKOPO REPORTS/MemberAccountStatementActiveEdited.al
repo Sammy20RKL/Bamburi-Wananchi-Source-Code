@@ -27,6 +27,7 @@ report 51046 "Member Account Statement(act1)"
             column(PhoneNo_MemberRegister; Customer."Phone No.") { }
             column(CurrentShares_MemberRegister; Customer."Current Shares") { }
             column(Company_Email; Company."E-Mail") { }
+            column(Company_Picture; Company.Picture) { }
 
             dataitem(ShareCapital; "Cust. Ledger Entry")
             {

@@ -70,7 +70,7 @@ report 51031 "Loans Guaranteed Report"
                 trigger OnAfterGetRecord()
                 begin
                     guarantorMngt.UpdateCommittedSharesForLoan("Loan No");
-                    // CalcLoanDetails();
+                    CalcLoanDetails();
                 end;
             }
 

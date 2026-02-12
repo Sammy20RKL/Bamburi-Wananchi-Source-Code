@@ -1407,7 +1407,19 @@ page 56110 "Member Application Card"
                             // FnFOSAProducts(BOSAAccountNo);
                             // NewFOSAAccount := FnUpdateBOSAAccountToFOSAAccount(BOSAAccountNo);
                             // DialogBox.Close();
+
                             GenSetUp.Get;
+                            if GenSetUp."Charge BOSA Registration Fee" = true then begin
+                                dialogBox.Open('Posting Registration Fees for ' + Format(MembApp.Name));
+                                FnPostRegistrationFees(BOSAAccountNo, GenSetUp."BOSA Registration Fee Amount");
+                                dialogBox.Close();
+                            end else begin
+                                // Inform user using dialog instead of Message
+                                dialogBox.Open('BOSA Registration Fee will NOT be posted as per system setup.');
+                                dialogBox.Close();
+                            end;
+
+
 
                             if GenSetUp."Auto Open FOSA Savings Acc." = true then begin
                                 dialogBox.Open('Creating New M-Wallet Account for applicant ' + Format(MembApp.Name));
@@ -2490,6 +2502,73 @@ page 56110 "Member Application Card"
         Saccosetup.Modify;
         BOSAACC := Cust."No.";
         exit(BOSAACC);
+    end;
+
+    local procedure FnPostRegistrationFees(memberNo: Code[50]; transAmount: Decimal)
+    var
+        Gnljnline: Record "Gen. Journal Line";
+        LineN: Integer;
+        Jtemplate: Code[20];
+        Jbatch: Code[20];
+
+        transDescription: Text;
+    begin
+        Jtemplate := 'General';
+        Jbatch := 'Default';
+        transDescription := 'Registration Fees Recovered from deposits made on ' + Format(Today);
+        //Credit Registration Fees
+        LineN := LineN + 10000;
+        Gnljnline.Init;
+        Gnljnline."Journal Template Name" := Jtemplate;
+        Gnljnline."Journal Batch Name" := Jbatch;
+        Gnljnline."Line No." := LineN;
+        Gnljnline."Account Type" := Gnljnline."bal. account type"::Customer;
+        Gnljnline."Account No." := memberNo;
+        Gnljnline.Validate(Gnljnline."Account No.");
+        Gnljnline."Document No." := Rec."No.";
+        Gnljnline."Posting Date" := Today;
+        Gnljnline.Description := transDescription;
+        Gnljnline.Amount := transAmount * -1;
+        Gnljnline.Validate(Gnljnline.Amount);
+        Gnljnline."Transaction Type" := Gnljnline."Transaction Type"::"Registration Fee";
+        Gnljnline."Shortcut Dimension 1 Code" := 'BOSA';
+        // Gnljnline."Shortcut Dimension 2 Code" := FnGetMemberBranch(memberNo);
+        Gnljnline.Validate(Gnljnline."Shortcut Dimension 1 Code");
+        Gnljnline.Validate(Gnljnline."Shortcut Dimension 2 Code");
+        if Gnljnline.Amount <> 0 then
+            Gnljnline.Insert();
+
+        //Debit Depost Contrs
+        LineN := LineN + 10000;
+        Gnljnline.Init;
+        Gnljnline."Journal Template Name" := Jtemplate;
+        Gnljnline."Journal Batch Name" := Jbatch;
+        Gnljnline."Line No." := LineN;
+        Gnljnline."Account Type" := Gnljnline."bal. account type"::Customer;
+        Gnljnline."Account No." := memberNo;
+        Gnljnline.Validate(Gnljnline."Account No.");
+        Gnljnline."Document No." := Rec."No.";
+        Gnljnline."Posting Date" := Today;
+        Gnljnline.Description := transDescription;
+        Gnljnline.Amount := transAmount;
+        Gnljnline.Validate(Gnljnline.Amount);
+        Gnljnline."Transaction Type" := Gnljnline."Transaction Type"::"Deposit Contribution";
+        Gnljnline."Shortcut Dimension 1 Code" := 'BOSA';
+        // Gnljnline."Shortcut Dimension 2 Code" := FnGetMemberBranch(memberNo);
+        Gnljnline.Validate(Gnljnline."Shortcut Dimension 1 Code");
+        Gnljnline.Validate(Gnljnline."Shortcut Dimension 2 Code");
+        if Gnljnline.Amount <> 0 then
+            Gnljnline.Insert();
+
+
+        // Reinitialize the record and open the journal page
+        Gnljnline.Reset();
+        Gnljnline.SetRange("Journal Template Name", Jtemplate);
+        Gnljnline.SetRange("Journal Batch Name", Jbatch);
+        if Gnljnline.Find('-') then begin
+            Page.Run(page::"General Journal", Gnljnline);
+            Message('Registration fee of %1 has been posted', transAmount);
+        end;
     end;
 
     local procedure FnFOSAProducts(BOSAAccountNo: Code[50]): Code[50]

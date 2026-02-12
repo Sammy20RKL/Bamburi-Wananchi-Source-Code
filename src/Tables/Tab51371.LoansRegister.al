@@ -380,15 +380,17 @@ Table 51371 "Loans Register"
                 */
                 GenSetUp.Get();
                 if Cust.Get("Client Code") then begin
-                    //  IF Cust."Registration Date"<>0D THEN
-                    //  RefDate:=CALCDATE('<+'+GenSetup."Shares Capital Period"+'>',Cust."Registration Date");
-                    //  IF RefDate<TODAY THEN BEGIN
-                    //    ERROR('Member does not qualify for this loan!');
-                    //  END; // For members who are not 6 months old in the Sacco
+                    IF Cust."Registration Date" <> 0D THEN
+                        RefDate := CALCDATE('<+' + GenSetup."Share Capital Period" + '>', Cust."Registration Date");
+                    IF Today < RefDate THEN BEGIN
+                        ERROR('Member does not qualify for this loan!. Qualification date is %1.', RefDate);
+                        //           if Today < RefDate then
+                        // Error('Member does not qualify for this loan. Qualification date is %1.', RefDate);
+                    END; // For members who are not 6 months old in the Sacco
 
-                    //  Cust.CALCFIELDS("Shares Retained");
-                    //  IF Cust."Shares Retained"<GenSetUp."Retained Shares" THEN
-                    //    ERROR('Member does not meet the minimum Shares Capital contibution to qualify for this loan');
+                    Cust.CALCFIELDS("Shares Retained");
+                    IF Cust."Shares Retained" < GenSetUp."Retained Shares" THEN
+                        ERROR('Member does not meet the minimum Shares Capital contibution to qualify for this loan');
                 end;
                 if Source = Source::BOSA then begin
                     if "Loan  No." = '' then begin

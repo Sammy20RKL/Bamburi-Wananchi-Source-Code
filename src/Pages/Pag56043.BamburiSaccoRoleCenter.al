@@ -974,7 +974,7 @@ Page 56043 "Bamburi SACCO Role Center"
                         Caption = 'Member Accounts';
                         RunObject = Page "Member List";
                         ToolTip = 'View Member Accounts';
-                        Visible = true;
+                        Visible = false;
 
                     }
                     /* action("Member Account Balances Report")
@@ -986,7 +986,7 @@ Page 56043 "Bamburi SACCO Role Center"
                     action(MembersavingReport)
                     {
                         ApplicationArea = all;
-                        Caption = 'Member savings columnar report.';
+                        Caption = 'Member savings report.';
                         RunObject = report "Member savings report";
 
                     }
@@ -1142,7 +1142,7 @@ Page 56043 "Bamburi SACCO Role Center"
 
                 group("Loans Appeals")
                 {
-                    // Visible = false;
+                    Visible = false;
                     Caption = 'Loan Restructure';
                     action("Loan Appeal List")
                     {
@@ -1266,6 +1266,7 @@ Page 56043 "Bamburi SACCO Role Center"
                 }
                 group("Loan Rescheduling")
                 {
+                    Visible = false;
                     action("LoansRescheduleList")
                     {
                         ApplicationArea = Basic, Suite;
@@ -1285,6 +1286,7 @@ Page 56043 "Bamburi SACCO Role Center"
                 }
                 group("Run Commands")
                 {
+                    Visible = false;
                     // action("Loan Aging Code Unit") { RunObject = codeunit "Loan Aging Code Unit"; }
                     // action("Loans Defaulter Aging Codeunit") { RunObject = codeunit "Loans Defaulter Aging Codeunit"; }
                     action("Update Arrears") { RunObject = codeunit LoanAgingProcessor; }

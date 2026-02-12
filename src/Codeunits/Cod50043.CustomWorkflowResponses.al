@@ -280,6 +280,7 @@ codeunit 50043 "Custom Workflow Responses"
         IsHandled: Boolean;
         MembershipApplication: Record "Membership Applications";
         LoansRegister: Record "Loans Register";
+        MembershipExist: Record "Membership Exist";
         BOSATransfers: Record "BOSA Transfers";
         LoanBatchDisbursements: Record "Loan Disburesment-Batching";
         ChangeRequest: Record "Change Request";
@@ -404,6 +405,13 @@ codeunit 50043 "Custom Workflow Responses"
                     TransactionsTable.Validate(status, TransactionsTable.Status::Pending);
                     TransactionsTable.Modify(true);
                     Variant := TransactionsTable;
+                end;
+            Database::"Membership Exist":
+                begin
+                    RecRef.SetTable(MembershipExist);
+                    MembershipExist.Validate(Status, MembershipExist.Status::Pending);
+                    MembershipExist.Modify(true);
+                    Variant := MembershipExist;
                 end;
 
         end;

@@ -19,15 +19,7 @@ codeunit 59025 "Bamburi Loan Distribution"
         // Distribute in priority order (Interest first for each loan type)
 
         // 1. Emergency Loan - Type 'EMER'
-        RemainingAmount := ProcessLoan(
-            CheckoffLine."Member No",
-            'EMER',
-            RemainingAmount,
-            LoanCutOffDate,
-            InterestAmt,
-            PrincipalAmt,
-            TotalAmt
-        );
+        RemainingAmount := ProcessLoan(CheckoffLine."Member No", 'EMER', RemainingAmount, LoanCutOffDate, InterestAmt, PrincipalAmt, TotalAmt);
         if TotalAmt > 0 then begin
             CheckoffLine."Emergency Loan Interest" := InterestAmt;
             CheckoffLine."Emergency Loan  Principle" := PrincipalAmt;
@@ -35,15 +27,7 @@ codeunit 59025 "Bamburi Loan Distribution"
         end;
 
         // 2. Kivukio Loan - Type 'KIVUK'
-        RemainingAmount := ProcessLoan(
-            CheckoffLine."Member No",
-            'KIVUK',
-            RemainingAmount,
-            LoanCutOffDate,
-            InterestAmt,
-            PrincipalAmt,
-            TotalAmt
-        );
+        RemainingAmount := ProcessLoan(CheckoffLine."Member No", 'KIVUK', RemainingAmount, LoanCutOffDate, InterestAmt, PrincipalAmt, TotalAmt);
         if TotalAmt > 0 then begin
             CheckoffLine."Kivukio Loan Interest" := InterestAmt;
             CheckoffLine."Kivukio Loan Principle" := PrincipalAmt;
@@ -51,15 +35,7 @@ codeunit 59025 "Bamburi Loan Distribution"
         end;
 
         // 3. Mwokozi Loan - Type 'MWOK'
-        RemainingAmount := ProcessLoan(
-            CheckoffLine."Member No",
-            'MWOK',
-            RemainingAmount,
-            LoanCutOffDate,
-            InterestAmt,
-            PrincipalAmt,
-            TotalAmt
-        );
+        RemainingAmount := ProcessLoan(CheckoffLine."Member No", 'MWOK', RemainingAmount, LoanCutOffDate, InterestAmt, PrincipalAmt, TotalAmt);
         if TotalAmt > 0 then begin
             CheckoffLine."Mwokozi Loan Interest" := InterestAmt;
             CheckoffLine."Mwokozi Loan Principle" := PrincipalAmt;
@@ -67,15 +43,7 @@ codeunit 59025 "Bamburi Loan Distribution"
         end;
 
         // 4. School Fees Loan - Type 'SCHLOAN'
-        RemainingAmount := ProcessLoan(
-            CheckoffLine."Member No",
-            'SCHLOAN',
-            RemainingAmount,
-            LoanCutOffDate,
-            InterestAmt,
-            PrincipalAmt,
-            TotalAmt
-        );
+        RemainingAmount := ProcessLoan(CheckoffLine."Member No", 'SCHLOAN', RemainingAmount, LoanCutOffDate, InterestAmt, PrincipalAmt, TotalAmt);
         if TotalAmt > 0 then begin
             CheckoffLine."School Fees Interest" := InterestAmt;
             CheckoffLine."School Fees Principle" := PrincipalAmt;
@@ -83,15 +51,7 @@ codeunit 59025 "Bamburi Loan Distribution"
         end;
 
         // 5. Normal Loan 1 - Type 'NORM1'
-        RemainingAmount := ProcessLoan(
-            CheckoffLine."Member No",
-            'NORM1',
-            RemainingAmount,
-            LoanCutOffDate,
-            InterestAmt,
-            PrincipalAmt,
-            TotalAmt
-        );
+        RemainingAmount := ProcessLoan(CheckoffLine."Member No", 'NORM1', RemainingAmount, LoanCutOffDate, InterestAmt, PrincipalAmt, TotalAmt);
         if TotalAmt > 0 then begin
             CheckoffLine."Normal Loan 1 Interest" := InterestAmt;
             CheckoffLine."Normal Loan 1 Principle" := PrincipalAmt;
@@ -99,15 +59,7 @@ codeunit 59025 "Bamburi Loan Distribution"
         end;
 
         // 6. Normal Loan 2 - Type 'NORM2'
-        RemainingAmount := ProcessLoan(
-            CheckoffLine."Member No",
-            'NORM2',
-            RemainingAmount,
-            LoanCutOffDate,
-            InterestAmt,
-            PrincipalAmt,
-            TotalAmt
-        );
+        RemainingAmount := ProcessLoan(CheckoffLine."Member No", 'NORM2', RemainingAmount, LoanCutOffDate, InterestAmt, PrincipalAmt, TotalAmt);
         if TotalAmt > 0 then begin
             CheckoffLine."Normal Loan 2 Interest" := InterestAmt;
             CheckoffLine."Normal Loan 2 Principle" := PrincipalAmt;
@@ -115,15 +67,7 @@ codeunit 59025 "Bamburi Loan Distribution"
         end;
 
         // 7. Normal Loan 3 - Type 'NORM3'
-        RemainingAmount := ProcessLoan(
-            CheckoffLine."Member No",
-            'NORM3',
-            RemainingAmount,
-            LoanCutOffDate,
-            InterestAmt,
-            PrincipalAmt,
-            TotalAmt
-        );
+        RemainingAmount := ProcessLoan(CheckoffLine."Member No", 'NORM3', RemainingAmount, LoanCutOffDate, InterestAmt, PrincipalAmt, TotalAmt);
         if TotalAmt > 0 then begin
             CheckoffLine."Normal Loan 3 Interest" := InterestAmt;
             CheckoffLine."Normal Loan 3 Principle" := PrincipalAmt;
@@ -131,15 +75,7 @@ codeunit 59025 "Bamburi Loan Distribution"
         end;
 
         // 8. Normal Loan 4 - Type 'NORM4'
-        RemainingAmount := ProcessLoan(
-            CheckoffLine."Member No",
-            'NORM4',
-            RemainingAmount,
-            LoanCutOffDate,
-            InterestAmt,
-            PrincipalAmt,
-            TotalAmt
-        );
+        RemainingAmount := ProcessLoan(CheckoffLine."Member No", 'NORM4', RemainingAmount, LoanCutOffDate, InterestAmt, PrincipalAmt, TotalAmt);
         if TotalAmt > 0 then begin
             CheckoffLine."Normal loan 4 Interest" := InterestAmt;
             CheckoffLine."Normal loan 4 Principle" := PrincipalAmt;
@@ -147,15 +83,7 @@ codeunit 59025 "Bamburi Loan Distribution"
         end;
 
         // 9. Instant Loan - Type 'INST'
-        RemainingAmount := ProcessLoan(
-            CheckoffLine."Member No",
-            'INST',
-            RemainingAmount,
-            LoanCutOffDate,
-            InterestAmt,
-            PrincipalAmt,
-            TotalAmt
-        );
+        RemainingAmount := ProcessLoan(CheckoffLine."Member No", 'INST', RemainingAmount, LoanCutOffDate, InterestAmt, PrincipalAmt, TotalAmt);
         if TotalAmt > 0 then begin
             CheckoffLine."Instant Loan Interest" := InterestAmt;
             CheckoffLine."Instant Loan Principle" := PrincipalAmt;
@@ -163,15 +91,7 @@ codeunit 59025 "Bamburi Loan Distribution"
         end;
 
         // 10. New Product Loan - Type 'NEWPRO'
-        RemainingAmount := ProcessLoan(
-            CheckoffLine."Member No",
-            'NEWPRO',
-            RemainingAmount,
-            LoanCutOffDate,
-            InterestAmt,
-            PrincipalAmt,
-            TotalAmt
-        );
+        RemainingAmount := ProcessLoan(CheckoffLine."Member No", 'NEWPRO', RemainingAmount, LoanCutOffDate, InterestAmt, PrincipalAmt, TotalAmt);
         if TotalAmt > 0 then begin
             CheckoffLine."New Product Loan Interest" := InterestAmt;
             CheckoffLine."New Product Loan Principle" := PrincipalAmt;
@@ -198,14 +118,20 @@ codeunit 59025 "Bamburi Loan Distribution"
     ): Decimal
     var
         LoansRegister: Record "Loans Register";
+
         LoanRepaymentSchedule: Record "Loan Repayment Schedule";
+
         ScheduledInterest: Decimal;
+
         ScheduledPrincipal: Decimal;
+
         BeginMonthDate: Date;
     begin
         // Initialize return values
         InterestToPay := 0;
+
         PrincipalToPay := 0;
+
         TotalToPay := 0;
 
         if AvailableAmount <= 0 then

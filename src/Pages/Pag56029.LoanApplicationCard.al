@@ -517,8 +517,8 @@ Page 56029 "Loan Application Card"
 
                     trigger OnAction()
                     begin
-                        if checkGuarantorCount() < 2 then begin
-                            Error('Loan Applications must have a minimum of 2 Guarantor');
+                        if checkGuarantorCount() < 1 then begin
+                            Error('Loan Applications must have a minimum of 1 Guarantor');
                         end;
 
                         if Rec."Notify Guarantor SMS" = true then begin
@@ -1095,7 +1095,7 @@ Page 56029 "Loan Application Card"
                 Emailaddress := Cust."E-Mail (Personal)";
                 EmailSubject := 'Loan Application Approval';
                 EMailBody := 'Dear <b>' + '</b>,</br></br>' + 'Your ' + Rec."Loan Product Type Name" + ' loan application of KSHs.' + FORMAT(Rec."Requested Amount") +
-                          ' has been Approved by Credit. Polytech Sacco Ltd.' + '<br></br>' +
+                          ' has been Approved by Credit. Bamburi Wananchi Sacco Ltd.' + '<br></br>' +
 'Congratulations';
                 EmailCodeunit.SendMail(Emailaddress, EmailSubject, EmailBody);
             end;
@@ -1126,7 +1126,7 @@ Page 56029 "Loan Application Card"
         SMSMessages."Entered By" := USERID;
         SMSMessages."Sent To Server" := SMSMessages."Sent To Server"::No;
         SMSMessages."SMS Message" := 'Your' + Format(Rec."Loan Product Type Name") + 'loan application of KSHs.' + FORMAT(Rec."Requested Amount") +
-                                  ' has been Approved by Credit. Polytech Sacco Ltd.';
+                                  ' has been Approved by Credit. Bamburi Wananchi Sacco Ltd.';
         Cust.RESET;
         IF Cust.GET(Rec."Client Code") THEN
             if Cust."Mobile Phone No" <> '' then begin

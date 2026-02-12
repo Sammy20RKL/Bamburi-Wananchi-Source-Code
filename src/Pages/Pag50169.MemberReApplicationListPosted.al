@@ -6,6 +6,7 @@ Page 50169 "MemberRe-ApplicationListPosted"
     SourceTable = "Member Reapplication";
     SourceTableView = sorting("No.") order(ascending) where(Reactivated = const(true));
     UsageCategory = Lists;
+    InsertAllowed = false;
     CardPageId = "Member Re-Application Page";
 
     Editable = false;

@@ -58,8 +58,9 @@ Report 50046 "MemberwithoutMinshapitalreport"
                 Gensetup.Get();
                 // SetAutoCalcFields("Share Capital");
                 // Sharecapital := "Current Shares";
-                If Sharecapital > Gensetup."Retained Shares" then
+                If Sharecapital >= Gensetup."Retained Shares" then
                     CurrReport.Skip();
+
                 EntryNo := EntryNo + 1;
             end;
 
