@@ -149,13 +149,12 @@ Codeunit 50009 "Swizzsoft Factory"
                         LoansRec.TestField(LoansRec.Installments);
                         LPrincipal := LoanAmount / RepayPeriod;
                         LInterest := (InterestRate / 12 / 100) * LBalance;
-                    end else begin
+                    end else if LoansRec."Repayment Method" = LoansRec."Repayment Method"::"One-Time" then begin
                         LoansRec.TestField(LoansRec.Interest);
-                        LoansRec.TestField(LoansRec.Installments);
-                        LPrincipal := LoanAmount / RepayPeriod;
-                        LInterest := (InterestRate / 12 / 100) * LoanAmount;// / RepayPeriod;
-
+                        LPrincipal := LoanAmount;
+                        LInterest := ROUND((LoanAmount * InterestRate / 100), 1, '=');
                     end;
+
 
                     //Grace Period
                     if GrPrinciple > 0 then begin

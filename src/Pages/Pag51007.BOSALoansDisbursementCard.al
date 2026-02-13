@@ -79,7 +79,7 @@ Page 51007 "BOSA Loans Disbursement Card"
                 field(Interest; Rec.Interest)
                 {
                     ApplicationArea = Basic;
-                    Editable = EditableField;
+                    Editable = true;// EditableField;
                     Caption = 'Interest Rate';
                 }
                 field("Requested Amount"; Rec."Requested Amount")
@@ -213,10 +213,18 @@ Page 51007 "BOSA Loans Disbursement Card"
                 {
                     ApplicationArea = Basic;
                     Editable = true;
+
+                }
+                field("Bank Name"; Rec."Bank Name")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Member Bank Name';
+                    Editable = false;
                 }
                 field("Batch No."; Rec."Batch No.")
                 {
                     Editable = true;
+                    // Visible = false;
                     ApplicationArea = Basic;
                 }
                 field("Loan Disbursement Date"; Rec."Loan Disbursement Date")

@@ -63,6 +63,12 @@ page 57005 "Bamburi CheckoffLines"
                 field("New Product Loan Amount"; Rec."New Product Loan Amount") { ApplicationArea = Basic; }
                 field("New Product Loan Principle"; Rec."New Product Loan Principle") { ApplicationArea = Basic; }
                 field("New Product Loan Interest"; Rec."New Product Loan Interest") { ApplicationArea = Basic; }
+                field("HALLO HALLO Loan Amount"; Rec."HALLO HALLO Loan Amount") { ApplicationArea = Basic; }
+                field("HALLO HALLO Loan Principle"; Rec."HALLO HALLO Loan Principle") { ApplicationArea = Basic; }
+                field("HALLO HALLO Loan Interest"; Rec."HALLO HALLO Loan Interest") { ApplicationArea = Basic; }
+                field("Instant Loan Amount"; Rec."Instant Loan Amount") { ApplicationArea = Basic; }
+                field("Instant Loan Principle"; Rec."Instant Loan Principle") { ApplicationArea = Basic; }
+                field("Instant Loan Interest"; Rec."Instant Loan Interest") { ApplicationArea = Basic; }
                 field("Normal Loan 1 Amount"; Rec."Normal Loan 1 Amount") { ApplicationArea = Basic; }
                 field("Normal Loan 1 Principle"; Rec."Normal Loan 1 Principle") { ApplicationArea = Basic; }
                 field("Normal Loan 1 Interest"; Rec."Normal Loan 1 Interest") { ApplicationArea = Basic; }
@@ -75,9 +81,7 @@ page 57005 "Bamburi CheckoffLines"
                 field("Normal loan 4 Amount"; Rec."Normal loan 4 Amount") { ApplicationArea = Basic; }
                 field("Normal loan 4 Principle"; Rec."Normal loan 4 Principle") { ApplicationArea = Basic; }
                 field("Normal loan 4 Interest"; Rec."Normal loan 4 Interest") { ApplicationArea = Basic; }
-                field("Instant Loan Amount"; Rec."Instant Loan Amount") { ApplicationArea = Basic; }
-                field("Instant Loan Principle"; Rec."Instant Loan Principle") { ApplicationArea = Basic; }
-                field("Instant Loan Interest"; Rec."Instant Loan Interest") { ApplicationArea = Basic; }
+
                 field("Total Loans"; Rec."Total Loans") { ApplicationArea = Basic; }
                 field("Grand Total"; Rec."Grand Total") { ApplicationArea = Basic; }
 

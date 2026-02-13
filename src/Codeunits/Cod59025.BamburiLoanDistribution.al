@@ -161,22 +161,22 @@ codeunit 59025 "Bamburi Loan Distribution"
         ScheduledInterest := 0;
         ScheduledPrincipal := 0;
 
-        // CRITICAL: Find the repayment schedule entry for THIS MONTH
+        //Find the repayment schedule entry for THIS MONTH
         LoanRepaymentSchedule.Reset();
         LoanRepaymentSchedule.SetRange("Loan No.", LoansRegister."Loan  No.");
         LoanRepaymentSchedule.SetFilter("Repayment Date", '%1..%2', CutOffDate, CalcDate('CM', CutOffDate));
 
         if LoanRepaymentSchedule.FindLast() then begin
             // FOUND SCHEDULE FOR THIS MONTH - Use actual scheduled amounts
-            ScheduledInterest := Round(LoanRepaymentSchedule."Monthly Interest", 0.01, '=');
-            ScheduledPrincipal := Round(LoanRepaymentSchedule."Principal Repayment", 0.01, '=');
+            ScheduledInterest := Round(LoanRepaymentSchedule."Monthly Interest", 1, '=');
+            ScheduledPrincipal := Round(LoanRepaymentSchedule."Principal Repayment", 1, '=');
 
             // Validate against outstanding balances
             if ScheduledPrincipal > LoansRegister."Outstanding Balance" then
-                ScheduledPrincipal := Round(LoansRegister."Outstanding Balance", 0.01, '=');
+                ScheduledPrincipal := Round(LoansRegister."Outstanding Balance", 1, '=');
 
             if ScheduledInterest > LoansRegister."Oustanding Interest" then
-                ScheduledInterest := Round(LoansRegister."Oustanding Interest", 0.01, '=');
+                ScheduledInterest := Round(LoansRegister."Oustanding Interest", 1, '=');
 
         end else begin
             // NO SCHEDULE FOUND FOR THIS MONTH - Try to find ANY schedule entry
@@ -185,29 +185,29 @@ codeunit 59025 "Bamburi Loan Distribution"
 
             if LoanRepaymentSchedule.FindLast() then begin
                 // Use the last schedule entry amounts
-                ScheduledInterest := Round(LoanRepaymentSchedule."Monthly Interest", 0.01, '=');
-                ScheduledPrincipal := Round(LoanRepaymentSchedule."Principal Repayment", 0.01, '=');
+                ScheduledInterest := Round(LoanRepaymentSchedule."Monthly Interest", 1, '=');
+                ScheduledPrincipal := Round(LoanRepaymentSchedule."Principal Repayment", 1, '=');
 
                 // Validate against outstanding balances
                 if ScheduledPrincipal > LoansRegister."Outstanding Balance" then
-                    ScheduledPrincipal := Round(LoansRegister."Outstanding Balance", 0.01, '=');
+                    ScheduledPrincipal := Round(LoansRegister."Outstanding Balance", 1, '=');
 
                 if ScheduledInterest > LoansRegister."Oustanding Interest" then
-                    ScheduledInterest := Round(LoansRegister."Oustanding Interest", 0.01, '=');
+                    ScheduledInterest := Round(LoansRegister."Oustanding Interest", 1, '=');
 
             end else begin
-                // FALLBACK: No schedule at all - use outstanding balances
+
                 // Calculate interest manually if needed
                 if LoansRegister."Oustanding Interest" > 0 then
-                    ScheduledInterest := Round(LoansRegister."Oustanding Interest", 0.01, '=')
+                    ScheduledInterest := Round(LoansRegister."Oustanding Interest", 1, '=')
                 else
-                    ScheduledInterest := Round(LoansRegister."Approved Amount" * (LoansRegister.Interest / 1200), 0.01, '=');
+                    ScheduledInterest := Round(LoansRegister."Approved Amount" * (LoansRegister.Interest / 1200), 1, '=');
 
-                ScheduledPrincipal := Round(LoansRegister."Outstanding Balance", 0.01, '=');
+                ScheduledPrincipal := Round(LoansRegister."Outstanding Balance", 1, '=');
             end;
         end;
 
-        // NOW DISTRIBUTE THE AVAILABLE AMOUNT
+
         // STEP 1: PAY INTEREST FIRST (Priority 1)
         if ScheduledInterest > 0 then begin
             if AvailableAmount >= ScheduledInterest then begin
@@ -235,7 +235,7 @@ codeunit 59025 "Bamburi Loan Distribution"
         end;
 
         // Calculate total amount allocated to this loan
-        TotalToPay := Round(InterestToPay + PrincipalToPay, 0.01, '=');
+        TotalToPay := Round(InterestToPay + PrincipalToPay, 1, '=');
 
         // Return remaining amount
         exit(AvailableAmount);
@@ -308,7 +308,7 @@ codeunit 59025 "Bamburi Loan Distribution"
         until CheckoffLine.Next() = 0;
 
         if ProcessedCount > 0 then
-            Message('Successfully distributed loans for %1 member(s)', ProcessedCount, SkippedCount)
+            Message('Successfully distributed loans', ProcessedCount, SkippedCount)
         else
             Message('No members with Total Loans > 0 found.');
     end;

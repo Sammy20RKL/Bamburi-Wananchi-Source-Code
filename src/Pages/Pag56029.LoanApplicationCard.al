@@ -352,17 +352,17 @@ Page 56029 "Loan Application Card"
                     Style = StrongAccent;
                     ShowMandatory = true;
                 }
-                field("Paying Bank Account No"; Rec."Paying Bank Account No")
-                {
-                    ApplicationArea = basic;
-                    Editable = true;
-                }
-                field("Bank Name"; Rec."Bank Name")
-                {
-                    ApplicationArea = Basic;
-                    Caption = 'Member Bank Name';
-                    Editable = false;
-                }
+                // field("Paying Bank Account No"; Rec."Paying Bank Account No")
+                // {
+                //     ApplicationArea = basic;
+                //     Editable = true;
+                // }
+                // field("Bank Name"; Rec."Bank Name")
+                // {
+                //     ApplicationArea = Basic;
+                //     Caption = 'Member Bank Name';
+                //     Editable = false;
+                // }
                 // field("Bank No"; Rec."Bank No")
                 // {
                 //     ApplicationArea = Basic;

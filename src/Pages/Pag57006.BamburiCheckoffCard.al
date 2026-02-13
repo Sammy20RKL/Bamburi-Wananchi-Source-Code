@@ -321,7 +321,7 @@ page 57006 "Bamburi Checkoff Card"
                                                             Jbatch,
                                                             RcptBufLines."Member No",
                                                             Rec."Document No",
-                                                            'Insurance Contribution ChkOff',
+                                                            'Insurance Contribution CheckOff',
                                                             RcptBufLines.Insurance,
                                                             GenJournalLine."Transaction Type"::"Insurance Contribution"
                                                             );
@@ -508,10 +508,7 @@ page 57006 "Bamburi Checkoff Card"
         if RcptBufLines."Emergency Loan Amount" > 0 then begin
             loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."Emergency Loan Amount", Rec."Loan CutOff Date", 'EMER');
             if loanNumber <> '' then begin
-                FnPostDistributedLoan(RcptBufLines, loanNumber,
-                    RcptBufLines."Emergency Loan Interest",
-                    RcptBufLines."Emergency Loan  Principle",
-                    'EMER');
+                FnPostDistributedLoan(RcptBufLines, loanNumber, RcptBufLines."Emergency Loan Interest", RcptBufLines."Emergency Loan  Principle", 'EMER');
             end else begin
                 FnTransferExcessToUnallocatedFunds(RcptBufLines, RcptBufLines."Emergency Loan Amount", 'Excess Payments for Emergency Loan');
             end;
@@ -521,10 +518,7 @@ page 57006 "Bamburi Checkoff Card"
         if RcptBufLines."Kivukio Loan Amount" > 0 then begin
             loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."Kivukio Loan Amount", Rec."Loan CutOff Date", 'KIVUK');
             if loanNumber <> '' then begin
-                FnPostDistributedLoan(RcptBufLines, loanNumber,
-                    RcptBufLines."Kivukio Loan Interest",
-                    RcptBufLines."Kivukio Loan Principle",
-                    'KIVUK');
+                FnPostDistributedLoan(RcptBufLines, loanNumber, RcptBufLines."Kivukio Loan Interest", RcptBufLines."Kivukio Loan Principle", 'KIVUK');
             end else begin
                 FnTransferExcessToUnallocatedFunds(RcptBufLines, RcptBufLines."Kivukio Loan Amount", 'Excess Payments for Kivukio Loan');
             end;
@@ -534,10 +528,7 @@ page 57006 "Bamburi Checkoff Card"
         if RcptBufLines."Normal Loan 1 Amount" > 0 then begin
             loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."Normal Loan 1 Amount", Rec."Loan CutOff Date", 'NORM1');
             if loanNumber <> '' then begin
-                FnPostDistributedLoan(RcptBufLines, loanNumber,
-                    RcptBufLines."Normal Loan 1 Interest",
-                    RcptBufLines."Normal Loan 1 Principle",
-                    'NORM1');
+                FnPostDistributedLoan(RcptBufLines, loanNumber, RcptBufLines."Normal Loan 1 Interest", RcptBufLines."Normal Loan 1 Principle", 'NORM1');
             end else begin
                 FnTransferExcessToUnallocatedFunds(RcptBufLines, RcptBufLines."Normal Loan 1 Amount", 'Excess Payments for Normal loan 1');
             end;
@@ -547,10 +538,7 @@ page 57006 "Bamburi Checkoff Card"
         if RcptBufLines."Mwokozi Loan Amount" > 0 then begin
             loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."Mwokozi Loan Amount", Rec."Loan CutOff Date", 'MWOK');
             if loanNumber <> '' then begin
-                FnPostDistributedLoan(RcptBufLines, loanNumber,
-                    RcptBufLines."Mwokozi Loan Interest",
-                    RcptBufLines."Mwokozi Loan Principle",
-                    'MWOK');
+                FnPostDistributedLoan(RcptBufLines, loanNumber, RcptBufLines."Mwokozi Loan Interest", RcptBufLines."Mwokozi Loan Principle", 'MWOK');
             end else begin
                 FnTransferExcessToUnallocatedFunds(RcptBufLines, RcptBufLines."Mwokozi Loan Amount", 'Excess Payments for Mwokozi Loan');
             end;
@@ -560,10 +548,7 @@ page 57006 "Bamburi Checkoff Card"
         if RcptBufLines."School Fees Amount" > 0 then begin
             loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."School Fees Amount", Rec."Loan CutOff Date", 'SCHLOAN');
             if loanNumber <> '' then begin
-                FnPostDistributedLoan(RcptBufLines, loanNumber,
-                    RcptBufLines."School Fees Interest",
-                    RcptBufLines."School Fees Principle",
-                    'SCHLOAN');
+                FnPostDistributedLoan(RcptBufLines, loanNumber, RcptBufLines."School Fees Interest", RcptBufLines."School Fees Principle", 'SCHLOAN');
             end else begin
                 FnTransferExcessToUnallocatedFunds(RcptBufLines, RcptBufLines."School Fees Amount", 'Excess Payments for School Fee loan');
             end;
@@ -573,10 +558,7 @@ page 57006 "Bamburi Checkoff Card"
         if RcptBufLines."Normal Loan 2 Amount" > 0 then begin
             loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."Normal Loan 2 Amount", Rec."Loan CutOff Date", 'NORM2');
             if loanNumber <> '' then begin
-                FnPostDistributedLoan(RcptBufLines, loanNumber,
-                    RcptBufLines."Normal Loan 2 Interest",
-                    RcptBufLines."Normal Loan 2 Principle",
-                    'NORM2');
+                FnPostDistributedLoan(RcptBufLines, loanNumber, RcptBufLines."Normal Loan 2 Interest", RcptBufLines."Normal Loan 2 Principle", 'NORM2');
             end else begin
                 FnTransferExcessToUnallocatedFunds(RcptBufLines, RcptBufLines."Normal Loan 2 Amount", 'Excess Payments for Normal loan 2');
             end;
@@ -586,10 +568,7 @@ page 57006 "Bamburi Checkoff Card"
         if RcptBufLines."Normal Loan 3 Amount" > 0 then begin
             loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."Normal Loan 3 Amount", Rec."Loan CutOff Date", 'NORM3');
             if loanNumber <> '' then begin
-                FnPostDistributedLoan(RcptBufLines, loanNumber,
-                    RcptBufLines."Normal Loan 3 Interest",
-                    RcptBufLines."Normal Loan 3 Principle",
-                    'NORM3');
+                FnPostDistributedLoan(RcptBufLines, loanNumber, RcptBufLines."Normal Loan 3 Interest", RcptBufLines."Normal Loan 3 Principle", 'NORM3');
             end else begin
                 FnTransferExcessToUnallocatedFunds(RcptBufLines, RcptBufLines."Normal Loan 3 Amount", 'Excess Payments for Normal loan 3');
             end;
@@ -599,10 +578,7 @@ page 57006 "Bamburi Checkoff Card"
         if RcptBufLines."Normal loan 4 Amount" > 0 then begin
             loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."Normal loan 4 Amount", Rec."Loan CutOff Date", 'NORM4');
             if loanNumber <> '' then begin
-                FnPostDistributedLoan(RcptBufLines, loanNumber,
-                    RcptBufLines."Normal loan 4 Interest",
-                    RcptBufLines."Normal loan 4 Principle",
-                    'NORM4');
+                FnPostDistributedLoan(RcptBufLines, loanNumber, RcptBufLines."Normal loan 4 Interest", RcptBufLines."Normal loan 4 Principle", 'NORM4');
             end else begin
                 FnTransferExcessToUnallocatedFunds(RcptBufLines, RcptBufLines."Normal loan 4 Amount", 'Excess Payments for Normal loan 4');
             end;
@@ -612,10 +588,7 @@ page 57006 "Bamburi Checkoff Card"
         if RcptBufLines."HALLO HALLO Loan Amount" > 0 then begin
             loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."HALLO HALLO Loan Amount", Rec."Loan CutOff Date", 'HALL');
             if loanNumber <> '' then begin
-                FnPostDistributedLoan(RcptBufLines, loanNumber,
-                    RcptBufLines."HALLO HALLO Loan Interest",
-                    RcptBufLines."HALLO HALLO Loan Principle",
-                    'HALL');
+                FnPostDistributedLoan(RcptBufLines, loanNumber, RcptBufLines."HALLO HALLO Loan Interest", RcptBufLines."HALLO HALLO Loan Principle", 'HALL');
             end else begin
                 FnTransferExcessToUnallocatedFunds(RcptBufLines, RcptBufLines."HALLO HALLO Loan Amount", 'Excess Payments for Hallo Hallo loan');
             end;
@@ -625,10 +598,7 @@ page 57006 "Bamburi Checkoff Card"
         if RcptBufLines."Instant Loan Amount" > 0 then begin
             loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."Instant Loan Amount", Rec."Loan CutOff Date", 'INST');
             if loanNumber <> '' then begin
-                FnPostDistributedLoan(RcptBufLines, loanNumber,
-                    RcptBufLines."Instant Loan Interest",
-                    RcptBufLines."Instant Loan Principle",
-                    'INST');
+                FnPostDistributedLoan(RcptBufLines, loanNumber, RcptBufLines."Instant Loan Interest", RcptBufLines."Instant Loan Principle", 'INST');
             end else begin
                 FnTransferExcessToUnallocatedFunds(RcptBufLines, RcptBufLines."Instant Loan Amount", 'Excess Payments for Instant Loan');
             end;
@@ -638,10 +608,7 @@ page 57006 "Bamburi Checkoff Card"
         if RcptBufLines."New Product Loan Amount" > 0 then begin
             loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."New Product Loan Amount", Rec."Loan CutOff Date", 'NEWPRO');
             if loanNumber <> '' then begin
-                FnPostDistributedLoan(RcptBufLines, loanNumber,
-                    RcptBufLines."New Product Loan Interest",
-                    RcptBufLines."New Product Loan Principle",
-                    'NEWPRO');
+                FnPostDistributedLoan(RcptBufLines, loanNumber, RcptBufLines."New Product Loan Interest", RcptBufLines."New Product Loan Principle", 'NEWPRO');
             end else begin
                 FnTransferExcessToUnallocatedFunds(RcptBufLines, RcptBufLines."New Product Loan Amount", 'Excess Payments for New Product Loan');
             end;

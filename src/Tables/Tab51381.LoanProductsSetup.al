@@ -97,7 +97,7 @@ Table 51381 "Loan Products Setup"
         }
         field(44; "Repayment Method"; Option)
         {
-            OptionMembers = "",Amortised,"Reducing Balance","Straight Line",Constants;
+            OptionMembers = "",Amortised,"Reducing Balance","Straight Line",Constants,"One-Time";
         }
         field(45; "Grace Period - Principle (M)"; Integer)
         {

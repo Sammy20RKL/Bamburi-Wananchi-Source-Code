@@ -2516,6 +2516,14 @@ page 56110 "Member Application Card"
         Jtemplate := 'General';
         Jbatch := 'Default';
         transDescription := 'Registration Fees Recovered from deposits made on ' + Format(Today);
+
+        // Reinitialize the record and open the journal page
+        Gnljnline.Reset();
+        Gnljnline.SetRange("Journal Template Name", Jtemplate);
+        Gnljnline.SetRange("Journal Batch Name", Jbatch);
+        if Gnljnline.Find('-') then
+            Gnljnline.DeleteAll();
+
         //Credit Registration Fees
         LineN := LineN + 10000;
         Gnljnline.Init;
