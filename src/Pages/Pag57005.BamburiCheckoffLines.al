@@ -75,12 +75,15 @@ page 57005 "Bamburi CheckoffLines"
                 field("Normal Loan 2 Amount"; Rec."Normal Loan 2 Amount") { ApplicationArea = Basic; }
                 field("Normal Loan 2 Principle"; Rec."Normal Loan 2 Principle") { ApplicationArea = Basic; }
                 field("Normal Loan 2 Interest"; Rec."Normal Loan 2 Interest") { ApplicationArea = Basic; }
-                field("Normal Loan 3 Amount"; Rec."Normal Loan 3 Amount") { ApplicationArea = Basic; }
-                field("Normal Loan 3 Principle"; Rec."Normal Loan 3 Principle") { ApplicationArea = Basic; }
-                field("Normal Loan 3 Interest"; Rec."Normal Loan 3 Interest") { ApplicationArea = Basic; }
-                field("Normal loan 4 Amount"; Rec."Normal loan 4 Amount") { ApplicationArea = Basic; }
-                field("Normal loan 4 Principle"; Rec."Normal loan 4 Principle") { ApplicationArea = Basic; }
-                field("Normal loan 4 Interest"; Rec."Normal loan 4 Interest") { ApplicationArea = Basic; }
+                //field("Normal Loan 3 Amount"; Rec."Normal Loan 3 Amount") { ApplicationArea = Basic; }
+                //field("Normal Loan 3 Principle"; Rec."Normal Loan 3 Principle") { ApplicationArea = Basic; }
+                //field("Normal Loan 3 Interest"; Rec."Normal Loan 3 Interest") { ApplicationArea = Basic; }
+                field("Mbuyu Loan Amount"; Rec."Mbuyu Loan Amount") { ApplicationArea = Basic; }
+                field("Mbuyu Loan Principle"; Rec."Mbuyu Loan Principle") { ApplicationArea = Basic; }
+                field("Mbuyu Loan Interest"; Rec."Mbuyu Loan Interest") { ApplicationArea = Basic; }
+                // field("Normal loan 4 Amount"; Rec."Normal loan 4 Amount") { ApplicationArea = Basic; }
+                // field("Normal loan 4 Principle"; Rec."Normal loan 4 Principle") { ApplicationArea = Basic; }
+                // field("Normal loan 4 Interest"; Rec."Normal loan 4 Interest") { ApplicationArea = Basic; }
 
                 field("Total Loans"; Rec."Total Loans") { ApplicationArea = Basic; }
                 field("Grand Total"; Rec."Grand Total") { ApplicationArea = Basic; }

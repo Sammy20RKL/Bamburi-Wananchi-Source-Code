@@ -569,6 +569,7 @@ Page 51007 "BOSA Loans Disbursement Card"
         LoanGuar: Record "Loans Guarantee Details";
         SMSMessages: Record "SMS Messages";
         i: Integer;
+        tt: Record 8623;
         LoanType: Record "Loan Products Setup";
         PeriodDueDate: Date;
         ScheduleRep: Record "Loan Repayment Schedule";

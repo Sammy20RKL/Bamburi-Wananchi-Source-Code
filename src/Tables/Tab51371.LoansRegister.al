@@ -861,9 +861,12 @@ Table 51371 "Loans Register"
                     if "Requested Amount" > ("Member Deposits" * LoanType."Deposits Multiplier") then begin
                         Error('Amount Requested exceeds member Eligibility');
                     end;
-                    if "Requested Amount" > LoanType."Max. Loan Amount" then begin
-                        Error('You Can not request more than the Loan Allowable limit of %1', LoanType."Max. Loan Amount");
+                    if ("Loan Product Type" = 'KIVUK') or ("Loan Product Type" = 'HALL') or ("Loan Product Type" = 'INST') then begin
+
+                        if "Requested Amount" > LoanType."Max. Loan Amount" then
+                            Error('You cannot request more than the allowable limit of %1', LoanType."Max. Loan Amount");
                     end;
+
                 end;
 
 
@@ -877,8 +880,10 @@ Table 51371 "Loans Register"
                         LoansRec.SetRange(LoansRec.Posted, true);
 
                     end else
-                        if "Requested Amount" > LoanType."Max. Loan Amount" then begin
-                            Error('You cannot request more than the Loan Allowable limit of %1', LoanType."Max. Loan Amount");
+                        if ("Loan Product Type" = 'KIVUK') or ("Loan Product Type" = 'HALL') or ("Loan Product Type" = 'INST') then begin
+
+                            if "Requested Amount" > LoanType."Max. Loan Amount" then
+                                Error('You cannot request more than the allowable limit of %1', LoanType."Max. Loan Amount");
                         end;
 
                     if "Requested Amount" < LoanType."Min. Loan Amount" then begin
@@ -1331,7 +1336,7 @@ Table 51371 "Loans Register"
 
                 EndDate := Dmy2date(1, Month + 1, currYear) - 1;
 
-                if DAY <= 20 then begin
+                if DAY <= 15 then begin
                     "Repayment Start Date" := CalcDate('CM', "Loan Disbursement Date");
                 end else begin
                     "Repayment Start Date" := CalcDate('CM', CalcDate('CM+1M', "Loan Disbursement Date"));

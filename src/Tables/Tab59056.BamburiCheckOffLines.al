@@ -56,6 +56,9 @@ table 59056 "Bamburi CheckoffLines"
         field(49; "Mwokozi Loan Amount"; Decimal) { }
         field(50; "Mwokozi Loan Principle"; Decimal) { }
         field(51; "Mwokozi Loan Interest"; Decimal) { }
+        field(54; "Mbuyu Loan Amount"; Decimal) { }
+        field(55; "Mbuyu Loan Principle"; Decimal) { }
+        field(56; "Mbuyu Loan Interest"; Decimal) { }
 
         field(52; "Total Loans"; Decimal)
         {
@@ -86,14 +89,15 @@ table 59056 "Bamburi CheckoffLines"
 
     fieldgroups
     {
+
     }
 
     procedure CalcTotals()
     begin
         "Total Loans" := "Emergency Loan Amount" + "Kivukio Loan Amount" + "Mwokozi Loan Amount" +
                          "School Fees Amount" + "New Product Loan Amount" + "Normal Loan 1 Amount" +
-                         "Normal Loan 2 Amount" + "Normal Loan 3 Amount" + "Normal loan 4 Amount" +
-                         "Instant Loan Amount" + "HALLO HALLO Loan Amount";
+                         "Normal Loan 2 Amount" +
+                         "Instant Loan Amount" + "HALLO HALLO Loan Amount" + "Mbuyu Loan Amount";
 
         "Grand Total" := "Share Capital" + "Deposit Contribution" + "Benevolent" +
                          "Insurance" + "Registration" + "Holiday" + "Total Loans";

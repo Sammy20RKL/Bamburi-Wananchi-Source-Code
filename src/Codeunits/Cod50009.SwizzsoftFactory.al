@@ -152,7 +152,7 @@ Codeunit 50009 "Swizzsoft Factory"
                     end else if LoansRec."Repayment Method" = LoansRec."Repayment Method"::"One-Time" then begin
                         LoansRec.TestField(LoansRec.Interest);
                         LPrincipal := LoanAmount;
-                        LInterest := ROUND((LoanAmount * InterestRate / 100), 1, '=');
+                        LInterest := ROUND((LoanAmount * InterestRate / 100), 1, '>');
                     end;
 
 

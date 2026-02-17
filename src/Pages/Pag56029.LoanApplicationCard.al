@@ -517,8 +517,8 @@ Page 56029 "Loan Application Card"
 
                     trigger OnAction()
                     begin
-                        if checkGuarantorCount() < 1 then begin
-                            Error('Loan Applications must have a minimum of 1 Guarantor');
+                        if checkGuarantorCount() < 2 then begin
+                            Error('Loan Applications must have a minimum of 2 Guarantor');
                         end;
 
                         if Rec."Notify Guarantor SMS" = true then begin

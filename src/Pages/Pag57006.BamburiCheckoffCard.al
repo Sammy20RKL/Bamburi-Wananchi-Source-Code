@@ -575,12 +575,12 @@ page 57006 "Bamburi Checkoff Card"
         end;
 
         // Normal Loan 4
-        if RcptBufLines."Normal loan 4 Amount" > 0 then begin
-            loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."Normal loan 4 Amount", Rec."Loan CutOff Date", 'NORM4');
+        if RcptBufLines."Mbuyu Loan Amount" > 0 then begin
+            loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."Mbuyu Loan Amount", Rec."Loan CutOff Date", 'MBUY');
             if loanNumber <> '' then begin
-                FnPostDistributedLoan(RcptBufLines, loanNumber, RcptBufLines."Normal loan 4 Interest", RcptBufLines."Normal loan 4 Principle", 'NORM4');
+                FnPostDistributedLoan(RcptBufLines, loanNumber, RcptBufLines."Mbuyu Loan Interest", RcptBufLines."Mbuyu Loan Principle", 'MBUY');
             end else begin
-                FnTransferExcessToUnallocatedFunds(RcptBufLines, RcptBufLines."Normal loan 4 Amount", 'Excess Payments for Normal loan 4');
+                FnTransferExcessToUnallocatedFunds(RcptBufLines, RcptBufLines."Mbuyu Loan Amount", 'Excess Payments for Mbuyu loan');
             end;
         end;
 
@@ -871,6 +871,24 @@ page 57006 "Bamburi Checkoff Card"
             Gnljnline.Validate(Gnljnline."Shortcut Dimension 1 Code");
             Gnljnline.Validate(Gnljnline."Shortcut Dimension 2 Code");
             Gnljnline.Insert();
+        end;
+
+        // Mark the installment as Paid after successful posting
+        LoanRepS.Reset();
+        LoanRepS.SetRange("Loan No.", loanNumber);
+        LoanRepS.SetRange("Member No.", ObjRcptBuffer."Member No");
+        LoanRepS.SetRange(Paid, false);
+        LoanRepS.SetFilter("Repayment Date", '..%1', Rec."Loan CutOff Date");
+        LoanRepS.SetCurrentKey("Loan No.", "Member No.", "Reschedule No", "Instalment No");
+        LoanRepS.Ascending(true);
+
+        if LoanRepS.FindFirst() then begin
+            LoanRepS."Actual Interest Paid" := InterestAmount;
+            LoanRepS."Actual Principal Paid" := PrincipalAmount;
+            LoanRepS."Actual Installment Paid" := InterestAmount + PrincipalAmount;
+            LoanRepS."Actual Loan Repayment Date" := Rec."Posting date";
+            LoanRepS.Paid := true;
+            LoanRepS.Modify(true);
         end;
     end;
 }

@@ -170,12 +170,14 @@ Report 50477 "Loans Repayment Schedule New"
 
                     TotalPrincipalRepayment := ROUND(TotalPrincipalRepayment + "Loan Repayment Schedule"."Principal Repayment");
 
+
                     if i = 1 then
                         LoanBalance := ("Loan Repayment Schedule"."Loan Amount")
                     else begin
                         LoanBalance := ("Loan Repayment Schedule"."Loan Amount" - TotalPrincipalRepayment +
                         "Loan Repayment Schedule"."Principal Repayment");
                     end;
+
 
                     CumInterest := ROUND(CumInterest + "Loan Repayment Schedule"."Monthly Interest");
                     CumMonthlyRepayment := ROUND(CumMonthlyRepayment + "Loan Repayment Schedule"."Monthly Repayment");
@@ -231,6 +233,7 @@ Report 50477 "Loans Repayment Schedule New"
         IssuedDate: Date;
         LoanCategory: Record "Loan Products Setup";
         i: Integer;
+        CompletionDate: Date;
         LoanBalance: Decimal;
         CumInterest: Decimal;
         CumMonthlyRepayment: Decimal;

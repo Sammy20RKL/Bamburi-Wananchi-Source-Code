@@ -18,16 +18,19 @@ xmlport 50105 "Bamburi Checkoff Import"
                 textelement(NameText) { }
                 textelement(LoanText) { }
                 textelement(DepositText) { }
+                // textelement(ShareCapitalText) { }
                 textelement(TotalText) { }
 
                 trigger OnBeforeInsertRecord()
                 var
                     LoanDec: Decimal;
                     DepositDec: Decimal;
+                    // ShareCapitalDec: Decimal;
                     TotalDec: Decimal;
                     StaffNo: Code[20];
                     CleanLoan: Text;
                     CleanDeposit: Text;
+                    // CleanShareCapital: Text;
                     CleanTotal: Text;
                     MemberNo: Code[50];
                     MemberName: Text[100];
@@ -40,12 +43,13 @@ xmlport 50105 "Bamburi Checkoff Import"
 
                     // Skip header/title rows (non-numeric staff numbers)
                     StaffNo := CopyStr(DelChr(StaffNoText, '=', ' '), 1, 20);
-                    if (StaffNo = '') or not IsNumeric(StaffNo) then
+                    if (StaffNo = '') then//or not IsNumeric(StaffNo) then
                         currXMLport.Skip();
 
                     // Clean and prepare values
                     CleanLoan := DelChr(LoanText, '=', '," ');
                     CleanDeposit := DelChr(DepositText, '=', '," ');
+                    // CleanShareCapital := DelChr(ShareCapitalText, '=', '," ');
                     CleanTotal := DelChr(TotalText, '=', '," ');
 
                     // Handle dashes and empty values
@@ -53,11 +57,14 @@ xmlport 50105 "Bamburi Checkoff Import"
                         CleanLoan := '0';
                     if (CleanDeposit = '-') or (CleanDeposit = '') then
                         CleanDeposit := '0';
+                    //if (CleanShareCapital = '-') or (CleanShareCapital = '') then
+                    //  CleanShareCapital := '0';
                     if (CleanTotal = '-') or (CleanTotal = '') then
                         CleanTotal := '0';
 
                     LoanDec := 0;
                     DepositDec := 0;
+                    //ShareCapitalDec := 0;
                     TotalDec := 0;
 
                     // Convert to decimals
@@ -66,6 +73,8 @@ xmlport 50105 "Bamburi Checkoff Import"
 
                     if not Evaluate(DepositDec, CleanDeposit) then
                         DepositDec := 0;
+                    // if not Evaluate(ShareCapitalDec, CleanShareCapital) then
+                    //   ShareCapitalDec := 0;
 
                     if not Evaluate(TotalDec, CleanTotal) then
                         TotalDec := 0;
@@ -94,6 +103,7 @@ xmlport 50105 "Bamburi Checkoff Import"
                     BamburiCheckoffLines."Total Loans" := LoanDec;
                     BamburiCheckoffLines."Deposit Contribution" := DepositDec;
                     BamburiCheckoffLines."Grand Total" := TotalDec;
+                    //BamburiCheckoffLines."Share Capital" := ShareCapitalDec;
 
                     // Set other fields to zero
                     BamburiCheckoffLines."Share Capital" := 0;
