@@ -203,11 +203,7 @@ page 50252 "HR Employee Card"
                     ApplicationArea = Basic;
                     Importance = Promoted;
                 }
-                field("Gender."; Rec."Gender.")
-                {
-                    ApplicationArea = Basic;
-                    Importance = Promoted;
-                }
+
                 field("Marital Status"; Rec."Marital Status")
                 {
                     ApplicationArea = Basic;

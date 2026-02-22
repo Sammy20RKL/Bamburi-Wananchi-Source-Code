@@ -672,9 +672,9 @@ Page 52221 "Membership Application Card"
                 MemberIsEmployed := true;
             end;
         //.........
-        if rec."Employment Info" = rec."Employment Info"::"Self Employed" then begin
-            MemberIsSelfEmployed := true;
-        end;
+        // if rec."Employment Info" = rec."Employment Info"::"Self Employed" then begin
+        //     MemberIsSelfEmployed := true;
+        // end;
         //.........
         if Rec."Registration Type" = Rec."Registration Type"::New then begin
             RegisteringAsMember := true;

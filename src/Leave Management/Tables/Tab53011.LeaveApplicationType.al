@@ -185,7 +185,7 @@ table 53011 "Leave Application Type"
                         else
                             NonWorkingDay := true;
                     end;
-
+                UpdateParentRecord();
 
             end;
         }
@@ -399,6 +399,7 @@ table 53011 "Leave Application Type"
     }
 
 
+
     trigger OnInsert()
     var
         entry: Integer;
@@ -427,12 +428,18 @@ table 53011 "Leave Application Type"
 
         end;
 
+
     end;
 
     trigger OnRename()
     begin
 
 
+    end;
+
+    trigger OnModify()
+    begin
+        UpdateParentRecord();
     end;
 
     var
@@ -484,6 +491,20 @@ table 53011 "Leave Application Type"
         DimMgt.ValidateDimValueCode(FieldNumber, ShortcutDimCode);
         DimMgt.SaveDefaultDim(Database::"Leave Application", "Employee No", FieldNumber, ShortcutDimCode);
         Modify();
+    end;
+
+    local procedure UpdateParentRecord()
+    var
+        LeaveApplication: Record "Leave Application";
+    begin
+        if LeaveApplication.Get("Leave Code") then begin
+            LeaveApplication."Start Date" := "Start Date";
+            LeaveApplication."End Date" := "End Date";
+            LeaveApplication."Days Applied" := "Days Applied";
+            LeaveApplication."Resumption Date" := "Resumption Date";
+            LeaveApplication."Relieving Name" := "Staff Name";
+            LeaveApplication.Modify();
+        end;
     end;
 }
 

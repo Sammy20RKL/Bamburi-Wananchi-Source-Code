@@ -51,7 +51,11 @@ codeunit 52001 "HR Management"
                 if LeaveLedg."No. of days" <> 0 then
                     LeaveLedg.Insert();
             until leaveline.Next() = 0;
-        Message('Status is %1', LeaveApp.Status);
+        LeaveApp.Post := true;
+        LeaveApp."Posted By" := CopyStr(UserId(), 1, MaxStrLen(LeaveApp."Posted By"));
+        LeaveApp."Posted Date" := Today();
+        LeaveApp.Modify();
+        Message('Leave Application posted successfully');
     end;
 
     procedure NotifyLeaveReliever(ApplicationNo: Code[20])

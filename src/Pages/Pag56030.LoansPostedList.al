@@ -267,23 +267,28 @@ Page 56030 "Loans Posted List"
                     Promoted = true;
                     PromotedCategory = Process;
                     ShortCutKey = 'Ctrl+F7';
-
                     trigger OnAction()
+                    var
+                        LoanRepS: Record "Loan Repayment Schedule";
                     begin
                         LoanApp.Reset();
                         LoanApp.SetRange(LoanApp."Loan  No.", Rec."Loan  No.");
-                        if LoanApp.Findset then begin
+                        if LoanApp.FindSet then begin
                             repeat
-                                SFactory.FnGenerateRepaymentSchedule(LoanApp."Loan  No.");
+                                // Check if any installments have already been paid
+                                // If yes — skip regeneration to protect posted data
+                                LoanRepS.Reset();
+                                LoanRepS.SetRange(LoanRepS."Loan No.", LoanApp."Loan  No.");
+                                LoanRepS.SetRange(LoanRepS.Paid, true);
+                                if not LoanRepS.FindFirst() then
+                                    SFactory.FnGenerateRepaymentSchedule(LoanApp."Loan  No.");
                             until LoanApp.Next = 0;
                         end;
 
-
                         Report.Run(50477, true, false, LoanApp);
-
-
-
                     end;
+
+
                 }
                 separator(Action8)
                 {

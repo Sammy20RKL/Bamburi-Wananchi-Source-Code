@@ -125,6 +125,22 @@ page 52010 "Leave Application Card"
                     Visible = false;
                     ToolTip = 'Specifies the value of the Leave Allowance Payable field';
                 }
+                group(History)
+                {
+                    Editable = false;
+                    field(Post; Rec.Post)
+                    {
+
+                    }
+                    field("Posted By"; Rec."Posted By")
+                    {
+
+                    }
+                    field("Posted Date"; Rec."Posted Date")
+                    {
+
+                    }
+                }
             }
             part("Leave Application Type"; "Leave Application Type")
             {
@@ -145,8 +161,8 @@ page 52010 "Leave Application Card"
             {
                 Caption = 'Leave Statistics';
                 SubPageLink = "No." = field("Employee No"),
-                                            "Leave Period Filter" = field("Leave Period"),
-                                                "Leave Type Filter" = field("Leave Code");
+                                            "Leave Period Filter" = field("Leave Period");
+                // "Leave Type Filter" = field("Leave Code");
             }
             part(CommentsFactBox; "Approval Comments FactBox")
             {
@@ -173,6 +189,37 @@ page 52010 "Leave Application Card"
         {
             group(Action34)
             {
+                action(Post)
+                {
+                    Enabled = Rec."Status" = Rec."Status"::Released;
+                    Image = Post;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    PromotedIsBig = true;
+                    ToolTip = 'Executes the Post action';
+
+                    trigger OnAction()
+                    begin
+                        //  Rec.TestField(Posted, false);
+                        // Rec.TestField(Status, Rec.Status::Released);
+                        if Rec.Post then begin
+                            Message('This leave Application has already been posted.');
+                            exit; // stop further processing
+                        end;
+
+                        if Rec.Status <> Rec.Status::Released then begin
+                            Message('Leave must be in Released status before posting.');
+                            exit;
+                        end;
+
+
+                        if Confirm(Text001, false) then
+                            HRManagement.LeaveApplication(Rec."Application No");
+                        HRManagement.NotifyLeaveReliever(Rec."Application No");
+
+                        CurrPage.Close();
+                    end;
+                }
                 action("Send For Approval")
                 {
                     Caption = 'Send Approval Request';
@@ -350,6 +397,7 @@ page 52010 "Leave Application Card"
         LeaveType: Record "Leave Application Type";
         LeaveRelievers: Record "Leave Relievers";
         LeaveReliverErr: Label 'Please define at least one leave reliever';
+        Text001: Label 'Are you sure you want to post the leave Application?';
 
 
 }

@@ -1,13 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:am="http://schemas.microsoft.com/sqlserver/reporting/authoringmetadata">
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <am:AuthoringMetadata>
+    <am:CreatedBy>
+      <am:Name>PBIRB</am:Name>
+      <am:Version>15.7.1813.16</am:Version>
+    </am:CreatedBy>
+    <am:UpdatedBy>
+      <am:Name>PBIRB</am:Name>
+      <am:Version>15.7.1813.16</am:Version>
+    </am:UpdatedBy>
+    <am:LastModifiedTimestamp>2026-02-18T08:46:44.9167194Z</am:LastModifiedTimestamp>
+  </am:AuthoringMetadata>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="DataSource">
+      <rd:SecurityType>None</rd:SecurityType>
       <ConnectionProperties>
         <DataProvider>SQL</DataProvider>
         <ConnectString />
       </ConnectionProperties>
-      <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>f46747d0-e269-4d42-b99e-def88c787851</rd:DataSourceID>
     </DataSource>
   </DataSources>
@@ -97,21 +110,6 @@
                   <Width>0.8608in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.9858in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>0.9858in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>0.91288in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>1.04829in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>0.82955in</Width>
-                </TablixColumn>
-                <TablixColumn>
                   <Width>0.65246in</Width>
                 </TablixColumn>
                 <TablixColumn>
@@ -125,6 +123,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox95">
+                          <rd:DefaultName>Textbox95</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -142,7 +141,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox95</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -159,6 +157,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox96">
+                          <rd:DefaultName>Textbox96</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -176,7 +175,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox96</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -193,6 +191,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox97">
+                          <rd:DefaultName>Textbox97</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -210,7 +209,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox97</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -227,6 +225,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox98">
+                          <rd:DefaultName>Textbox98</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -244,7 +243,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox98</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -261,6 +259,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox99">
+                          <rd:DefaultName>Textbox99</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -278,7 +277,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox99</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -295,6 +293,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox100">
+                          <rd:DefaultName>Textbox100</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -312,7 +311,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox100</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -329,13 +327,14 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox101">
+                          <rd:DefaultName>Textbox101</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Normal (20)</Value>
+                                  <Value>Normal Loan 1 (NORM1)</Value>
                                   <Style>
                                     <FontFamily>Arial Narrow</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -346,7 +345,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox101</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -365,13 +363,14 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox103">
+                          <rd:DefaultName>Textbox103</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Development (23)</Value>
+                                  <Value>Normal Loan 2 (NORM2)</Value>
                                   <Style>
                                     <FontFamily>Arial Narrow</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -382,7 +381,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox103</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -401,13 +399,14 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox105">
+                          <rd:DefaultName>Textbox105</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Emergency (12)</Value>
+                                  <Value>Emergency (EMER)</Value>
                                   <Style>
                                     <FontFamily>Arial Narrow</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -418,7 +417,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox105</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -437,13 +435,14 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox107">
+                          <rd:DefaultName>Textbox107</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Super Emergency (13)</Value>
+                                  <Value>HALLO HALLO  (HALL)</Value>
                                   <Style>
                                     <FontFamily>Arial Narrow</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -454,7 +453,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox107</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -473,13 +471,14 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox109">
+                          <rd:DefaultName>Textbox109</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Quick Loan (15)</Value>
+                                  <Value>Instant Loan (INST)</Value>
                                   <Style>
                                     <FontFamily>Arial Narrow</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -490,7 +489,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox109</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -509,13 +507,14 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox111">
+                          <rd:DefaultName>Textbox111</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Super Quick (16)</Value>
+                                  <Value>Mwokozi Loan (MWOK)</Value>
                                   <Style>
                                     <FontFamily>Arial Narrow</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -526,7 +525,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox111</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -545,13 +543,14 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox113">
+                          <rd:DefaultName>Textbox113</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>school Fee (17)</Value>
+                                  <Value>school Fee (SCHLOAN)</Value>
                                   <Style>
                                     <FontFamily>Arial Narrow</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -562,7 +561,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox113</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -581,13 +579,14 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox115">
+                          <rd:DefaultName>Textbox115</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Superschool Fee (18)</Value>
+                                  <Value>Kivukio Loan (KIVUK)</Value>
                                   <Style>
                                     <FontFamily>Arial Narrow</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -598,7 +597,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox115</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -617,13 +615,14 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox117">
+                          <rd:DefaultName>Textbox117</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Investment Loan(19)</Value>
+                                  <Value>Mbuyu Loan(MBUY)</Value>
                                   <Style>
                                     <FontFamily>Arial Narrow</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -634,7 +633,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox117</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -653,49 +651,14 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox119">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Normal Loan(21)</Value>
-                                  <Style>
-                                    <FontFamily>Arial Narrow</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
                           <rd:DefaultName>Textbox119</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                        <ColSpan>2</ColSpan>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell />
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox121">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Normal Loan(22)</Value>
+                                  <Value>NewProduct Loan(NEWPRO)</Value>
                                   <Style>
                                     <FontFamily>Arial Narrow</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -706,77 +669,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox121</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox122">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Development Loan(25)</Value>
-                                  <Style>
-                                    <FontFamily>Arial Narrow</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox122</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                        <ColSpan>2</ColSpan>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell />
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox30">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>MERCHANDISE Loan (26)</Value>
-                                  <Style>
-                                    <FontFamily>Arial Narrow</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox30</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -795,6 +687,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox35">
+                          <rd:DefaultName>Textbox35</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -812,7 +705,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox35</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -829,6 +721,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox124">
+                          <rd:DefaultName>Textbox124</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -846,7 +739,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox124</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -868,6 +760,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox1">
+                          <rd:DefaultName>Textbox1</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -885,7 +778,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox1</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -902,6 +794,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox9">
+                          <rd:DefaultName>Textbox9</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -919,7 +812,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox9</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -936,6 +828,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox7">
+                          <rd:DefaultName>Textbox7</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -953,7 +846,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox7</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -970,6 +862,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox2">
+                          <rd:DefaultName>Textbox2</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -987,7 +880,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox2</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1004,6 +896,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox26">
+                          <rd:DefaultName>Textbox26</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -1021,7 +914,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox26</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1038,6 +930,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox20">
+                          <rd:DefaultName>Textbox20</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -1055,7 +948,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox20</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1072,13 +964,14 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox3">
+                          <rd:DefaultName>Textbox3</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>DEVELOPMENT LOAN PRINCIPAL</Value>
+                                  <Value>NORMAL LOAN 1 PRINCIPAL</Value>
                                   <Style>
                                     <FontFamily>Arial Narrow</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1089,7 +982,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox3</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1106,13 +998,14 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox5">
+                          <rd:DefaultName>Textbox5</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>DEVELOPMENT LOAN INTEREST</Value>
+                                  <Value>NORMAL LOAN 1 INTEREST</Value>
                                   <Style>
                                     <FontFamily>Arial Narrow</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1123,7 +1016,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox5</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1140,13 +1032,14 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox15">
+                          <rd:DefaultName>Textbox15</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>DEVELOPMENT LOAN 1_PRINCIPAL</Value>
+                                  <Value>NORMAL LOAN  2 PRINCIPAL</Value>
                                   <Style>
                                     <FontFamily>Arial Narrow</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1157,7 +1050,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox15</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1174,13 +1066,14 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox24">
+                          <rd:DefaultName>Textbox24</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>DEVELOPMENT LOAN 1_INTEREST</Value>
+                                  <Value>NORMAL LOAN  2 INTEREST</Value>
                                   <Style>
                                     <FontFamily>Arial Narrow</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1191,7 +1084,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox24</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1208,6 +1100,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox16">
+                          <rd:DefaultName>Textbox16</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -1225,7 +1118,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox16</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1242,6 +1134,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox14">
+                          <rd:DefaultName>Textbox14</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -1259,7 +1152,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox14</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1276,13 +1168,14 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox12">
+                          <rd:DefaultName>Textbox12</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>SUPEREMERGENCYPRINCIPAL</Value>
+                                  <Value>HALLO HALLO  LOAN RINCIPAL</Value>
                                   <Style>
                                     <FontFamily>Arial Narrow</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1293,7 +1186,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox12</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1310,13 +1202,14 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox10">
+                          <rd:DefaultName>Textbox10</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>SUPEREMERGENCYINTEREST</Value>
+                                  <Value>HALLO HALLO LOAN INTEREST</Value>
                                   <Style>
                                     <FontFamily>Arial Narrow</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1327,7 +1220,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox10</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1344,13 +1236,27 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox8">
+                          <rd:DefaultName>Textbox8</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>QUICKLOANPRINCIPAL</Value>
+                                  <Value>INSTANT LOAN</Value>
+                                  <Style>
+                                    <FontFamily>Arial Narrow</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value> PRINCIPAL</Value>
                                   <Style>
                                     <FontFamily>Arial Narrow</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1361,7 +1267,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox8</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1378,13 +1283,14 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox19">
+                          <rd:DefaultName>Textbox19</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>QUICKLOANINTEREST</Value>
+                                  <Value>INSTANT LOAN INTEREST</Value>
                                   <Style>
                                     <FontFamily>Arial Narrow</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1395,7 +1301,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox19</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1412,13 +1317,14 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox17">
+                          <rd:DefaultName>Textbox17</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>SUPERQUICKPRINCIPAL</Value>
+                                  <Value>MWOKOZI LOAN PRINCIPAL</Value>
                                   <Style>
                                     <FontFamily>Arial Narrow</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1429,7 +1335,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox17</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1446,13 +1351,14 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox13">
+                          <rd:DefaultName>Textbox13</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>SUPERQUICKINTEREST</Value>
+                                  <Value>MWOKOZI LOAN INTEREST</Value>
                                   <Style>
                                     <FontFamily>Arial Narrow</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1463,7 +1369,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox13</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1480,13 +1385,14 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox21">
+                          <rd:DefaultName>Textbox21</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>SCHOOLFEESPRINCIPAL</Value>
+                                  <Value>SCHOOL FEES PRINCIPAL</Value>
                                   <Style>
                                     <FontFamily>Arial Narrow</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1497,7 +1403,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox21</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1514,13 +1419,14 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox27">
+                          <rd:DefaultName>Textbox27</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>SCHOOLFEESINTEREST</Value>
+                                  <Value>SCHOOL FEES INTEREST</Value>
                                   <Style>
                                     <FontFamily>Arial Narrow</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1531,7 +1437,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox27</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1548,13 +1453,14 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox25">
+                          <rd:DefaultName>Textbox25</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>SUPERSCHOOLFEESPRINCIPAL</Value>
+                                  <Value>KIVUKIO LOAN PRINCIPAL</Value>
                                   <Style>
                                     <FontFamily>Arial Narrow</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1565,7 +1471,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox25</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1582,13 +1487,14 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox23">
+                          <rd:DefaultName>Textbox23</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>SUPERSCHOOLFEESINTEREST</Value>
+                                  <Value>KIVUKIO LOAN INTEREST</Value>
                                   <Style>
                                     <FontFamily>Arial Narrow</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1599,7 +1505,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox23</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1616,13 +1521,14 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox29">
+                          <rd:DefaultName>Textbox29</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>INVESTMENTLOANPRINCIPAL</Value>
+                                  <Value>MBUYU LOAN PRINCIPAL</Value>
                                   <Style>
                                     <FontFamily>Arial Narrow</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1633,7 +1539,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox29</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1650,13 +1555,14 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox31">
+                          <rd:DefaultName>Textbox31</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>INVESTMENTLOANINTEREST</Value>
+                                  <Value>MBUYU LOAN INTEREST</Value>
                                   <Style>
                                     <FontFamily>Arial Narrow</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1667,7 +1573,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox31</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1684,13 +1589,14 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox11">
+                          <rd:DefaultName>Textbox11</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>NORMALLOANPRINCIPLE</Value>
+                                  <Value>NEWPRODUCT PRINCIPLE</Value>
                                   <Style>
                                     <FontFamily>Arial Narrow</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1701,7 +1607,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox11</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1718,47 +1623,14 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox18">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>NORMALLOANINTEREST</Value>
-                                  <Style>
-                                    <FontFamily>Arial Narrow</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
                           <rd:DefaultName>Textbox18</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox22">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>NORMALLOAN1PRINCIPAL</Value>
+                                  <Value>NEWPRODUCT INTEREST</Value>
                                   <Style>
                                     <FontFamily>Arial Narrow</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1769,143 +1641,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox22</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox32">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Development Loan P</Value>
-                                  <Style>
-                                    <FontFamily>Arial Narrow</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox32</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox28">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Development Loan Int</Value>
-                                  <Style>
-                                    <FontFamily>Arial Narrow</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox28</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox34">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Merchandise Loan P</Value>
-                                  <Style>
-                                    <FontFamily>Arial Narrow</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox34</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox37">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Merchandise Loan Int</Value>
-                                  <Style>
-                                    <FontFamily>Arial Narrow</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox37</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1922,6 +1657,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox36">
+                          <rd:DefaultName>Textbox36</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -1939,7 +1675,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox36</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1956,6 +1691,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox33">
+                          <rd:DefaultName>Textbox33</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -1973,7 +1709,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox33</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1995,6 +1730,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="No">
+                          <rd:DefaultName>No</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -2010,7 +1746,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>No</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2027,6 +1762,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Name">
+                          <rd:DefaultName>Name</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -2042,7 +1778,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Name</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2059,6 +1794,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="PersonalNo_MemberRegister">
+                          <rd:DefaultName>PersonalNo_MemberRegister</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -2074,7 +1810,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>PersonalNo_MemberRegister</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2091,6 +1826,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="montlycon">
+                          <rd:DefaultName>montlycon</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -2107,7 +1843,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>montlycon</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2124,6 +1859,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="HolidayContribution_MemberRegister">
+                          <rd:DefaultName>HolidayContribution_MemberRegister</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -2140,7 +1876,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>HolidayContribution_MemberRegister</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2157,6 +1892,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="ShareCapital">
+                          <rd:DefaultName>ShareCapital</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -2173,7 +1909,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>ShareCapital</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2189,14 +1924,15 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="DevP">
+                        <Textbox Name="NORMALLOAN1p1">
+                          <rd:DefaultName>NORMALLOAN1p1</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!DevP.Value</Value>
+                                  <Value>=Fields!NORMALLOAN1p.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>n0</Format>
@@ -2206,7 +1942,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>DevP</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2222,14 +1957,15 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Devint">
+                        <Textbox Name="NORMALLOAN1i">
+                          <rd:DefaultName>NORMALLOAN1i</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Devint.Value</Value>
+                                  <Value>=Fields!NORMALLOAN1i.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>n0</Format>
@@ -2239,7 +1975,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Devint</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2255,14 +1990,15 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="DevP1">
+                        <Textbox Name="NORMALLOAN2p">
+                          <rd:DefaultName>NORMALLOAN2p</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!DevP1.Value</Value>
+                                  <Value>=Fields!NORMALLOAN2p.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>n2</Format>
@@ -2272,7 +2008,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>DevP1</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2288,14 +2023,15 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Devint1">
+                        <Textbox Name="NORMALLOAN2i">
+                          <rd:DefaultName>NORMALLOAN2i</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Devint1.Value</Value>
+                                  <Value>=Fields!NORMALLOAN2i.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>n2</Format>
@@ -2305,7 +2041,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Devint1</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2322,6 +2057,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="EMERGENCYp">
+                          <rd:DefaultName>EMERGENCYp</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -2338,7 +2074,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>EMERGENCYp</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2355,6 +2090,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="EMERGENCYi">
+                          <rd:DefaultName>EMERGENCYi</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -2371,7 +2107,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>EMERGENCYi</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2387,14 +2122,15 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="SUPEREMERGENCYPRINCIPAL">
+                        <Textbox Name="HALLOHALLOPRINCIPAL">
+                          <rd:DefaultName>HALLOHALLOPRINCIPAL</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!SUPEREMERGENCYPRINCIPAL.Value</Value>
+                                  <Value>=Fields!HALLOHALLOPRINCIPAL.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>n0</Format>
@@ -2404,7 +2140,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>SUPEREMERGENCYPRINCIPAL</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2420,14 +2155,15 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="SUPEREMERGENCYINTEREST">
+                        <Textbox Name="HALLOHALLOINTEREST">
+                          <rd:DefaultName>HALLOHALLOINTEREST</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!SUPEREMERGENCYINTEREST.Value</Value>
+                                  <Value>=Fields!HALLOHALLOINTEREST.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>n0</Format>
@@ -2437,7 +2173,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>SUPEREMERGENCYINTEREST</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2453,14 +2188,15 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="QUICKLOANPRINCIPAL">
+                        <Textbox Name="INSTANTLOANPRINCIPAL">
+                          <rd:DefaultName>INSTANTLOANPRINCIPAL</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!QUICKLOANPRINCIPAL.Value</Value>
+                                  <Value>=Fields!INSTANTLOANPRINCIPAL.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>n0</Format>
@@ -2470,7 +2206,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>QUICKLOANPRINCIPAL</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2486,14 +2221,15 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="QUICKLOANINTEREST">
+                        <Textbox Name="INSTANTLOANINTEREST">
+                          <rd:DefaultName>INSTANTLOANINTEREST</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!QUICKLOANINTEREST.Value</Value>
+                                  <Value>=Fields!INSTANTLOANINTEREST.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>n0</Format>
@@ -2503,7 +2239,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>QUICKLOANINTEREST</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2519,14 +2254,15 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="SUPERQUICKPRINCIPAL">
+                        <Textbox Name="MWOKOZILOANPRINCIPAL">
+                          <rd:DefaultName>MWOKOZILOANPRINCIPAL</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!SUPERQUICKPRINCIPAL.Value</Value>
+                                  <Value>=Fields!MWOKOZILOANPRINCIPAL.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>n0</Format>
@@ -2536,7 +2272,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>SUPERQUICKPRINCIPAL</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2552,14 +2287,15 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="SUPERQUICKINTEREST">
+                        <Textbox Name="MWOKOZILOANINTEREST">
+                          <rd:DefaultName>MWOKOZILOANINTEREST</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!SUPERQUICKINTEREST.Value</Value>
+                                  <Value>=Fields!MWOKOZILOANINTEREST.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>n0</Format>
@@ -2569,7 +2305,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>SUPERQUICKINTEREST</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2586,6 +2321,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="SCHOOLFEESPRINCIPAL">
+                          <rd:DefaultName>SCHOOLFEESPRINCIPAL</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -2602,7 +2338,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>SCHOOLFEESPRINCIPAL</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2619,6 +2354,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="SCHOOLFEESINTEREST">
+                          <rd:DefaultName>SCHOOLFEESINTEREST</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -2635,7 +2371,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>SCHOOLFEESINTEREST</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2651,14 +2386,15 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="SUPERSCHOOLFEESPRINCIPAL">
+                        <Textbox Name="KIVUKIOLOANPRINCIPAL">
+                          <rd:DefaultName>KIVUKIOLOANPRINCIPAL</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!SUPERSCHOOLFEESPRINCIPAL.Value</Value>
+                                  <Value>=Fields!KIVUKIOLOANPRINCIPAL.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>n0</Format>
@@ -2668,7 +2404,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>SUPERSCHOOLFEESPRINCIPAL</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2684,14 +2419,15 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="SUPERSCHOOLFEESINTEREST">
+                        <Textbox Name="KIVUKIOLOANINTEREST">
+                          <rd:DefaultName>KIVUKIOLOANINTEREST</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!SUPERSCHOOLFEESINTEREST.Value</Value>
+                                  <Value>=Fields!KIVUKIOLOANINTEREST.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>n0</Format>
@@ -2701,7 +2437,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>SUPERSCHOOLFEESINTEREST</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2717,14 +2452,15 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="INVESTMENTLOANPRINCIPAL">
+                        <Textbox Name="MBUYULOANPRINCIPAL">
+                          <rd:DefaultName>MBUYULOANPRINCIPAL</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!INVESTMENTLOANPRINCIPAL.Value</Value>
+                                  <Value>=Fields!MBUYULOANPRINCIPAL.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>n0</Format>
@@ -2734,7 +2470,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>INVESTMENTLOANPRINCIPAL</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2750,14 +2485,15 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="INVESTMENTLOANINTEREST">
+                        <Textbox Name="MBUYULOANINTEREST">
+                          <rd:DefaultName>MBUYULOANINTEREST</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!INVESTMENTLOANINTEREST.Value</Value>
+                                  <Value>=Fields!MBUYULOANINTEREST.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>n0</Format>
@@ -2767,7 +2503,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>INVESTMENTLOANINTEREST</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2783,14 +2518,15 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="NORMALLOANp">
+                        <Textbox Name="NEWPRODUCTp">
+                          <rd:DefaultName>NEWPRODUCTp</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!NORMALLOANp.Value</Value>
+                                  <Value>=Fields!NEWPRODUCTp.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>#,0.00;(#,0.00)</Format>
@@ -2800,7 +2536,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>NORMALLOANp</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2816,14 +2551,15 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="NORMALLOANi">
+                        <Textbox Name="NEWPRODUCTi">
+                          <rd:DefaultName>NEWPRODUCTi</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!NORMALLOANi.Value</Value>
+                                  <Value>=Fields!NEWPRODUCTi.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>#,0.00;(#,0.00)</Format>
@@ -2833,172 +2569,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>NORMALLOANi</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="NORMALLOAN1p">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!NORMALLOAN1p.Value</Value>
-                                  <Style>
-                                    <FontSize>8pt</FontSize>
-                                    <Format>#,0.00;(#,0.00)</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>NORMALLOAN1p</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="DevelopmentLoanP">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!DevelopmentLoanP.Value</Value>
-                                  <Style>
-                                    <FontSize>8pt</FontSize>
-                                    <Format>n2</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>DevelopmentLoanP</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="DevelopmentLoanInt">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!DevelopmentLoanInt.Value</Value>
-                                  <Style>
-                                    <FontSize>8pt</FontSize>
-                                    <Format>n2</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>DevelopmentLoanInt</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="MERCHANDISEPr">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!MERCHANDISEPr.Value</Value>
-                                  <Style>
-                                    <FontSize>8pt</FontSize>
-                                    <Format>n2</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>MERCHANDISEPr</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="MERCHANDISEIn">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!MERCHANDISEIn.Value</Value>
-                                  <Style>
-                                    <FontSize>8pt</FontSize>
-                                    <Format>n2</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>MERCHANDISEIn</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -3015,6 +2585,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Welfare_Contr">
+                          <rd:DefaultName>Welfare_Contr</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -3030,7 +2601,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Welfare_Contr</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -3047,13 +2617,14 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="TOTALREMMITANCE">
+                          <rd:DefaultName>TOTALREMMITANCE</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!NORMALLOAN1p.Value+Fields!NORMALLOANi.Value+Fields!NORMALLOANp.Value+Fields!INVESTMENTLOANINTEREST.Value+Fields!INVESTMENTLOANPRINCIPAL.Value+Fields!SUPERSCHOOLFEESINTEREST.Value+Fields!SUPERSCHOOLFEESPRINCIPAL.Value+Fields!SCHOOLFEESINTEREST.Value+Fields!SCHOOLFEESPRINCIPAL.Value+Fields!SUPERQUICKINTEREST.Value+Fields!SUPERQUICKPRINCIPAL.Value+Fields!QUICKLOANINTEREST.Value+Fields!QUICKLOANPRINCIPAL.Value+Fields!SUPEREMERGENCYINTEREST.Value+Fields!SUPEREMERGENCYPRINCIPAL.Value+Fields!EMERGENCYINTEREST.Value+Fields!EMERGENCYp.Value+Fields!Devint1.Value+Fields!DevP1.Value+Fields!Devint.Value+Fields!DevP.Value+Fields!ShareCapital.Value+Fields!montlycon.Value+Fields!HolidayContribution_MemberRegister.Value+Fields!DevelopmentLoanP.Value+Fields!DevelopmentLoanInt.Value+Fields!MERCHANDISEPr.Value+Fields!MERCHANDISEIn.Value+Fields!Welfare_Contr.Value</Value>
+                                  <Value>=Fields!NORMALLOAN1p.Value+Fields!NORMALLOAN1i.Value+Fields!NORMALLOAN2p.Value+Fields!NORMALLOAN2i.Value+Fields!SCHOOLFEESINTEREST.Value+Fields!SCHOOLFEESPRINCIPAL.Value+Fields!HALLOHALLOPRINCIPAL.Value+Fields!HALLOHALLOINTEREST.Value+Fields!EMERGENCYINTEREST.Value+Fields!EMERGENCYp.Value+Fields!INSTANTLOANPRINCIPAL.Value+Fields!INSTANTLOANINTEREST.Value+Fields!MWOKOZILOANPRINCIPAL.Value+Fields!MWOKOZILOANINTEREST.Value+Fields!ShareCapital.Value+Fields!montlycon.Value+Fields!HolidayContribution_MemberRegister.Value+Fields!KIVUKIOLOANPRINCIPAL.Value+Fields!KIVUKIOLOANINTEREST.Value+Fields!MBUYULOANPRINCIPAL.Value+Fields!MBUYULOANINTEREST.Value+Fields!NEWPRODUCTp.Value+Fields!NEWPRODUCTi.Value+Fields!Welfare_Contr.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -3077,7 +2648,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>TOTALREMMITANCE</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -3125,11 +2695,6 @@
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
-                <TablixMember />
-                <TablixMember />
-                <TablixMember />
-                <TablixMember />
-                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -3149,7 +2714,7 @@
             <Top>1.08542in</Top>
             <Left>0.25in</Left>
             <Height>0.6875in</Height>
-            <Width>31.88543in</Width>
+            <Width>27.12324in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -3161,8 +2726,8 @@
             <Value>=First(Fields!CIPicture.Value, "DataSet_Result")</Value>
             <MIMEType>image/png</MIMEType>
             <Sizing>Fit</Sizing>
-            <Top>0.22709in</Top>
-            <Left>0.65in</Left>
+            <Top>0.23541in</Top>
+            <Left>2.60833in</Left>
             <Height>0.66667in</Height>
             <Width>0.89167in</Width>
             <ZIndex>1</ZIndex>
@@ -3173,6 +2738,7 @@
             </Style>
           </Image>
           <Textbox Name="Textbox4">
+            <rd:DefaultName>Textbox4</rd:DefaultName>
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
@@ -3188,9 +2754,8 @@
                 <Style />
               </Paragraph>
             </Paragraphs>
-            <rd:DefaultName>Textbox4</rd:DefaultName>
-            <Top>0.22709in</Top>
-            <Left>1.75001in</Left>
+            <Top>0.23541in</Top>
+            <Left>3.70834in</Left>
             <Height>0.25in</Height>
             <Width>6.15in</Width>
             <ZIndex>2</ZIndex>
@@ -3205,6 +2770,7 @@
             </Style>
           </Textbox>
           <Textbox Name="Textbox6">
+            <rd:DefaultName>Textbox6</rd:DefaultName>
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
@@ -3220,9 +2786,8 @@
                 <Style />
               </Paragraph>
             </Paragraphs>
-            <rd:DefaultName>Textbox6</rd:DefaultName>
-            <Top>0.65208in</Top>
-            <Left>1.75001in</Left>
+            <Top>0.6604in</Top>
+            <Left>3.70834in</Left>
             <Height>0.25in</Height>
             <Width>6.15in</Width>
             <ZIndex>3</ZIndex>
@@ -3240,8 +2805,11 @@
         <Height>2in</Height>
         <Style />
       </Body>
-      <Width>33.63542in</Width>
+      <Width>27.91875in</Width>
       <Page>
+        <PageWidth>30.5in</PageWidth>
+        <InteractiveHeight>11in</InteractiveHeight>
+        <InteractiveWidth>35in</InteractiveWidth>
         <Style />
       </Page>
     </ReportSection>
@@ -3283,8 +2851,6 @@ End Function
 </Code>
   <Language>=User!Language</Language>
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
-  <rd:ReportUnitType>Inch</rd:ReportUnitType>
-  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
   <DataSets>
     <DataSet Name="DataSet_Result">
       <Fields>
@@ -3300,17 +2866,17 @@ End Function
         <Field Name="ShareCapitalFormat">
           <DataField>ShareCapitalFormat</DataField>
         </Field>
-        <Field Name="DevP">
-          <DataField>DevP</DataField>
+        <Field Name="NEWPRODUCTp">
+          <DataField>NEWPRODUCTp</DataField>
         </Field>
-        <Field Name="DevPFormat">
-          <DataField>DevPFormat</DataField>
+        <Field Name="NEWPRODUCTpFormat">
+          <DataField>NEWPRODUCTpFormat</DataField>
         </Field>
-        <Field Name="Devint">
-          <DataField>Devint</DataField>
+        <Field Name="NEWPRODUCTi">
+          <DataField>NEWPRODUCTi</DataField>
         </Field>
-        <Field Name="DevintFormat">
-          <DataField>DevintFormat</DataField>
+        <Field Name="NEWPRODUCTiFormat">
+          <DataField>NEWPRODUCTiFormat</DataField>
         </Field>
         <Field Name="montlycon">
           <DataField>montlycon</DataField>
@@ -3342,41 +2908,41 @@ End Function
         <Field Name="EMERGENCYINTERESTFormat">
           <DataField>EMERGENCYINTERESTFormat</DataField>
         </Field>
-        <Field Name="SUPEREMERGENCYPRINCIPAL">
-          <DataField>SUPEREMERGENCYPRINCIPAL</DataField>
+        <Field Name="HALLOHALLOPRINCIPAL">
+          <DataField>HALLOHALLOPRINCIPAL</DataField>
         </Field>
-        <Field Name="SUPEREMERGENCYPRINCIPALFormat">
-          <DataField>SUPEREMERGENCYPRINCIPALFormat</DataField>
+        <Field Name="HALLOHALLOPRINCIPALFormat">
+          <DataField>HALLOHALLOPRINCIPALFormat</DataField>
         </Field>
-        <Field Name="SUPEREMERGENCYINTEREST">
-          <DataField>SUPEREMERGENCYINTEREST</DataField>
+        <Field Name="HALLOHALLOINTEREST">
+          <DataField>HALLOHALLOINTEREST</DataField>
         </Field>
-        <Field Name="SUPEREMERGENCYINTERESTFormat">
-          <DataField>SUPEREMERGENCYINTERESTFormat</DataField>
+        <Field Name="HALLOHALLOINTERESTFormat">
+          <DataField>HALLOHALLOINTERESTFormat</DataField>
         </Field>
-        <Field Name="QUICKLOANPRINCIPAL">
-          <DataField>QUICKLOANPRINCIPAL</DataField>
+        <Field Name="INSTANTLOANPRINCIPAL">
+          <DataField>INSTANTLOANPRINCIPAL</DataField>
         </Field>
-        <Field Name="QUICKLOANPRINCIPALFormat">
-          <DataField>QUICKLOANPRINCIPALFormat</DataField>
+        <Field Name="INSTANTLOANPRINCIPALFormat">
+          <DataField>INSTANTLOANPRINCIPALFormat</DataField>
         </Field>
-        <Field Name="QUICKLOANINTEREST">
-          <DataField>QUICKLOANINTEREST</DataField>
+        <Field Name="INSTANTLOANINTEREST">
+          <DataField>INSTANTLOANINTEREST</DataField>
         </Field>
-        <Field Name="QUICKLOANINTERESTFormat">
-          <DataField>QUICKLOANINTERESTFormat</DataField>
+        <Field Name="INSTANTLOANINTERESTFormat">
+          <DataField>INSTANTLOANINTERESTFormat</DataField>
         </Field>
-        <Field Name="SUPERQUICKPRINCIPAL">
-          <DataField>SUPERQUICKPRINCIPAL</DataField>
+        <Field Name="KIVUKIOLOANPRINCIPAL">
+          <DataField>KIVUKIOLOANPRINCIPAL</DataField>
         </Field>
-        <Field Name="SUPERQUICKPRINCIPALFormat">
-          <DataField>SUPERQUICKPRINCIPALFormat</DataField>
+        <Field Name="KIVUKIOLOANPRINCIPALFormat">
+          <DataField>KIVUKIOLOANPRINCIPALFormat</DataField>
         </Field>
-        <Field Name="SUPERQUICKINTEREST">
-          <DataField>SUPERQUICKINTEREST</DataField>
+        <Field Name="KIVUKIOLOANINTEREST">
+          <DataField>KIVUKIOLOANINTEREST</DataField>
         </Field>
-        <Field Name="SUPERQUICKINTERESTFormat">
-          <DataField>SUPERQUICKINTERESTFormat</DataField>
+        <Field Name="KIVUKIOLOANINTERESTFormat">
+          <DataField>KIVUKIOLOANINTERESTFormat</DataField>
         </Field>
         <Field Name="SCHOOLFEESPRINCIPAL">
           <DataField>SCHOOLFEESPRINCIPAL</DataField>
@@ -3390,29 +2956,29 @@ End Function
         <Field Name="SCHOOLFEESINTERESTFormat">
           <DataField>SCHOOLFEESINTERESTFormat</DataField>
         </Field>
-        <Field Name="SUPERSCHOOLFEESPRINCIPAL">
-          <DataField>SUPERSCHOOLFEESPRINCIPAL</DataField>
+        <Field Name="MBUYULOANPRINCIPAL">
+          <DataField>MBUYULOANPRINCIPAL</DataField>
         </Field>
-        <Field Name="SUPERSCHOOLFEESPRINCIPALFormat">
-          <DataField>SUPERSCHOOLFEESPRINCIPALFormat</DataField>
+        <Field Name="MBUYULOANPRINCIPALFormat">
+          <DataField>MBUYULOANPRINCIPALFormat</DataField>
         </Field>
-        <Field Name="SUPERSCHOOLFEESINTEREST">
-          <DataField>SUPERSCHOOLFEESINTEREST</DataField>
+        <Field Name="MBUYULOANINTEREST">
+          <DataField>MBUYULOANINTEREST</DataField>
         </Field>
-        <Field Name="SUPERSCHOOLFEESINTERESTFormat">
-          <DataField>SUPERSCHOOLFEESINTERESTFormat</DataField>
+        <Field Name="MBUYULOANINTERESTFormat">
+          <DataField>MBUYULOANINTERESTFormat</DataField>
         </Field>
-        <Field Name="INVESTMENTLOANPRINCIPAL">
-          <DataField>INVESTMENTLOANPRINCIPAL</DataField>
+        <Field Name="MWOKOZILOANPRINCIPAL">
+          <DataField>MWOKOZILOANPRINCIPAL</DataField>
         </Field>
-        <Field Name="INVESTMENTLOANPRINCIPALFormat">
-          <DataField>INVESTMENTLOANPRINCIPALFormat</DataField>
+        <Field Name="MWOKOZILOANPRINCIPALFormat">
+          <DataField>MWOKOZILOANPRINCIPALFormat</DataField>
         </Field>
-        <Field Name="INVESTMENTLOANINTEREST">
-          <DataField>INVESTMENTLOANINTEREST</DataField>
+        <Field Name="MWOKOZILOANINTEREST">
+          <DataField>MWOKOZILOANINTEREST</DataField>
         </Field>
-        <Field Name="INVESTMENTLOANINTERESTFormat">
-          <DataField>INVESTMENTLOANINTERESTFormat</DataField>
+        <Field Name="MWOKOZILOANINTERESTFormat">
+          <DataField>MWOKOZILOANINTERESTFormat</DataField>
         </Field>
         <Field Name="CIName">
           <DataField>CIName</DataField>
@@ -3426,23 +2992,29 @@ End Function
         <Field Name="PersonalNo_MemberRegister">
           <DataField>PersonalNo_MemberRegister</DataField>
         </Field>
-        <Field Name="NORMALLOANp">
-          <DataField>NORMALLOANp</DataField>
+        <Field Name="NORMALLOAN2p">
+          <DataField>NORMALLOAN2p</DataField>
         </Field>
-        <Field Name="NORMALLOANpFormat">
-          <DataField>NORMALLOANpFormat</DataField>
+        <Field Name="NORMALLOAN2pFormat">
+          <DataField>NORMALLOAN2pFormat</DataField>
         </Field>
-        <Field Name="NORMALLOANi">
-          <DataField>NORMALLOANi</DataField>
+        <Field Name="NORMALLOAN2i">
+          <DataField>NORMALLOAN2i</DataField>
         </Field>
-        <Field Name="NORMALLOANiFormat">
-          <DataField>NORMALLOANiFormat</DataField>
+        <Field Name="NORMALLOAN2iFormat">
+          <DataField>NORMALLOAN2iFormat</DataField>
         </Field>
         <Field Name="NORMALLOAN1p">
           <DataField>NORMALLOAN1p</DataField>
         </Field>
         <Field Name="NORMALLOAN1pFormat">
           <DataField>NORMALLOAN1pFormat</DataField>
+        </Field>
+        <Field Name="NORMALLOAN1i">
+          <DataField>NORMALLOAN1i</DataField>
+        </Field>
+        <Field Name="NORMALLOAN1iFormat">
+          <DataField>NORMALLOAN1iFormat</DataField>
         </Field>
         <Field Name="HolidayContribution_MemberRegister">
           <DataField>HolidayContribution_MemberRegister</DataField>

@@ -36,6 +36,10 @@ page 52009 "Leave Application List"
                 field("Start Date"; Rec."Start Date")
                 {
                     ToolTip = 'Specifies the value of the Start Date field';
+                    trigger OnValidate()
+                    begin
+
+                    end;
                 }
                 field("End Date"; Rec."End Date")
                 {
@@ -49,6 +53,15 @@ page 52009 "Leave Application List"
                 {
                     ToolTip = 'Specifies the value of the Leave Period field';
                 }
+                field(Post; Rec.Post)
+                {
+
+                }
+                field("Posted By"; Rec."Posted By")
+                { }
+                field("Posted Date"; Rec."Posted Date")
+                { }
+
             }
         }
     }
@@ -58,7 +71,9 @@ page 52009 "Leave Application List"
     }
 
     trigger OnOpenPage()
+
     begin
+        Rec.SetRange("User ID", UserId);
     end;
 }
 

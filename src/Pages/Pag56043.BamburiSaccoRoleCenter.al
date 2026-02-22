@@ -134,7 +134,7 @@ Page 56043 "Bamburi SACCO Role Center"
                 ApplicationArea = Basic, Suite;
                 Caption = 'M-Wallet Accounts';
                 Image = Vendor;
-                Visible = false;
+                Visible = true;
                 RunObject = Page "Product Details Master";
                 RunPageView = where("Account Type" = filter('M-Wallet'));
                 ToolTip = 'View or edit detailed information for the Mobile Wallet Accounts.';
@@ -721,7 +721,7 @@ Page 56043 "Bamburi SACCO Role Center"
                     ToolTip = 'Display Financial Statements.';
                     Visible = true;
 
-                    action("Polytech Trial Balance")
+                    action("Bamburi Trial Balance")
                     {
                         ApplicationArea = Basic, Suite;
                         Caption = 'Summarised Trial Balance';
@@ -1901,7 +1901,7 @@ Page 56043 "Bamburi SACCO Role Center"
                         Caption = 'Mobile Loans';
                         Image = PostedReceipt;
                         // RunObject = page "Mobile Loans";
-                        RunObject = page "M Polytech Loans";
+                        RunObject = page "M Bamburi Loans";
                         ToolTip = 'View Mobile Loans List.';
                     }
 
@@ -1919,11 +1919,11 @@ Page 56043 "Bamburi SACCO Role Center"
                         ToolTip = 'View Paybill Deposits.';
 
                     }
-                    action("Polytech Paybill Transactions")
+                    action("Bamburi Paybill Transactions")
                     {
-                        Caption = 'Polytech Paybill Transactions';
+                        Caption = 'Bamburi Paybill Transactions';
                         Image = ReceiptLines;
-                        RunObject = page "Polytech Paybill Transactions";
+                        RunObject = page "Bamburi Paybill Transactions";
                         ToolTip = 'This page contains C2B Transactions for paybill Number 751459';
                     }
                     action("Import Paybills")
@@ -2020,7 +2020,7 @@ Page 56043 "Bamburi SACCO Role Center"
                         Caption = 'Mobile Loans Transactions';
                         Image = PaymentHistory;
                         RunObject = page "Mobile Loans Transactions";
-                        ToolTip = 'Get the History of M-Polytech Loans';
+                        ToolTip = 'Get the History of M-Bamburi Loans';
                     }
                     action("Wallets Setup")
                     {
@@ -3086,6 +3086,7 @@ Page 56043 "Bamburi SACCO Role Center"
                 {
                     // RunObject = codeunit "Regenerate loan repayment sch";
                     image = CostAccountingDimensions;
+                    Visible = false;
                     ToolTip = 'Generate Loan Performance Classification and New Schedule';
                     Enabled = true;
                 }

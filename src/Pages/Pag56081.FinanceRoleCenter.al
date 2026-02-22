@@ -712,7 +712,7 @@ page 56081 "Finance Role Center"
                     ToolTip = 'Display Financial Statements.';
                     Visible = true;
 
-                    action("Polytech Trial Balance")
+                    action("Bamburi Trial Balance")
                     {
                         ApplicationArea = Basic, Suite;
                         Caption = 'Summarised Trial Balance';
@@ -1752,7 +1752,7 @@ page 56081 "Finance Role Center"
             }
             group(AllReport)
             {
-                Caption = 'Polytech Banking Reports';
+                Caption = 'Bamburi Banking Reports';
                 group("Membership/Product Management")
                 {
                     action("Members Deposit Listing")
@@ -1880,7 +1880,7 @@ page 56081 "Finance Role Center"
                         Caption = 'Mobile Loans';
                         Image = PostedReceipt;
                         // RunObject = page "Mobile Loans";
-                        RunObject = page "M Polytech Loans";
+                        RunObject = page "M Bamburi Loans";
                         ToolTip = 'View Mobile Loans List.';
                     }
 
@@ -1898,11 +1898,11 @@ page 56081 "Finance Role Center"
                         ToolTip = 'View Paybill Deposits.';
 
                     }
-                    action("Polytech Paybill Transactions")
+                    action("Bamburi Paybill Transactions")
                     {
-                        Caption = 'Polytech Paybill Transactions';
+                        Caption = 'Bamburi Paybill Transactions';
                         Image = ReceiptLines;
-                        RunObject = page "Polytech Paybill Transactions";
+                        RunObject = page "Bamburi Paybill Transactions";
                         ToolTip = 'This page contains C2B Transactions for paybill Number 751459';
                     }
                     action("Import Paybills")
@@ -1999,7 +1999,7 @@ page 56081 "Finance Role Center"
                         Caption = 'Mobile Loans Transactions';
                         Image = PaymentHistory;
                         RunObject = page "Mobile Loans Transactions";
-                        ToolTip = 'Get the History of M-Polytech Loans';
+                        ToolTip = 'Get the History of M-Bamburi Loans';
                     }
                     action("Wallets Setup")
                     {

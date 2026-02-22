@@ -98,6 +98,6 @@ Table 51471 "SMS Messages"
 
     var
         NoSetup: Record "General Ledger Setup";
-    // NoSeriesMgt: Codeunit NoSeriesManagement;
+    //NoSeriesMgt: Codeunit NoSeriesManagement;
 }
 

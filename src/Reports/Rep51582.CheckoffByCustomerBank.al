@@ -122,14 +122,14 @@ report 51582 CheckoffByCustomerBank
                 ShareCapital := 0;
                 Customer.CalcFields(Customer."Shares Retained");
                 //MESSAGE (FORMAT(Customer."Shares Retained"));
-                if Customer."Shares Retained" >= 20000 then begin
+                if Customer."Shares Retained" >= 30000 then begin
                     ShareCapital := 0
                 end else
-                    if Customer."Shares Retained" > 5000 then begin
-                        ShareCapital := 417
+                    if Customer."Shares Retained" > 15000 then begin
+                        ShareCapital := 2000
                     end else
                         if Customer."Shares Retained" < 5000 then begin
-                            ShareCapital := 1000
+                            ShareCapital := 5000
                         end;
                 //MESSAGE(FORMAT(ASAT));
                 BeginMonth_Date := CalcDate('<-CM +14D>', ASAT);
@@ -144,7 +144,7 @@ report 51582 CheckoffByCustomerBank
                 TotalMRepay := 0;
                 LoansRegister.Reset;
                 LoansRegister.SetRange("Client Code", Customer."No.");
-                LoansRegister.SetRange("Loan Product Type", '20');
+                LoansRegister.SetRange("Loan Product Type", 'EMER');
                 LoansRegister.SetFilter("Outstanding Balance", '>%1', 0);
                 if LoansRegister.FindSet then begin
                     LoansRegister.CalcFields("Outstanding Balance", "Oustanding Interest", "Interest Due");
@@ -180,7 +180,7 @@ report 51582 CheckoffByCustomerBank
                 TotalMRepay := 0;
                 LoansRegister.Reset;
                 LoansRegister.SetRange("Client Code", Customer."No.");
-                LoansRegister.SetRange("Loan Product Type", '23');
+                LoansRegister.SetRange("Loan Product Type", 'NEWPRO');
                 LoansRegister.SetFilter("Outstanding Balance", '>%1', 0);
                 if LoansRegister.FindSet then begin
                     LoansRegister.CalcFields("Outstanding Balance", "Oustanding Interest", "Interest Due");
@@ -216,7 +216,7 @@ report 51582 CheckoffByCustomerBank
                 TotalMRepay := 0;
                 LoansRegister.Reset;
                 LoansRegister.SetRange("Client Code", Customer."No.");
-                LoansRegister.SetRange("Loan Product Type", '12');
+                LoansRegister.SetRange("Loan Product Type", 'KIVUK');
                 LoansRegister.SetFilter("Outstanding Balance", '>%1', 0);
                 if LoansRegister.FindSet then begin
                     LoansRegister.CalcFields("Outstanding Balance", "Oustanding Interest", "Interest Due");
@@ -250,7 +250,7 @@ report 51582 CheckoffByCustomerBank
                 TotalMRepay := 0;
                 LoansRegister.Reset;
                 LoansRegister.SetRange("Client Code", Customer."No.");
-                LoansRegister.SetRange("Loan Product Type", '13');
+                LoansRegister.SetRange("Loan Product Type", 'NORM1');
                 LoansRegister.SetFilter("Outstanding Balance", '>%1', 0);
                 if LoansRegister.FindSet then begin
                     LoansRegister.CalcFields("Outstanding Balance", "Oustanding Interest", "Interest Due");
@@ -285,7 +285,7 @@ report 51582 CheckoffByCustomerBank
                 TotalMRepay := 0;
                 LoansRegister.Reset;
                 LoansRegister.SetRange("Client Code", Customer."No.");
-                LoansRegister.SetRange("Loan Product Type", '15');
+                LoansRegister.SetRange("Loan Product Type", 'NORM2');
                 LoansRegister.SetFilter("Outstanding Balance", '>%1', 0);
                 if LoansRegister.FindSet then begin
                     ///******************************************************************
@@ -322,7 +322,7 @@ report 51582 CheckoffByCustomerBank
                 TotalMRepay := 0;
                 LoansRegister.Reset;
                 LoansRegister.SetRange("Client Code", Customer."No.");
-                LoansRegister.SetRange("Loan Product Type", '16');
+                LoansRegister.SetRange("Loan Product Type", 'SCHLOAN');
                 LoansRegister.SetFilter("Outstanding Balance", '>%1', 0);
                 if LoansRegister.FindSet then begin
                     LoansRegister.CalcFields("Outstanding Balance", "Oustanding Interest", "Interest Due");
@@ -358,7 +358,7 @@ report 51582 CheckoffByCustomerBank
                 TotalMRepay := 0;
                 LoansRegister.Reset;
                 LoansRegister.SetRange("Client Code", Customer."No.");
-                LoansRegister.SetRange("Loan Product Type", '17');
+                LoansRegister.SetRange("Loan Product Type", 'HALL');
                 LoansRegister.SetFilter("Outstanding Balance", '>%1', 0);
                 if LoansRegister.FindSet then begin
                     LoansRegister.CalcFields("Outstanding Balance", "Oustanding Interest", "Interest Due");
@@ -394,7 +394,7 @@ report 51582 CheckoffByCustomerBank
                 TotalMRepay := 0;
                 LoansRegister.Reset;
                 LoansRegister.SetRange("Client Code", Customer."No.");
-                LoansRegister.SetRange("Loan Product Type", '18');
+                LoansRegister.SetRange("Loan Product Type", 'MBUY');
                 LoansRegister.SetFilter("Outstanding Balance", '>%1', 0);
                 if LoansRegister.FindSet then begin
                     LoansRegister.CalcFields("Outstanding Balance", "Oustanding Interest", "Interest Due");
@@ -430,7 +430,7 @@ report 51582 CheckoffByCustomerBank
                 TotalMRepay := 0;
                 LoansRegister.Reset;
                 LoansRegister.SetRange("Client Code", Customer."No.");
-                LoansRegister.SetRange("Loan Product Type", '19');
+                LoansRegister.SetRange("Loan Product Type", 'INST');
                 LoansRegister.SetFilter("Outstanding Balance", '>%1', 0);
                 if LoansRegister.FindSet then begin
                     LoansRegister.CalcFields("Outstanding Balance", "Oustanding Interest", "Interest Due");
@@ -461,7 +461,7 @@ report 51582 CheckoffByCustomerBank
                 TotalMRepay := 0;
                 LoansRegister.Reset;
                 LoansRegister.SetRange("Client Code", Customer."No.");
-                LoansRegister.SetRange("Loan Product Type", '21');
+                LoansRegister.SetRange("Loan Product Type", 'KIVUK');
                 LoansRegister.SetFilter("Outstanding Balance", '>%1', 0);
                 if LoansRegister.FindSet then begin
                     LoansRegister.CalcFields("Outstanding Balance", "Oustanding Interest", "Interest Due");

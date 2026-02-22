@@ -165,7 +165,6 @@ page 57006 "Bamburi Checkoff Card"
                 PromotedCategory = Process;
                 Image = Allocate;
                 ApplicationArea = All;
-                ToolTip = 'Automatically distribute the Total Loans amount across individual loan types based on member''s active loans and repayment schedules';
 
                 trigger OnAction()
                 var

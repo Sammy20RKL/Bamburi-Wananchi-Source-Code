@@ -10,7 +10,7 @@ Table 51318 "Payroll Transaction Code."
         {
             Editable = true;
         }
-        field(11; "Transaction Name"; Text[100])
+        field(11; "Transaction Name"; Text[200])
         {
         }
         field(12; "Transaction Type"; Option)

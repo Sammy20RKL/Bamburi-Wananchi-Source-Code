@@ -439,16 +439,32 @@ Page 56031 "Loans Posted Card"
                     trigger OnAction()
                     var
                         LoanApp: Record "Loans Register";
+                        LoanRepS: Record "Loan Repayment Schedule";
                     begin
-                        if Rec.Posted then
+                        // Only regenerate if no paid installments exist
+                        LoanRepS.Reset();
+                        LoanRepS.SetRange(LoanRepS."Loan No.", Rec."Loan  No.");
+                        LoanRepS.SetRange(LoanRepS.Paid, true);
+                        if not LoanRepS.FindFirst() then
                             SFactory.FnGenerateRepaymentSchedule(Rec."Loan  No.");
 
                         LoanApp.Reset();
                         LoanApp.SetRange("Loan  No.", Rec."Loan  No.");
-
-                        // Run without request page - filter is applied automatically
                         Report.Run(50477, true, false, LoanApp);
                     end;
+                    // trigger OnAction()
+                    // var
+                    //     LoanApp: Record "Loans Register";
+                    // begin
+                    //     if Rec.Posted then
+                    //         SFactory.FnGenerateRepaymentSchedule(Rec."Loan  No.");
+
+                    //     LoanApp.Reset();
+                    //     LoanApp.SetRange("Loan  No.", Rec."Loan  No.");
+
+                    //     // Run without request page - filter is applied automatically
+                    //     Report.Run(50477, true, false, LoanApp);
+                    // end;
                 }
                 separator(Action1102755012)
                 {

@@ -8,7 +8,7 @@ page 50314 "Payroll Earnings List."
     CardPageID = "Payroll Earnings Card.";
     PageType = List;
     SourceTable = "Payroll Transaction Code.";
-    SourceTableView = WHERE("Transaction Type" = CONST(Income));
+    SourceTableView = WHERE("Transaction Type" = filter(Income | Deduction));
 
     layout
     {

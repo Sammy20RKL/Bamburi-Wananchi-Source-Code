@@ -98,12 +98,18 @@ report 53003 "Leave Applications"
 
             trigger OnPreDataItem()
             begin
-                //"Leave Application".CALCFIELDS("Annual Leave Entitlement Bal");
-                /*
-                LeaveApp.Reset();
-                LeaveApp.SetFilter(Status,LeaveApp.Status::Released);
-                */
                 ReportFilters := GetFilters();
+
+                // Apply Leave Type filter to the dataset - FIXED VERSION
+                if LeaveTypeFilter <> '' then begin
+                    // Use the correct field for filtering
+                    SetRange("Leave Type", LeaveTypeFilter);
+
+                    // Add Leave Type filter to display in header
+                    if ReportFilters <> '' then
+                        ReportFilters := ReportFilters + ', ';
+                    ReportFilters := ReportFilters + 'Leave Type: ' + GetLeaveTypeDescriptionDirect(LeaveTypeFilter);
+                end;
             end;
         }
     }
@@ -112,10 +118,21 @@ report 53003 "Leave Applications"
     {
         layout
         {
-        }
+            area(Content)
+            {
+                group(Options)
+                {
+                    Caption = 'Options';
 
-        actions
-        {
+                    field(LeaveTypeFilterField; LeaveTypeFilter)
+                    {
+                        ApplicationArea = All;
+                        Caption = 'Leave Type';
+                        ToolTip = 'Select or enter the leave type to filter by';
+                        TableRelation = "Leave Type".Code where(Status = const(Active));
+                    }
+                }
+            }
         }
     }
     labels
@@ -134,6 +151,7 @@ report 53003 "Leave Applications"
         HrLeaveledger: Record "HR Leave Ledger Entries Lv";
         LeaveBal: Decimal;
         ReportFilters: Text;
+        LeaveTypeFilter: Code[20];
 
     procedure GetLeaveName("Code": Code[20]): Text[250]
     var
@@ -141,6 +159,16 @@ report 53003 "Leave Applications"
     begin
         if LeaveTypes.Get(Code) then
             exit(LeaveTypes.Description);
+    end;
+
+    procedure GetLeaveTypeDescriptionDirect(LeaveTypeCode: Code[20]): Text[200]
+    var
+        LeaveTypeRec: Record "Leave Type";
+    begin
+        if LeaveTypeRec.Get(LeaveTypeCode) then
+            exit(LeaveTypeRec.Description)
+        else
+            exit('No Leave type');
     end;
 }
 

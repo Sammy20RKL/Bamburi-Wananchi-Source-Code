@@ -2145,22 +2145,6 @@
                 <VerticalAlign>Middle</VerticalAlign>
               </Style>
             </Textbox>
-            <Image Name="Image1">
-              <Source>Database</Source>
-              <Value>=First(Fields!CompanyLetter_Head.Value, "DataSet_Result")</Value>
-              <MIMEType>image/jpeg</MIMEType>
-              <Sizing>Fit</Sizing>
-              <Top>0.10266cm</Top>
-              <Left>4.92126cm</Left>
-              <Height>3.11457cm</Height>
-              <Width>16.69297cm</Width>
-              <ZIndex>5</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-              </Style>
-            </Image>
           </ReportItems>
           <Style />
         </PageHeader>
@@ -2233,6 +2217,9 @@ End Function
         </Field>
         <Field Name="LoanType">
           <DataField>LoanType</DataField>
+        </Field>
+        <Field Name="companypicture">
+          <DataField>companypicture</DataField>
         </Field>
         <Field Name="loanTypeName">
           <DataField>loanTypeName</DataField>

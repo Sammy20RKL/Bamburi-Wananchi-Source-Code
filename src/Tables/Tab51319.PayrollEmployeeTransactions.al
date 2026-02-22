@@ -4,7 +4,7 @@ Table 51319 "Payroll Employee Transactions."
 
     fields
     {
-        field(9; "Sacco Membership No."; Code[20])
+        field(9; "Sacco Membership No."; Code[50])
         {
             TableRelation = customer."No.";
         }

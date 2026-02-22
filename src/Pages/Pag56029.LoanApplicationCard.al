@@ -875,7 +875,7 @@ Page 56029 "Loan Application Card"
             LProdTypeEditable := true;
             InstallmentEditable := true;
             AppliedAmountEditable := true;
-            ApprovedAmountEditable := true;
+            ApprovedAmountEditable := false;
             RepayMethodEditable := true;
             RepaymentEditable := true;
             BatchNoEditable := false;
@@ -894,7 +894,7 @@ Page 56029 "Loan Application Card"
             LProdTypeEditable := false;
             InstallmentEditable := false;
             AppliedAmountEditable := false;
-            ApprovedAmountEditable := true;
+            ApprovedAmountEditable := false;
             RepayMethodEditable := true;
             RepaymentEditable := true;
             BatchNoEditable := false;

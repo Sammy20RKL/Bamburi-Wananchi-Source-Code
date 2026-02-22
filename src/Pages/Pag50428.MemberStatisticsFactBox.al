@@ -37,7 +37,7 @@ page 50428 "Member Statistics FactBox"
             {
                 Caption = 'M-Wallet Account No';
                 ApplicationArea = Basic;
-                visible = false;
+                visible = true;
             }
             group("Member Details FactBox")
             {
@@ -101,7 +101,7 @@ page 50428 "Member Statistics FactBox"
                 {
                     Caption = 'M-Wallet Balance';
                     ApplicationArea = Basic;
-                    Visible = false;
+                    Visible = true;
                     Editable = false;
                     Importance = Promoted;
                     Style = StrongAccent;

@@ -1,18 +1,6 @@
 codeunit 59025 "Bamburi Loan Distribution"
 {
-    // ============================================================
-    // Bamburi Loan Distribution Codeunit
-    // Purpose : Distribute Total Loans from employer checkoff
-    //           across individual loan types per member.
-    // Logic   : For each loan product, find the single oldest
-    //           unpaid installment whose Repayment Date falls
-    //           before the CutOff Date. Pay Interest first, then
-    //           Principal. Any remainder goes to Deposit Contribution.
-    // Note    : Distribution is READ-ONLY on the repayment schedule.
-    //           Schedule is only updated during actual posting.
-    //           This allows re-running distribution any number of
-    //           times for the same month without side effects.
-    // ============================================================
+
 
     procedure DistributeTotalLoans(var CheckoffLine: Record "Bamburi CheckoffLines"; LoanCutOffDate: Date)
     var
@@ -22,20 +10,25 @@ codeunit 59025 "Bamburi Loan Distribution"
         TotalAmt: Decimal;
         OriginalDeposit: Decimal;
     begin
+        // Save original imported deposit before clearing
         OriginalDeposit := CheckoffLine."Deposit Contribution";
-        // Clear all loan fields and reset deposit remainder
+
+        // Clear all loan
         ClearAllLoanFields(CheckoffLine);
         CheckoffLine."Deposit Contribution" := OriginalDeposit;
 
-        // Get the total amount to distribute from the checkoff line
+        // Get the total loan amount to distribute from the checkoff line
         RemainingAmount := CheckoffLine."Total Loans";
 
-        if RemainingAmount <= 0 then
+        if RemainingAmount <= 0 then begin
+            // Nothing to distribute
+            CheckoffLine."Deposit Contribution" := OriginalDeposit;
+            CheckoffLine.Modify(true);
             exit;
+        end;
 
-        // -------------------------------------------------------
-        // Distribute in priority order — Interest first per loan
-        // -------------------------------------------------------
+
+        // Distribute in priority order 
 
         // 1. Emergency Loan
         RemainingAmount := ProcessLoan(CheckoffLine."Member No", 'EMER', RemainingAmount, LoanCutOffDate, InterestAmt, PrincipalAmt, TotalAmt);
@@ -85,12 +78,12 @@ codeunit 59025 "Bamburi Loan Distribution"
             CheckoffLine."Normal Loan 2 Amount" := TotalAmt;
         end;
 
-        // 7. Normal Loan 3
-        RemainingAmount := ProcessLoan(CheckoffLine."Member No", 'NORM3', RemainingAmount, LoanCutOffDate, InterestAmt, PrincipalAmt, TotalAmt);
+        // 7. Hallo Hallo Loan
+        RemainingAmount := ProcessLoan(CheckoffLine."Member No", 'HALL', RemainingAmount, LoanCutOffDate, InterestAmt, PrincipalAmt, TotalAmt);
         if TotalAmt > 0 then begin
-            CheckoffLine."Normal Loan 3 Interest" := InterestAmt;
-            CheckoffLine."Normal Loan 3 Principle" := PrincipalAmt;
-            CheckoffLine."Normal Loan 3 Amount" := TotalAmt;
+            CheckoffLine."HALLO HALLO Loan Interest" := InterestAmt;
+            CheckoffLine."HALLO HALLO Loan Principle" := PrincipalAmt;
+            CheckoffLine."HALLO HALLO Loan Amount" := TotalAmt;
         end;
 
         // 8. Mbuyu Loan
@@ -117,22 +110,21 @@ codeunit 59025 "Bamburi Loan Distribution"
             CheckoffLine."New Product Loan Amount" := TotalAmt;
         end;
 
-        // Any remainder after all loans are settled goes to Deposit Contribution.
-        // ClearAllLoanFields already zeroed Deposit Contribution so this is a
-        // clean assignment — no double counting on re-run.
-
         CheckoffLine."Deposit Contribution" := OriginalDeposit + RemainingAmount;
         CheckoffLine.Modify(true);
     end;
 
-    local procedure ProcessLoan(MemberNo: Code[20]; LoanProductCode: Code[10]; AvailableAmount: Decimal; CutOffDate: Date; var InterestToPay: Decimal; var PrincipalToPay: Decimal; var TotalToPay: Decimal): Decimal
+    local procedure ProcessLoan(
+        MemberNo: Code[20];
+        LoanProductCode: Code[10];
+        AvailableAmount: Decimal;
+        CutOffDate: Date;
+        var InterestToPay: Decimal;
+        var PrincipalToPay: Decimal;
+        var TotalToPay: Decimal
+    ): Decimal
     var
         LoansRegister: Record "Loans Register";
-        LoanRepaymentSchedule: Record "Loan Repayment Schedule";
-        InstallmentInterest: Decimal;
-        InstallmentPrincipal: Decimal;
-        InterestPaid: Decimal;
-        PrincipalPaid: Decimal;
     begin
         // Initialise return values
         InterestToPay := 0;
@@ -154,6 +146,24 @@ codeunit 59025 "Bamburi Loan Distribution"
         if not LoansRegister.FindFirst() then
             exit(AvailableAmount); // No active loan — return full amount unchanged
 
+        // Route to correct processing logic based on repayment method
+        case LoansRegister."Repayment Method" of
+            LoansRegister."Repayment Method"::"One-Time":
+                exit(ProcessOneTimeLoan(LoansRegister, MemberNo, AvailableAmount, CutOffDate, InterestToPay, PrincipalToPay, TotalToPay));
+            else
+                // Handles both Straight Line and Reducing Balance
+                exit(ProcessScheduledLoan(LoansRegister, MemberNo, AvailableAmount, CutOffDate, InterestToPay, PrincipalToPay, TotalToPay));
+        end;
+    end;
+
+    local procedure ProcessScheduledLoan(LoansRegister: Record "Loans Register"; MemberNo: Code[20]; AvailableAmount: Decimal; CutOffDate: Date; var InterestToPay: Decimal; var PrincipalToPay: Decimal; var TotalToPay: Decimal): Decimal
+    var
+        LoanRepaymentSchedule: Record "Loan Repayment Schedule";
+        InstallmentInterest: Decimal;
+        InstallmentPrincipal: Decimal;
+        InterestPaid: Decimal;
+        PrincipalPaid: Decimal;
+    begin
         // Find the SINGLE oldest unpaid installment whose due date is
         // before or on the CutOff Date.
         // Example: CutOff = 03/04/2026 → picks installment dated 31/03/2026.
@@ -165,57 +175,125 @@ codeunit 59025 "Bamburi Loan Distribution"
         LoanRepaymentSchedule.SetRange(Paid, false);
         LoanRepaymentSchedule.SetFilter("Repayment Date", '..%1', CutOffDate);
         LoanRepaymentSchedule.SetCurrentKey("Loan No.", "Member No.", "Reschedule No", "Instalment No");
-        LoanRepaymentSchedule.Ascending(true); // Oldest first
+        LoanRepaymentSchedule.Ascending(true); // Oldest unpaid first
 
         if not LoanRepaymentSchedule.FindFirst() then
             exit(AvailableAmount); // No due installment — return full amount unchanged
 
-        // Round installment values upward to match the interest charging report
+        // Round upward to match interest charging report rounding
         InstallmentInterest := Round(LoanRepaymentSchedule."Monthly Interest", 1, '>');
         InstallmentPrincipal := Round(LoanRepaymentSchedule."Principal Repayment", 1, '>');
 
         InterestPaid := 0;
         PrincipalPaid := 0;
 
-        // Pay Interest first
+        // Step 1: Pay Interest first
         if InstallmentInterest > 0 then begin
             if AvailableAmount >= InstallmentInterest then begin
                 InterestPaid := InstallmentInterest;
                 AvailableAmount := AvailableAmount - InstallmentInterest;
             end else begin
-                // Partial interest payment — take whatever is left
+                // Partial interest — take whatever is available
                 InterestPaid := AvailableAmount;
                 AvailableAmount := 0;
             end;
         end;
 
-        // Pay Principal with whatever remains after interest
+        // Step 2: Pay Principal with whatever remains after interest
         if (AvailableAmount > 0) and (InstallmentPrincipal > 0) then begin
             if AvailableAmount >= InstallmentPrincipal then begin
                 PrincipalPaid := InstallmentPrincipal;
                 AvailableAmount := AvailableAmount - InstallmentPrincipal;
             end else begin
-                // Partial principal payment — take whatever is left
+                // Partial principal — take whatever is available
                 PrincipalPaid := AvailableAmount;
                 AvailableAmount := 0;
             end;
         end;
 
-        // Accumulate totals for this loan product
         InterestToPay := InterestPaid;
         PrincipalToPay := PrincipalPaid;
         TotalToPay := InterestToPay + PrincipalToPay;
 
-        // NOTE: We do NOT modify LoanRepaymentSchedule here.
-        //       Paid flag and Actual amounts are updated only during posting.
-        //       This makes distribution fully re-runnable for the same month.
+        // NOTE: Schedule is NOT modified here.
+        //       Paid = true is set only during actual posting.
+        //       This makes distribution fully re-runnable for same month.
+
+        exit(AvailableAmount);
+    end;
+
+    local procedure ProcessOneTimeLoan(LoansRegister: Record "Loans Register"; MemberNo: Code[20];
+        AvailableAmount: Decimal;
+        CutOffDate: Date;
+        var InterestToPay: Decimal;
+        var PrincipalToPay: Decimal;
+        var TotalToPay: Decimal
+    ): Decimal
+    var
+        MaturityDate: Date;
+        OneTimeInterest: Decimal;
+        OutstandingPrincipal: Decimal;
+        InterestPaid: Decimal;
+        PrincipalPaid: Decimal;
+    begin
+        // One-Time loans do not have monthly installments.
+        // The full principal + interest is recovered in one lump sum at maturity.
+        // Before maturity → nothing is deducted, full amount returned unchanged.
+        // At or after maturity → recover interest first, then principal.
+
+        // Calculate maturity date: Repayment Start Date + Installments months
+        MaturityDate := CalcDate('<+' + Format(LoansRegister.Installments) + 'M>', LoansRegister."Repayment Start Date");
+
+        // Not yet matured — skip this loan entirely
+        if CutOffDate < MaturityDate then
+            exit(AvailableAmount);
+
+        // Loan has matured — calculate what is owed
+        LoansRegister.CalcFields("Outstanding Balance", "Oustanding Interest");
+
+        OutstandingPrincipal := LoansRegister."Outstanding Balance";
+        OneTimeInterest := LoansRegister."Oustanding Interest";
+
+        // If both are zero — loan already fully settled
+        if (OutstandingPrincipal <= 0) and (OneTimeInterest <= 0) then
+            exit(AvailableAmount);
+
+        InterestPaid := 0;
+        PrincipalPaid := 0;
+
+        // Step 1: Pay outstanding interest first
+        if OneTimeInterest > 0 then begin
+            if AvailableAmount >= OneTimeInterest then begin
+                InterestPaid := OneTimeInterest;
+                AvailableAmount := AvailableAmount - OneTimeInterest;
+            end else begin
+                // Partial interest payment
+                InterestPaid := AvailableAmount;
+                AvailableAmount := 0;
+            end;
+        end;
+
+        // Step 2: Pay outstanding principal with remainder
+        if (AvailableAmount > 0) and (OutstandingPrincipal > 0) then begin
+            if AvailableAmount >= OutstandingPrincipal then begin
+                PrincipalPaid := OutstandingPrincipal;
+                AvailableAmount := AvailableAmount - OutstandingPrincipal;
+            end else begin
+                // Partial principal payment
+                PrincipalPaid := AvailableAmount;
+                AvailableAmount := 0;
+            end;
+        end;
+
+        InterestToPay := InterestPaid;
+        PrincipalToPay := PrincipalPaid;
+        TotalToPay := InterestToPay + PrincipalToPay;
 
         exit(AvailableAmount);
     end;
 
     local procedure ClearAllLoanFields(var CheckoffLine: Record "Bamburi CheckoffLines")
     begin
-        // Loan amounts
         CheckoffLine."Emergency Loan Amount" := 0;
         CheckoffLine."Emergency Loan  Principle" := 0;
         CheckoffLine."Emergency Loan Interest" := 0;
@@ -244,6 +322,10 @@ codeunit 59025 "Bamburi Loan Distribution"
         CheckoffLine."Normal Loan 3 Principle" := 0;
         CheckoffLine."Normal Loan 3 Interest" := 0;
 
+        CheckoffLine."HALLO HALLO Loan Amount" := 0;
+        CheckoffLine."HALLO HALLO Loan Principle" := 0;
+        CheckoffLine."HALLO HALLO Loan Interest" := 0;
+
         CheckoffLine."Mbuyu Loan Amount" := 0;
         CheckoffLine."Mbuyu Loan Principle" := 0;
         CheckoffLine."Mbuyu Loan Interest" := 0;
@@ -256,10 +338,9 @@ codeunit 59025 "Bamburi Loan Distribution"
         CheckoffLine."New Product Loan Principle" := 0;
         CheckoffLine."New Product Loan Interest" := 0;
 
-        // Reset deposit contribution so re-running never double-counts the remainder.
-        // The original imported payroll deposit is preserved because it sits in a
-        // separate field and is only added back as remainder after all loans are settled.
-
+        // NOTE: Deposit Contribution is NOT zeroed here.
+        //       It is preserved via OriginalDeposit in DistributeTotalLoans
+        //       and restored immediately after this call.
     end;
 
     procedure ProcessAllCheckoffLines(HeaderNo: Code[20]; LoanCutOffDate: Date)
@@ -276,7 +357,7 @@ codeunit 59025 "Bamburi Loan Distribution"
         CheckoffLine.SetRange(Posted, false);
 
         if not CheckoffLine.FindSet() then begin
-            Message('Please import checkoff first!');
+            Message('Please import checkoff first.');
             exit;
         end;
 
@@ -291,7 +372,6 @@ codeunit 59025 "Bamburi Loan Distribution"
         if ProcessedCount > 0 then
             Message('Distribution complete Successfully.', ProcessedCount, SkippedCount)
         else
-            Message('No members with Total Loans > 0 found');
+            Message('No members with Total Loans');
     end;
-
 }

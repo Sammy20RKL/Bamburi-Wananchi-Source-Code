@@ -29,6 +29,9 @@ Report 56858 "Loans Register-Net"
             column(LoanType; LoanType)
             {
             }
+            column(companypicture; CompanyInfo.Picture)
+            {
+            }
             column(loanTypeName; "Loans Register"."Loan Product Type Name") { }// LoanTypeNameTxt) { }
             column(loanPeriod; "Loans Register".Installments) { }
             column(interestRate; "Loans Register".Interest) { }// loanInterestRate) { }

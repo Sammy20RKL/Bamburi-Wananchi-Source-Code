@@ -27,6 +27,7 @@ report 50229 "Detailed Active Statement"
             column(PhoneNo_MemberRegister; Customer."Phone No.") { }
             column(CurrentShares_MemberRegister; Customer."Current Shares") { }
             column(Company_Email; Company."E-Mail") { }
+            column(Company_Logo; Company.Picture) { }
 
             dataitem(ShareCapital; "Cust. Ledger Entry")
             {

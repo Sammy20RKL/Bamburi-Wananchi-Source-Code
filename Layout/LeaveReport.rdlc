@@ -2386,9 +2386,6 @@ End Function
         <Field Name="Employee_Name">
           <DataField>Employee_Name</DataField>
         </Field>
-        <Field Name="leaveDescription">
-          <DataField>leaveDescription</DataField>
-        </Field>
         <Field Name="Resumption_Date1">
           <DataField>Resumption_Date1</DataField>
         </Field>
@@ -2400,6 +2397,9 @@ End Function
         </Field>
         <Field Name="Department">
           <DataField>Department</DataField>
+        </Field>
+        <Field Name="leaveDescription">
+          <DataField>leaveDescription</DataField>
         </Field>
         <Field Name="Prepared_By">
           <DataField>Prepared_By</DataField>

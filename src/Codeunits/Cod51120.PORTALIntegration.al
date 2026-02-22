@@ -224,12 +224,12 @@ Codeunit 51120 PORTALIntegration
             MonthlyContribution := objMember."Monthly Contribution";
 
             objMember.CalcFields("Shares Retained");
-            if objMember."Shares Retained" >= 15000 then
+            if objMember."Shares Retained" >= 30000 then
                 ShareCapital := 0
-            else if objMember."Shares Retained" > 5000 then
-                ShareCapital := 417
+            else if objMember."Shares Retained" > 15000 then
+                ShareCapital := 15000
             else
-                ShareCapital := 1000;
+                ShareCapital := 10000;
 
             WelfareContribution := objMember."Welfare Contr";
             HolidayContribution := objMember."Holiday Contribution";
@@ -2129,7 +2129,7 @@ Codeunit 51120 PORTALIntegration
         if objMember.Find('-') then begin
             phoneNumber := objMember."Phone No.";
             sms := 'You have created a standing order of amount : ' + Format(Amount) + ' from Account ' + SourceAcc + ' start date: '
-                  + Format(StartDate) + '. Thanks for using POLYTECh SACCO Portal.';
+                  + Format(StartDate) + '. Thanks for using BAMBURI SACCO Portal.';
             FnSMSMessage(SourceAcc, phoneNumber, sms);
             //MESSAGE('All Cool');
         end
@@ -2253,7 +2253,7 @@ Codeunit 51120 PORTALIntegration
             objMember."Monthly Contribution" := "Updated Fig";
             objMember.Modify;
             sms := 'You have adjusted your monthly contributions to: ' + Format("Updated Fig") + ' account number ' + FAccNo +
-                  '. Thank you for using SURESTEP Sacco Portal';
+                  '. Thank you for using Bamburi Sacco Portal';
             FnSMSMessage(FAccNo, phoneNumber, sms);
 
             //MESSAGE('Updated');
@@ -2307,7 +2307,7 @@ Codeunit 51120 PORTALIntegration
             Emailaddress := memberRegister."E-Mail";
             memberName := memberRegister.Name;
         end;
-        EmailSubject := 'Polytech Portal Notification';
+        EmailSubject := 'Bamburi Portal Notification';
         CompanyInfo.Get();
 
         EMailBody := 'Dear <b>' + memberName + '</b>,</br></br>' +

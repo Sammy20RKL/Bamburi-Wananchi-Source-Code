@@ -3861,7 +3861,7 @@ Codeunit 51022 SwizzKashMobile
         employeeCode: Code[20];
         penaltyDate: Date;
     BEGIN
-        loancode := '24';
+        loancode := 'INST';
         response := '{ "StatusCode":"502","StatusDescription":"NOTPROCESSED","LimitAmount":0,"Message":"Not processed" } ';
 
         VendorTable.RESET;
@@ -3898,7 +3898,7 @@ Codeunit 51022 SwizzKashMobile
             LoansRegisterTable.RESET;
             LoansRegisterTable.SETRANGE(LoansRegisterTable."Client Code", CustomerTable."No.");
             LoansRegisterTable.SETRANGE(LoansRegisterTable.Posted, TRUE);
-            LoansRegisterTable.SetFilter(LoansRegisterTable."Loan Product Type", '%1', '24');
+            LoansRegisterTable.SetFilter(LoansRegisterTable."Loan Product Type", '%1', 'INST');
             IF LoansRegisterTable.FIND('-') THEN BEGIN
                 REPEAT
                     LoansRegisterTable.CALCFIELDS(LoansRegisterTable."Outstanding Balance");
@@ -7307,13 +7307,13 @@ Codeunit 51022 SwizzKashMobile
             // ===== Check if member has an outstanding ELOAN
             LoansRegister.RESET;
             LoansRegister.SETRANGE(LoansRegister."Client Code", vendorTable."BOSA Account No");
-            LoansRegister.SETRANGE(LoansRegister."Product Code", '24');
+            LoansRegister.SETRANGE(LoansRegister."Product Code", 'INST');
             LoansRegister.SETRANGE(LoansRegister.Posted, TRUE);
             IF LoansRegister.FIND('-') THEN BEGIN
                 REPEAT
                     LoansRegister.CALCFIELDS(LoansRegister."Outstanding Balance");
                     IF (LoansRegister."Outstanding Balance" > 0) THEN BEGIN
-                        IF (LoansRegister."Loan Product Type" = '24') THEN BEGIN
+                        IF (LoansRegister."Loan Product Type" = 'INST') THEN BEGIN
                             response := '{ "StatusCode":"6","StatusDescription":"FAIL","LimitAmount":0,"Message":"Outstanding E-Loan Balance" }';
                             EXIT(response);
                         END;
@@ -7393,7 +7393,7 @@ Codeunit 51022 SwizzKashMobile
             maxLoanAmount := 0;
             minLoanAmount := 0;
             LoanProductsSetup.RESET;
-            LoanProductsSetup.SETRANGE(LoanProductsSetup.Code, '24');
+            LoanProductsSetup.SETRANGE(LoanProductsSetup.Code, 'INST');
             IF LoanProductsSetup.FIND('-') THEN BEGIN
                 //interestAMT:=(LoanProductsSetup."Interest rate"/100);
                 maxLoanAmount := LoanProductsSetup."Max. Loan Amount";
@@ -7443,7 +7443,7 @@ Codeunit 51022 SwizzKashMobile
         InterestPaid: Decimal;
         LoanTypeTable: Record "Loan Products Setup";
     BEGIN
-        loanType := '24';
+        loanType := 'INST';
 
         swizzkasTransTable.RESET;
         swizzkasTransTable.SETRANGE(swizzkasTransTable."Document No", documentNo);
@@ -7773,7 +7773,7 @@ Codeunit 51022 SwizzKashMobile
                             MpesaDisbus."Delivery Center" := 'M-WALLET';
                             MpesaDisbus."Customer Name" := membersTable.Name;
                             MpesaDisbus.Status := MpesaDisbus.Status::Completed;// Closed;
-                            MpesaDisbus.Purpose := '24';
+                            MpesaDisbus.Purpose := 'INST';
                             MpesaDisbus.INSERT;
                         END;
                     END;
@@ -7835,7 +7835,7 @@ Codeunit 51022 SwizzKashMobile
         InterestPaid: Decimal;
         LoanTypeTable: Record "Loan Products Setup";
     begin
-        loanType := '24';
+        loanType := 'INST';
 
         swizzkasTransTable.RESET;
         swizzkasTransTable.SETRANGE(swizzkasTransTable."Document No", documentNo);
@@ -8097,7 +8097,7 @@ Codeunit 51022 SwizzKashMobile
 
         //get Loan from M-Loans, balance >0, recovered = false
         loansRegisterTable.Reset();
-        loansRegisterTable.SetRange("Loan Product Type", '24');
+        loansRegisterTable.SetRange("Loan Product Type", 'INST');
         loansRegisterTable.SetRange(Posted, true);
 
         if loansRegisterTable.Find('-') then begin
@@ -9082,7 +9082,7 @@ Codeunit 51022 SwizzKashMobile
 
                             // =================================== Check if member has an outstanding ELOAN
 
-                            IF (LoansRegister."Loan Product Type" = '24') THEN BEGIN
+                            IF (LoansRegister."Loan Product Type" = 'INST') THEN BEGIN
                                 amount := 2;
                                 Res := '2::::You do not Qualify for this loan because You have an outstanding M-POLYTECH Loan::::False';
                                 Res := '{ "StatusCode":"403","StatusDescription":"OutstandingMploytechLoan","LimitAmount":0,"Message":"You do not Qualify for this loan because You have an outstanding M-POLYTECH Loan." } ';
@@ -9168,7 +9168,7 @@ Codeunit 51022 SwizzKashMobile
                         amount := Members."Current Shares";
                         //==================================================Get maximum loan amount
                         LoanProductsSetup.RESET;
-                        LoanProductsSetup.SETRANGE(LoanProductsSetup.Code, '24');
+                        LoanProductsSetup.SETRANGE(LoanProductsSetup.Code, 'INST');
                         IF LoanProductsSetup.FIND('-') THEN BEGIN
                             interestAMT := LoanProductsSetup."Interest rate";
                             MaxLoanAmt := LoanProductsSetup."Max. Loan Amount";

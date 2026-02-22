@@ -62,7 +62,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">No.</Value>
+                                  <Value>No.</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontWeight>Bold</FontWeight>
@@ -100,7 +100,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Loans No.</Value>
+                                  <Value>Loans No.</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontWeight>Bold</FontWeight>
@@ -138,7 +138,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Member No.</Value>
+                                  <Value>Member No.</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontWeight>Bold</FontWeight>
@@ -176,7 +176,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Member Name</Value>
+                                  <Value>Member Name</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontWeight>Bold</FontWeight>
@@ -214,7 +214,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Issued Date </Value>
+                                  <Value>Issued Date </Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontWeight>Bold</FontWeight>
@@ -252,7 +252,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Product Type</Value>
+                                  <Value>Product Type</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontWeight>Bold</FontWeight>
@@ -290,7 +290,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Instal.</Value>
+                                  <Value>Instal.</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontWeight>Bold</FontWeight>
@@ -328,7 +328,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Amount Approved</Value>
+                                  <Value>Amount Approved</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontWeight>Bold</FontWeight>
@@ -366,7 +366,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Outstanding Balance </Value>
+                                  <Value>Outstanding Balance </Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontWeight>Bold</FontWeight>
@@ -404,7 +404,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Amount Paid</Value>
+                                  <Value>Amount Paid</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontWeight>Bold</FontWeight>
@@ -447,7 +447,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!No.Value</Value>
+                                  <Value>=Fields!No.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -480,7 +480,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!LoanNo_LoansRegister.Value</Value>
+                                  <Value>=Fields!LoanNo_LoansRegister.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -513,7 +513,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!ClientCode_LoansRegister.Value</Value>
+                                  <Value>=Fields!ClientCode_LoansRegister.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -546,7 +546,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!ClientName_LoansRegister.Value</Value>
+                                  <Value>=Fields!ClientName_LoansRegister.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -579,7 +579,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!IssuedDate_LoansRegister.Value</Value>
+                                  <Value>=Fields!IssuedDate_LoansRegister.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -613,7 +613,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!LoanProductTypeName_LoansRegister.Value</Value>
+                                  <Value>=Fields!LoanProductTypeName_LoansRegister.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -646,7 +646,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!Installments_LoansRegister.Value</Value>
+                                  <Value>=Fields!Installments_LoansRegister.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -679,7 +679,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!ApprovedAmount_LoansRegister.Value</Value>
+                                  <Value>=Fields!ApprovedAmount_LoansRegister.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -713,7 +713,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!OutstandingBalance_LoansRegister.Value</Value>
+                                  <Value>=Fields!OutstandingBalance_LoansRegister.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -747,7 +747,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!AmountPaid.Value</Value>
+                                  <Value>=Fields!AmountPaid.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -786,7 +786,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">TOTAL</Value>
+                                  <Value>TOTAL</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontWeight>Bold</FontWeight>
@@ -826,7 +826,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto" />
+                                  <Value />
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontWeight>Bold</FontWeight>
@@ -858,7 +858,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Sum(Fields!ApprovedAmount_LoansRegister.Value)</Value>
+                                  <Value>=Sum(Fields!ApprovedAmount_LoansRegister.Value)</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontWeight>Bold</FontWeight>
@@ -892,7 +892,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Sum(Fields!OutstandingBalance_LoansRegister.Value)</Value>
+                                  <Value>=Sum(Fields!OutstandingBalance_LoansRegister.Value)</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontWeight>Bold</FontWeight>
@@ -926,7 +926,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Sum(Fields!AmountPaid.Value)</Value>
+                                  <Value>=Sum(Fields!AmountPaid.Value)</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontWeight>Bold</FontWeight>
@@ -1003,7 +1003,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto">LOANS RECOVERY LIST </Value>
+                    <Value>LOANS RECOVERY LIST </Value>
                     <Style>
                       <FontWeight>Bold</FontWeight>
                     </Style>
@@ -1035,7 +1035,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto">=First(Fields!COMPANYNAME.Value, "DataSet_Result")</Value>
+                    <Value>=First(Fields!COMPANYNAME.Value, "DataSet_Result")</Value>
                     <Style />
                   </TextRun>
                 </TextRuns>
@@ -1065,7 +1065,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto">=First(Fields!Company_Address.Value, "DataSet_Result")</Value>
+                    <Value>=First(Fields!Company_Address.Value, "DataSet_Result")</Value>
                     <Style />
                   </TextRun>
                 </TextRuns>
@@ -1095,7 +1095,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto">=First(Fields!Company_Address_2.Value, "DataSet_Result")</Value>
+                    <Value>=First(Fields!Company_Address_2.Value, "DataSet_Result")</Value>
                     <Style />
                   </TextRun>
                 </TextRuns>
@@ -1125,17 +1125,17 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto">Tellphone No. </Value>
+                    <Value>Tellphone No. </Value>
                     <Style>
                       <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value EvaluationMode="Auto">:</Value>
+                    <Value>:</Value>
                     <Style />
                   </TextRun>
                   <TextRun>
-                    <Value EvaluationMode="Auto">=First(Fields!Company_Phone_No.Value, "DataSet_Result")</Value>
+                    <Value>=First(Fields!Company_Phone_No.Value, "DataSet_Result")</Value>
                     <Style />
                   </TextRun>
                 </TextRuns>
@@ -1165,13 +1165,13 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto">Email: </Value>
+                    <Value>Email: </Value>
                     <Style>
                       <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value EvaluationMode="Auto">=First(Fields!Company_Email.Value, "DataSet_Result")</Value>
+                    <Value>=First(Fields!Company_Email.Value, "DataSet_Result")</Value>
                     <Style>
                       <FontStyle>Italic</FontStyle>
                     </Style>
@@ -1203,13 +1203,13 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto">Date: </Value>
+                    <Value>Date: </Value>
                     <Style>
                       <Format>d MMMM, yyyy</Format>
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value EvaluationMode="Auto">=Globals!ExecutionTime</Value>
+                    <Value>=Globals!ExecutionTime</Value>
                     <Style>
                       <FontSize>8pt</FontSize>
                       <Format>d MMMM, yyyy</Format>
@@ -1242,13 +1242,13 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto">Prepared By:</Value>
+                    <Value>Prepared By:</Value>
                     <Style>
                       <FontSize>8pt</FontSize>
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value EvaluationMode="Auto">=User!UserID</Value>
+                    <Value>=User!UserID</Value>
                     <Style>
                       <FontSize>8pt</FontSize>
                     </Style>
@@ -1273,21 +1273,6 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
-          <Image Name="Image4">
-            <Source>Embedded</Source>
-            <Value>polytechsaccologo21page001</Value>
-            <Sizing>FitProportional</Sizing>
-            <Top>0.17066in</Top>
-            <Left>4.64279in</Left>
-            <Height>0.5in</Height>
-            <Width>2.125in</Width>
-            <ZIndex>9</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-          </Image>
         </ReportItems>
         <Height>1.84428in</Height>
         <Style />

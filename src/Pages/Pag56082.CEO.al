@@ -713,7 +713,7 @@ page 56082 CEO
                     ToolTip = 'Display Financial Statements.';
                     Visible = true;
 
-                    action("Polytech Trial Balance")
+                    action("Bamburi Trial Balance")
                     {
                         ApplicationArea = Basic, Suite;
                         Caption = 'Summarised Trial Balance';
@@ -1805,7 +1805,7 @@ page 56082 CEO
                         Caption = 'Mobile Loans';
                         Image = PostedReceipt;
                         // RunObject = page "Mobile Loans";
-                        RunObject = page "M Polytech Loans";
+                        RunObject = page "M Bamburi Loans";
                         ToolTip = 'View Mobile Loans List.';
                     }
 
@@ -1917,7 +1917,7 @@ page 56082 CEO
                         Caption = 'Mobile Loans Transactions';
                         Image = PaymentHistory;
                         RunObject = page "Mobile Loans Transactions";
-                        ToolTip = 'Get the History of M-Polytech Loans';
+                        ToolTip = 'Get the History of M-Bamburi Loans';
                     }
                     action("Wallets Setup")
                     {

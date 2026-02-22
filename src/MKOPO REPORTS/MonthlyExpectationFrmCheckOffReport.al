@@ -19,10 +19,10 @@ Report 51045 "monthly exp Bamburi"
             column(ShareCapital; ShareCapital)
             {
             }
-            column(DevP; DevP)
+            column(NEWPRODUCTp; NEWPRODUCTp)
             {
             }
-            column(Devint; Devint)
+            column(NEWPRODUCTi; NEWPRODUCTi)
             {
             }
             column(montlycon; montlycon)
@@ -40,22 +40,22 @@ Report 51045 "monthly exp Bamburi"
             column(EMERGENCYINTEREST; EMERGENCYi)
             {
             }
-            column(SUPEREMERGENCYPRINCIPAL; SUPEREMERGENCYp)
+            column(HALLOHALLOPRINCIPAL; HALLOHALLOp)
             {
             }
-            column(SUPEREMERGENCYINTEREST; SUPEREMERGENCYi)
+            column(HALLOHALLOINTEREST; HALLOHALLOi)
             {
             }
-            column(QUICKLOANPRINCIPAL; QUICKLOANp)
+            column(INSTANTLOANPRINCIPAL; INSTANTLOANp)
             {
             }
-            column(QUICKLOANINTEREST; QUICKLOANi)
+            column(INSTANTLOANINTEREST; INSTANTLOANi)
             {
             }
-            column(SUPERQUICKPRINCIPAL; SUPERQUICKp)
+            column(KIVUKIOLOANPRINCIPAL; KIVUKIOLOANp)
             {
             }
-            column(SUPERQUICKINTEREST; SUPERQUICKi)
+            column(KIVUKIOLOANINTEREST; KIVUKIOLOANi)
             {
             }
             column(SCHOOLFEESPRINCIPAL; SCHOOLFEESp)
@@ -64,16 +64,16 @@ Report 51045 "monthly exp Bamburi"
             column(SCHOOLFEESINTEREST; SCHOOLFEESi)
             {
             }
-            column(SUPERSCHOOLFEESPRINCIPAL; SUPERSCHOOLFEESp)
+            column(MBUYULOANPRINCIPAL; MBUYULOANp)
             {
             }
-            column(SUPERSCHOOLFEESINTEREST; SUPERSCHOOLFEESi)
+            column(MBUYULOANINTEREST; MBUYULOANi)
             {
             }
-            column(INVESTMENTLOANPRINCIPAL; INVESTMENTLOANp)
+            column(MWOKOZILOANPRINCIPAL; MWOKOZILOANp)
             {
             }
-            column(INVESTMENTLOANINTEREST; INVESTMENTLOANi)
+            column(MWOKOZILOANINTEREST; MWOKOZILOANi)
             {
             }
             column(CIName; CI.Name)
@@ -88,13 +88,17 @@ Report 51045 "monthly exp Bamburi"
             column(PersonalNo_MemberRegister; Customer."Personal No")
             {
             }
-            column(NORMALLOANp; NORMALLOANp)
+            column(NORMALLOAN2p; NORMALLOAN2p)
             {
             }
-            column(NORMALLOANi; NORMALLOANi)
+            column(NORMALLOAN2i; NORMALLOAN2i)
             {
             }
+
             column(NORMALLOAN1p; NORMALLOAN1p)
+            {
+            }
+            column(NORMALLOAN1i; NORMALLOAN1i)
             {
             }
             column(HolidayContribution_MemberRegister; Customer."Holiday Contribution")
@@ -128,12 +132,12 @@ Report 51045 "monthly exp Bamburi"
                 ShareCapital := 0;
                 // --- 1. Share Capital ---
                 Customer.CalcFields("Shares Retained");
-                if Customer."Shares Retained" >= 15000 then
+                if Customer."Shares Retained" >= 30000 then
                     ShareCapital := 0
-                else if Customer."Shares Retained" >= 5000 then
-                    ShareCapital := 417
+                else if Customer."Shares Retained" >= 15000 then
+                    ShareCapital := 2000
                 else
-                    ShareCapital := 1000;
+                    ShareCapital := 5000;
 
                 BeginMonth_Date := CalcDate('<-CM +14D>', ASAT);
 
@@ -141,32 +145,31 @@ Report 51045 "monthly exp Bamburi"
                 "Welfare Contr" := Customer."Welfare Contr";
 
                 // EMERGENCY
-                CalculateLoanRepayment('12', EMERGENCYp, EMERGENCYi, Customer."No.", ASAT, BeginMonth_Date);
+                CalculateLoanRepayment('EMER', EMERGENCYp, EMERGENCYi, Customer."No.", ASAT, BeginMonth_Date);
 
-                // SUPER EMERGENCY LOAN                
-                CalculateLoanRepayment('13', SUPEREMERGENCYp, SUPEREMERGENCYi, Customer."No.", ASAT, BeginMonth_Date);
+                // HALLO HALLO LOAN                
+                CalculateLoanRepayment('HALLO', HALLOHALLOp, HALLOHALLOi, Customer."No.", ASAT, BeginMonth_Date);
 
-                //QUICK LOAN	
-                CalculateLoanRepayment('15', QUICKLOANp, QUICKLOANi, Customer."No.", ASAT, BeginMonth_Date);
+                //INSTANT LOAN	
+                CalculateLoanRepayment('INST', INSTANTLOANp, INSTANTLOANi, Customer."No.", ASAT, BeginMonth_Date);
 
-                // SUPER QUICK start
+                // KIVUKIO LOAN 
+                CalculateLoanRepayment('KIVUK', KIVUKIOLOANp, KIVUKIOLOANi, Customer."No.", ASAT, BeginMonth_Date);
 
-                CalculateLoanRepayment('16', SUPERQUICKp, SUPERQUICKi, Customer."No.", ASAT, BeginMonth_Date);
+                //SCHOOL FEES LOAN
+                CalculateLoanRepayment('SCHLOAN', SCHOOLFEESp, SCHOOLFEESi, Customer."No.", ASAT, BeginMonth_Date);
 
-                //SCHOOL FEES	
-                CalculateLoanRepayment('17', SCHOOLFEESp, SCHOOLFEESi, Customer."No.", ASAT, BeginMonth_Date);
+                //MBUYU LOAN
+                CalculateLoanRepayment('MBUY', MBUYULOANp, MBUYULOANi, Customer."No.", ASAT, BeginMonth_Date);
 
-                //SUPER SCHOOL FEE
-                CalculateLoanRepayment('18', SUPERSCHOOLFEESp, SUPERSCHOOLFEESi, Customer."No.", ASAT, BeginMonth_Date);
+                // MWOKOZI LAON
+                CalculateLoanRepayment('MWOK', MWOKOZILOANp, MWOKOZILOANi, Customer."No.", ASAT, BeginMonth_Date);
 
-                // Investment loans
-                CalculateLoanRepayment('19', INVESTMENTLOANp, INVESTMENTLOANi, Customer."No.", ASAT, BeginMonth_Date);
+                // NEW PRODUCT LOAN
+                CalculateLoanRepayment('NEWPRO', NEWPRODUCTp, NEWPRODUCTi, Customer."No.", ASAT, BeginMonth_Date);
 
-                // DEVELOPMENT
-                CalculateLoanRepayment('20', DevP, Devint, Customer."No.", ASAT, BeginMonth_Date);
-
-                // Normal loans
-                CalculateLoanRepayment('21', NORMALLOANp, NORMALLOANi, Customer."No.", ASAT, BeginMonth_Date);
+                // Normal loans 2
+                CalculateLoanRepayment('NORM2', NORMALLOAN2p, NORMALLOAN2i, Customer."No.", ASAT, BeginMonth_Date);
 
                 // DEVELOPMENT 1
                 CalculateLoanRepayment('23', DevP1, Devint1, Customer."No.", ASAT, BeginMonth_Date);
@@ -174,8 +177,8 @@ Report 51045 "monthly exp Bamburi"
                 //Development NORMAL 1 LOAN start==========================================================================================================================================
                 CalculateLoanRepayment('25', DevelopmentLoanP, DevelopmentLoanInt, Customer."No.", ASAT, BeginMonth_Date);
 
-                //NORMAL 1 LOAN start
-                CalculateLoanRepayment('22', NORMALLOAN1p, NORMALLOAN1i, Customer."No.", ASAT, BeginMonth_Date);
+                //NORMAL LOAN 1
+                CalculateLoanRepayment('NORM1', NORMALLOAN1p, NORMALLOAN1i, Customer."No.", ASAT, BeginMonth_Date);
 
                 //MERCHANDISE
                 CalculateLoanRepayment('26', MERCHANDISEPr, MERCHANDISEIn, Customer."No.", ASAT, BeginMonth_Date);
@@ -198,51 +201,51 @@ Report 51045 "monthly exp Bamburi"
                 ///.........
                 LoansRegister.Reset;
                 LoansRegister.SetRange("Client Code", Customer."No.");
-                LoansRegister.SetRange("Loan Product Type", '22');
+                LoansRegister.SetRange("Loan Product Type", 'NORM1');
                 // LoansRegister.SETRANGE(LoansRegister."Issued Date",ASAT);
                 LoansRegister.SetFilter("Outstanding Balance", '>%1', 0);
                 if LoansRegister.FindSet then begin
-                    NORMALLOAN1LNO := LoansRegister."Loan  No.";
+                    NORMALLOAN1NO := LoansRegister."Loan  No.";
                     if LoansRegister."Loan  No." = '' then
                         CurrReport.Skip;
                 end;
                 ////.......................................
                 LoansRegister.Reset;
                 LoansRegister.SetRange("Client Code", Customer."No.");
-                LoansRegister.SetRange("Loan Product Type", '21');
+                LoansRegister.SetRange("Loan Product Type", 'NORM2');
                 // LoansRegister.SETRANGE(LoansRegister."Issued Date",ASAT);
                 LoansRegister.SetFilter("Outstanding Balance", '>%1', 0);
                 if LoansRegister.FindSet then begin
-                    NORMALLOANLNO := LoansRegister."Loan  No.";
+                    NORMALLOAN2NO := LoansRegister."Loan  No.";
                     if LoansRegister."Loan  No." = '' then
                         CurrReport.Skip;
                 end;
                 ///..............................................
                 LoansRegister.Reset;
                 LoansRegister.SetRange("Client Code", Customer."No.");
-                LoansRegister.SetRange("Loan Product Type", '19');
+                LoansRegister.SetRange("Loan Product Type", 'MWOK');
                 // LoansRegister.SETRANGE(LoansRegister."Issued Date",ASAT);
                 LoansRegister.SetFilter("Outstanding Balance", '>%1', 0);
                 if LoansRegister.FindSet then begin
-                    INVESTMENTLOANLNO := LoansRegister."Loan  No.";
+                    MWOKOZILOANNO := LoansRegister."Loan  No.";
                     if LoansRegister."Loan  No." = '' then
                         CurrReport.Skip;
                 end;
                 //.............................................
                 LoansRegister.Reset;
                 LoansRegister.SetRange("Client Code", Customer."No.");
-                LoansRegister.SetRange("Loan Product Type", '18');
+                LoansRegister.SetRange("Loan Product Type", 'MBUY');
                 // LoansRegister.SETRANGE(LoansRegister."Issued Date",ASAT);
                 LoansRegister.SetFilter("Outstanding Balance", '>%1', 0);
                 if LoansRegister.FindSet then begin
-                    SUPERSCHOOLFEESLNO := LoansRegister."Loan  No.";
+                    MBUYULOANNO := LoansRegister."Loan  No.";
                     if LoansRegister."Loan  No." = '' then
                         CurrReport.Skip;
                 end;
                 //............................
                 LoansRegister.Reset;
                 LoansRegister.SetRange("Client Code", Customer."No.");
-                LoansRegister.SetRange("Loan Product Type", '17');
+                LoansRegister.SetRange("Loan Product Type", 'SCHLOAN');
                 LoansRegister.SetFilter("Outstanding Balance", '>%1', 0);
                 if LoansRegister.FindSet then begin
                     SCHOOLFEESLNNO := LoansRegister."Loan  No.";
@@ -252,37 +255,37 @@ Report 51045 "monthly exp Bamburi"
                 //..............
                 LoansRegister.Reset;
                 LoansRegister.SetRange("Client Code", Customer."No.");
-                LoansRegister.SetRange("Loan Product Type", '16');
+                LoansRegister.SetRange("Loan Product Type", 'KIVUK');
                 LoansRegister.SetFilter("Outstanding Balance", '>%1', 0);
                 if LoansRegister.FindSet then begin
-                    SUPERQUICKLNO := LoansRegister."Loan  No.";
+                    KIVUKIOLNO := LoansRegister."Loan  No.";
                     if LoansRegister."Loan  No." = '' then
                         CurrReport.Skip;
                 end;
                 //.......................
                 LoansRegister.Reset;
                 LoansRegister.SetRange("Client Code", Customer."No.");
-                LoansRegister.SetRange("Loan Product Type", '15');
+                LoansRegister.SetRange("Loan Product Type", 'INST');
                 LoansRegister.SetFilter("Outstanding Balance", '>%1', 0);
                 if LoansRegister.FindSet then begin
-                    QUICKLOANNO := LoansRegister."Loan  No.";
+                    INSTANTLOANNO := LoansRegister."Loan  No.";
                     if LoansRegister."Loan  No." = '' then
                         CurrReport.Skip;
                 end;
                 //..............................
                 LoansRegister.Reset;
                 LoansRegister.SetRange("Client Code", Customer."No.");
-                LoansRegister.SetRange("Loan Product Type", '13');
+                LoansRegister.SetRange("Loan Product Type", 'HALLO');
                 LoansRegister.SetFilter("Outstanding Balance", '>%1', 0);
                 if LoansRegister.FindSet then begin
-                    SUPEREMERGENCYLNO := LoansRegister."Loan  No.";
+                    HALLOHALLOLNO := LoansRegister."Loan  No.";
                     if LoansRegister."Loan  No." = '' then
                         CurrReport.Skip;
                 end;
                 //////////////.............................
                 LoansRegister.Reset;
                 LoansRegister.SetRange("Client Code", Customer."No.");
-                LoansRegister.SetRange("Loan Product Type", '12');
+                LoansRegister.SetRange("Loan Product Type", 'EMER');
                 LoansRegister.SetFilter("Outstanding Balance", '>%1', 0);
                 if LoansRegister.FindSet then begin
                     EMERGENCYLNO := LoansRegister."Loan  No.";
@@ -292,12 +295,13 @@ Report 51045 "monthly exp Bamburi"
                 //..........................
                 LoansRegister.Reset;
                 LoansRegister.SetRange("Client Code", Customer."No.");
-                LoansRegister.SetRange("Loan Product Type", '23');
+                LoansRegister.SetRange("Loan Product Type", 'NEWPRO');
                 LoansRegister.SetFilter("Outstanding Balance", '>%1', 0);
                 if LoansRegister.FindSet then begin
+                    NEWPRODUCTLNO := LoansRegister."Loan  No.";
                     if LoansRegister."Loan  No." = '' then
                         CurrReport.Skip;
-                    inDev1 := LoansRegister."Loan  No.";
+
                 end;
                 //.................LoansRegister.RESET;
                 LoansRegister.SetRange("Client Code", Customer."No.");
@@ -317,8 +321,8 @@ Report 51045 "monthly exp Bamburi"
                         CurrReport.Skip;
                 end;
                 TOTALREMMITANCE := 0;
-                TOTALREMMITANCE := montlycon + "Welfare Contr" + ShareCapital + NORMALLOAN1i + NORMALLOANp + NORMALLOANi + NORMALLOAN1p + EMERGENCYp + EMERGENCYi + SUPEREMERGENCYp + SUPEREMERGENCYi + QUICKLOANp + QUICKLOANi + SUPERQUICKp + SUPERQUICKi + SCHOOLFEESp + SCHOOLFEESi + SUPERSCHOOLFEESp + SUPERSCHOOLFEESi +
-                INVESTMENTLOANi + DevP + Devint + DevelopmentLoanP + DevelopmentLoanInt + MERCHANDISEPr + MERCHANDISEIn;
+                TOTALREMMITANCE := montlycon + "Welfare Contr" + ShareCapital + NORMALLOAN1i + NORMALLOAN2p + NORMALLOAN2i + NORMALLOAN1p + EMERGENCYp + EMERGENCYi + HALLOHALLOp + HALLOHALLOi + INSTANTLOANp + INSTANTLOANi + KIVUKIOLOANp + KIVUKIOLOANi + SCHOOLFEESp + SCHOOLFEESi + MBUYULOANp + MBUYULOANi +
+                MWOKOZILOANp + MWOKOZILOANi + NEWPRODUCTp + NEWPRODUCTi + DevelopmentLoanP + DevelopmentLoanInt + MERCHANDISEPr + MERCHANDISEIn;
             end;
 
         }
@@ -345,39 +349,40 @@ Report 51045 "monthly exp Bamburi"
         ASAT: Date;
         LoansRegister: Record "Loans Register";
         ShareCapital: Decimal;
-        DevP: Decimal;
-        DevLNO: Code[20];
-        Devint: Decimal;
+        NEWPRODUCTp: Decimal;
+        NEWPRODUCTLNO: Code[20];
+        NEWPRODUCTi: Decimal;
         montlycon: Decimal;
         lndev: Code[30];
         EMERGENCYp: Decimal;
         EMERGENCYi: Decimal;
         EMERGENCYLNO: Code[20];
         EMERGENCYlnb: Code[30];
-        SUPEREMERGENCYLNO: Code[20];
-        SUPEREMERGENCYp: Decimal;
-        SUPEREMERGENCYi: Decimal;
-        QUICKLOANNO: Code[20];
-        QUICKLOANp: Decimal;
-        QUICKLOANi: Decimal;
-        SUPERQUICKLNO: Code[20];
-        SUPERQUICKp: Decimal;
-        SUPERQUICKi: Decimal;
+        HALLOHALLOLNO: Code[20];
+        HALLOHALLOp: Decimal;
+        HALLOHALLOi: Decimal;
+        INSTANTLOANNO: Code[20];
+        INSTANTLOANp: Decimal;
+        INSTANTLOANi: Decimal;
+        KIVUKIOLNO: Code[20];
+        KIVUKIOLOANp: Decimal;
+        KIVUKIOLOANi: Decimal;
         SCHOOLFEESLNNO: Code[20];
         SCHOOLFEESp: Decimal;
         SCHOOLFEESi: Decimal;
-        SUPERSCHOOLFEESLNO: Code[20];
-        SUPERSCHOOLFEESp: Decimal;
-        SUPERSCHOOLFEESi: Decimal;
-        INVESTMENTLOANLNO: Code[20];
-        INVESTMENTLOANp: Decimal;
-        INVESTMENTLOANi: Decimal;
+        MBUYULOANNO: Code[20];
+        MBUYULOANp: Decimal;
+        MBUYULOANi: Decimal;
+        MWOKOZILOANNO: Code[20];
+        MWOKOZILOANp: Decimal;
+        MWOKOZILOANi: Decimal;
+        t: Page "Change Log Setup";
         TOTALREMMITANCE: Decimal;
         CI: Record "Company Information";
-        NORMALLOANLNO: Code[20];
-        NORMALLOANp: Decimal;
-        NORMALLOANi: Decimal;
-        NORMALLOAN1LNO: Code[20];
+        NORMALLOAN2NO: Code[20];
+        NORMALLOAN2p: Decimal;
+        NORMALLOAN2i: Decimal;
+        NORMALLOAN1NO: Code[20];
         NORMALLOAN1p: Decimal;
         NORMALLOAN1i: Decimal;
         DevP1LNO: Code[20];
@@ -479,14 +484,7 @@ Report 51045 "monthly exp Bamburi"
     end;
 
     //New Calculations... look here 23/09/25 - Festus
-    procedure CalculateLoanRepayment(
-    LoanProductType: Code[10];
-    var Principal: Decimal;
-    var Interest: Decimal;
-    CustomerNo: Code[20];
-    ASAT: Date;
-    BeginMonthDate: Date
-)
+    procedure CalculateLoanRepayment(LoanProductType: Code[10]; var Principal: Decimal; var Interest: Decimal; CustomerNo: Code[20]; ASAT: Date; BeginMonthDate: Date)
     var
         LoansRegister: Record "Loans Register";
         LoanRepaymentSchedule: Record "Loan Repayment Schedule";

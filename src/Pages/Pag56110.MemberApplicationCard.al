@@ -783,19 +783,19 @@ page 56110 "Member Application Card"
                             if Rec."Employment Info" = Rec."Employment Info"::" " then begin
                                 employedMember := false;
                                 selfEmployedMember := false;
+                                //  end else
+                                // if Rec."Employment Info" = Rec."Employment Info"::Others then begin
+                                //     employedMember := false;
+                                //     selfEmployedMember := false;
+                                // end else
+                                //     if Rec."Employment Info" = Rec."Employment Info"::"Self Employed" then begin
+                                //         employedMember := false;
+                                //         selfEmployedMember := true;
                             end else
-                                if Rec."Employment Info" = Rec."Employment Info"::Others then begin
+                                if Rec."Employment Info" = Rec."Employment Info"::UnEmployed then begin
                                     employedMember := false;
                                     selfEmployedMember := false;
-                                end else
-                                    if Rec."Employment Info" = Rec."Employment Info"::"Self Employed" then begin
-                                        employedMember := false;
-                                        selfEmployedMember := true;
-                                    end else
-                                        if Rec."Employment Info" = Rec."Employment Info"::UnEmployed then begin
-                                            employedMember := false;
-                                            selfEmployedMember := false;
-                                        end;
+                                end;
                     end;
                 }
                 field("Payroll No"; Rec."Payroll No")
@@ -2515,7 +2515,7 @@ page 56110 "Member Application Card"
     begin
         Jtemplate := 'General';
         Jbatch := 'Default';
-        transDescription := 'Registration Fees Recovered from deposits made on ' + Format(Today);
+        transDescription := 'Registration Fees Recovered from deposits';
 
         // Reinitialize the record and open the journal page
         Gnljnline.Reset();

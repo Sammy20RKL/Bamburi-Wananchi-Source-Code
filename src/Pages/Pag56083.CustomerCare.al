@@ -923,7 +923,7 @@ page 56083 "Customer Care"
                         Caption = 'Mobile Loans';
                         Image = PostedReceipt;
                         // RunObject = page "Mobile Loans";
-                        RunObject = page "M Polytech Loans";
+                        RunObject = page "M Bamburi Loans";
                         ToolTip = 'View Mobile Loans List.';
                     }
 

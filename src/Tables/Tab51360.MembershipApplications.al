@@ -827,7 +827,9 @@ Table 51360 "Membership Applications"
         }
         field(68121; "Employment Info"; Option)
         {
-            OptionMembers = " ","Self Employed",Employed,UnEmployed,Others;
+            // OptionMembers = " ","Self Employed",Employed,UnEmployed,Others;
+            OptionMembers = " ",Employed,UnEmployed;
+
         }
         field(68122; "Contracting Details"; Text[30])
         {

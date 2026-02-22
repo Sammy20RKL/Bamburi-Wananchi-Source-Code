@@ -2,6 +2,8 @@ table 52018 "Leave Application"
 {
     DataClassification = CustomerContent;
     Caption = 'Leave Application';
+    DrillDownPageId = "Leave Application List";
+    LookupPageId = "Leave Application List";
     fields
     {
         field(1; "Employee No"; Code[20])
@@ -37,7 +39,7 @@ table 52018 "Leave Application"
                 "Application Date" := Today;
                 if "Application No" <> xRec."Application No" then begin
                     HumanResSetup.Get();
-                    // NoSeriesMgt.TestManual(HumanResSetup."Leave Application Nos.");
+                    NoSeries.TestManual(HumanResSetup."Leave Application Nos.");
                     "No. series" := '';
                 end;
             end;
@@ -90,7 +92,10 @@ table 52018 "Leave Application"
         }
         field(4; "Days Applied"; Decimal)
         {
+
             Caption = 'Days Applied';
+            // FieldClass = FlowField;
+            // CalcFormula = sum("Leave Application Type"."Days Applied" where("Leave Code" = field("Application No")));
 
             trigger OnValidate()
             var
@@ -123,10 +128,12 @@ table 52018 "Leave Application"
                         "Annual Leave Entitlement Bal" := "Leave Balance" + -"Days Applied"
                     else
                         "Annual Leave Entitlement Bal" := "Leave Balance";
+
             end;
         }
         field(5; "Start Date"; Date)
         {
+
             Caption = 'Start Date';
 
             trigger OnValidate()
@@ -243,6 +250,7 @@ table 52018 "Leave Application"
         }
         field(6; "End Date"; Date)
         {
+
             Caption = 'End Date';
 
             trigger OnValidate()
@@ -549,6 +557,7 @@ table 52018 "Leave Application"
         }
         field(51; "Relieving Name"; Text[60])
         {
+
             Caption = 'Relieving Name';
         }
         field(52; "Shortcut Dimension 1 Code"; Code[20])
@@ -634,6 +643,10 @@ table 52018 "Leave Application"
             CalcFormula = lookup("Leave Application Type"."Leave Type" where("Leave Code" = field("Application No")));//////////
             FieldClass = FlowField;
         }
+        field(74; "Captured By"; Code[50])
+        {
+            TableRelation = User."User Security ID";
+        }
     }
 
     keys
@@ -660,7 +673,7 @@ table 52018 "Leave Application"
         if "Application No" = '' then begin
             HRSetup.Get();
             HRSetup.TestField("Leave Application Nos.");
-            // NoSeriesMgt.InitSeries(HRSetup."Leave Application Nos.", xRec."No. series", 0D, "Application No", "No. series");
+            "Application No" := NoSeries.GetNextNo(HRSetup."Leave Application Nos.")
         end;
 
         "Application Date" := Today;
@@ -709,6 +722,7 @@ table 52018 "Leave Application"
         HRmgt: Codeunit "HR Management";
         //NoSeriesMgt: Codeunit NoSeriesManagement;
         NonWorkingDay: Boolean;
+        NoSeries: Codeunit "No. Series";
         FiscalStart: Date;
         MaturityDate: Date;
         NextWorkingDate: Date;
