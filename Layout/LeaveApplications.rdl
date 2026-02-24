@@ -24,97 +24,6 @@
       <rd:DataSourceID>e0ac1b27-1f2a-4b0a-8068-6a69b310b675</rd:DataSourceID>
     </DataSource>
   </DataSources>
-  <DataSets>
-    <DataSet Name="DataSet_Result">
-      <Query>
-        <DataSourceName>DataSource</DataSourceName>
-        <CommandText />
-      </Query>
-      <Fields>
-        <Field Name="Company_Name">
-          <DataField>Company_Name</DataField>
-        </Field>
-        <Field Name="Company_Logo">
-          <DataField>Company_Logo</DataField>
-        </Field>
-        <Field Name="Address">
-          <DataField>Address</DataField>
-        </Field>
-        <Field Name="City">
-          <DataField>City</DataField>
-        </Field>
-        <Field Name="Phone_No">
-          <DataField>Phone_No</DataField>
-        </Field>
-        <Field Name="PostCode">
-          <DataField>PostCode</DataField>
-        </Field>
-        <Field Name="Email">
-          <DataField>Email</DataField>
-        </Field>
-        <Field Name="Website">
-          <DataField>Website</DataField>
-        </Field>
-        <Field Name="EmployeeNo_LeaveApplication">
-          <DataField>EmployeeNo_LeaveApplication</DataField>
-        </Field>
-        <Field Name="ApplicationNo_LeaveApplication">
-          <DataField>ApplicationNo_LeaveApplication</DataField>
-        </Field>
-        <Field Name="LeaveCode_LeaveApplication">
-          <DataField>LeaveCode_LeaveApplication</DataField>
-        </Field>
-        <Field Name="DaysApplied_LeaveApplication">
-          <DataField>DaysApplied_LeaveApplication</DataField>
-        </Field>
-        <Field Name="DaysApplied_LeaveApplicationFormat">
-          <DataField>DaysApplied_LeaveApplicationFormat</DataField>
-        </Field>
-        <Field Name="StartDate_LeaveApplication">
-          <DataField>StartDate_LeaveApplication</DataField>
-        </Field>
-        <Field Name="EndDate_LeaveApplication">
-          <DataField>EndDate_LeaveApplication</DataField>
-        </Field>
-        <Field Name="leaveDescription">
-          <DataField>leaveDescription</DataField>
-        </Field>
-        <Field Name="Resumption_Date">
-          <DataField>Resumption_Date</DataField>
-        </Field>
-        <Field Name="EmployeeName_LeaveApplication">
-          <DataField>EmployeeName_LeaveApplication</DataField>
-        </Field>
-        <Field Name="DaysApplied">
-          <DataField>DaysApplied</DataField>
-        </Field>
-        <Field Name="DaysAppliedFormat">
-          <DataField>DaysAppliedFormat</DataField>
-        </Field>
-        <Field Name="Status_LeaveApplication">
-          <DataField>Status_LeaveApplication</DataField>
-        </Field>
-        <Field Name="Leave_Balance">
-          <DataField>Leave_Balance</DataField>
-        </Field>
-        <Field Name="Leave_BalanceFormat">
-          <DataField>Leave_BalanceFormat</DataField>
-        </Field>
-        <Field Name="Area_LeaveApplication">
-          <DataField>Area_LeaveApplication</DataField>
-        </Field>
-        <Field Name="ResponsibilityCenter_LeaveApplication">
-          <DataField>ResponsibilityCenter_LeaveApplication</DataField>
-        </Field>
-        <Field Name="ApplicationDate_LeaveApplication">
-          <DataField>ApplicationDate_LeaveApplication</DataField>
-        </Field>
-        <Field Name="ReportFilters">
-          <DataField>ReportFilters</DataField>
-        </Field>
-      </Fields>
-    </DataSet>
-  </DataSets>
   <ReportSections>
     <ReportSection>
       <Body>
@@ -1414,12 +1323,6 @@
       </Page>
     </ReportSection>
   </ReportSections>
-  <ReportParametersLayout>
-    <GridLayoutDefinition>
-      <NumberOfColumns>4</NumberOfColumns>
-      <NumberOfRows>2</NumberOfRows>
-    </GridLayoutDefinition>
-  </ReportParametersLayout>
   <Code>Public Function BlankZero(ByVal Value As Decimal)
     if Value = 0 then
         Return ""
@@ -1457,4 +1360,95 @@ End Function
 </Code>
   <Language>=User!Language</Language>
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="Company_Name">
+          <DataField>Company_Name</DataField>
+        </Field>
+        <Field Name="Company_Logo">
+          <DataField>Company_Logo</DataField>
+        </Field>
+        <Field Name="Address">
+          <DataField>Address</DataField>
+        </Field>
+        <Field Name="City">
+          <DataField>City</DataField>
+        </Field>
+        <Field Name="Phone_No">
+          <DataField>Phone_No</DataField>
+        </Field>
+        <Field Name="PostCode">
+          <DataField>PostCode</DataField>
+        </Field>
+        <Field Name="Email">
+          <DataField>Email</DataField>
+        </Field>
+        <Field Name="Website">
+          <DataField>Website</DataField>
+        </Field>
+        <Field Name="EmployeeNo_LeaveApplication">
+          <DataField>EmployeeNo_LeaveApplication</DataField>
+        </Field>
+        <Field Name="ApplicationNo_LeaveApplication">
+          <DataField>ApplicationNo_LeaveApplication</DataField>
+        </Field>
+        <Field Name="LeaveCode_LeaveApplication">
+          <DataField>LeaveCode_LeaveApplication</DataField>
+        </Field>
+        <Field Name="DaysApplied_LeaveApplication">
+          <DataField>DaysApplied_LeaveApplication</DataField>
+        </Field>
+        <Field Name="DaysApplied_LeaveApplicationFormat">
+          <DataField>DaysApplied_LeaveApplicationFormat</DataField>
+        </Field>
+        <Field Name="StartDate_LeaveApplication">
+          <DataField>StartDate_LeaveApplication</DataField>
+        </Field>
+        <Field Name="EndDate_LeaveApplication">
+          <DataField>EndDate_LeaveApplication</DataField>
+        </Field>
+        <Field Name="leaveDescription">
+          <DataField>leaveDescription</DataField>
+        </Field>
+        <Field Name="Resumption_Date">
+          <DataField>Resumption_Date</DataField>
+        </Field>
+        <Field Name="EmployeeName_LeaveApplication">
+          <DataField>EmployeeName_LeaveApplication</DataField>
+        </Field>
+        <Field Name="DaysApplied">
+          <DataField>DaysApplied</DataField>
+        </Field>
+        <Field Name="DaysAppliedFormat">
+          <DataField>DaysAppliedFormat</DataField>
+        </Field>
+        <Field Name="Status_LeaveApplication">
+          <DataField>Status_LeaveApplication</DataField>
+        </Field>
+        <Field Name="Leave_Balance">
+          <DataField>Leave_Balance</DataField>
+        </Field>
+        <Field Name="Leave_BalanceFormat">
+          <DataField>Leave_BalanceFormat</DataField>
+        </Field>
+        <Field Name="Area_LeaveApplication">
+          <DataField>Area_LeaveApplication</DataField>
+        </Field>
+        <Field Name="ResponsibilityCenter_LeaveApplication">
+          <DataField>ResponsibilityCenter_LeaveApplication</DataField>
+        </Field>
+        <Field Name="ApplicationDate_LeaveApplication">
+          <DataField>ApplicationDate_LeaveApplication</DataField>
+        </Field>
+        <Field Name="ReportFilters">
+          <DataField>ReportFilters</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
 </Report>

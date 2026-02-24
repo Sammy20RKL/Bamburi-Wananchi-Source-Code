@@ -2205,6 +2205,8 @@ Codeunit 51120 PORTALIntegration
         END;
     end;
 
+
+
     procedure fnLoanDetails(Loancode: Code[20]) loandetail: Text
     begin
         Loansetup.RESET;
@@ -2214,6 +2216,7 @@ Codeunit 51120 PORTALIntegration
                 loandetail := loandetail + Loansetup."Product Description" + '!!' + FORMAT(Loansetup."Repayment Method") + '!!' + FORMAT(Loansetup."Max. Loan Amount") + '!!' + FORMAT(Loansetup."Instalment Period") + '!!' + FORMAT(Loansetup."Interest rate") + '!!'
                 + FORMAT(Loansetup."Repayment Frequency") + '??';
             UNTIL Loansetup.NEXT = 0;
+
         END;
     end;
 
@@ -2520,17 +2523,28 @@ Codeunit 51120 PORTALIntegration
                 LBalance := LoanAmount;
                 repeat
                     LPrincipal := ROUND(LoanAmount / RepayPeriod, 0.05, '>');
-                    LInterest := ROUND((Loansetup."Interest rate" / 12 / 100) * LoanAmount, 0.05, '>');
+                    LInterest := ROUND((Loansetup."Interest rate" / 12 / 100) * LBalance, 0.05, '>');
                     TotalMRepay := LPrincipal + LInterest;
                     InstallmentCounts := InstallmentCounts + 1;
-                    if InstallmentCounts = 1 then begin
-                        LBalance := LoanAmount;
-                    end else begin
-                        LBalance := LBalance - LPrincipal;
-                    end;
+                    LBalance := LBalance - LPrincipal;  // reduce immediately, no if/else
                     Date := CalcDate('+1M', Date);
                     text := text + Format(Date) + '!!' + Format(ROUND(LPrincipal)) + '!!' + Format(ROUND(LInterest)) + '!!' + Format(ROUND(TotalMRepay)) + '!!' + Format(ROUND(LoanAmount)) + '!!' + Format(ROUND(LBalance)) + '??';
                 until InstallmentCounts = RepayPeriod;
+            end;
+            //--------------------------------------------------------------------------------------------------------- 
+            if Loansetup."Repayment Method" = Loansetup."repayment method"::"One-Time" then begin
+                Date := Today;
+                InstallmentCounts := 0;
+                LBalance := LoanAmount;
+                repeat
+                    Date := CalcDate('+1M', Date);
+                    InstallmentCounts := InstallmentCounts + 1;
+                until InstallmentCounts = RepayPeriod;
+                LPrincipal := LoanAmount;
+                LInterest := ROUND((Loansetup."Interest rate" / 100) * LoanAmount, 0.05, '>');
+                TotalMRepay := LPrincipal + LInterest;
+                LBalance := 0;
+                text := text + Format(Date) + '!!' + Format(ROUND(LPrincipal)) + '!!' + Format(ROUND(LInterest)) + '!!' + Format(ROUND(TotalMRepay)) + '!!' + Format(ROUND(LoanAmount)) + '!!' + Format(ROUND(LBalance)) + '??';
             end;
 
             //---------------------------------------------------------------------------------------------------------
