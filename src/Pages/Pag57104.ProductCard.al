@@ -1067,7 +1067,7 @@ Page 57104 "Product Card"
                                 SaccoNoSeries.TestField(SaccoNoSeries."Swizzkash Reg No.");
 
                                 // ✅ Get next number from series
-                                //applicationNumber := NoSeriesMgt.GetNextNo(SaccoNoSeries."Swizzkash Reg No.", Today, true);
+                                applicationNumber := NoSeries.GetNextNo(SaccoNoSeries."Swizzkash Reg No.", Today, true);
 
                                 swizzKashApplications.Init();
                                 swizzKashApplications."No." := applicationNumber;
@@ -1356,6 +1356,7 @@ Page 57104 "Product Card"
         Counts: Integer;
         Audit: Record "Audit Entries";
         EntryNos: Integer;
+        NoSeries: Codeunit "No. Series";
 
 
     procedure ActivateFields()

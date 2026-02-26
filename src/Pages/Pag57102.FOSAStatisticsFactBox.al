@@ -43,7 +43,7 @@ Page 57102 "FOSA Statistics FactBox"
                 {
                     ApplicationArea = Basic;
                     Editable = false;
-                    Caption = 'M-Polytech Balances';
+                    Caption = 'M-Bamburi Wananchi Balances';
                 }
                 field("Outstanding Balance"; Rec."Outstanding BOSA Balance")
                 {

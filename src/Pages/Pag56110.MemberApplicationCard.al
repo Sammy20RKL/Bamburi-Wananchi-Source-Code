@@ -2354,10 +2354,10 @@ page 56110 "Member Application Card"
         CompanyInfo.Get();
 
         EMailBody := 'Dear <b>' + memberName + '</b>,</br></br>' +
-            'On behalf of Bamburi Wananchi Sacco am pleased to inform you that your application for membership has been accepted. Your Membership Number is' + MemberNumber + '<br></br>' +
-            'You can now Deposit Via PayBill ..... ' + '</br>' +
-            'Thank You For Choosing to Save With Us' + '</br>' +
-            'Kind regards,' + '<br></br>' +
+            'Congratulations! You have been successfully registered as a member of Bamburi Wananchi SACCO. Your Membership Number is' + MemberNumber + '<br></br>' +
+            'We are delighted to welcome you to our community and look forward to supporting your financial growth and goals.' + '</br>' +
+            'Warm regards,' + '</br>' +
+            'Bamburi Wananchi,' + '<br></br>' +
 
             Companyinfo.Name + '</br>' + Companyinfo.Address + '</br>' + Companyinfo.City + '</br>' +
             Companyinfo."Post Code" + '</br>' + Companyinfo."Country/Region Code" + '</br>' +
@@ -2791,7 +2791,7 @@ page 56110 "Member Application Card"
     var
     begin
         SMSToSend := 'Dear Member your account has been created successfully, your Account No is '
-        + BOSAACC + '  Account Name ' + Rec.Name + ' .' + 'You can now Deposit Via PayBill. Thank You For Choosing to Save With Us';
+        + BOSAACC + '  Account Name ' + Rec.Name + ' .' + 'You can now Deposit Via PayBill 400222 A/c No 321906#Yourname. Thank You For Choosing to Save With Us';
         IEntry := 0;
         SMSMessages.Reset();
         if SMSMessages.Find('+') then begin
@@ -2843,6 +2843,7 @@ page 56110 "Member Application Card"
         if Rec."Member Risk Level" = Rec."member risk level"::"Low Risk" then
             CoveragePercentStyle := 'Favorable';
     end;
+
 
 
 

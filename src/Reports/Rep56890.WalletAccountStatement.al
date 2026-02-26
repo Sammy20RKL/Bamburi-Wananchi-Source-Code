@@ -9,7 +9,7 @@ Report 56890 "Wallet Account Statement"
         dataitem(Vendor; Vendor)
         {
             DataItemTableView = sorting("No.");
-            PrintOnlyIfDetail = true;
+            PrintOnlyIfDetail = false;
             RequestFilterFields = "No.", "Global Dimension 2 Filter", "Date Filter";
             column(FORMAT_TODAY_0_4_; Format(Today, 0, 4))
             {
@@ -132,7 +132,8 @@ Report 56890 "Wallet Account Statement"
             dataitem("Vendor Ledger Entry"; "Vendor Ledger Entry")
             {
                 DataItemLink = "Vendor No." = field("No."), "Posting Date" = field("Date Filter"), "Date Filter" = field("Date Filter");
-                DataItemTableView = sorting("Vendor No.", "Posting Date") where("Document No." = filter('<>TEST1234&<>2787236759750480&<>TEST123&<>3056123134233403&<>9686061335769758&<>5499023325101804'));
+                DataItemTableView = sorting("Vendor No.", "Posting Date");
+                //   DataItemTableView = sorting("Vendor No.", "Posting Date") where("Document No." = filter('<>TEST1234&<>2787236759750480&<>TEST123&<>3056123134233403&<>9686061335769758&<>5499023325101804'));
                 column(StartBalanceLCY___StartBalAdjLCY____Amount__LCY_____1; (StartBalanceLCY + StartBalAdjLCY + "Amount (LCY)") * -1)
                 {
                     AutoFormatType = 1;
@@ -195,6 +196,7 @@ Report 56890 "Wallet Account Statement"
                 column(TotalCredits; TotalCredits)
                 {
                 }
+
                 column(Totals; Totals)
                 {
                 }
@@ -215,7 +217,7 @@ Report 56890 "Wallet Account Statement"
                     trigger OnAfterGetRecord()
                     begin
                         isReverseBool := false;
-                        isReverseBool := IsReversed("Detailed Vendor Ledg. Entry");
+                        // isReverseBool := IsReversed("Detailed Vendor Ledg. Entry");
                         Correction := Correction + "Amount (LCY)";
                         VendBalanceLCY := VendBalanceLCY + "Amount (LCY)";
                     end;
@@ -228,11 +230,12 @@ Report 56890 "Wallet Account Statement"
 
                 trigger OnAfterGetRecord()
                 begin
+                    if Reversed then CurrReport.Skip();
+
                     TotalDebits := 0;
                     TotalCredits := 0;
 
-                    isReverseBool := false;
-                    isReverseBool := IsReversed("Detailed Vendor Ledg. Entry");
+                    isReverseBool := Reversed;
                     CalcFields(Amount, "Remaining Amount", "Amount (LCY)", "Remaining Amt. (LCY)");
 
                     VendLedgEntryExists := true;
@@ -270,16 +273,16 @@ Report 56890 "Wallet Account Statement"
 
                 trigger OnAfterGetRecord()
                 begin
-                    if not VendLedgEntryExists and ((StartBalanceLCY = 0) or ExcludeBalanceOnly) then begin
-                        StartBalanceLCY := 0;
-                        CurrReport.Skip;
-                    end;
+                    // if not VendLedgEntryExists and ((StartBalanceLCY = 0) or ExcludeBalanceOnly) then begin
+                    //     StartBalanceLCY := 0;
+                    //     CurrReport.Skip;
+                    // end;
                 end;
             }
 
             trigger OnAfterGetRecord()
             begin
-                //Totals:=0;
+
                 //..................................Get Credit Totals
                 DebitTotalAmounts := 0;
                 CreditTotalAmounts := 0;
@@ -423,33 +426,6 @@ Report 56890 "Wallet Account Statement"
         Cust: Record Customer;
         Employer: Record "Sacco Employers";
 
-    local procedure IsReversed(Rec: record "Detailed Vendor Ledg. Entry"): Boolean
-    var
-        SearchDVLE: Record "Detailed Vendor Ledg. Entry";
-        VendLedgEntry: Record "Vendor Ledger Entry"; // the VLE table
-        DVLE: Record "Detailed Vendor Ledg. Entry";
-    begin
-        // Work on the current record
-        DVLE := Rec;
-
-        // 1) Try: lookup Vendor Ledger Entry linked to this DVLE and use its Reversed field.
-        //    Replace "Vendor Ledger Entry No." with the correct linking field if different in your DB.
-        if DVLE."Vendor Ledger Entry No." <> 0 then begin
-            if VendLedgEntry.Get(DVLE."Vendor Ledger Entry No.") then
-                exit(VendLedgEntry.Reversed);
-        end;
-
-
-        // 3) Heuristic: look for same vendor with exact opposite amount (and posted after)
-        SearchDVLE.Reset();
-        SearchDVLE.SetRange("Vendor No.", DVLE."Vendor No.");
-        // If your amount field is "Amount (LCY)" or "Amount", adapt the field name.
-        SearchDVLE.SetRange("Amount", -DVLE."Amount");
-        if SearchDVLE.FindFirst() then
-            exit(true);
-
-        exit(false);
-    end;
 
 }
 

@@ -878,7 +878,7 @@ Page 51007 "BOSA Loans Disbursement Card"
         SMSMessages.Source := 'LOAN APPL';
         SMSMessages."Entered By" := USERID;
         SMSMessages."Sent To Server" := SMSMessages."Sent To Server"::No;
-        SMSMessages."SMS Message" := 'Your' + Format(Rec."Loan Product Type Name") + 'loan application of KSHs.' + FORMAT(Rec."Requested Amount") + ' has been received. Polytech Sacco Ltd.';
+        SMSMessages."SMS Message" := 'Your' + Format(Rec."Loan Product Type Name") + 'loan application of KSHs.' + FORMAT(Rec."Requested Amount") + ' has been received. Bamburi Wananchi Sacco Ltd.';
         Cust.RESET;
         IF Cust.GET(Rec."Client Code") THEN
             if Cust."Mobile Phone No" <> '' then begin
@@ -913,7 +913,7 @@ Page 51007 "BOSA Loans Disbursement Card"
                     SMSMessages.Source := 'LOAN GUARANTORS';
                     SMSMessages."Entered By" := USERID;
                     SMSMessages."Sent To Server" := SMSMessages."Sent To Server"::No;
-                    IF LoanApp.GET(LoanGuar."Loan No") THEN SMSMessages."SMS Message" := 'You have guaranteed an amount of ' + FORMAT(LoanGuar."Amont Guaranteed") + ' to ' + Rec."Client Name" + '  ' + 'Loan Type ' + Rec."Loan Product Type Name" + ' ' + 'of ' + FORMAT(Rec."Requested Amount") + ' at Polytech Sacco Ltd. Call 0726050260 if in dispute';
+                    IF LoanApp.GET(LoanGuar."Loan No") THEN SMSMessages."SMS Message" := 'You have guaranteed an amount of ' + FORMAT(LoanGuar."Amont Guaranteed") + ' to ' + Rec."Client Name" + '  ' + 'Loan Type ' + Rec."Loan Product Type Name" + ' ' + 'of ' + FORMAT(Rec."Requested Amount") + ' at Bamburi Wananchi Sacco Ltd. Call 0726050260 if in dispute';
                     ;
                     SMSMessages."Telephone No" := Cust."Phone No.";
                     SMSMessages.INSERT;
@@ -1256,7 +1256,7 @@ Page 51007 "BOSA Loans Disbursement Card"
     begin
         // Initialize
         EmailBody := '';
-        EmailSubject := 'Polytech Loan Application';
+        EmailSubject := 'BAMBURI WANANCHI Loan Application';
         CompanyInfo.Get();
 
         // Get Member Info
@@ -1273,7 +1273,7 @@ Page 51007 "BOSA Loans Disbursement Card"
                 ' loan application of KShs. ' + Format(Rec."Requested Amount") +
                 ' has been processed and deposited into your account.<br/>' +
                 'The loan repayment start date will be  ' + Format(Rec."Repayment Start Date") + '.<br/><br/>' +
-                'Thank you for choosing Polytech Sacco. ' + '.<br/><br/>' +
+                'Thank you for choosing Bamburi Wananchi Sacco. ' + '.<br/><br/>' +
                 'Kind regards,<br/><br/>' +
                 CompanyInfo.Name + '<br/>' +
                 CompanyInfo."Address 2" + '<br/>' +

@@ -12,7 +12,7 @@ page 50038 "FD Transfer Term Amount Card"
         {
             group(General)
             {
-                Editable = Editable;
+                Editable = Editable1;
                 field("Document No."; Rec."Document No.")
                 {
                     ApplicationArea = Basic;
@@ -107,7 +107,7 @@ page 50038 "FD Transfer Term Amount Card"
             group("Term Deposit Details")
             {
                 Caption = 'Term Deposit Details';
-                Editable = Editable;
+                Editable = Editable1;
                 Visible = true;
                 field("Fixed Deposit Status"; Rec."Fixed Deposit Status")
                 {
@@ -170,7 +170,7 @@ page 50038 "FD Transfer Term Amount Card"
             group("Previous Term Deposits")
             {
                 Caption = 'Previous Term Deposits';
-                Editable = Editable;
+                Editable = Editable1;
                 field("Prevous Fixed Deposit Type"; Rec."Prevous Fixed Deposit Type")
                 {
                     ApplicationArea = Basic;
@@ -309,7 +309,7 @@ page 50038 "FD Transfer Term Amount Card"
 
                             Vend.CalcFields(Vend.Balance);
                             if Vend.Balance < Rec."Amount to Transfer" then
-                                Error('You do not have sufficient funds in your currentr account to effect the transfer');
+                                Error('You do not have sufficient funds in your current account to effect the transfer');
 
 
                             LineNo := LineNo + 10000;
@@ -477,7 +477,7 @@ page 50038 "FD Transfer Term Amount Card"
         undisplay: Integer;
         ApprovalsMgmt: Codeunit "Approvals Mgmt.";
         Text0001: label 'Status must be pending Approval';
-        ///  Editable: Boolean;
+        Editable1: Boolean;
         FDRec: Record "FD Processing";
 
     local procedure fnUpdateControls()

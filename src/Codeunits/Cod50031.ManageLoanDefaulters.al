@@ -133,7 +133,7 @@ Codeunit 50031 ManageLoanDefaulters
             SMSMessage."Sent To Server" := SMSMessage."sent to server"::No;
             SMSMessage."SMS Message" := 'Defaulter Second Notice: Dear ,' + cust.Name + ' you are in default of your '
             + DefaultedProductName + ' of Outstanding balance KSHs.' + Format(ROUND(DefaultedAmount, 1, '=')) +
-                                      ' at Polytech SACCO LTD. Your Guarantors will be notified.';
+                                      ' at BAMBURI WANANCHI SACCO LTD. Your Guarantors will be notified.';
             //SMSMessage."Telephone No":=cust."Mobile Phone No";
             SMSMessage."Telephone No" := '0719421588';
             SMSMessage.Insert;
@@ -165,7 +165,7 @@ Codeunit 50031 ManageLoanDefaulters
                 SMSMessage."Entered By" := UserId;
                 SMSMessage."Sent To Server" := SMSMessage."sent to server"::No;
                 SMSMessage."SMS Message" := 'Dear ' + LoanGuar.Name + ' This is to notify you that '
-                + Format(FnReturnLoaneeName(LoanGuar."Loan No")) + ' has defaulted a loan you had guaranteed with your deposits of Ksh. ' + Format(LoanGuar."Original Amount") + ' of Your deposit at POLYTECH SACCO LTD. ';
+                + Format(FnReturnLoaneeName(LoanGuar."Loan No")) + ' has defaulted a loan you had guaranteed with your deposits of Ksh. ' + Format(LoanGuar."Original Amount") + ' of Your deposit at BAMBURI WANANCHI SACCO LTD. ';
                 cust.Reset;
                 cust.SetRange(cust."No.", LoanGuar."Member No");
                 if cust.Find('-') then begin
@@ -206,7 +206,7 @@ Codeunit 50031 ManageLoanDefaulters
             SMSMessage."Sent To Server" := SMSMessage."sent to server"::No;
             SMSMessage."SMS Message" := 'Defaulter First Notice: Dear ,' + cust.Name + ' you are in default of your '
             + DefaultedProductName + ' of Outstanding balance KSHs.' + Format(ROUND(DefaultedAmount, 1, '=')) +
-                                      ' at Polytech SACCO LTD.';
+                                      ' at BAMBURI WANANCHI SACCO LTD.';
             //SMSMessage."Telephone No":=cust."Mobile Phone No";
             SMSMessage."Telephone No" := '0719421588';
             SMSMessage.Insert;
@@ -239,7 +239,7 @@ Codeunit 50031 ManageLoanDefaulters
             SMSMessage."Sent To Server" := SMSMessage."sent to server"::No;
             SMSMessage."SMS Message" := 'Repayment Due: Dear ,' + cust.Name + ' your loan '
             + DefaultedProductName + 'has an overdue of KSHs.' + Format(ROUND(DefaultedAmount, 1, '=')) +
-                                      ' at Polytech SACCO LTD.Kindly make arrangements to clear.';
+                                      ' at BAMBURI WANANCHI SACCO LTD.Kindly make arrangements to clear.';
             //SMSMessage."Telephone No":=cust."Mobile Phone No";
             SMSMessage."Telephone No" := '0719421588';
             SMSMessage.Insert;
@@ -272,7 +272,7 @@ Codeunit 50031 ManageLoanDefaulters
             SMSMessage."Sent To Server" := SMSMessage."sent to server"::No;
             SMSMessage."SMS Message" := 'Defaulter Third Notice: Dear ,' + cust.Name + ' you are in default of your '
             + DefaultedProductName + ' of Outstanding balance KSHs.' + Format(ROUND(DefaultedAmount, 1, '=')) +
-                                      ' at Polytech SACCO LTD.The arears will be deducted from your deposits.';
+                                      ' at BAMBURI WANANCHI SACCO LTD.The arears will be deducted from your deposits.';
             // SMSMessage."Telephone No":=cust."Mobile Phone No";
             SMSMessage."Telephone No" := '0719421588';
             SMSMessage.Insert;
@@ -303,7 +303,7 @@ Codeunit 50031 ManageLoanDefaulters
                 SMSMessage."Entered By" := UserId;
                 SMSMessage."Sent To Server" := SMSMessage."sent to server"::No;
                 SMSMessage."SMS Message" := 'Dear ' + LoanGuar.Name + ' We would like to inform you that We will recover '
-                + Format(FnReturnLoaneeName(LoanGuar."Loan No")) + ' Loan dependent on what you had guaranteed from your deposits to pay off the outstanding of ksh ' + Format(LoanGuar."Original Amount") + ' at POLYTECH SACCO LTD. ';
+                + Format(FnReturnLoaneeName(LoanGuar."Loan No")) + ' Loan dependent on what you had guaranteed from your deposits to pay off the outstanding of ksh ' + Format(LoanGuar."Original Amount") + ' at BAMBURI WANANCHI SACCO LTD. ';
                 cust.Reset;
                 cust.SetRange(cust."No.", LoanGuar."Member No");
                 if cust.Find('-') then begin
