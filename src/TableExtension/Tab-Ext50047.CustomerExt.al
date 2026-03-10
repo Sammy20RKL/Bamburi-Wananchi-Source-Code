@@ -41,8 +41,8 @@ tableextension 50047 "CustomerExt" extends Customer
         }
         field(68000; "Customer Type"; Option)
         {
-            OptionCaption = ' ,Member,FOSA,Investments,Checkoff,Property,MicroFinance';
-            OptionMembers = " ",Member,FOSA,Investments,Checkoff,Property,MicroFinance;
+            OptionCaption = ' ,BOSA, Member,FOSA,STAFF,Investments,Checkoff,Property,MicroFinance';
+            OptionMembers = " ",BOSA,Member,FOSA,STAFF,Investments,Checkoff,Property,MicroFinance;
         }
         field(68001; "Registration Date"; Date)
         {
@@ -2227,6 +2227,9 @@ tableextension 50047 "CustomerExt" extends Customer
         {
         }
         field(69512; "Mobile Defaulter"; Boolean)
+        {
+        }
+        field(69513; "P_No"; Code[30])
         {
         }
     }

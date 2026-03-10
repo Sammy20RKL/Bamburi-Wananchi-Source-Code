@@ -10,6 +10,10 @@ Table 51393 "Dividends Progression"
         field(2; Date; Date)
         {
         }
+        field(51516155; Year; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
         field(3; "Gross Dividends"; Decimal)
         {
         }
@@ -41,6 +45,15 @@ Table 51393 "Dividends Progression"
         {
             DataClassification = ToBeClassified;
         }
+
+        field(51516156; "Savings Types"; Option)
+        {
+            OptionMembers = Deposits,Shares,Fixed;
+            Caption = 'Savings Type';
+            OptionCaption = 'Deposits, Shares, Fixed';
+            DataClassification = ToBeClassified;
+        }
+        field(51516157; "Member Name"; Text[250]) { }
     }
 
     keys

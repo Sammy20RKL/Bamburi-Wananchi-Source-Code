@@ -85,7 +85,7 @@ Table 51160 "HR Employees"
         field(15; "Work Phone Number"; Text[30])
         {
         }
-        field(16; "Ext."; Text[7])
+        field(16; "Ext."; Text[20])
         {
         }
         field(17; "E-Mail"; Text[80])
@@ -103,7 +103,7 @@ Table 51160 "HR Employees"
         field(21; "ID Number"; Text[30])
         {
         }
-        field(22; "Union Code"; Code[15])
+        field(22; "Union Code"; Code[20])
         {
             TableRelation = Union;
         }
@@ -122,7 +122,7 @@ Table 51160 "HR Employees"
         {
             TableRelation = "Employee Statistics Group";
         }
-        field(29; "User ID"; Code[30])
+        field(29; "User ID"; Code[50])
         {
             DataClassification = ToBeClassified;
             TableRelation = "User Setup";
@@ -325,13 +325,13 @@ Table 51160 "HR Employees"
         {
             OptionMembers = African,Indian,White,Coloured;
         }
-        field(75; "First Language (R/W/S)"; Code[15])
+        field(75; "First Language (R/W/S)"; Code[20])
         {
         }
         field(76; "Driving Licence"; Code[15])
         {
         }
-        field(77; "Vehicle Registration Number"; Code[15])
+        field(77; "Vehicle Registration Number"; Code[20])
         {
         }
         field(78; Disabled; Option)
@@ -386,13 +386,13 @@ Table 51160 "HR Employees"
         field(91; Paterson; Code[15])
         {
         }
-        field(92; Peromnes; Code[15])
+        field(92; Peromnes; Code[20])
         {
         }
-        field(93; Hay; Code[15])
+        field(93; Hay; Code[20])
         {
         }
-        field(94; Castellion; Code[15])
+        field(94; Castellion; Code[20])
         {
         }
         field(95; "Per Annum"; Decimal)
@@ -488,10 +488,10 @@ Table 51160 "HR Employees"
         field(103; "Receiving Car Allowance ?"; Boolean)
         {
         }
-        field(104; "Second Language (R/W/S)"; Code[15])
+        field(104; "Second Language (R/W/S)"; Code[20])
         {
         }
-        field(105; "Additional Language"; Code[15])
+        field(105; "Additional Language"; Code[20])
         {
         }
         field(106; "Cell Phone Reimbursement?"; Boolean)
@@ -500,7 +500,7 @@ Table 51160 "HR Employees"
         field(107; "Amount Reimbursed"; Decimal)
         {
         }
-        field(108; "UIF Country"; Code[15])
+        field(108; "UIF Country"; Code[20])
         {
             TableRelation = "Country/Region".Code;
         }
@@ -563,7 +563,7 @@ Table 51160 "HR Employees"
         {
             TableRelation = "Post Code";
         }
-        field(121; Citizenship; Code[15])
+        field(121; Citizenship; Code[20])
         {
             TableRelation = "Country/Region".Code;
         }
@@ -587,13 +587,13 @@ Table 51160 "HR Employees"
 
 
         }
-        field(124; "Disabling Details"; Text[30])
+        field(124; "Disabling Details"; Text[50])
         {
         }
         field(125; "Disability Grade"; Text[30])
         {
         }
-        field(126; "Passport Number"; Text[30])
+        field(126; "Passport Number"; Text[50])
         {
         }
         field(127; "2nd Skills Category"; Option)
@@ -617,7 +617,7 @@ Table 51160 "HR Employees"
         field(132; "Manager Emp No"; Code[30])
         {
         }
-        field(133; Temp; Text[20])
+        field(133; Temp; Text[170])
         {
         }
         field(134; "Employee Qty"; Integer)
@@ -669,7 +669,7 @@ Table 51160 "HR Employees"
         field(147; "NHIF No."; Code[20])
         {
         }
-        field(148; "Cause of Inactivity Code"; Code[15])
+        field(148; "Cause of Inactivity Code"; Code[20])
         {
             Caption = 'Cause of Inactivity Code';
             TableRelation = "Cause of Inactivity";
@@ -686,7 +686,7 @@ Table 51160 "HR Employees"
         {
             TableRelation = "Payroll Calender."."Date Opened";
         }
-        field(152; "HELB No"; Text[15])
+        field(152; "HELB No"; Text[20])
         {
         }
         field(153; "Co-Operative No"; Text[30])
@@ -721,7 +721,7 @@ Table 51160 "HR Employees"
         field(160; "Send Alert to"; Code[20])
         {
         }
-        field(161; Tribe; Code[15])
+        field(161; Tribe; Code[20])
         {
         }
         field(162; Religion; Code[20])
@@ -734,7 +734,7 @@ Table 51160 "HR Employees"
         field(164; "Post Office No"; Text[20])
         {
         }
-        field(165; "Posting Group"; Code[20])
+        field(165; "Posting Group"; Code[50])
         {
             NotBlank = false;
             TableRelation = "Payroll Posting Groups.";
@@ -756,7 +756,7 @@ Table 51160 "HR Employees"
         // field(170; "Allow Re-Employment In Future"; Boolean)
         // {
         // }
-        field(171; "Medical Scheme Name #2"; Text[15])
+        field(171; "Medical Scheme Name #2"; Text[100])
         {
 
             trigger OnValidate()
@@ -800,7 +800,7 @@ Table 51160 "HR Employees"
         field(180; Category; Code[15])
         {
         }
-        field(181; "Payroll Departments"; Code[15])
+        field(181; "Payroll Departments"; Code[20])
         {
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(3));
         }
@@ -839,7 +839,7 @@ Table 51160 "HR Employees"
             OptionCaption = 'Others,USAID';
             OptionMembers = Others,USAID;
         }
-        field(190; "Main Bank"; Code[15])
+        field(190; "Main Bank"; Code[20])
         {
         }
         field(191; "Branch Bank"; Code[20])
@@ -880,7 +880,7 @@ Table 51160 "HR Employees"
         {
             DataClassification = ToBeClassified;
         }
-        field(300; "Social Security No."; Code[20])
+        field(300; "Social Security No."; Code[50])
         {
         }
         field(201; "Supervisor Name"; Text[200])

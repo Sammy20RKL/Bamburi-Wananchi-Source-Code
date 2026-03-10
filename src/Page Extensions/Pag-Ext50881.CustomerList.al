@@ -25,7 +25,10 @@ pageextension 50881 CustomerList extends "Customer List"
         myInt: Integer;
     begin
         Rec.Reset();
-        Rec.SetRange(rec."Customer Type", Rec."Customer Type"::Member);// Checkoff);
+        //Rec.SetRange(rec."Customer Type", Rec."Customer Type"::BOSA | Rec."Customer Type"::STAFF);// Checkoff);
+        Rec.SetFilter("Customer Type", '%1|%2',
+      Rec."Customer Type"::BOSA,
+      Rec."Customer Type"::STAFF);
     end;
 
     var

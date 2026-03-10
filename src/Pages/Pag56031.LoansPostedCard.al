@@ -425,7 +425,7 @@ Page 56031 "Loans Posted Card"
                         Cust.SetRange(Cust."No.", Rec."Client Code");
                         Cust.SetFilter(Cust."Loan Product Filter", Rec."Loan Product Type");
                         Cust.SetFilter(Cust."Loan No. Filter", Rec."Loan  No.");
-                        Report.Run(50227, true, false);
+                        Report.Run(50227, true, false, Cust);
                     end;
                 }
                 action("View Schedule")

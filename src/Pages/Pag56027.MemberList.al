@@ -10,8 +10,8 @@ Page 56027 "Member List"
     SourceTable = Customer;
     SourceTableView = sorting("No.")
                       order(ascending)
-                      where("Customer Type" = filter(Member),
-                            "Customer Posting Group" = filter('MEMBER'));
+                      where("Customer Type" = filter(BOSA | STAFF),
+                            "Customer Posting Group" = filter('BOSA' | 'STAFF'));
     UsageCategory = Lists;
 
     layout
@@ -170,6 +170,8 @@ Page 56027 "Member List"
                     PromotedCategory = "process";
 
                     trigger OnAction()
+                    var
+                        y: report 51046;
                     begin
                         Cust.Reset;
                         Cust.SetRange(Cust."No.", Rec."No.");

@@ -170,6 +170,10 @@ page 50413 "Sacco No. Series"
                 {
                     ApplicationArea = Basic;
                 }
+                field("Dividend Nos"; Rec."Dividend Nos")
+                {
+                    ApplicationArea = Basic;
+                }
             }
             group("Banking Services")
             {

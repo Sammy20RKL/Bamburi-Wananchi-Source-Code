@@ -1708,6 +1708,12 @@ Page 56043 "Bamburi SACCO Role Center"
                                 Image = Setup;
                                 RunObject = report "Dividend Processing-Prorated";
                             }
+                            action("Dividends Header List")
+                            {
+                                Caption = 'Dividends Header List';
+                                Image = Setup;
+                                RunObject = page "Dividends Header List";
+                            }
                             action("Dividends Register")
                             {
                                 Caption = 'Dividends Register';

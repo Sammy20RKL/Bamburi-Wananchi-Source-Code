@@ -15,7 +15,7 @@ table 50095 "Members Next Kin Details"
         }
         field(3; Relationship; Text[30])
         {
-            TableRelation = "Relationship Types";
+            TableRelation = "Relationship Types".Describution;
         }
         field(4; Beneficiary; Boolean)
         {

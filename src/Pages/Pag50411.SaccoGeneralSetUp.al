@@ -755,7 +755,7 @@ page 50411 "Sacco General Set-Up"
                 trigger OnAction()
                 begin
                     Cust.Reset;
-                    Cust.SetRange(Cust."Customer Type", Cust."customer type"::Member);
+                    Cust.SetFilter("Customer Type", '%1|%2', Cust."Customer Type"::BOSA, Cust."Customer Type"::FOSA);
                     if Cust.Find('-') then
                         Cust.ModifyAll(Cust.Advice, false);
 

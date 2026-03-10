@@ -30,14 +30,14 @@ Table 51401 "Sacco Employers"
         {
             CalcFormula = count(Customer where(Status = filter(Active | Dormant | "Re-instated" | Termination),
                                                           "Employer Code" = field(Code),
-                                                          "Customer Posting Group" = const('MEMBER')));
+                                                          "Customer Posting Group" = filter('STAFF' | 'BOSA')));
             FieldClass = FlowField;
         }
         field(6; Male; Integer)
         {
             CalcFormula = count(Customer where(Status = filter(Active | Dormant | "Re-instated" | Termination),
                                                           "Employer Code" = field(Code),
-                                                          "Customer Posting Group" = const('MEMBER'),
+                                                          "Customer Posting Group" = filter('STAFF' | 'BOSA'),
                                                           Gender = const(" ")));
             Editable = false;
             FieldClass = FlowField;
@@ -46,8 +46,8 @@ Table 51401 "Sacco Employers"
         {
             CalcFormula = count(Customer where(Status = filter(Active | Dormant | "Re-instated" | Termination),
                                                           "Employer Code" = field(Code),
-                                                          "Customer Posting Group" = const('MEMBER'),
-                                                          Gender = const(Male)));
+                                                          "Customer Posting Group" = filter('STAFF' | 'BOSA'),
+                                                          Gender = const(Female)));
             Editable = false;
             FieldClass = FlowField;
         }
@@ -61,7 +61,7 @@ Table 51401 "Sacco Employers"
         {
             CalcFormula = count(Customer where(Status = filter(Active),
                                                           "Employer Code" = field(Code),
-                                                          "Customer Posting Group" = const('MEMBER')));
+                                                          "Customer Posting Group" = filter('STAFF' | 'BOSA')));
             Editable = false;
             FieldClass = FlowField;
         }
@@ -69,7 +69,7 @@ Table 51401 "Sacco Employers"
         {
             CalcFormula = count(Customer where(Status = filter(Dormant),
                                                           "Employer Code" = field(Code),
-                                                          "Customer Posting Group" = const('MEMBER')));
+                                                          "Customer Posting Group" = filter('STAFF' | 'BOSA')));
             Editable = false;
             FieldClass = FlowField;
         }
@@ -77,7 +77,7 @@ Table 51401 "Sacco Employers"
         {
             CalcFormula = count(Customer where(Status = filter(Withdrawal),
                                                           "Employer Code" = field(Code),
-                                                          "Customer Posting Group" = const('MEMBER')));
+                                                          "Customer Posting Group" = filter('STAFF' | 'BOSA')));
             Editable = false;
             FieldClass = FlowField;
         }
@@ -85,7 +85,7 @@ Table 51401 "Sacco Employers"
         {
             CalcFormula = count(Customer where(Status = filter(Deceased),
                                                           "Employer Code" = field(Code),
-                                                          "Customer Posting Group" = const('MEMBER')));
+                                                          "Customer Posting Group" = filter('STAFF' | 'BOSA')));
             Editable = false;
             FieldClass = FlowField;
         }

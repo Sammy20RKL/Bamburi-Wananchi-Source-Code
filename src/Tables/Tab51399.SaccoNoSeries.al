@@ -581,6 +581,11 @@ Table 51399 "Sacco No. Series"
         {
             TableRelation = "No. Series";
         }
+        field(51516071; "Dividend Nos"; Code[20])
+        {
+            TableRelation = "No. Series".Code;
+        }
+
     }
 
     keys
