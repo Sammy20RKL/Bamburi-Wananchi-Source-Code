@@ -312,6 +312,10 @@ Table 51371 "Loans Register"
                 if "Requested Amount" <> 0 then
                     Validate("Requested Amount");
 
+                //updateLoanCharges
+                if "Loan Product Type" = 'Kivukio' then
+                    "Legal Cost" := 2000;
+
             end;
         }
         field(4; "Client Code"; Code[50])
@@ -380,17 +384,17 @@ Table 51371 "Loans Register"
                 */
                 GenSetUp.Get();
                 if Cust.Get("Client Code") then begin
-                    IF Cust."Registration Date" <> 0D THEN
-                        RefDate := CALCDATE('<+' + GenSetup."Share Capital Period" + '>', Cust."Registration Date");
-                    IF Today < RefDate THEN BEGIN
-                        ERROR('Member does not qualify for this loan!. Qualification date is %1.', RefDate);
-                        //           if Today < RefDate then
-                        // Error('Member does not qualify for this loan. Qualification date is %1.', RefDate);
-                    END; // For members who are not 6 months old in the Sacco
+                    // IF Cust."Registration Date" <> 0D THEN
+                    //     RefDate := CALCDATE('<+' + GenSetup."Share Capital Period" + '>', Cust."Registration Date");
+                    // IF Today < RefDate THEN BEGIN
+                    //     ERROR('Member does not qualify for this loan!. Qualification date is %1.', RefDate);
+                    //           if Today < RefDate then
+                    // Error('Member does not qualify for this loan. Qualification date is %1.', RefDate);
+                    //    END; // For members who are not 6 months old in the Sacco
 
                     Cust.CALCFIELDS("Shares Retained");
-                    IF Cust."Shares Retained" < GenSetUp."Retained Shares" THEN
-                        ERROR('Member does not meet the minimum Shares Capital contibution to qualify for this loan');
+                    // IF Cust."Shares Retained" < GenSetUp."Retained Shares" THEN
+                    //  ERROR('Member does not meet the minimum Shares Capital contibution to qualify for this loan');
                 end;
                 if Source = Source::BOSA then begin
                     if "Loan  No." = '' then begin
@@ -699,155 +703,6 @@ Table 51371 "Loans Register"
         field(10101; Appraised; Boolean) { }
         field(8; "Requested Amount"; Decimal)
         {
-            //     trigger OnValidate()
-            //     var
-            //         LoanBal: Decimal;
-            //         Amtt: Decimal;
-            //         MonthlyRate: Decimal;
-            //         PowerFactor: Decimal;
-            //     begin
-            //         // Check qualifying deposits *3
-            //         if "Requested Amount" > ("Member Deposits" * 3) then
-            //             Error('Amount Requested exceeds member Eligibility');
-
-            //         if LoanType.Get("Loan Product Type") then begin
-            //             if "Requested Amount" > ("Member Deposits" * LoanType."Deposits Multiplier") then begin
-            //                 Error('Amount Requested exceeds member Eligibility');
-            //             end;
-            //             if "Requested Amount" > LoanType."Max. Loan Amount" then begin
-            //                 Error('You Can not request more than the Loan Allowable limit of %1', LoanType."Max. Loan Amount");
-            //             end;
-            //         end;
-
-            //         // Check running loans
-            //         if LoanType.Get("Loan Product Type") then begin
-            //             if LoanType."Maximum No. Of Runing Loans" > 1 then begin
-            //                 LoansRec.Reset;
-            //                 LoansRec.SetRange(LoansRec."Loan Product Type", LoanType.Code);
-            //                 LoansRec.SetRange(LoansRec."Client Code", Rec."Client Code");
-            //                 LoansRec.SetRange(LoansRec.Posted, true);
-            //             end else
-            //                 if "Requested Amount" > LoanType."Max. Loan Amount" then begin
-            //                     Error('You cannot request more than the Loan Allowable limit of %1', LoanType."Max. Loan Amount");
-            //                 end;
-
-            //             if "Requested Amount" < LoanType."Min. Loan Amount" then begin
-            //                 Error('The amount requested cannot be less than the minimum amount of %1', LoanType."Min. Loan Amount");
-            //             end;
-            //         end;
-
-            //         "Approved Amount" := 0;
-            //         "Net Payment to FOSA" := "Requested Amount";
-
-            //         Validate("Approved Amount");
-
-            //         // Calculate tier banding
-            //         CalcFields("Total Loans Outstanding");
-            //         TotalOutstanding := "Total Loans Outstanding" + "Requested Amount";
-            //         if BANDING.Find('-') then begin
-            //             repeat
-            //                 if ((TotalOutstanding >= BANDING."Minimum Amount") and (TotalOutstanding <= BANDING."Maximum Amount")) then begin
-            //                     Band := BANDING."Minimum Dep Contributions";
-            //                     "Min Deposit As Per Tier" := Band;
-            //                     Modify;
-            //                 end;
-            //             until BANDING.Next = 0;
-            //         end;
-
-            //         // Calculate boosting
-            //         GenSetUp.Get();
-            //         "Boosting Commision" := 0;
-            //         "Boosted Amount" := 0;
-            //         if (("Member Deposits" < "Requested Amount") and ("Boost this Loan" = true)) then begin
-            //             if LoanType.Get("Loan Product Type") then begin
-            //                 "Boosted Amount" := ROUND(("Requested Amount" - "Member Deposits" * LoanType."Shares Multiplier") / 3, 1, '=');
-            //                 "Boosting Commision" := "Boosted Amount" * GenSetUp."Boosting Shares %" / 100;
-            //                 "Boosted Amount Interest" := "Boosted Amount" * Interest / 1200;
-            //             end
-            //         end;
-
-            //         // Initialize repayment period
-            //         RepayPeriod := Installments;
-            //         TestField(Installments);
-
-            //         // Calculate repayments based on method
-            //         case "Repayment Method" of
-            //             "Repayment Method"::Amortised:
-            //                 begin
-            //                     // Amortised/EMI calculation: P * r * (1+r)^n / ((1+r)^n - 1)
-            //                     MonthlyRate := InterestRate / 12 / 100;
-            //                     TotalMRepay := ROUND(MonthlyRate / (1 - Power((1 + MonthlyRate), -Installments)) * "Requested Amount", 1, '=');
-
-            //                     // First month breakdown (interest on full amount)
-            //                     LInterest := ROUND("Requested Amount" * MonthlyRate, 1, '=');
-            //                     LPrincipal := TotalMRepay - LInterest;
-
-            //                     // Add insurance if applicable
-            //                     ObjProductCharge.Reset;
-            //                     ObjProductCharge.SetRange(ObjProductCharge."Product Code", "Loan Product Type");
-            //                     if ObjProductCharge.FindSet then begin
-            //                         LInsurance := "Approved Amount" * (ObjProductCharge.Percentage / 100);
-            //                     end;
-
-            //                     Repayment := TotalMRepay + LInsurance;
-            //                     "Loan Principle Repayment" := LPrincipal;
-            //                     "Loan Interest Repayment" := LInterest;
-            //                 end;
-
-            //             "Repayment Method"::"Reducing Balance":
-            //                 begin
-            //                     // Reducing Balance uses same EMI formula as Amortised
-            //                     MonthlyRate := InterestRate / 12 / 100;
-            //                     PowerFactor := Power(1 + MonthlyRate, Installments);
-            //                     TotalMRepay := ROUND("Requested Amount" * MonthlyRate * PowerFactor / (PowerFactor - 1), 1, '=');
-
-            //                     // First month breakdown
-            //                     LInterest := ROUND("Requested Amount" * MonthlyRate, 1, '=');
-            //                     LPrincipal := TotalMRepay - LInterest;
-
-            //                     // Add insurance if applicable
-            //                     ObjProductCharge.Reset;
-            //                     ObjProductCharge.SetRange(ObjProductCharge."Product Code", "Loan Product Type");
-            //                     if ObjProductCharge.FindSet then begin
-            //                         LInsurance := "Requested Amount" * (ObjProductCharge.Percentage / 100);
-            //                     end;
-
-            //                     Repayment := TotalMRepay + LInsurance;
-            //                     "Loan Principle Repayment" := LPrincipal;
-            //                     "Loan Interest Repayment" := LInterest;
-            //                 end;
-
-            //             "Repayment Method"::"Straight Line":
-            //                 begin
-            //                     // Equal principal payments
-            //                     LPrincipal := ROUND("Requested Amount" / RepayPeriod, 1, '=');
-
-            //                     // Calculate interest based on loan product type
-            //                     LInterest := ROUND(((InterestRate / 1200) * "Requested Amount") * Installments, 1, '=');
-
-            //                     // Special handling for specific loan products (15 and 16)
-            //                     if ("Loan Product Type" = '15') or ("Loan Product Type" = '16') then
-            //                         LInterest := LInterest / RepayPeriod;
-
-            //                     // Add insurance if applicable (total over loan period)
-            //                     ObjProductCharge.Reset;
-            //                     ObjProductCharge.SetRange(ObjProductCharge."Product Code", "Loan Product Type");
-            //                     if ObjProductCharge.FindSet then begin
-            //                         LInsurance := ("Requested Amount" * (ObjProductCharge.Percentage / 100)) * Installments;
-            //                     end;
-
-            //                     Repayment := LPrincipal + LInterest;
-            //                     "Loan Principle Repayment" := LPrincipal;
-            //                     "Loan Interest Repayment" := LInterest;
-            //                 end;
-            //         end;
-
-            //         // Calculate top-up fee
-            //         "top fee" := ("Requested Amount" - "Top Up Amount") * 0.1;
-
-            //         Modify;
-            //     end;
-            // }
 
             trigger OnValidate()
             var
@@ -1159,6 +1014,19 @@ Table 51371 "Loans Register"
                     "Loan Interest Repayment" := LInterest;
                     "Approved Repayment" := TotalMRepay;
 
+                end;
+                if "Repayment Method" = "repayment method"::"Straight Line" then begin
+                    TestField(Interest);
+                    TestField(Installments);
+
+                    LPrincipal := ROUND(LoanAmount / RepayPeriod, 0.05, '=');
+                    LInterest := ROUND((InterestRate / 12 / 100) * LoanAmount, 0.05, '=');
+
+                    Repayment := LPrincipal + LInterest;
+                    "Loan Principle Repayment" := LPrincipal;
+                    "Loan Interest Repayment" := LInterest;
+
+                    Modify;
                 end;
 
 

@@ -17,7 +17,7 @@ page 50703 "Applicant Signature"
                 ApplicationArea = All;
                 ShowCaption = false;
                 ToolTip = 'Specifies the Signature of the Member.';
-                ShowMandatory = true;
+                ShowMandatory = false;
             }
         }
     }

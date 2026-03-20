@@ -166,7 +166,7 @@ Report 51045 "monthly exp Bamburi"
                 CalculateLoanRepayment('MWOK', MWOKOZILOANp, MWOKOZILOANi, Customer."No.", ASAT, BeginMonth_Date);
 
                 // NEW PRODUCT LOAN
-                CalculateLoanRepayment('NEWPRO', NEWPRODUCTp, NEWPRODUCTi, Customer."No.", ASAT, BeginMonth_Date);
+                CalculateLoanRepayment('X-MAS', NEWPRODUCTp, NEWPRODUCTi, Customer."No.", ASAT, BeginMonth_Date);
 
                 // Normal loans 2
                 CalculateLoanRepayment('NORM2', NORMALLOAN2p, NORMALLOAN2i, Customer."No.", ASAT, BeginMonth_Date);
@@ -295,7 +295,7 @@ Report 51045 "monthly exp Bamburi"
                 //..........................
                 LoansRegister.Reset;
                 LoansRegister.SetRange("Client Code", Customer."No.");
-                LoansRegister.SetRange("Loan Product Type", 'NEWPRO');
+                LoansRegister.SetRange("Loan Product Type", 'X-MAS');
                 LoansRegister.SetFilter("Outstanding Balance", '>%1', 0);
                 if LoansRegister.FindSet then begin
                     NEWPRODUCTLNO := LoansRegister."Loan  No.";
@@ -319,6 +319,7 @@ Report 51045 "monthly exp Bamburi"
                     MERCHANDISE_No := LoansRegister."Loan  No.";
                     if LoansRegister."Loan  No." = '' then
                         CurrReport.Skip;
+
                 end;
                 TOTALREMMITANCE := 0;
                 TOTALREMMITANCE := montlycon + "Welfare Contr" + ShareCapital + NORMALLOAN1i + NORMALLOAN2p + NORMALLOAN2i + NORMALLOAN1p + EMERGENCYp + EMERGENCYi + HALLOHALLOp + HALLOHALLOi + INSTANTLOANp + INSTANTLOANi + KIVUKIOLOANp + KIVUKIOLOANi + SCHOOLFEESp + SCHOOLFEESi + MBUYULOANp + MBUYULOANi +

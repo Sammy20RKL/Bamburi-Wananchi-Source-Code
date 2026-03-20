@@ -61,13 +61,18 @@ Table 51376 "Loan Offset Details"
                         "Interest Top Up" := Loans."Oustanding Interest";
 
                         // Festus -- Swizzsoft
-                        Commision := calculateCommission("Loan Top Up", "Principle Top Up", "Interest Top Up");
-                        "Total Top Up" := "Principle Top Up" + "Interest Top Up" + Commision;
+                        //  Commision := calculateCommission("Loan Top Up", "Principle Top Up", "Interest Top Up");
+                        "Total Top Up" := "Principle Top Up" + "Interest Top Up";
+                        //"Total Top Up" := "Principle Top Up" + "Interest Top Up" + Commision;
                         "Outstanding Balance" := Loans."Outstanding Balance";
                         "Monthly Repayment" := Loans.Repayment;
                     end;
                     Loans.Bridged := true;
-                    Loans.Modify
+                    Loans.Modify();
+
+                    // Import guarantors from offset loan to new loan
+                    ImportGuarantors("Loan Top Up", "Loan No.");
+
                 end;
             end;
         }
@@ -84,8 +89,9 @@ Table 51376 "Loan Offset Details"
             begin
 
                 // Festus -- Swizzsoft
-                Commision := calculateCommission("Loan Top Up", "Principle Top Up", "Interest Top Up");
-                "Total Top Up" := "Principle Top Up" + "Interest Top Up" + Commision;
+                //  Commision := calculateCommission("Loan Top Up", "Principle Top Up", "Interest Top Up");
+                "Total Top Up" := "Principle Top Up" + "Interest Top Up";
+                //"Total Top Up" := "Principle Top Up" + "Interest Top Up" + Commision;
 
             end;
         }
@@ -95,8 +101,9 @@ Table 51376 "Loan Offset Details"
             trigger OnValidate()
             begin
                 // Festus -- Swizzsoft
-                Commision := calculateCommission("Loan Top Up", "Principle Top Up", "Interest Top Up");
-                "Total Top Up" := "Principle Top Up" + "Interest Top Up" + Commision;
+                // Commision := calculateCommission("Loan Top Up", "Principle Top Up", "Interest Top Up");
+                "Total Top Up" := "Principle Top Up" + "Interest Top Up";
+                // "Total Top Up" := "Principle Top Up" + "Interest Top Up" + Commision;
             end;
         }
         field(7; "Total Top Up"; Decimal)
@@ -227,6 +234,7 @@ Table 51376 "Loan Offset Details"
         {
 
         }
+        field(32; Refinance; Boolean) { }
     }
 
     keys
@@ -243,13 +251,15 @@ Table 51376 "Loan Offset Details"
 
     fieldgroups
     {
-        fieldgroup(DropDown; "Client Code", "Loan Type", "Principle Top Up", "Interest Top Up", "Total Top Up", "Monthly Repayment", "Interest Paid", "Outstanding Balance", "Interest Rate", Commision)
+        fieldgroup(DropDown; "Client Code", "Loan Type", "Principle Top Up", "Interest Top Up", "Total Top Up", "Monthly Repayment", "Interest Paid", "Outstanding Balance", "Interest Rate")
         {
         }
     }
 
     var
         Loans: Record "Loans Register";
+        loanguarantors: Record "Loans Guarantee Details";
+        loanGuaranteeDetails: Record "Loans Guarantee Details";
         Loantypes: Record "Loan Products Setup";
         Interest: Decimal;
         Cust: Record Customer;
@@ -267,6 +277,30 @@ Table 51376 "Loan Offset Details"
         Loanbalance: Decimal;
         Commision1: Decimal;
         RequstedAmount: Decimal;
+
+    procedure ImportGuarantors(FromLoan: Code[20]; ToLoan: Code[20])
+    begin
+
+        // Copy guarantors
+        loanguarantors.Reset();
+        loanguarantors.SetRange("Loan No", FromLoan);
+
+        if loanguarantors.Find('-') then
+            repeat
+                if loanguarantors."Committed Shares" <= 0 then
+                    continue;
+
+                loanGuaranteeDetails.Init();
+                loanGuaranteeDetails."Loan No" := ToLoan;
+                loanGuaranteeDetails."Account No." := loanguarantors."Account No.";
+                loanGuaranteeDetails."Member No" := loanguarantors."Member No";
+                loanGuaranteeDetails.Name := loanguarantors.Name;
+                loanGuaranteeDetails.Shares := loanguarantors.Shares;
+                loanGuaranteeDetails."Amont Guaranteed" := loanguarantors."Committed Shares";
+
+                loanGuaranteeDetails.Insert(true);
+            until loanguarantors.Next() = 0;
+    end;
 
     procedure calculateCommission(loanNumber: Code[20]; principalOffset: Decimal; interestOffset: Decimal) commissionCharged: Decimal
     var

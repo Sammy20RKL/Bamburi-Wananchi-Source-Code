@@ -84,6 +84,8 @@ page 57005 "Bamburi CheckoffLines"
                 // field("Normal loan 4 Amount"; Rec."Normal loan 4 Amount") { ApplicationArea = Basic; }
                 // field("Normal loan 4 Principle"; Rec."Normal loan 4 Principle") { ApplicationArea = Basic; }
                 // field("Normal loan 4 Interest"; Rec."Normal loan 4 Interest") { ApplicationArea = Basic; }
+                field("T-Shirt"; Rec."T-Shirt") { ApplicationArea = Basic; }
+                field("Other Products"; Rec."Other Products") { ApplicationArea = Basic; }
 
                 field("Total Loans"; Rec."Total Loans") { ApplicationArea = Basic; }
                 field("Grand Total"; Rec."Grand Total") { ApplicationArea = Basic; }

@@ -691,8 +691,8 @@ Page 56043 "Bamburi SACCO Role Center"
                         ApplicationArea = all;
                         Caption = 'Customers';
                         RunObject = Page "Customer List";
-                        RunPageView = where("Customer Type" = filter(Member),
-                            "Customer Posting Group" = filter('MEMBER'));
+                        RunPageView = where("Customer Type" = filter(BOSA | STAFF),
+                            "Customer Posting Group" = filter('BOSA' | 'STAFF'));
                         Visible = true;
                     }
                     action("Customer Invoices")
@@ -906,6 +906,7 @@ Page 56043 "Bamburi SACCO Role Center"
                             Caption = 'Closed Membership Applications';
                             RunObject = page "Membership Applications List";
                             RunPageView = where(status = CONST(closed));
+                            Visible = true;
                         }
 
                     }
@@ -1122,7 +1123,6 @@ Page 56043 "Bamburi SACCO Role Center"
                         RunObject = Page "LoanList-Pending Approval BOSA";
 
                         ToolTip = 'Open the list of BOSA Loans Pending Approval';
-
                     }
                     action("Approved Loans")
                     {
@@ -1156,6 +1156,7 @@ Page 56043 "Bamburi SACCO Role Center"
                         RunObject = page "Loan Appeal List";
                         Caption = 'Loans Restructured List';
                     }
+
                 }
 
                 group("Loans' Reports")
@@ -1461,7 +1462,31 @@ Page 56043 "Bamburi SACCO Role Center"
                         RunObject = page "Loan Collateral Setup";
                         Visible = false;
                     }
-
+                    action("Loan Updates")
+                    {
+                        ApplicationArea = Basic, Suite;
+                        visible = false;
+                        RunObject = page "Loan Update List";
+                        Caption = 'Loan Updates';
+                    }
+                    action("Monthly Advice")
+                    {
+                        ApplicationArea = Basic, Suite;
+                        Visible = false;
+                        RunObject = page "Monthly Advice List";
+                    }
+                    action("Appraisal Salary Details")
+                    {
+                        ApplicationArea = Basic, Suite;
+                        Visible = false;
+                        RunObject = page "Appraisal Salary Details List";
+                    }
+                    action("Batches List")
+                    {
+                        ApplicationArea = Basic, Suite;
+                        Visible = false;
+                        RunObject = page "Batches List";
+                    }
                     // group(CollateralReports)
                     // {
                     //     Caption = 'Collateral Movement';
@@ -1609,6 +1634,7 @@ Page 56043 "Bamburi SACCO Role Center"
                         Caption = 'Holiday Savings List';
                         RunObject = page "Member Holiday Savings List";
                     }
+
                 }
 
                 //..............................................................................................

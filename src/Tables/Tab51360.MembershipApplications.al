@@ -560,8 +560,8 @@ Table 51360 "Membership Applications"
         }
         field(68056; Title; Option)
         {
-            OptionCaption = ' ,Mr.,Mrs.,Miss.,DR.,Prof.,Fr.,Sr.,Bro.';
-            OptionMembers = " ","Mr.","Mrs.","Miss.","DR.","Prof.","Fr.","Sr.","Bro.";
+            OptionCaption = ' ,Mr.,Mrs.,Miss.,DR.,Prof.Eng';
+            OptionMembers = " ","Mr.","Mrs.","Miss.","DR.","Prof.","Eng";
         }
         field(68057; Town; Code[30])
         {

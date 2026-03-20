@@ -136,7 +136,8 @@ page 56120 "Membership Application List"
                         if Rec."ID No." <> '' then begin
                             Cust.Reset;
                             Cust.SetRange(Cust."ID No.", Rec."ID No.");
-                            Cust.SetRange(Cust."Customer Type", Cust."customer type"::Member);
+                            Cust.SetFilter(Cust."Customer Type", '%1|%2', Cust."Customer Type"::Bosa, Cust."Customer Type"::Staff);
+                            //Cust.SetRange(Cust."Customer Type", Cust."customer type"::Member);
                             if Cust.Find('-') then begin
                                 if Cust."No." <> Rec."No." then
                                     Error('Member has already been created');
@@ -208,7 +209,8 @@ page 56120 "Membership Application List"
                             if Rec."ID No." <> '' then begin
                                 Cust.Reset;
                                 Cust.SetRange(Cust."ID No.", Rec."ID No.");
-                                Cust.SetRange(Cust."Customer Type", Cust."customer type"::Member);
+                                Cust.SetFilter(Cust."Customer Type", '%1|%2', Cust."Customer Type"::Bosa, Cust."Customer Type"::Staff);
+                                //  Cust.SetRange(Cust."Customer Type", Cust."customer type"::Member);
                                 if Cust.Find('-') then begin
                                     if Cust."No." <> Rec."No." then
                                         Error('Member has already been created');
@@ -245,7 +247,7 @@ page 56120 "Membership Application List"
                             Cust."ID No." := Rec."ID No.";
                             Cust."Mobile Phone No" := Rec."Mobile Phone No";
                             Cust."Marital Status" := Rec."Marital Status";
-                            Cust."Customer Type" := Cust."customer type"::Member;
+                            Cust."Customer Type" := Cust."customer type";
                             Cust.Gender := Rec.Gender;
                             // Cust.Picture:=Picture;
                             // Cust.Signature:=Signature;

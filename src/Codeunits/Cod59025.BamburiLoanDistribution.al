@@ -103,7 +103,7 @@ codeunit 59025 "Bamburi Loan Distribution"
         end;
 
         // 10. New Product Loan
-        RemainingAmount := ProcessLoan(CheckoffLine."Member No", 'NEWPRO', RemainingAmount, LoanCutOffDate, InterestAmt, PrincipalAmt, TotalAmt);
+        RemainingAmount := ProcessLoan(CheckoffLine."Member No", 'X-MASS', RemainingAmount, LoanCutOffDate, InterestAmt, PrincipalAmt, TotalAmt);
         if TotalAmt > 0 then begin
             CheckoffLine."New Product Loan Interest" := InterestAmt;
             CheckoffLine."New Product Loan Principle" := PrincipalAmt;

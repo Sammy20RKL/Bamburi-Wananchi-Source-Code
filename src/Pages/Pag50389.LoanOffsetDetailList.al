@@ -103,5 +103,7 @@ page 50389 "Loan Offset Detail List"
 
     var
         ObjLoanOffset: Record "Loan Offset Details";
+
+
 }
 

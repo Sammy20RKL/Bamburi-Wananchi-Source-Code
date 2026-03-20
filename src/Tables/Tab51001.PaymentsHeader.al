@@ -566,7 +566,7 @@ Table 51001 "Payments Header"
         }
         field(112; "Document Date"; Date)
         {
-            Editable = false;
+            Editable = true;
         }
     }
 
@@ -729,7 +729,9 @@ Table 51001 "Payments Header"
                 PLine."Shortcut Dimension 4 Code" := "Shortcut Dimension 4 Code";
                 PLine."Currency Factor" := "Currency Factor";
                 PLine."Paying Bank Account" := "Paying Bank Account";
-                PayLine."Payment Type" := "Payment Type";
+                PLine."Payment Type" := "Payment Type";
+                //  PayLine."Payment Type" := "Payment Type";
+                PLine."Branch Code" := "Shortcut Dimension 2 Code";
                 PLine.Validate("Currency Factor");
                 PLine.Modify;
             until PLine.Next = 0;

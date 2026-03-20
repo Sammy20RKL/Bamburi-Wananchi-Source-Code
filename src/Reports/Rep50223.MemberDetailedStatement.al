@@ -27,6 +27,7 @@ report 50223 "Member Detailed Statement"
             column(PhoneNo_MemberRegister; Customer."Phone No.") { }
             column(CurrentShares_MemberRegister; Customer."Current Shares") { }
             column(Company_Email; Company."E-Mail") { }
+            column(Company_Name; Company.Name) { }
             column(Company_Picture; Company.Picture) { }
 
             dataitem(ShareCapital; "Cust. Ledger Entry")

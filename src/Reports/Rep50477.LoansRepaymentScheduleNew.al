@@ -153,6 +153,15 @@ Report 50477 "Loans Repayment Schedule New"
                 column(COMPANYNAME; compyname)
                 {
                 }
+                column(CompanyAddress2; compyinfo."Address 2")
+                {
+                }
+                column(CompanyPhone; compyinfo."Phone No.")
+                {
+                }
+                column(CompanyEmail; compyinfo."E-Mail")
+                {
+                }
                 column(COMPANYPICTURE; compyinfo.Picture)
                 {
                 }

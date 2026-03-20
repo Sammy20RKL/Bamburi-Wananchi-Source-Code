@@ -25,10 +25,10 @@ Page 56130 "Members Kin Details List"
                     Caption = 'Id/Birth Cert No.';
                     ApplicationArea = Basic;
                 }
-                // field(Address; Rec.Address)
-                // {
-                //     ApplicationArea = Basic;
-                // }
+                field(Address; Rec.Address)
+                {
+                    ApplicationArea = Basic;
+                }
                 field(Relationship; Rec.Relationship)
                 {
                     ApplicationArea = Basic;
@@ -37,10 +37,10 @@ Page 56130 "Members Kin Details List"
                 // {
                 //     ApplicationArea = Basic;
                 // }
-                // field(Beneficiary; Rec.Beneficiary)
-                // {
-                //     ApplicationArea = Basic;
-                // }
+                field(Beneficiary; Rec.Beneficiary)
+                {
+                    ApplicationArea = Basic;
+                }
                 field("Date of Birth"; Rec."Date of Birth")
                 {
                     ApplicationArea = Basic;

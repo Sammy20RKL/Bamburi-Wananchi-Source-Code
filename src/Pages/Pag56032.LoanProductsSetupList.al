@@ -145,6 +145,10 @@ Page 56032 "Loan Products Setup List"
                 {
                     ApplicationArea = Basic;
                 }
+                field("Allow Multiple Running Loans"; Rec."Allow Multiple Running Loans")
+                {
+                    ApplicationArea = Basic;
+                }
                 // field("Pepea Deposits"; Rec."Pepea Deposits")
                 // {
                 //     ApplicationArea = Basic;

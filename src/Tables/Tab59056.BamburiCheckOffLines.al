@@ -10,7 +10,7 @@ table 59056 "Bamburi CheckoffLines"
         }
         field(3; "Entry No"; Code[20]) { Editable = false; }
         field(4; "Staff/Payroll No"; Code[20]) { }
-        field(5; "Member No"; Code[50]) { TableRelation = Customer."No." where("Customer Type" = filter(Member)); }
+        field(5; "Member No"; Code[50]) { TableRelation = Customer."No." where("Customer Type" = filter(BOSA | STAFF)); }
         field(6; "Member Found"; Boolean) { }
         field(7; "Name"; Code[50]) { Editable = false; }
         field(8; "ID No."; Code[20]) { Editable = false; }
@@ -59,6 +59,9 @@ table 59056 "Bamburi CheckoffLines"
         field(54; "Mbuyu Loan Amount"; Decimal) { }
         field(55; "Mbuyu Loan Principle"; Decimal) { }
         field(56; "Mbuyu Loan Interest"; Decimal) { }
+        field(57; "T-Shirt"; Decimal) { }
+        field(58; "Other Products"; Decimal) { }
+
 
         field(52; "Total Loans"; Decimal)
         {
@@ -100,7 +103,7 @@ table 59056 "Bamburi CheckoffLines"
                          "Instant Loan Amount" + "HALLO HALLO Loan Amount" + "Mbuyu Loan Amount";
 
         "Grand Total" := "Share Capital" + "Deposit Contribution" + "Benevolent" +
-                         "Insurance" + "Registration" + "Holiday" + "Total Loans";
+                         "Insurance" + "Registration" + "Holiday" + "T-Shirt" + "Other Products" + "Total Loans";
     end;
 
     var

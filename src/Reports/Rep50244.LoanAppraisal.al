@@ -101,6 +101,7 @@ Report 50244 "Loan Appraisal"
             column(Upfronts; Upfronts)
             {
             }
+            column(ValuationFee; ValuationFee) { }
             column(Remarks; Remarks) { }
             column(Netdisbursed; Netdisbursed)
             {
@@ -265,6 +266,9 @@ Report 50244 "Loan Appraisal"
             {
             }
             column(Recomm; Recomm)
+            {
+            }
+            column(BankCharge; BankCharge)
             {
             }
             column(BasicEarnings; BasicEarnings)
@@ -669,6 +673,7 @@ Report 50244 "Loan Appraisal"
                     TGuaranteedAmount := TGuaranteedAmount + GuaranteedAmount;
                     AmountofFreeShares := AvailableG - LoanG."Amont Guaranteed";
                     if "Member No" = '' then CurrReport.Skip();
+
                 end;
             }
             dataitem("Loan Offset Details"; "Loan Offset Details")
@@ -1023,20 +1028,21 @@ Report 50244 "Loan Appraisal"
                     DepX := "Loans Register"."Requested Amount";
 
                 // Start with DepX as the default recommendation
-                Recomm := ROUND(DepX, 100, '<');
+                Recomm := ROUND(DepX, 0.01, '=');
 
                 // Compare with Psalary and update Recomm if Psalary is smaller
                 //----But first, check if they did use the Salary to Appraise
                 if Psalary <> 0 then begin
                     if Psalary < Recomm then
-                        Recomm := ROUND(Psalary, 100, '<');
+                        Recomm := ROUND(Psalary, 0.01, '=');
                 end;
 
                 //----- Compare with GShares and update Recomm if GShares is smaller
                 //-----But first, add GShares together with Collateral value..   FESTUS
-                GShares := GShares + CollCharge;
-                if GShares < Recomm then
-                    Recomm := ROUND(GShares, 100, '<');
+                // GShares := GShares + CollCharge;
+                // if GShares < Recomm then
+                //     Recomm := ROUND(GShares, 100, '<');
+
 
                 //----Update the recommended Amount for the shamba and merchandise loans.... Festus Clean
                 if ("Loans Register"."Loan Product Type" = '23') or ("Loans Register"."Loan Product Type" = '21') then begin
@@ -1045,7 +1051,7 @@ Report 50244 "Loan Appraisal"
 
                 //----- Update the Loans Register with the calculated recommendation... Festus Clean
                 "Loans Register"."Recommended Amount" := Recomm;
-                "Loans Register"."Approved Amount" := Recomm;
+                "Loans Register"."Approved Amount" := "Loans Register"."Recommended Amount";
                 "Loans Register".Modify;
 
                 // Display the recommendation
@@ -1094,6 +1100,7 @@ Report 50244 "Loan Appraisal"
                 //**********added************
                 LegalFee := "Loans Register"."Legal Cost";
                 ValuationFee := "Loans Register"."Valuation Cost";
+                BankCharge := "Loans Register"."Bank Charges";
                 TotalFee := LegalFee + ValuationFee;
                 //****************end********************
 
@@ -1265,8 +1272,8 @@ Report 50244 "Loan Appraisal"
                     LAppraisalFee := ROUND(SFactory.FnGetChargeFee("Loans Register"."Loan Product Type", "Loans Register"."Approved Amount", 'LAP'), 1, '=');
                     // LoanInsurance := ROUND(SFactory.FnGetChargeFee("Loans Register"."Loan Product Type", "Loans Register"."Approved Amount", 'LAP'), 1, '=');
 
-                    Upfronts := LoanProcessingFee + LAppraisalFee + LegalFee + DisbursementFee + "Deboost Commision" + "Deboost Amount" + ValuationFee + TopUpFee + TopUpComm + BRIGEDAMOUNT;
-                    Netdisbursed := ROUND(("Approved Amount" - Upfronts), 1, '=');
+                    Upfronts := LoanProcessingFee + LAppraisalFee + LegalFee + DisbursementFee + "Deboost Commision" + "Deboost Amount" + ValuationFee + TopUpFee + TopUpComm + BRIGEDAMOUNT + BankCharge;
+                    Netdisbursed := ROUND(("Requested Amount" - Upfronts), 1, '=');
                     if Netdisbursed < 0 then
                         Netdisbursed := 0;
                     DisbursementFee := SFactory.FnGetChargeFee("Loans Register"."Loan Product Type", Netdisbursed, 'DISBURSEMENT');
@@ -1275,7 +1282,7 @@ Report 50244 "Loan Appraisal"
                     LoanDeductionCharges := Upfronts;
                     Modify;
 
-                    if "Approved Amount" > 0 then begin
+                    if "Requested Amount" > 0 then begin
                         Upfronts := LoanProcessingFee
                                      + LAppraisalFee
                                      + "Deboost Commision"
@@ -1285,8 +1292,9 @@ Report 50244 "Loan Appraisal"
                                      + ValuationFee
                                      + TopUpFee
                                      + TopUpComm
-                                     + BRIGEDAMOUNT;
-                        Netdisbursed := ROUND(("Approved Amount" - Upfronts), 1, '=');
+                                     + BRIGEDAMOUNT
+                                     + BankCharge;
+                        Netdisbursed := ROUND(("Requested Amount" - Upfronts), 1, '=');
                         "Loan Processing Fee" := LoanProcessingFee;
                         "Loan Dirbusement Fee" := DisbursementFee;
                         "Loan Insurance" := LoanInsurance;
@@ -1422,6 +1430,7 @@ Report 50244 "Loan Appraisal"
         FixedAsset: Decimal;
         Equity: Decimal;
         Sales: Decimal;
+        BankCharge: Decimal;
         SalesOnCredit: Decimal;
         AppraiseDeposits: Boolean;
         AppraiseShares: Boolean;

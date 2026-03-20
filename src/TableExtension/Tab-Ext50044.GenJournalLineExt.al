@@ -143,8 +143,8 @@ tableextension 50044 "GenJournalLineExt" extends "Gen. Journal Line"
                     Description := 'Deposits Contribution';
                 if "Transaction Type" = "transaction type"::"Welfare Contribution" then
                     Description := 'Welfare Contribution';
-                // if "Transaction Type" = "transaction type"::"Appraisal Fee" then
-                //     Description := 'Appraisal Fee';
+                if "Transaction Type" = "transaction type"::"Bank Charges" then
+                    Description := 'Bank Charges';
                 // if "Transaction Type" = "transaction type"::"Application Fee" then
                 //     Description := 'Application Fee';
                 // if "Transaction Type" = "transaction type"::"Unallocated Funds" then

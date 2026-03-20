@@ -137,7 +137,15 @@ Page 56029 "Loan Application Card"
                     trigger OnValidate()
                     begin
                         Rec.TestField(Posted, false);
+                        // Rec."Valuation Cost" := Rec."Requested Amount" * 0.05; // 1% of the requested amount
                     end;
+                }
+                field("Bank Charges"; Rec."Bank Charges")
+                {
+                    ApplicationArea = Basic;
+                    Editable = true;
+                    ShowMandatory = true;
+                    Style = Strong;
                 }
                 field("Disburesment Type"; Rec."Disburesment Type")
                 {
@@ -146,6 +154,7 @@ Page 56029 "Loan Application Card"
                 field("Deboost Loan"; Rec."Deboost Loan Applied")
                 {
                     ApplicationArea = all;
+                    Visible = false;
                     trigger OnValidate()
                     var
                         myInt: Integer;
@@ -175,12 +184,14 @@ Page 56029 "Loan Application Card"
                 {
                     ApplicationArea = all;
                     Editable = true;
+                    Visible = false;
                 }
 
                 field("Deboost Commision"; Rec."Deboost Commision")
                 {
                     ApplicationArea = all;
                     Editable = true;
+                    Visible = false;
                 }
 
                 field("Recommended Amount"; Rec."Recommended Amount")
@@ -298,12 +309,17 @@ Page 56029 "Loan Application Card"
                     ApplicationArea = Basic;
                     Editable = false;
                 }
+
                 field("Valuation Cost"; Rec."Valuation Cost")
                 {
                     ApplicationArea = Basic;
+                    Caption = 'Commission Fee';
+
                 }
                 field("Legal Cost"; Rec."Legal Cost")
                 {
+                    ApplicationArea = Basic;
+                    Caption = 'Kivukio Processing Fee';
                 }
                 field("Loan Status"; Rec."Loan Status")
                 {
@@ -472,12 +488,12 @@ Page 56029 "Loan Application Card"
                         FnCheckGuarantorNotified();
                         // Check email Address
                         if Member.Get(Rec."Client Code") then
-                            if Member."E-Mail" = '' then
-                                Error('Prohibited! Please add an email address for this member');
+                            //    if Member."E-Mail" = '' then
+                            //    Error('Prohibited! Please add an email address for this member');
 
-                        if checkGuarantorCount() < 2 then begin
-                            Error('Loan Applications must have a minimum of 2 Guarantor');
-                        end;
+                            if checkGuarantorCount() < 1 then begin
+                                Error('Loan Applications must have at least one Guarantor');
+                            end;
                         //Audit Entries
                         if (UserId <> 'MOBILE') and (UserId <> 'ATM') and (UserId <> 'AGENCY') then begin
                             EntryNos := 0;
@@ -517,8 +533,8 @@ Page 56029 "Loan Application Card"
 
                     trigger OnAction()
                     begin
-                        if checkGuarantorCount() < 2 then begin
-                            Error('Loan Applications must have a minimum of 2 Guarantor');
+                        if checkGuarantorCount() < 1 then begin
+                            Error('Loan Applications must have at least one Guarantor');
                         end;
 
                         if Rec."Notify Guarantor SMS" = true then begin
@@ -530,22 +546,18 @@ Page 56029 "Loan Application Card"
                         end;
                     end;
                 }
-                action("Loans in Arrears")
+                action("Loans to Offset")
                 {
                     ApplicationArea = Basic;
+                    Caption = 'Loans Top up';
+                    Image = AddAction;
                     Promoted = true;
                     PromotedCategory = Process;
-                    Image = Report;
-                    trigger OnAction()
-                    var
-                        myInt: Integer;
-                    begin
-                        Cust.RESET;
-                        Cust.SETRANGE(Cust."No.", Rec."Client Code");
-                        IF Cust.FIND('-') THEN
-                            REPORT.RUN(50041, TRUE, FALSE, Cust);
-                    end;
+                    RunObject = Page "Loan Offset Detail List";
+                    RunPageLink = "Loan No." = field("Loan  No."),
+                                  "Client Code" = field("Client Code");
                 }
+
                 action("Send Approvals")
                 {
                     Caption = 'Send For Approval';
@@ -563,12 +575,12 @@ Page 56029 "Loan Application Card"
                         // SystemGenSet.FnCheckNoOfLoansLimit("Loan  No.", "Loan Product Type", "Client Code");
                         //----------------
                         // Check email Address
-                        if Member.Get(Rec."Client Code") then
-                            if Member."E-Mail" = '' then
-                                Error('Prohibited! Please add an email address for this member');
+                        // if Member.Get(Rec."Client Code") then
+                        //     if Member."E-Mail" = '' then
+                        //         Error('Prohibited! Please add an email address for this member');
 
-                        if checkGuarantorCount() < 2 then begin
-                            Error('Loan Applications must have a minimum of 2 Guarantor');
+                        if checkGuarantorCount() < 1 then begin
+                            Error('Loan Applications must have at least one Guarantor');
                         end;
 
                         FnCheckForTestFields();
@@ -612,6 +624,7 @@ Page 56029 "Loan Application Card"
                         Report.Run(50223, true, false, Cust);
                     end;
                 }
+
                 action("View Schedule")
                 {
                     ApplicationArea = Basic;
@@ -619,34 +632,45 @@ Page 56029 "Loan Application Card"
                     Image = ViewDetails;
                     Promoted = true;
                     PromotedCategory = Process;
-
+                    ShortCutKey = 'Ctrl+F7';
                     trigger OnAction()
+                    var
+                        LoanRepS: Record "Loan Repayment Schedule";
                     begin
-                        if (Rec."Repayment Start Date" = 0D) then
-                            Error('Please enter Disbursement Date to continue');
-
-                        SFactory.FnGenerateRepaymentSchedule(Rec."Loan  No.");
-
-                        LoanApp.Reset;
+                        LoanApp.Reset();
                         LoanApp.SetRange(LoanApp."Loan  No.", Rec."Loan  No.");
-                        if LoanApp.Find('-') then begin
-                            Report.Run(50477, true, false, LoanApp);
+                        if LoanApp.FindSet then begin
+                            repeat
+                                // If yes — skip regeneration to protect posted data
+                                LoanRepS.Reset();
+                                LoanRepS.SetRange(LoanRepS."Loan No.", LoanApp."Loan  No.");
+                                LoanRepS.SetRange(LoanRepS.Paid, true);
+                                if not LoanRepS.FindFirst() then
+                                    SFactory.FnGenerateRepaymentSchedule(LoanApp."Loan  No.");
+                            until LoanApp.Next = 0;
                         end;
+
+                        Report.Run(50477, true, false, LoanApp);
                     end;
                 }
                 separator(Action1102755012)
                 {
                 }
-                action("Loans to Offset")
+                action("Loans in Arrears")
                 {
                     ApplicationArea = Basic;
-                    Caption = 'Loans to Offset';
-                    Image = AddAction;
                     Promoted = true;
                     PromotedCategory = Process;
-                    RunObject = Page "Loan Offset Detail List";
-                    RunPageLink = "Loan No." = field("Loan  No."),
-                                  "Client Code" = field("Client Code");
+                    Image = Report;
+                    trigger OnAction()
+                    var
+                        myInt: Integer;
+                    begin
+                        Cust.RESET;
+                        Cust.SETRANGE(Cust."No.", Rec."Client Code");
+                        IF Cust.FIND('-') THEN
+                            REPORT.RUN(50041, TRUE, FALSE, Cust);
+                    end;
                 }
 
             }
@@ -953,30 +977,46 @@ Page 56029 "Loan Application Card"
 
     procedure checkGuarantorCount() guarantorCount: Integer;
     begin
-        // Default
-        GuarantorCount := 0;
-
-        // For certain loan types, force minimum guarantors
-        if (Rec."Loan Product Type" in ['15', '16', '21', '26', '22']) then begin
-            guarantorCount := 3;
-        end else begin
-
-            // Count guarantors linked to the loan
-            LoanGuar.Reset();
-            LoanGuar.SetRange("Loan No", Rec."Loan  No.");
-            guarantorCount := LoanGuar.Count();
-
-            // Check if it's a private member (no Personal No)
-            CustomerRecord.Reset();
-            CustomerRecord.SetRange("No.", Rec."Client Code");
-            if CustomerRecord.FindFirst() then begin
-                CustomerRecord.CalcFields("Current Shares", "Shares Retained");
-                if (CustomerRecord."Personal No" = '') or format(CustomerRecord."Personal No").Contains('PM') then
-                    guarantorCount += 2; // Private members automatically +2
-            end;
+        // Top-Up loans do not require guarantors
+        // The existing offset loan already provides security
+        if Rec."Is Top Up" = true then begin
+            guarantorCount := 1;
+            exit(guarantorCount);
         end;
+
+        // Always count real guarantors first
+        LoanGuar.Reset();
+        LoanGuar.SetRange("Loan No", Rec."Loan  No.");
+        guarantorCount := LoanGuar.Count();
+
+        // Private member gets +1 credit
+        CustomerRecord.Reset();
+        CustomerRecord.SetRange("No.", Rec."Client Code");
+        if CustomerRecord.FindFirst() then
+            if (CustomerRecord."Personal No" = '') or
+               format(CustomerRecord."Personal No").Contains('PM') then
+                guarantorCount += 1;
+
         exit(guarantorCount);
     end;
+
+    // procedure checkGuarantorCount() guarantorCount: Integer;
+    // begin
+    //     // Always count real guarantors first
+    //     LoanGuar.Reset();
+    //     LoanGuar.SetRange("Loan No", Rec."Loan  No.");
+    //     guarantorCount := LoanGuar.Count();
+
+    //     // Private member gets +1 credit
+    //     CustomerRecord.Reset();
+    //     CustomerRecord.SetRange("No.", Rec."Client Code");
+    //     if CustomerRecord.FindFirst() then
+    //         if (CustomerRecord."Personal No" = '') or
+    //            format(CustomerRecord."Personal No").Contains('PM') then
+    //             guarantorCount += 1;
+
+    //     exit(guarantorCount);
+    // end;
 
     procedure SendSMS()
     begin
@@ -1075,10 +1115,19 @@ Page 56029 "Loan Application Card"
 
     local procedure FnCheckGuarantorNotified()
     var
+        LoanProductSetup: Record "Loan Products Setup";
+        LoanOffsetRec: Record "Loan Offset Details";
     begin
-        IF Rec."Notify Guarantor SMS" = FALSE THEN
-            ERROR('Please notify guarantors first before you proceed.');
+
+        updateLoanInfo();
+
+        if Rec."Is Top Up" = true then
+            exit;
+
+        if Rec."Notify Guarantor SMS" = false then
+            Error('Please notify guarantors first before you proceed.');
     end;
+
 
     local procedure FnSendEmailAprovalNottifications()
     var

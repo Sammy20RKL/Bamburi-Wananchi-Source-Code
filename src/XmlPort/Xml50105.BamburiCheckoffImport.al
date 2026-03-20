@@ -13,74 +13,70 @@ xmlport 50105 "Bamburi Checkoff Import"
                 AutoSave = false;
                 AutoReplace = false;
                 AutoUpdate = false;
-
+                textelement(EmployerCodeText) { }
                 textelement(StaffNoText) { }
+                textelement(StaffNumberText) { }
                 textelement(NameText) { }
-                textelement(LoanText) { }
                 textelement(DepositText) { }
-                // textelement(ShareCapitalText) { }
-                textelement(TotalText) { }
+                textelement(TShirtText) { }
+                textelement(TotalLoansText) { }
+                textelement(GrandTotalText) { }
+                textelement(OtherProductsText) { }
 
                 trigger OnBeforeInsertRecord()
                 var
-                    LoanDec: Decimal;
                     DepositDec: Decimal;
-                    // ShareCapitalDec: Decimal;
-                    TotalDec: Decimal;
+                    TShirtDec: Decimal;
+                    TotalLoansDec: Decimal;
+                    GrandTotalDec: Decimal;
+                    OtherProductsDec: Decimal;
                     StaffNo: Code[20];
-                    CleanLoan: Text;
                     CleanDeposit: Text;
-                    // CleanShareCapital: Text;
-                    CleanTotal: Text;
+                    CleanTShirt: Text;
+                    CleanTotalLoans: Text;
+                    CleanGrandTotal: Text;
+                    CleanOtherProducts: Text;
+
                     MemberNo: Code[50];
                     MemberName: Text[100];
+                    MemberID: Code[20];
                 begin
                     RowCounter += 1;
 
                     // Skip completely empty rows
-                    if (StaffNoText = '') and (NameText = '') and (LoanText = '') then
+                    if (StaffNoText = '') and (NameText = '') then
                         currXMLport.Skip();
 
-                    // Skip header/title rows (non-numeric staff numbers)
+                    // Get and clean the Staff No from Col 2
                     StaffNo := CopyStr(DelChr(StaffNoText, '=', ' '), 1, 20);
-                    if (StaffNo = '') then//or not IsNumeric(StaffNo) then
+
+                    // Skip if StaffNo is empty or not numeric (header rows etc.)
+                    if (StaffNo = '') or not IsNumeric(StaffNo) then
                         currXMLport.Skip();
 
-                    // Clean and prepare values
-                    CleanLoan := DelChr(LoanText, '=', '," ');
+                    // Clean all numeric fields - remove commas, spaces, quotes
                     CleanDeposit := DelChr(DepositText, '=', '," ');
-                    // CleanShareCapital := DelChr(ShareCapitalText, '=', '," ');
-                    CleanTotal := DelChr(TotalText, '=', '," ');
+                    CleanTShirt := DelChr(TShirtText, '=', '," ');
+                    CleanTotalLoans := DelChr(TotalLoansText, '=', '," ');
+                    CleanGrandTotal := DelChr(GrandTotalText, '=', '," ');
+                    CleanOtherProducts := DelChr(OtherProductsText, '=', '," ');
 
-                    // Handle dashes and empty values
-                    if (CleanLoan = '-') or (CleanLoan = '') then
-                        CleanLoan := '0';
-                    if (CleanDeposit = '-') or (CleanDeposit = '') then
-                        CleanDeposit := '0';
-                    //if (CleanShareCapital = '-') or (CleanShareCapital = '') then
-                    //  CleanShareCapital := '0';
-                    if (CleanTotal = '-') or (CleanTotal = '') then
-                        CleanTotal := '0';
+                    // Handle dashes and empty values → treat as 0
+                    if (CleanDeposit = '-') or (CleanDeposit = '') then CleanDeposit := '0';
+                    if (CleanTShirt = '-') or (CleanTShirt = '') then CleanTShirt := '0';
+                    if (CleanTotalLoans = '-') or (CleanTotalLoans = '') then CleanTotalLoans := '0';
+                    if (CleanGrandTotal = '-') or (CleanGrandTotal = '') then CleanGrandTotal := '0';
+                    if (CleanOtherProducts = '-') or (CleanOtherProducts = '') then CleanOtherProducts := '0';
 
-                    LoanDec := 0;
-                    DepositDec := 0;
-                    //ShareCapitalDec := 0;
-                    TotalDec := 0;
+                    // Convert to decimals safely
+                    if not Evaluate(DepositDec, CleanDeposit) then DepositDec := 0;
+                    if not Evaluate(TShirtDec, CleanTShirt) then TShirtDec := 0;
+                    if not Evaluate(TotalLoansDec, CleanTotalLoans) then TotalLoansDec := 0;
+                    if not Evaluate(GrandTotalDec, CleanGrandTotal) then GrandTotalDec := 0;
+                    if not Evaluate(OtherProductsDec, CleanOtherProducts) then OtherProductsDec := 0;
 
-                    // Convert to decimals
-                    if not Evaluate(LoanDec, CleanLoan) then
-                        LoanDec := 0;
-
-                    if not Evaluate(DepositDec, CleanDeposit) then
-                        DepositDec := 0;
-                    // if not Evaluate(ShareCapitalDec, CleanShareCapital) then
-                    //   ShareCapitalDec := 0;
-
-                    if not Evaluate(TotalDec, CleanTotal) then
-                        TotalDec := 0;
-
-                    // Check if member exists and get their details
-                    if not GetMemberDetails(StaffNo, MemberNo, MemberName) then begin
+                    // Validate member exists using Staff No (Col 2)
+                    if not GetMemberDetails(StaffNo, MemberNo, MemberName, MemberID) then begin
                         FailedRows += 1;
                         if FailedMembers <> '' then
                             FailedMembers += '\';
@@ -88,24 +84,26 @@ xmlport 50105 "Bamburi Checkoff Import"
                         currXMLport.Skip();
                     end;
 
-                    // Insert record
+                    // Build the record
                     BamburiCheckoffLines.Init();
-                    BamburiCheckoffLines.SetSkipCalcTotals(true); // Don't recalculate during import
+                    BamburiCheckoffLines.SetSkipCalcTotals(true);
 
                     BamburiCheckoffLines."Receipt Header No" := ReceiptHeaderNo;
-                    BamburiCheckoffLines."Entry No" := Format(SuccessRows + 1); // Line counter starting from 1
+                    BamburiCheckoffLines."Entry No" := Format(SuccessRows + 1);
                     BamburiCheckoffLines."Staff/Payroll No" := StaffNo;
                     BamburiCheckoffLines."Member No" := MemberNo;
                     BamburiCheckoffLines."Member Found" := true;
-                    BamburiCheckoffLines.Name := CopyStr(MemberName, 1, 50); // Use actual member name
+                    BamburiCheckoffLines.Name := CopyStr(MemberName, 1, 50);
+                    BamburiCheckoffLines."ID No." := MemberID;
 
-                    // Import the values from CSV
-                    BamburiCheckoffLines."Total Loans" := LoanDec;
+                    // Map CSV values to fields
                     BamburiCheckoffLines."Deposit Contribution" := DepositDec;
-                    BamburiCheckoffLines."Grand Total" := TotalDec;
-                    //BamburiCheckoffLines."Share Capital" := ShareCapitalDec;
+                    BamburiCheckoffLines."T-Shirt" := TShirtDec;
+                    BamburiCheckoffLines."Total Loans" := TotalLoansDec;
+                    BamburiCheckoffLines."Grand Total" := GrandTotalDec;
+                    BamburiCheckoffLines."Other Products" := OtherProductsDec;
 
-                    // Set other fields to zero
+                    // Set remaining loan/contribution fields to zero
                     BamburiCheckoffLines."Share Capital" := 0;
                     BamburiCheckoffLines.Benevolent := 0;
                     BamburiCheckoffLines.Insurance := 0;
@@ -142,30 +140,31 @@ xmlport 50105 "Bamburi Checkoff Import"
         MessageText: Text;
     begin
         MessageText := 'Import Completed\' +
-                      '================\' +
-                      'Successfully imported: ' + Format(SuccessRows) + ' rows\';
+                       '****************************\' +
+                       'Successfully imported: ' + Format(SuccessRows) + ' rows\';
 
         if FailedRows > 0 then begin
             MessageText += 'Failed: ' + Format(FailedRows) + ' rows\\' +
-                          'Members not found:\' + FailedMembers;
+                           'Members not found:\' + FailedMembers;
         end;
 
         Message(MessageText);
     end;
 
-    local procedure GetMemberDetails(StaffNo: Code[20]; var MemberNo: Code[50]; var MemberName: Text[100]): Boolean
+    local procedure GetMemberDetails(StaffNo: Code[20]; var MemberNo: Code[50]; var MemberName: Text[100]; var MemberID: Code[20]): Boolean
     var
         Cust: Record Customer;
     begin
+        Cust.Reset();
         Cust.SetRange("Personal No", StaffNo);
-        Cust.SetRange("Customer Type", Cust."Customer Type"::Member);
-
+        Cust.SetFilter("Customer Type", '%1|%2', Cust."Customer Type"::BOSA, Cust."Customer Type"::STAFF);
         if Cust.FindFirst() then begin
             MemberNo := Cust."No.";
             MemberName := Cust.Name;
+            MemberID := Cust."ID No.";
+
             exit(true);
         end;
-
         exit(false);
     end;
 

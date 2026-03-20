@@ -412,6 +412,7 @@ page 50411 "Sacco General Set-Up"
                 field("Legal Fees"; Rec."Legal Fees")
                 {
                     ApplicationArea = basic;
+                    Caption = 'Kivukio Processing Fee';
                 }
                 field("Customer Care No"; Rec."Customer Care No")
                 {

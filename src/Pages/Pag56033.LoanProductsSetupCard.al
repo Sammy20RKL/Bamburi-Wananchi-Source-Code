@@ -155,6 +155,10 @@ Page 56033 "Loan Products Setup Card"
                 {
                     ApplicationArea = Basic;
                 }
+                field("Allow Multiple Running Loans"; Rec."Allow Multiple Running Loans")
+                {
+                    ApplicationArea = Basic;
+                }
                 field("Top Up Commision Account"; Rec."Top Up Commision Account")
                 {
                     ApplicationArea = Basic;
@@ -230,6 +234,10 @@ Page 56033 "Loan Products Setup Card"
                 //     ApplicationArea = Basic;
                 // }
                 field("Appraise Dividend"; Rec."Appraise Dividend")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Requires Loan Offset"; Rec."Requires Loan Offset")
                 {
                     ApplicationArea = Basic;
                 }

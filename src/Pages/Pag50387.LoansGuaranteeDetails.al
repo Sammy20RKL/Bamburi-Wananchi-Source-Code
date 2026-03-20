@@ -4,6 +4,7 @@ page 50387 "Loans Guarantee Details"
     PageType = ListPart;
     RefreshOnActivate = false;
     SourceTable = "Loans Guarantee Details";
+    DelayedInsert = true;
 
     layout
     {
@@ -18,6 +19,7 @@ page 50387 "Loans Guarantee Details"
                 field("Member No"; Rec."Member No")
                 {
                     ApplicationArea = Basic;
+                    //ShowMandatory = true;
                     Caption = 'Account No.';
                 }
                 field(Name; Rec.Name)
@@ -62,7 +64,7 @@ page 50387 "Loans Guarantee Details"
                 field(Date; Rec.Date)
                 {
                     ApplicationArea = Basic;
-                    Editable = false;
+                    // Editable = false;
                 }
             }
         }

@@ -158,19 +158,23 @@ enum 51516010 "TransactionTypesEnum"
     {
         Caption = 'Partial Disbursement';
     }
-    // value(40; "Loan Due")
-    // {
-    //     Caption = 'Loan Due';
-    // }
+    value(40; "Loan Due")
+    {
+        Caption = 'Loan Due';
+    }
     value(41; Investment)
     {
         Caption = 'FOSA Shares';
 
     }
-    // value(42; "Loan Form Fee")
-    // {
-    //     Caption = 'Loan Form Fee';
-    // }
+    value(42; "Bank Charges")
+    {
+        Caption = 'Bank Charges';
+    }
+    value(43; "Loan Form Fee")
+    {
+        Caption = 'Loan Form Fee';
+    }
     // value(43; "Kuscco Shares")
     // {
     //     Caption = 'Kuscco Shares';

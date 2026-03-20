@@ -151,8 +151,12 @@ Codeunit 50009 "Swizzsoft Factory"
                         LInterest := (InterestRate / 12 / 100) * LBalance;
                     end else if LoansRec."Repayment Method" = LoansRec."Repayment Method"::"One-Time" then begin
                         LoansRec.TestField(LoansRec.Interest);
-                        LPrincipal := LoanAmount;
-                        LInterest := ROUND((LoanAmount * InterestRate / 100), 1, '>');
+                        LoansRec.TestField(LoansRec.Installments);
+                        LInterest := (LoanAmount * InterestRate / 100) / RepayPeriod;
+                        if InstalNo = RepayPeriod then
+                            LPrincipal := LoanAmount
+                        else
+                            LPrincipal := 0;
                     end;
 
 
@@ -1369,6 +1373,7 @@ Codeunit 50009 "Swizzsoft Factory"
     var
         LoansRec: Record "Loans Register";
         RSchedule: Record "Loan Repayment Schedule";
+        LoanProductSetup: Record "Loan Products Setup";
         LoanAmount: Decimal;
         InterestRate: Decimal;
         RepayPeriod: Integer;
@@ -1389,6 +1394,9 @@ Codeunit 50009 "Swizzsoft Factory"
         LoansRec.SetRange(LoansRec."Loan  No.", LoanNumber);
         LoansRec.SetFilter(LoansRec."Approved Amount", '>%1', 0);
         LoansRec.SetRange(LoansRec.Posted, true);
+        LoanProductSetup.Reset;///LoanProductSetup."Repayment Method"
+        LoanProductSetup.SetRange(LoanProductSetup.Code, LoansRec."Loan Product Type");
+        LoanProductSetup.FindFirst;
         if LoansRec.Find('-') then begin
             if (LoansRec."Repayment Start Date" <> 0D) then begin
                 if LoansRec."Loan Disbursement Date" = 0D then begin

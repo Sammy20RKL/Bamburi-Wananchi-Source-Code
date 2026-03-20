@@ -999,7 +999,7 @@ page 56110 "Member Application Card"
                     field("Registration Date"; Rec."Registration Date")
                     {
                         ApplicationArea = Basic;
-                        Editable = false;
+                        Editable = true;
                     }
                     field("Client Computer Name"; Rec."Client Computer Name")
                     {
@@ -1238,7 +1238,8 @@ page 56110 "Member Application Card"
                         if Rec."ID No." <> '' then begin
                             Cust.Reset;
                             Cust.SetRange(Cust."ID No.", Rec."ID No.");
-                            Cust.SetRange(Cust."Customer Type", Cust."customer type"::Member);
+                            Cust.SetFilter(Cust."Customer Type", '%1|%2', Cust."Customer Type"::Bosa, Cust."Customer Type"::Staff);
+                            //Cust.SetRange(Cust."Customer Type", Cust."customer type"::Member);
                             if Cust.Find('-') then begin
                                 if (Cust."No." <> Rec."No.") and (Cust."Account Category" = Cust."account category"::Individual) then
                                     Error('Member has already been created. Kindly Confirm the ID Number to proceed.');
@@ -1255,8 +1256,8 @@ page 56110 "Member Application Card"
                             Rec.TestField(Name);
                             Rec.TestField("ID No.");
                             Rec.TestField("Mobile Phone No");
-                            Rec.TestField(Picture);
-                            Rec.TestField(Signature);
+                            // Rec.TestField(Picture);
+                            // Rec.TestField(Signature);
                             Rec.TestField(Gender);
                             Rec.TestField("Customer Posting Group");
                             Rec.TestField("Global Dimension 1 Code");
@@ -1333,7 +1334,7 @@ page 56110 "Member Application Card"
                             SrestepApprovalsCodeUnit.CancelMembershipApplicationsRequestForApproval(rec."No.", Rec);
 
                             //Audit Entries
-                            if (UserId <> 'MOBILE') and (UserId <> 'ATM') and (UserId.ToUpper() <> 'SWIZZSOFTADMIN') then begin
+                            if (UserId <> 'MOBILE') and (UserId <> 'ATM') and (UserId.ToUpper() <> 'SWIZZSOFT') then begin
                                 EntryNos := 0;
                                 if Audit.FindLast then
                                     EntryNos := 1 + Audit."Entry No";
@@ -1390,7 +1391,8 @@ page 56110 "Member Application Card"
                         end;
                         Cust.Reset;
                         Cust.SetRange(Cust."ID No.", Rec."ID No.");
-                        Cust.SetRange(Cust."Customer Type", Cust."customer type"::Member);
+                        Cust.SetFilter(Cust."Customer Type", '%1|%2', Cust."Customer Type"::Bosa, Cust."Customer Type"::Staff);
+                        //   Cust.SetRange(Cust."Customer Type", Cust."customer type"::Member);
                         if Cust.Find('-') then begin
                             if (Cust."No." <> Rec."No.") then
                                 Error('Member has already been created');
@@ -1447,7 +1449,7 @@ page 56110 "Member Application Card"
                             //...............................Close The Card
                             //-----Send Email
 
-                            SendMail(BOSAAccountNo);
+                            // SendMail(BOSAAccountNo);
                             //-----Send SMS
                             FnSendSMSOnAccountOpening();
 
@@ -2468,7 +2470,7 @@ page 56110 "Member Application Card"
         Cust."ID No." := Rec."ID No.";
         Cust."Mobile Phone No" := Rec."Mobile Phone No";
         Cust."Marital Status" := Rec."Marital Status";
-        Cust."Customer Type" := Cust."customer type"::Member;
+        Cust."Customer Type" := Cust."customer type";
         Cust.Gender := Rec.Gender;
         Cust."Sms Notification" := Rec."Sms Notification";
         Cust.Age := Rec.Age;

@@ -431,6 +431,10 @@ Table 51381 "Loan Products Setup"
             Editable = false;
 
         }
+        field(134; "Requires Loan Offset"; Boolean)
+        {
+
+        }
     }
 
     keys

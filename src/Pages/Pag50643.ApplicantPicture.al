@@ -16,7 +16,7 @@ page 50643 "Applicant Picture"
                 ApplicationArea = All;
                 ShowCaption = false;
                 ToolTip = 'Specifies the Passport Image of the member.';
-                ShowMandatory = true;
+                ShowMandatory = false;
             }
         }
     }

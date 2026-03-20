@@ -15,8 +15,9 @@ table 50057 "Members Cues"
 
         field(3; "Active Members"; Integer)
         {
-            CalcFormula = count(Customer where(Status = const("Active"), "Customer Posting Group" = filter('BOSA' | 'STAFF')));
+            //CalcFormula = count(Customer where(Status = const("Active"), "Customer Posting Group" = filter('BOSA' | 'STAFF')));
             FieldClass = FlowField;
+            CalcFormula = count(Customer where(Status = const("Active")));
         }
         field(4; "NonActive Mbrs"; Integer)
         {

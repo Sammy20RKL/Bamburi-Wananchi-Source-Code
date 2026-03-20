@@ -8,10 +8,10 @@ Page 56027 "Member List"
     DeleteAllowed = true;
     PageType = List;
     SourceTable = Customer;
-    SourceTableView = sorting("No.")
-                      order(ascending)
-                      where("Customer Type" = filter(BOSA | STAFF),
-                            "Customer Posting Group" = filter('BOSA' | 'STAFF'));
+    SourceTableView = sorting("No.");
+    // order(ascending)
+    // where("Customer Type" = filter(BOSA | STAFF),
+    //"Customer Posting Group" = filter('BOSA' | 'STAFF'));
     UsageCategory = Lists;
 
     layout

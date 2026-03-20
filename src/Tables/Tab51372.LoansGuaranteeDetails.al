@@ -13,20 +13,22 @@ Table 51372 "Loans Guarantee Details"
         }
         field(2; "Member No"; Code[20])
         {
-            NotBlank = false;
+            NotBlank = true;
             TableRelation = Customer."No." where(Status = filter(Active | "Re-instated"));
 
             trigger OnValidate()
             var
                 RefDate: Date;
             begin
+
+
                 GenSetUp.Get();
                 if Cust.Get("Member No") then begin
-                    if Cust."Registration Date" <> 0D then
-                        RefDate := CalcDate('<' + GenSetUp."Share Capital Period" + '>', Cust."Registration Date");
-                    if RefDate > Today then begin
-                        Error('Member has not finished 6 Months in the sacco and therefore cannot guarantee any loan!');
-                    end;
+                    // if Cust."Registration Date" <> 0D then
+                    //     RefDate := CalcDate('<' + GenSetUp."Share Capital Period" + '>', Cust."Registration Date");
+                    // if RefDate > Today then begin
+                    //     Error('Member has not finished 6 Months in the sacco and therefore cannot guarantee any loan!');
+                    // end;
                 end;
 
                 Cust.SetRange(Cust."No.", "Member No");
@@ -226,19 +228,35 @@ Table 51372 "Loans Guarantee Details"
         }
         field(12; "Staff/Payroll No."; Code[20])
         {
-
             trigger OnValidate()
             begin
-                Cust.Reset;
+                Cust.Reset();
                 Cust.SetRange(Cust."Personal No", "Staff/Payroll No.");
                 if Cust.Find('-') then begin
                     "Member No" := Cust."No.";
                     Validate("Member No");
-                end
-                else
-                    "Member No" := '';//ERROR('Record not found.')
+                end else begin
+                    // Only clear if this is a new unsaved record
+                    if Rec."Entry No." = 0 then
+                        "Member No" := '';
+                end;
             end;
         }
+        // field(12; "Staff/Payroll No."; Code[20])
+        // {
+
+        //     trigger OnValidate()
+        //     begin
+        //         Cust.Reset;
+        //         Cust.SetRange(Cust."Personal No", "Staff/Payroll No.");
+        //         if Cust.Find('-') then begin
+        //             "Member No" := Cust."No.";
+        //             Validate("Member No");
+        //         end
+        //         //else
+        //         //   "Member No" := '';//ERROR('Record not found.')
+        //     end;
+        // }
         field(13; "Account No."; Code[20])
         {
         }
@@ -458,6 +476,7 @@ Table 51372 "Loans Guarantee Details"
     {
         key(Key1; "Loan No", "Staff/Payroll No.", "Member No", "Entry No.")
         {
+            //Clustered = true;
         }
         key(Key2; "Loan No", "Member No")
         {

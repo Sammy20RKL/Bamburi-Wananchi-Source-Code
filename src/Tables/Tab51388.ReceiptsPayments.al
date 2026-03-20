@@ -11,8 +11,12 @@ Table 51388 "Receipts & Payments"
         field(2; "Account No."; Code[30])
         {
             NotBlank = true;
-            TableRelation = if ("Account Type" = const(Customer)) Customer."No." where("Customer Type" = filter(Member)) else
-            if ("Account Type" = const(Vendor)) Vendor."No." where("Account Type" = filter('M-Wallet'));// "Customer Type" = filter(Member));
+            //TableRelation = if ("Account Type" = const(Customer)) Customer."No."where("Customer Type" = filter(BOSA | STAFF)) 
+            TableRelation = if ("Account Type" = const(Customer)) Customer."No." else
+            if ("Account Type" = const(Vendor)) Vendor."No." where("Account Type" = filter('M-Wallet')) else// "Customer Type" = filter(Member));
+            if ("Account Type" = const("G/L Account")) "G/L Account"."No.";
+
+
             //  where(ISNormalMember = filter(true)
             // , "Employer Checkoff" = filter(false))
             // else
@@ -44,10 +48,10 @@ Table 51388 "Receipts & Payments"
                         Name := Mem.Name;
                 end;
 
-                // if ("Account Type" = "account type"::Vendor) then begin
-                //     if Vend.Get("Account No.") then
-                //         Name := Vend.Name;
-                // end;
+                if ("Account Type" = "account type"::Vendor) then begin
+                    if Vend.Get("Account No.") then
+                        Name := Vend.Name;
+                end;
 
                 if ("Account Type" = "account type"::"G/L Account") then begin
                     if GLAcct.Get("Account No.") then begin

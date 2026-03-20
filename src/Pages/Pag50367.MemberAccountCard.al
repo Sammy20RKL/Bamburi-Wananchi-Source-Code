@@ -163,13 +163,13 @@ page 50367 "Member Account Card"
                 )
                 {
                     ApplicationArea = Basic;
-                    Editable = false;
+                    Editable = true;
                 }
                 field("Global Dimension 2 Code"; Rec."Global Dimension 2 Code"
                 )
                 {
                     ApplicationArea = Basic;
-                    Editable = false;
+                    Editable = true;
                 }
                 field("Customer Posting Group"; Rec."Customer Posting Group")
                 {
