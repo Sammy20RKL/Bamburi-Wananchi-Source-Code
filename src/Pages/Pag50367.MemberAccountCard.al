@@ -43,7 +43,7 @@ page 50367 "Member Account Card"
                 {
                     ApplicationArea = Basic;
                     Caption = 'Mobile No.';
-                    Editable = false;
+                    Editable = true;
                     Style = StrongAccent;
                 }
 
@@ -174,8 +174,8 @@ page 50367 "Member Account Card"
                 field("Customer Posting Group"; Rec."Customer Posting Group")
                 {
                     ApplicationArea = Basic;
-                    Editable = false;
-                    Visible = false;
+                    Editable = true;
+                    Visible = true;
                 }
                 field(Status; Rec.Status)
                 {
@@ -584,6 +584,13 @@ page 50367 "Member Account Card"
                     Editable = false;
 
                 }
+                field("Customer Type"; Rec."Customer Type")
+                {
+                    ApplicationArea = Basic;
+                    Editable = true;
+                }
+
+
             }
             group("Member Withdrawal Details")
             {

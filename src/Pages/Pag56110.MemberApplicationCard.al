@@ -275,6 +275,7 @@ page 56110 "Member Application Card"
                     ShowMandatory = true;
                     Visible = false;
                 }
+
             }
             group(Business)
             {
@@ -787,22 +788,22 @@ page 56110 "Member Application Card"
                                 // if Rec."Employment Info" = Rec."Employment Info"::Others then begin
                                 //     employedMember := false;
                                 //     selfEmployedMember := false;
-                                // end else
-                                //     if Rec."Employment Info" = Rec."Employment Info"::"Self Employed" then begin
-                                //         employedMember := false;
-                                //         selfEmployedMember := true;
                             end else
-                                if Rec."Employment Info" = Rec."Employment Info"::UnEmployed then begin
+                                if Rec."Employment Info" = Rec."Employment Info"::"Self Employed" then begin
                                     employedMember := false;
-                                    selfEmployedMember := false;
-                                end;
+                                    selfEmployedMember := true;
+                                end else
+                                    if Rec."Employment Info" = Rec."Employment Info"::UnEmployed then begin
+                                        employedMember := false;
+                                        selfEmployedMember := false;
+                                    end;
                     end;
                 }
-                field("Payroll No"; Rec."Payroll No")
-                {
-                    ApplicationArea = Basic;
-                    ShowMandatory = true;
-                }
+                // field("Payroll No"; Rec."Payroll No")
+                // {
+                //     ApplicationArea = Basic;
+                //     ShowMandatory = true;
+                // }
                 field("Income Levels"; Rec."Income Levels")
                 {
                     Caption = 'Estimated Monthly Income Levels';
@@ -841,9 +842,8 @@ page 56110 "Member Application Card"
                     field("Business Name."; Rec.Name)
                     {
                         ApplicationArea = Basic;
-                        Editable = BusinessAccount;
+                        // Editable = BusinessAccount;
                         Caption = 'Business Name';
-                        ShowMandatory = true;
                     }
                     field("Street/Building/Estate"; Rec.Address)
                     {
@@ -855,7 +855,6 @@ page 56110 "Member Application Card"
                     {
                         ApplicationArea = Basic;
                         Editable = PhoneEditable;
-                        ShowMandatory = true;
                         Caption = 'Office Number';
 
                         trigger OnValidate()
@@ -875,6 +874,11 @@ page 56110 "Member Application Card"
             group("Employed")
             {
                 Visible = employedMember;
+                field("Payroll No"; Rec."Payroll No")
+                {
+                    ApplicationArea = Basic;
+                    ShowMandatory = true;
+                }
                 field("Employer Code"; Rec."Employer Code")
                 {
                     ApplicationArea = Basic;
@@ -968,6 +972,7 @@ page 56110 "Member Application Card"
                          UpdateControls();
                      end; */
                 }
+
                 field("Customer Posting Group"; Rec."Customer Posting Group")
                 {
                     ApplicationArea = Basic;

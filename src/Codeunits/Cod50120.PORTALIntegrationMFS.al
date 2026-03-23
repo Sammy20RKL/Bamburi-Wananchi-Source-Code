@@ -3,7 +3,7 @@ Codeunit 50120 "PORTALIntegration MFS"
 {
     trigger OnRun()
     begin
-
+        Message(SubmitLoan('2736', 'PLN36'));
     end;
 
     var
@@ -2014,6 +2014,7 @@ Codeunit 50120 "PORTALIntegration MFS"
     procedure SubmitLoan(memberNumber: Code[20]; loanNumber: Code[20]): Text
     var
         response: Text;
+        localsms: Text[1000];
     begin
         if objMember.Get(memberNumber) then begin
             ObjLoanApplications.Reset;
@@ -2025,10 +2026,57 @@ Codeunit 50120 "PORTALIntegration MFS"
                     response := 'Failed, This loan has already been submitted';
                     exit;
                 end;
+                //sending tp loan Register
+                SalesSetup.Get();
 
-                ObjLoanApplications.submitted := true;
-                ObjLoanApplications."Application Status" := ObjLoanApplications."Application Status"::Submitted;
-                ObjLoanApplications.Modify();
+
+                ObjLoansregister.LockTable();
+
+                ObjLoansregister.Init();
+                ObjLoansregister."Loan  No." := NoSeriesMgt.GetNextNo(SalesSetup."BOSA Loans Nos", Today, true);
+
+                ObjLoansregister."BOSA No" := ObjLoanApplications."BOSA No";
+                ObjLoansregister.Source := ObjLoansregister.Source::BOSA;
+
+                ObjLoansregister."Client Code" := ObjLoanApplications."Membership No";
+                ObjLoansregister."Client Name" := ObjLoanApplications."Member Names";
+
+                ObjLoansregister."Application Date" := ObjLoanApplications."Application Date";
+                ObjLoansregister."Loan Product Type" := ObjLoanApplications."Loan Type";
+                ObjLoansregister."Loan Status" := ObjLoansregister."Loan Status"::Application;
+                ObjLoansregister.Validate(ObjLoansregister."BOSA No");
+                ObjLoansregister.Validate(ObjLoansregister."Loan Product Type");
+
+
+                ObjLoansregister.Installments := ObjLoanApplications."Repayment Period";
+                ObjLoansregister."Requested Amount" := ObjLoanApplications."Loan Amount";
+                ObjLoansregister."Captured By" := UserId;
+                if ObjLoansregister.Insert() then begin
+
+                    ObjLoanApplications."Sent To Bosa Loans" := true;
+                    ObjLoanApplications.Posted := true;
+                    ObjLoanApplications.Submitted := true;
+                    ObjLoanApplications."Application Status" := ObjLoanApplications."Application Status"::Submitted;
+                    ObjLoanApplications.Modify();
+
+                    //Submitt Guarantors
+                    OnlineLoanGuarantors.Reset();
+                    OnlineLoanGuarantors.SetRange(OnlineLoanGuarantors."Loan Application No", loanNumber);
+                    OnlineLoanGuarantors.SetRange(OnlineLoanGuarantors.Approved, OnlineLoanGuarantors.Approved::Approved);
+                    if OnlineLoanGuarantors.FindSet() then begin
+                        repeat
+                            submitGuarantors(OnlineLoanGuarantors, ObjLoansregister."Loan  No.");
+                        until OnlineLoanGuarantors.Next = 0;
+                    end;
+                    localsms := 'Dear Member, you have submitted Loan,' + 'No,' + Format(ObjLoanApplications."Application No") + 'for loan type' + ObjLoanApplications."Loan Type" + 'your  loan application for appraisal.';
+                    if (objMember."Phone No." <> '') then
+                        FnSMSMessage(ClientName, objMember."Phone No.", localsms);
+                    response := 'Success, your loan has been submitted to Credit for Appraisal';
+                end else begin
+                    response := 'Failed, Please contact the office for assistance';
+                end;
+
+
 
                 response := 'Success, loan submitted';
                 exit;
@@ -2255,7 +2303,7 @@ Codeunit 50120 "PORTALIntegration MFS"
                         OnlineLoanGuarantors.SetRange(OnlineLoanGuarantors.Approved, OnlineLoanGuarantors.Approved::Approved);
                         if OnlineLoanGuarantors.Find('-') then begin
                             repeat
-                                submitGuarantors(OnlineLoanGuarantors."Member No", LoanNo, ObjLoansregister."Loan  No.");
+                                submitGuarantors(OnlineLoanGuarantors, ObjLoansregister."Loan  No.");
                             until OnlineLoanGuarantors.Next = 0;
                         end;
                         localsms := 'Dear Member, you have submitted Loan,' + 'No,' + Format(ObjLoanApplications."Application No") + 'for loan type' + ObjLoanApplications."Loan Type" + 'your  loan application for appraisal.';
@@ -2779,29 +2827,21 @@ Codeunit 50120 "PORTALIntegration MFS"
         END;
     end;
 
-
-    procedure submitGuarantors(memberNumber: Code[20]; onlineLoanApplicationNumber: Code[20]; loanRegisterNumber: Code[20])
+    procedure submitGuarantors(OnlineLoanGuarantor: Record "Online Loan Guarantors"; loanRegisterNumber: Code[20])
     var
         loanGuarantors: Record "Loans Guarantee Details";
     begin
-        OnlineLoanGuarantors.Reset();
-        OnlineLoanGuarantors.SetRange(OnlineLoanGuarantors."Loan Application No", onlineLoanApplicationNumber);
-        if OnlineLoanGuarantors.Find('-') then begin
-            loanGuarantors.Init();
-            loanGuarantors."Loan No" := loanRegisterNumber;
-            loanGuarantors."Account No." := OnlineLoanGuarantors."Member No";
-            loanGuarantors."Member No" := OnlineLoanGuarantors."Member No";
-            loanGuarantors."Amont Guaranteed" := OnlineLoanGuarantors.Amount;
-            loanGuarantors.Validate(loanGuarantors."Member No");
-            loanGuarantors.Validate(loanGuarantors."Amont Guaranteed");
-            loanGuarantors.Insert();
+        loanGuarantors.Init();
+        loanGuarantors."Loan No" := loanRegisterNumber;
+        loanGuarantors."Account No." := OnlineLoanGuarantor."Member No";
+        loanGuarantors."Member No" := OnlineLoanGuarantor."Member No";
+        loanGuarantors."Amont Guaranteed" := OnlineLoanGuarantor.Amount;
 
-            // OnlineLoanGuarantors
-        end;
+        loanGuarantors.Validate("Member No");
+        loanGuarantors.Validate("Amont Guaranteed");
 
+        loanGuarantors.Insert();
     end;
-
-
 
     procedure deleteLoanApplication(memberNumber: Code[20]; loanNumber: Code[20]) isDeleted: Boolean
     var

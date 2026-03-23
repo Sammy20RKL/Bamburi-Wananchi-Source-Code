@@ -59,7 +59,7 @@ enum 51516010 "TransactionTypesEnum"
     {
 
     }
-    value(16; "Recovery Account")
+    value(16; "Sales of T-Shirt")
     {
 
     }

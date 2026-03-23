@@ -40,7 +40,7 @@
             "usePublicURLFromServer": true
         },
         {
-            "name": "Bamburi Wananchi",
+            "name": "Bamburi Wananchi Server",
             "request": "launch",
             "type": "al",
             "environmentType": "OnPrem",
