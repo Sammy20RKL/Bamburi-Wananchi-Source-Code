@@ -3,7 +3,9 @@ Codeunit 50120 "PORTALIntegration MFS"
 {
     trigger OnRun()
     begin
-        Message(SubmitLoan('2736', 'PLN36'));
+        // Message(SubmitLoan('2736', 'PLN36'));
+
+        SubmitLoan('BWS1163', 'PN0005')
     end;
 
     var
@@ -1964,7 +1966,7 @@ Codeunit 50120 "PORTALIntegration MFS"
     end;
 
 
-    procedure OnlineLoanApplication(BosaNo: Code[30]; LoanType: Code[50]; LoanAmount: Decimal; loanpurpose: Text; repaymentPeriod: Integer) GeneratedApplicationNo: Code[20]
+    procedure OnlineLoanApplication(BosaNo: Code[30]; LoanType: Code[100]; LoanAmount: Decimal; loanpurpose: Text; repaymentPeriod: Integer) GeneratedApplicationNo: Code[100]
     var
         ObjLoanApplications: Record "Online Loan Application";
     begin
@@ -1975,6 +1977,24 @@ Codeunit 50120 "PORTALIntegration MFS"
         objMember.Reset;
         objMember.SetRange(objMember."No.", BosaNo);
         if objMember.Find('-') then begin
+            objMember.CalcFields(objMember."Current Shares");
+
+            if not LoanProductType.Get(LoanType) then
+                Error('Loan Product %1 does not exist in the system', LoanType);
+
+            // Now validate safely
+            if (LoanType = 'KIVUK') or (LoanType = 'HALL') or (LoanType = 'INST') then begin
+                if LoanAmount > LoanProductType."Max. Loan Amount" then
+                    Error('Amount Requested exceeds the maximum allowed limit of %1 for %2 product',
+                        LoanProductType."Max. Loan Amount",
+                        LoanProductType."Product Description");
+            end else begin
+                if LoanAmount > (objMember."Current Shares" * 3) then
+                    Error('Amount Requested of %1 exceeds your loan eligibility of %2',
+                        LoanAmount,
+                        objMember."Current Shares" * 3);
+            end;
+
 
             // ObjLoanApplications."Application No" := NewApplicationNo;
             ObjLoanApplications."Application Date" := Date;
@@ -2035,21 +2055,21 @@ Codeunit 50120 "PORTALIntegration MFS"
                 ObjLoansregister.Init();
                 ObjLoansregister."Loan  No." := NoSeriesMgt.GetNextNo(SalesSetup."BOSA Loans Nos", Today, true);
 
-                ObjLoansregister."BOSA No" := ObjLoanApplications."BOSA No";
+                // ObjLoansregister."BOSA No" := ObjLoanApplications."BOSA No";
                 ObjLoansregister.Source := ObjLoansregister.Source::BOSA;
 
-                ObjLoansregister."Client Code" := ObjLoanApplications."Membership No";
-                ObjLoansregister."Client Name" := ObjLoanApplications."Member Names";
+                ObjLoansregister.Validate("Client Code", ObjLoanApplications."BOSA No");
+                //ObjLoansregister."Client Name" := ObjLoanApplications."Member Names";
 
                 ObjLoansregister."Application Date" := ObjLoanApplications."Application Date";
-                ObjLoansregister."Loan Product Type" := ObjLoanApplications."Loan Type";
+                ObjLoansregister.Validate("Loan Product Type", ObjLoanApplications."Loan Type");
                 ObjLoansregister."Loan Status" := ObjLoansregister."Loan Status"::Application;
-                ObjLoansregister.Validate(ObjLoansregister."BOSA No");
-                ObjLoansregister.Validate(ObjLoansregister."Loan Product Type");
+                // ObjLoansregister.Validate(ObjLoansregister."BOSA No");
+                //ObjLoansregister.Validate(ObjLoansregister."Loan Product Type");
 
 
                 ObjLoansregister.Installments := ObjLoanApplications."Repayment Period";
-                ObjLoansregister."Requested Amount" := ObjLoanApplications."Loan Amount";
+                ObjLoansregister.Validate("Requested Amount", ObjLoanApplications."Loan Amount");
                 ObjLoansregister."Captured By" := UserId;
                 if ObjLoansregister.Insert() then begin
 
@@ -2356,35 +2376,62 @@ Codeunit 50120 "PORTALIntegration MFS"
         exit(ReturnDecimal)
     end;
 
-
     procedure GetLoanQualification(BosaNo: Code[30]; LoanProdType: Text): Decimal
     var
         Deposits: Decimal;
         DepositsM: Decimal;
-        GuaranteedT: Decimal;
         TotalLoans: Decimal;
-        Multiplier: Decimal;
     begin
         ReturnDecimal := 0;
         objMember.Reset;
         objMember.SetRange(objMember."No.", BosaNo);
         if objMember.Find('-') then begin
-
             if LoanProductType.Get(LoanProdType) then begin
-                Message('test2 %1', LoanProdType);
-                Deposits := FnGetMemberTotalDeposits(BosaNo);
-                Message('test3 %1', Deposits);
-                DepositsM := Deposits * LoanProductType."Deposits Multiplier";
-                Message('test %4', DepositsM);
-                TotalLoans := FnGetLoanBalance(BosaNo);
-                Message('test %5', TotalLoans);
-                ReturnDecimal := DepositsM - TotalLoans;
-                Message('test%6', ReturnDecimal);
-                if ReturnDecimal < 0 then ReturnDecimal := 0;
+
+                // Special products return Max Amount directly
+                if (LoanProdType = 'KIVUK') or (LoanProdType = 'HALL') or (LoanProdType = 'INST') then begin
+                    ReturnDecimal := LoanProductType."Max. Loan Amount";
+                end else begin
+                    // All other products calculate from deposits
+                    Deposits := FnGetMemberTotalDeposits(BosaNo);
+                    DepositsM := Deposits * LoanProductType."Deposits Multiplier";
+                    TotalLoans := FnGetLoanBalance(BosaNo);
+                    ReturnDecimal := DepositsM - TotalLoans;
+                    if ReturnDecimal < 0 then ReturnDecimal := 0;
+                end;
+
             end;
         end;
         exit(ReturnDecimal);
     end;
+    // procedure GetLoanQualification(BosaNo: Code[30]; LoanProdType: Text): Decimal
+    // var
+    //     Deposits: Decimal;
+    //     DepositsM: Decimal;
+    //     GuaranteedT: Decimal;
+    //     TotalLoans: Decimal;
+    //     Multiplier: Decimal;
+    // begin
+    //     ReturnDecimal := 0;
+    //     objMember.Reset;
+    //     objMember.SetRange(objMember."No.", BosaNo);
+    //     if objMember.Find('-') then begin
+
+    //         if LoanProductType.Get(LoanProdType) then begin
+    //             Message('test2 %1', LoanProdType);
+    //             Deposits := FnGetMemberTotalDeposits(BosaNo);
+    //             Message('test3 %1', Deposits);
+    //             DepositsM := Deposits * LoanProductType."Deposits Multiplier";
+    //             Message('test %4', DepositsM);
+    //             TotalLoans := FnGetLoanBalance(BosaNo);
+    //             Message('test %5', TotalLoans);
+    //             ReturnDecimal := DepositsM - TotalLoans;
+    //             Message('test%6', ReturnDecimal);
+    //             if ReturnDecimal < 0 then ReturnDecimal := 0;
+    //         end;
+    //     end;
+    //     exit(ReturnDecimal);
+    // end;
 
 
     procedure FnGetMemberTotalDeposits(MemberNo: Code[30]): Decimal

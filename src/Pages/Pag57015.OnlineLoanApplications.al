@@ -5,6 +5,7 @@ page 57015 "Online Loan Applications"
     ApplicationArea = All;
     Caption = 'Online Loan Applications';
     PageType = List;
+    UsageCategory = Lists;
     CardPageId = "Online Loan Application Card";
     SourceTable = "Online Loan Application";
 

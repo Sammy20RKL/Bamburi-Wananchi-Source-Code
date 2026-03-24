@@ -17,7 +17,7 @@ Table 59047 "Online Loan Application"
             end;
 
         }
-        field(2; "Loan Type"; Code[20])
+        field(2; "Loan Type"; Code[50])
         {
             Editable = true;
             TableRelation = "Loan Products Setup".Code where(Source = const(BOSA));
@@ -118,6 +118,8 @@ Table 59047 "Online Loan Application"
         if "Application No" = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Portal Loan Nos");
+            "Application No" := NoSeriesMgt.GetNextNo(SalesSetup."Portal Loan Nos")
+
             //NoSeriesMgt.InitSeries(SalesSetup."Portal Loan Nos", xRec."No. Series", 0D, "Application No", "No. Series");
         end;
 

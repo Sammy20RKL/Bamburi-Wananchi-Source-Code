@@ -3,7 +3,7 @@ Codeunit 51120 PORTALIntegration
 {
     trigger OnRun()
     begin
-        SubmitLoan('1026', 'PLN24');
+        SubmitLoan('BWS1163', 'PLN24');
     end;
 
     var

@@ -2018,6 +2018,8 @@ Page 56043 "Bamburi SACCO Role Center"
                         RunObject = page "Online Loan Applications";
                     }
 
+
+
                 }
                 group("Alternative Channels Setups")
                 {
@@ -2064,7 +2066,7 @@ Page 56043 "Bamburi SACCO Role Center"
                     action(Portal)
                     {
                         Caption = 'Debug Portal';
-                        RunObject = codeunit PORTALIntegration;
+                        RunObject = codeunit "PORTALIntegration MFS";
                         Image = RollUpCosts;
                     }
                     action(RunNotifications)

@@ -6,6 +6,7 @@ Table 51371 "Loans Register"
     // LookupPageID = "Loans Posted List"; //Use this for Demand Notices DropDown 
     // DrillDownPageID = "Loan List-New Application BOSA"; //for approval entries
 
+
     fields
     {
         field(1; "Loan  No."; Code[30])
