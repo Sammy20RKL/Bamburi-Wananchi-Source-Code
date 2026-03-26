@@ -711,12 +711,12 @@ Table 51371 "Loans Register"
                 Amtt: Decimal;
             begin
                 //check qualifying deposists *3
-                if "Requested Amount" > ("Member Deposits" * 3) then Error('Amount Requested exceeds member Eligibility');
+                // if "Requested Amount" > ("Member Deposits" * 3) then Error('Amount Requested exceeds member Eligibility');
 
                 if LoanType.Get("Loan Product Type") then begin
-                    if "Requested Amount" > ("Member Deposits" * LoanType."Deposits Multiplier") then begin
-                        Error('Amount Requested exceeds member Eligibility');
-                    end;
+                    // if "Requested Amount" > ("Member Deposits" * LoanType."Deposits Multiplier") then begin
+                    //     Error('Amount Requested exceeds member Eligibility');
+                    // end;
                     if ("Loan Product Type" = 'KIVUK') or ("Loan Product Type" = 'HALL') or ("Loan Product Type" = 'INST') then begin
 
                         if "Requested Amount" > LoanType."Max. Loan Amount" then
@@ -774,7 +774,7 @@ Table 51371 "Loans Register"
                     LPrincipal := TotalMRepay - LInterest;
                     "Loan Principle Repayment" := LPrincipal;
                     "Loan Interest Repayment" := LInterest;
-                    Modify;
+                    // Modify;
 
                     if "Repayment Method" = "repayment method"::"Straight Line" then begin
                         TestField(Installments);

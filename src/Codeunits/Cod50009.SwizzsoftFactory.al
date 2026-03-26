@@ -25,6 +25,7 @@ Codeunit 50009 "Swizzsoft Factory"
 
         Message('Posting Completed successfully');
 
+
     end;
 
     var
@@ -54,12 +55,14 @@ Codeunit 50009 "Swizzsoft Factory"
         PostingDate: Date;
         ObjNoSeries: Record "No. Series Line";
 
+
     procedure FnGenerateRepaymentSchedule(LoanNumber: Code[50])
     var
         LoansRec: Record "Loans Register";
         TotalsInSchedule: Decimal;
         LoanAmountSchedule: Decimal;
         RSchedule: Record "Loan Repayment Schedule";
+        LoanproductSetup: Record "Loan Products Setup";
         LoanAmount: Decimal;
         InterestRate: Decimal;
         RepayPeriod: Integer;
@@ -130,7 +133,8 @@ Codeunit 50009 "Swizzsoft Factory"
                                 if LoansRec."Repayment Frequency" = LoansRec."repayment frequency"::Quaterly then
                                     RunDate := CalcDate('1Q', RunDate);
 
-                    if LoansRec."Repayment Method" = LoansRec."repayment method"::Amortised then begin
+                    LoanproductSetup.Get(LoansRec."Loan Product Type");
+                    if LoanproductSetup."Repayment Method" = LoanproductSetup."repayment method"::Amortised then begin
                         LoansRec.TestField(LoansRec.Installments);
                         TotalMRepay := ROUND((InterestRate / 12 / 100) / (1 - Power((1 + (InterestRate / 12 / 100)), -(RepayPeriod))) * (LoanAmount), 0.0001, '>');
                         LInterest := ROUND(LBalance / 100 / 12 * InterestRate, 0.0001, '>');
@@ -139,17 +143,17 @@ Codeunit 50009 "Swizzsoft Factory"
                         // TotalMRepay := (InterestRate / 12 / 100) / (1 - Power((1 + (InterestRate / 12 / 100)), -RepayPeriod)) * LoanAmount;
                         // LInterest := ROUND(LBalance / 100 / 12 * InterestRate);
                         // LPrincipal := TotalMRepay - LInterest;
-                    end else if LoansRec."Repayment Method" = LoansRec."repayment method"::"Straight Line" then begin
+                    end else if LoanproductSetup."Repayment Method" = LoanproductSetup."repayment method"::"Straight Line" then begin
                         LoansRec.TestField(LoansRec.Interest);
                         LoansRec.TestField(LoansRec.Installments);
                         LPrincipal := LoanAmount / RepayPeriod;
                         LInterest := (InterestRate / 12 / 100) * LoanAmount;// / RepayPeriod;
-                    end else if LoansRec."Repayment Method" = LoansRec."repayment method"::"Reducing Balance" then begin
+                    end else if LoanproductSetup."Repayment Method" = LoanproductSetup."repayment method"::"Reducing Balance" then begin
                         LoansRec.TestField(LoansRec.Interest);
                         LoansRec.TestField(LoansRec.Installments);
                         LPrincipal := LoanAmount / RepayPeriod;
                         LInterest := (InterestRate / 12 / 100) * LBalance;
-                    end else if LoansRec."Repayment Method" = LoansRec."Repayment Method"::"One-Time" then begin
+                    end else if LoanproductSetup."Repayment Method" = LoanproductSetup."Repayment Method"::"One-Time" then begin
                         LoansRec.TestField(LoansRec.Interest);
                         LoansRec.TestField(LoansRec.Installments);
                         LInterest := (LoanAmount * InterestRate / 100) / RepayPeriod;
@@ -192,6 +196,12 @@ Codeunit 50009 "Swizzsoft Factory"
                 until LBalance < 1;
 
             end;
+        end;
+        RSchedule.Reset;
+        RSchedule.SetRange(RSchedule."Loan No.", LoansRec."Loan  No.");
+        if RSchedule.FindLast() then begin
+            LoansRec."Expected Date of Completion" := RSchedule."Repayment Date";
+            LoansRec.Modify;
         end;
 
         Commit;

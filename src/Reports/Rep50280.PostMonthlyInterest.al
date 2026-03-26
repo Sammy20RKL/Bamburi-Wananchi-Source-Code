@@ -88,11 +88,9 @@ Report 50280 "Post Monthly Interest."
                         loanapp.CalcFields(loanapp."Outstanding Balance", loanapp."Oustanding Interest");
 
                         if loanapp."Outstanding Balance" > 0 then begin
-                            //Check if disbursement date before 1/1/2026 if yes then skip the record as interest will not be posted for such loans
-                            if loanapp."Loan Disbursement Date" = 0D then
-                                exit;
-                            if loanapp."Loan Disbursement Date" < 20260101D then
-                                exit;
+                            if DisbFromDate <> 0D then
+                                if loanapp."Loan Disbursement Date" < DisbFromDate then
+                                    exit;
                             Cust.Reset;
                             Cust.SetRange(Cust."No.", "Loans Register"."Client Code");
                             Cust.SetFilter(Cust."Don't Charge Interest", '%1', false);
@@ -230,6 +228,11 @@ Report 50280 "Post Monthly Interest."
                     ApplicationArea = Basic;
                     Caption = 'Cut_OffDate(Last Day You wish to Compute Interest)';
                 }
+                field(Disbursement_From_Date; DisbFromDate)
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Disbursement From Date (Optional)';
+                }
 
             }
         }
@@ -256,6 +259,7 @@ Report 50280 "Post Monthly Interest."
     end;
 
     var
+        DisbFromDate: Date;
         IntDays: Integer;
         AsAt: Date;
         MinBal: Boolean;

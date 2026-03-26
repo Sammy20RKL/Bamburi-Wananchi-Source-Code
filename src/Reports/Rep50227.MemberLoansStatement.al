@@ -177,7 +177,9 @@ Report 50227 "Member Loans Statement"
                         Loan.SetRange("Loan No", Loans."Loan  No."); // Ensure Loan No. is considered
                         Loan.SetRange(Reversed, false);
                         Loan.SetFilter("Transaction Type", 'Loan|Loan Repayment|Interest Due|Interest Paid');
-                        Loan.SetFilter("Posting Date", '..' + Format(AsAt));
+                        // Loan.SetFilter("Posting Date", '..' + Format(AsAt));
+                        if AsAt <> 0D then
+                            Loan.SetFilter("Posting Date", '..' + Format(AsAt));
 
                         if Loan.FindSet() then
                             repeat
@@ -200,7 +202,9 @@ Report 50227 "Member Loans Statement"
                         Loan.SetRange("Loan No", Loans."Loan  No."); // Ensure Loan No. is considered
                         Loan.SetRange(Reversed, false);
                         Loan.SetFilter("Transaction Type", 'Loan|Loan Repayment|Interest Due|Interest Paid');
-                        Loan.SetRange("Posting Date", AsAt, Today); // Only transactions from AsAt onwards
+                        if AsAt <> 0D then
+                            Loan.SetRange("Posting Date", AsAt, Today);
+                        // Loan.SetRange("Posting Date", AsAt, Today); // Only transactions from AsAt onwards
                         Loan.SetCurrentKey("Posting Date");
                         Loan.Ascending(true);
                     end;
@@ -324,7 +328,9 @@ Report 50227 "Member Loans Statement"
                         Interests.SetRange("Loan No", Loans."Loan  No."); // Ensure Loan No. is considered
                         Interests.SetRange(Reversed, false);
                         Interests.SetFilter("Transaction Type", 'Interest Due|Interest Paid');
-                        Interests.SetFilter("Posting Date", '..' + Format(AsAt)); // Transactions before AsAt
+                        if AsAt <> 0D then
+                            Interests.SetFilter("Posting Date", '..' + Format(AsAt));
+                        // Interests.SetFilter("Posting Date", '..' + Format(AsAt)); // Transactions before AsAt
 
                         if Interests.FindSet() then
                             repeat
@@ -342,7 +348,9 @@ Report 50227 "Member Loans Statement"
                         Interests.SetRange("Loan No", Loans."Loan  No."); // Ensure Loan No. is considered
                         Interests.SetRange(Reversed, false);
                         Interests.SetFilter("Transaction Type", 'Interest Due|Interest Paid');
-                        Interests.SetRange("Posting Date", AsAt, Today);
+                        if AsAt <> 0D then
+                            Interests.SetRange("Posting Date", AsAt, Today);
+                        //  Interests.SetRange("Posting Date", AsAt, Today);
                         Interests.SetCurrentKey("Posting Date");
                         Interests.Ascending(true);
                     end;
@@ -434,10 +442,12 @@ Report 50227 "Member Loans Statement"
         //..........................................................
 
         // Set AsAt to the beginning of the current year if not provided
-        if AsAt = 0D then
-            AsAt := DMY2Date(1, 1, Date2DMY(Today, 3));
+        // if AsAt = 0D then
+        //     AsAt := DMY2Date(1, 1, Date2DMY(Today, 3));
 
-        DateFilter := '..' + Format(AsAt);
+        // DateFilter := '..' + Format(AsAt);
+        if AsAt <> 0D then
+            DateFilter := '..' + Format(AsAt);
 
     end;
 

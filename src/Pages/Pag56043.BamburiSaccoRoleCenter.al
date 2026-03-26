@@ -2069,6 +2069,14 @@ Page 56043 "Bamburi SACCO Role Center"
                         RunObject = codeunit "PORTALIntegration MFS";
                         Image = RollUpCosts;
                     }
+                    action(SCHEDULE)
+                    {
+
+                        RunObject = Report "Loan Repayment Schedules";
+                        Image = RollUpCosts;
+                    }
+
+
                     action(RunNotifications)
                     {
                         Caption = 'Process Notifications';

@@ -47,51 +47,22 @@ table 59055 "Bamburi Checkoff Header"
         }
         field(22; "Account Type"; Option)
         {
-            OptionMembers = Vendor,"Bank Account","Fixed Asset";
+            OptionMembers = "G/L Account",Vendor,"Bank Account","Fixed Asset";
 
             // OptionMembers = "G/L Account",Customer,Vendor,"Bank Account","Fixed Asset";
         }
         field(23; "Account No"; Code[30])
         {
-            TableRelation = if ("Account Type" = const("Vendor")) "Vendor"
-            else
-            if ("Account Type" = const("Bank Account")) "Bank Account" else
-            if ("Account Type" = const("Fixed Asset")) "Fixed Asset";
-            // TableRelation = IF ("Account Type" = CONST("G/L Account")) "G/L Account"
-            // ELSE IF ("Account Type" = CONST(Customer)) Customer WHERE("Customer Posting Group" = filter(<> 'MEMBER'))
-            // //ELSE IF ("Account Type" = CONST(Vendor)) Vendor
-            // ELSE IF ("Account Type" = CONST("Bank Account")) "Bank Account"
-            // ELSE IF ("Account Type" = CONST("Fixed Asset")) "Fixed Asset";
+            TableRelation = "G/L Account";
 
             trigger OnValidate()
+            var
+                GLAcc: Record "G/L Account";
             begin
-                // if "Account Type" = "account type"::Customer then begin
-                //     cust.Reset;
-                //     cust.SetRange(cust."No.", "Account No");
-                //     cust.SetFilter(cust."Customer Type", '%1', cust."Customer Type"::Checkoff);
-                //     if cust.Find('-') then begin
-                //         "Employer Name" := cust."Employer Name";
-                //         "Employer Code" := cust."Employer Code";
-                //         "Account No" := cust."No.";
-                //         "Account Name" := cust.Name;
-                //     end;
-                // end;
-
-                // if "Account Type" = "account type"::"G/L Account" then begin
-                //     "GL Account".Reset;
-                //     "GL Account".SetRange("GL Account"."No.", "Account No");
-                //     if "GL Account".Find('-') then begin
-                //         "Account Name" := "GL Account".Name;
-                //     end;
-                // end;
-
-                if "Account Type" = "account type"::"Bank Account" then begin
-                    BANKACC.Reset;
-                    BANKACC.SetRange(BANKACC."No.", "Account No");
-                    if BANKACC.Find('-') then begin
-                        "Account Name" := BANKACC.Name;
-                    end;
-                end;
+                if GLAcc.Get("Account No") then
+                    "Account Name" := GLAcc.Name
+                else
+                    "Account Name" := '';
             end;
         }
 

@@ -54,8 +54,10 @@ page 57006 "Bamburi Checkoff Card"
                 }
                 field("Account No"; Rec."Account No")
                 {
-                    Caption = 'Receiving Bank';
+                    Caption = 'Receiving Account';
                     ApplicationArea = Basic;
+                    TableRelation = "G/L Account";
+                    LookupPageId = "G/L Account List";
 
 
                 }
@@ -113,13 +115,11 @@ page 57006 "Bamburi Checkoff Card"
 
                 trigger OnAction()
                 var
-                    BamburiCheckoffImport: XmlPort "Bamburi Checkoff Import";
+                    BamburiCheckoffImport: XmlPort "Bamburi Checkoff 2026";
                 begin
-                    // Pass the current header number to the XMLport
                     BamburiCheckoffImport.SetReceiptHeaderNo(Rec.No);
                     BamburiCheckoffImport.Run();
 
-                    // Refresh the page to show imported lines
                     CurrPage.Update(false);
                 end;
             }
@@ -160,7 +160,7 @@ page 57006 "Bamburi Checkoff Card"
             // NEW ACTION: Auto-Distribute Loans
             action("Distribute Total Loans")
             {
-                Caption = 'Distribute Total Loans';
+                Caption = 'Distribute Loans';
                 Promoted = true;
                 PromotedCategory = Process;
                 Image = Allocate;
@@ -171,9 +171,8 @@ page 57006 "Bamburi Checkoff Card"
                     LoanDistribution: Codeunit "Bamburi Loan Distribution";
                 begin
                     if Rec."Loan CutOff Date" = 0D then
-                        Error('Please specify the Loan CutOff Date before distributing loans.');
-
-                    if Confirm('This will automatically distribute Total Loans Amount across individual loan Product Type fields for all members. Continue?', true) then begin
+                        Error('Please specify the Loan CutOff Date.');
+                    if Confirm('Are you sure you want to distribute the loans?', true) then begin
                         LoanDistribution.ProcessAllCheckoffLines(Rec.No, Rec."Loan CutOff Date");
                         CurrPage.Update(true);
                     end;
@@ -257,7 +256,7 @@ page 57006 "Bamburi Checkoff Card"
                     Gnljnline."Journal Template Name" := Jtemplate;
                     Gnljnline."Journal Batch Name" := Jbatch;
                     Gnljnline."Line No." := LineN;
-                    Gnljnline."Account Type" := Gnljnline."Account Type"::"Bank Account";
+                    Gnljnline."Account Type" := Gnljnline."Account Type"::"G/L Account";
                     Gnljnline."Account No." := Rec."Account No";
                     Gnljnline.Validate(Gnljnline."Account No.");
                     // Gnljnline."Document Type" := Gnljnline."Document Type"::Invoice;
@@ -346,6 +345,11 @@ page 57006 "Bamburi Checkoff Card"
                                                             RcptBufLines.Holiday,
                                                             GenJournalLine."Transaction Type"::"Holiday Savings"
                                                             );
+                            end;
+                            //T-Shirts
+                            if RcptBufLines."T-Shirt" > 0 then begin
+                                FnInsertMemberContribution(Jtemplate, JBatch, RcptBufLines."Member No", Rec."Document No", 'T-Shirt Checkoff', RcptBufLines."T-Shirt",
+                                GenJournalLine."Transaction Type"::"Sales of T-Shirt");
                             end;
                             //Add Loan lines...
                             FnPostLoansBal();
@@ -563,25 +567,7 @@ page 57006 "Bamburi Checkoff Card"
             end;
         end;
 
-        // Normal Loan 3
-        if RcptBufLines."Normal Loan 3 Amount" > 0 then begin
-            loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."Normal Loan 3 Amount", Rec."Loan CutOff Date", 'NORM3');
-            if loanNumber <> '' then begin
-                FnPostDistributedLoan(RcptBufLines, loanNumber, RcptBufLines."Normal Loan 3 Interest", RcptBufLines."Normal Loan 3 Principle", 'NORM3');
-            end else begin
-                FnTransferExcessToUnallocatedFunds(RcptBufLines, RcptBufLines."Normal Loan 3 Amount", 'Excess Payments for Normal loan 3');
-            end;
-        end;
 
-        // Normal Loan 4
-        if RcptBufLines."Mbuyu Loan Amount" > 0 then begin
-            loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."Mbuyu Loan Amount", Rec."Loan CutOff Date", 'MBUY');
-            if loanNumber <> '' then begin
-                FnPostDistributedLoan(RcptBufLines, loanNumber, RcptBufLines."Mbuyu Loan Interest", RcptBufLines."Mbuyu Loan Principle", 'MBUY');
-            end else begin
-                FnTransferExcessToUnallocatedFunds(RcptBufLines, RcptBufLines."Mbuyu Loan Amount", 'Excess Payments for Mbuyu loan');
-            end;
-        end;
 
         // HALLO HALLO Loan
         if RcptBufLines."HALLO HALLO Loan Amount" > 0 then begin
@@ -605,9 +591,9 @@ page 57006 "Bamburi Checkoff Card"
 
         // New Product Loan
         if RcptBufLines."New Product Loan Amount" > 0 then begin
-            loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."New Product Loan Amount", Rec."Loan CutOff Date", 'NEWPRO');
+            loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."New Product Loan Amount", Rec."Loan CutOff Date", 'X-MAS');
             if loanNumber <> '' then begin
-                FnPostDistributedLoan(RcptBufLines, loanNumber, RcptBufLines."New Product Loan Interest", RcptBufLines."New Product Loan Principle", 'NEWPRO');
+                FnPostDistributedLoan(RcptBufLines, loanNumber, RcptBufLines."New Product Loan Interest", RcptBufLines."New Product Loan Principle", 'X-MAS');
             end else begin
                 FnTransferExcessToUnallocatedFunds(RcptBufLines, RcptBufLines."New Product Loan Amount", 'Excess Payments for New Product Loan');
             end;
@@ -615,7 +601,7 @@ page 57006 "Bamburi Checkoff Card"
     end;
 
     local procedure FnInsertMemberContribution(Jtemplate: Code[30]; Jbatch: code[30]; memberNo: Code[15]; documentNo: code[30];
-    transDescription: Code[30]; transAmount: Decimal; TransactionType: Option " ","Registration Fee","Share Capital","Interest Paid","Loan Repayment","Deposit Contribution","Insurance Contribution","Benevolent Fund",Loan,"Unallocated Funds",Dividend,"FOSA Account"): Code[50]
+    transDescription: Code[30]; transAmount: Decimal; TransactionType: Option " ","Registration Fee","Share Capital","Interest Paid","Loan Repayment","Deposit Contribution","Insurance Contribution","Benevolent Fund",Loan,"Unallocated Funds","Sales of T-Shirt",Dividend,"FOSA Account"): Code[50]
     begin
         LineN := LineN + 10000;
         Gnljnline.Init;

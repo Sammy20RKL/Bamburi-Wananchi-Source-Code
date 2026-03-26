@@ -136,7 +136,8 @@ Report 50224 "Members Deposits Statement"
                     Deposits.SetRange("Customer No.", Customer."No.");
                     Deposits.SetFilter("Transaction Type", 'Deposit Contribution');
                     Deposits.SetRange(Reversed, false);
-                    Deposits.SetFilter("Posting Date", '..' + Format(AsAt)); // Transactions before AsAt
+                    if AsAt <> 0D then
+                        Deposits.SetFilter("Posting Date", '..' + Format(AsAt));
 
                     if Deposits.FindSet() then
                         repeat
@@ -156,7 +157,8 @@ Report 50224 "Members Deposits Statement"
                     Deposits.SetRange("Customer No.", Customer."No.");
                     Deposits.SetFilter("Transaction Type", 'Deposit Contribution');
                     Deposits.SetRange(Reversed, false);
-                    Deposits.SetRange("Posting Date", AsAt, Today); // Only transactions from AsAt onwards
+                    if AsAt <> 0D then
+                        Deposits.SetRange("Posting Date", AsAt, Today);
                 end;
             }
 
@@ -210,11 +212,11 @@ Report 50224 "Members Deposits Statement"
         Company.CalcFields(Company.Picture);
         //..........................................................
 
-        // Set AsAt to the beginning of the current year if not provided
+        // IF ASAT is not set print all 
         if AsAt = 0D then
-            AsAt := DMY2Date(1, 1, Date2DMY(Today, 3));
+            // AsAt := DMY2Date(1, 1, Date2DMY(Today, 3));
 
-        DateFilter := '..' + Format(AsAt);
+            DateFilter := '..' + Format(AsAt);
 
         // if not Evaluate(DateBD, DateFilter) then
         //     Error('Invalid date format');
