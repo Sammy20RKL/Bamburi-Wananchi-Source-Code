@@ -197,14 +197,15 @@ Codeunit 50009 "Swizzsoft Factory"
 
             end;
         end;
-        RSchedule.Reset;
-        RSchedule.SetRange(RSchedule."Loan No.", LoansRec."Loan  No.");
-        if RSchedule.FindLast() then begin
-            LoansRec."Expected Date of Completion" := RSchedule."Repayment Date";
-            LoansRec.Modify;
-        end;
+        // RSchedule.Reset;
+        // RSchedule.SetRange(RSchedule."Loan No.", LoansRec."Loan  No.");
+        // if RSchedule.FindLast() then begin   
+        // LoansRec."Expected Date of Completion" := RSchedule."Repayment Date";
+        // LoansRec.Modify;
+        // end;
 
         Commit;
+
     end;
 
     procedure FnGenerateRepaymentScheduleMerged(LoanNumber: Code[50]): Boolean

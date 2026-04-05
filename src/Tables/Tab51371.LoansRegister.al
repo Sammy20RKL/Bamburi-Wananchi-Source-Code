@@ -711,12 +711,12 @@ Table 51371 "Loans Register"
                 Amtt: Decimal;
             begin
                 //check qualifying deposists *3
-                // if "Requested Amount" > ("Member Deposits" * 3) then Error('Amount Requested exceeds member Eligibility');
+                if "Requested Amount" > ("Member Deposits" * 3) then Error('Amount Requested exceeds member Eligibility');
 
                 if LoanType.Get("Loan Product Type") then begin
-                    // if "Requested Amount" > ("Member Deposits" * LoanType."Deposits Multiplier") then begin
-                    //     Error('Amount Requested exceeds member Eligibility');
-                    // end;
+                    if "Requested Amount" > ("Member Deposits" * LoanType."Deposits Multiplier") then begin
+                        Error('Amount Requested exceeds member Eligibility');
+                    end;
                     if ("Loan Product Type" = 'KIVUK') or ("Loan Product Type" = 'HALL') or ("Loan Product Type" = 'INST') then begin
 
                         if "Requested Amount" > LoanType."Max. Loan Amount" then
@@ -2396,6 +2396,12 @@ Table 51371 "Loans Register"
             begin
                 FnUpdateLoaneeSalaryDetails();
             end;
+        }
+        field(55000; "SGN Signature"; Blob)
+        {
+            Caption = 'Customer Signature';
+            DataClassification = CustomerContent;
+            SubType = Bitmap;
         }
         field(69258; "Total Allowances"; Decimal)
         {
@@ -5781,6 +5787,22 @@ Table 51371 "Loans Register"
             "Net Pay" := 0;
             "Net Utilizable" := 0;
         end;
+    end;
+
+    procedure SignDocument(var Base64Text: Text)
+    var
+        Base64Cu: Codeunit "Base64 Convert";
+        RecordRef: RecordRef;
+        OutStream: OutStream;
+        TempBlob: Codeunit "Temp Blob";
+        ImageBase64String: Text;
+    begin
+        Base64Text := Base64Text.Replace('data:image/png;base64,', '');
+        TempBlob.CreateOutStream(OutStream);
+        Base64Cu.FromBase64(Base64Text, OutStream);
+        RecordRef.GetTable(Rec);
+        TempBlob.ToRecordRef(RecordRef, Rec.FieldNo("SGN Signature"));
+        RecordRef.Modify();
     end;
 
     var

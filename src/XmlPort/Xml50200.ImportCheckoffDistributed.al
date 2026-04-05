@@ -7,164 +7,107 @@ XmlPort 50200 "Import Checkoff Distributed"
     {
         textelement(root)
         {
-            tableelement("CheckoffLinesDistributed Nav"; "CheckoffLinesDistributed Nav")
+            tableelement("Bamburi CheckoffLines"; "Bamburi CheckoffLines")
             {
                 XmlName = 'Paybill';
-                fieldelement(Headerno; "CheckoffLinesDistributed Nav"."Receipt Header No")
-                {
-                }
-                fieldelement(entryno; "CheckoffLinesDistributed Nav"."Entry No")
-                {
-                    FieldValidate = yes;
-                }
-                fieldelement(Personal_no; "CheckoffLinesDistributed Nav"."Staff/Payroll No")
-                {
-                }
-                fieldelement(SHARECAPITAL; "CheckoffLinesDistributed Nav"."Share Capital")
-                {
-                }
-                fieldelement(DEPOSITCONTRIBUTION; "CheckoffLinesDistributed Nav"."Deposit Contribution")
-                {
-                }
-                fieldelement(BENEVOLENT; "CheckoffLinesDistributed Nav"."Benevolent Fund")
-                {
-                }
-                fieldelement(INSURANCE; "CheckoffLinesDistributed Nav"."Insurance Fee")
-                {
-                }
-                fieldelement(REGISTRATION; "CheckoffLinesDistributed Nav"."Registration Fee")
-                {
-                }
-                fieldelement(holiday; "CheckoffLinesDistributed Nav"."Holiday savings")
-                {
-                }
-                fieldelement(EMERGENCYLOAN_AMOUNT; "CheckoffLinesDistributed Nav"."EMERGENCY LOAN Amount")
-                {
-                }
-                fieldelement(EMERGENCYLOAN_PR; "CheckoffLinesDistributed Nav"."EMERGENCY LOAN Principal")
-                {
-                }
-                fieldelement(EMERGENCYLOAN_INT; "CheckoffLinesDistributed Nav"."EMERGENCY LOAN Int")
-                {
-                }
-                fieldelement(SUPEPEMERGENCYLOAN_AMOUNT; "CheckoffLinesDistributed Nav"."Super Emergency Amount")
-                {
-                }
-                fieldelement(SUPEPEMERGENCYLOAN_PR; "CheckoffLinesDistributed Nav"."Super Emergency Principal")
-                {
-                }
-                fieldelement(SUPEPEMERGENCYLOAN_INT; "CheckoffLinesDistributed Nav"."Super Emergency Int")
-                {
-                }
-                fieldelement(QUICKLOAN_AMOUNT; "CheckoffLinesDistributed Nav"."Quick Loan Amount")
-                {
-                }
-                fieldelement(QUICKLOAN_PR; "CheckoffLinesDistributed Nav"."Quick Loan Principal")
-                {
-                }
-                fieldelement(QUICKLOAN_INT; "CheckoffLinesDistributed Nav"."Quick Loan Int")
-                {
-                }
-                fieldelement(SUPERQUICK_AMOUNT; "CheckoffLinesDistributed Nav"."Super Quick Amount")
-                {
-                }
-                fieldelement(SUPERQUICK_PR; "CheckoffLinesDistributed Nav"."Super Quick Principal")
-                {
-                }
-                fieldelement(SUPERQUICK_INT; "CheckoffLinesDistributed Nav"."Super Quick Int")
-                {
-                }
-                fieldelement(SCHOOLFEES_AMOUNT; "CheckoffLinesDistributed Nav"."SCHOOL FEES LOAN Amount")
-                {
-                }
-                fieldelement(SCHOOLFEES_PR; "CheckoffLinesDistributed Nav"."SCHOOL FEES LOAN Principal")
-                {
-                }
-                fieldelement(SCHOOLFEES_INT; "CheckoffLinesDistributed Nav"."SCHOOL FEES LOAN Int")
-                {
-                }
-                fieldelement(SUPERSCHOOLFEES_AMOUNT; "CheckoffLinesDistributed Nav"."Super School Fees Amount")
-                {
-                }
-                fieldelement(SUPERSCHOOLFEES_PR; "CheckoffLinesDistributed Nav"."Super School Fees Principal")
-                {
-                }
-                fieldelement(SUPERSCHOOLFEES_INT; "CheckoffLinesDistributed Nav"."Super School Fees Int")
-                {
-                }
-                fieldelement(INVESTMENTLOAN_AMOUNT; "CheckoffLinesDistributed Nav"."Investment  Amount")
-                {
-                }
-                fieldelement(INVESTMENTLOAN_PR; "CheckoffLinesDistributed Nav"."Investment  Principal")
-                {
-                }
-                fieldelement(INVESTMENTLOAN_INT; "CheckoffLinesDistributed Nav"."Investment  Int")
-                {
-                }
-                fieldelement(NormalAmount20; "CheckoffLinesDistributed Nav"."Normal Amount 20")
-                {
-                }
-                fieldelement(NormalPri20; "CheckoffLinesDistributed Nav"."Normal Pri (20)")
-                {
-                }
-                fieldelement(Normalint20; "CheckoffLinesDistributed Nav"."Normal Int (20)")
-                {
-                }
-                fieldelement(NORMALLOAN_AMOUNT; "CheckoffLinesDistributed Nav"."Normal Loan Amount")
-                {
-                }
-                fieldelement(NORMALLOAN_PR; "CheckoffLinesDistributed Nav"."Normal Loan Principal")
-                {
-                }
-                fieldelement(NORMALLOAN_INT; "CheckoffLinesDistributed Nav"."Normal Loan Int")
-                {
-                }
-                fieldelement(NORMALLOAN1_AMOUNT; "CheckoffLinesDistributed Nav"."Normal Loan 1 Amount")
-                {
-                }
-                fieldelement(NORMALLOAN1_PR; "CheckoffLinesDistributed Nav"."Normal Loan 1 Principal")
-                {
-                }
-                fieldelement(DEVELOPMENtLOAN1Amount; "CheckoffLinesDistributed Nav"."DEVELOPMENT LOAN 1 Amount")
-                {
-                }
-                fieldelement(DEVELOPMENLOAN1Principal; "CheckoffLinesDistributed Nav"."DEVELOPMENT LOAN 1 Principal")
-                {
-                }
-                fieldelement(DEVELOPMENLOAN1Int; "CheckoffLinesDistributed Nav"."DEVELOPMENT LOAN 1  Int")
-                {
-                }
-                fieldelement(DEVELOPMENTLOAN_AMOUNT; "CheckoffLinesDistributed Nav"."DEVELOPMENT LOAN Amount")
-                {
-                }
-                fieldelement(DEVELOPMENTLOAN_PR; "CheckoffLinesDistributed Nav"."DEVELOPMENT LOAN Principal")
-                {
-                }
-                fieldelement(DEVELOPMENTLOANINT; "CheckoffLinesDistributed Nav"."DEVELOPMENT LOAN Int")
-                {
-                }
-                fieldelement(MecharndiseLoanAmount; "CheckoffLinesDistributed Nav"."MERCHANDISE Amount")
-                {
-                }
-                fieldelement(MechandisePrAmount; "CheckoffLinesDistributed Nav"."MERCHANDISE Pri")
-                {
-                }
-                fieldelement(MechandiseIntAmount; "CheckoffLinesDistributed Nav"."MERCHANDISE Int")
-                {
-                }
-                fieldelement(Welfare; "CheckoffLinesDistributed Nav"."Welfare contribution")
-                {
-                }
+                AutoSave = false;
+                AutoReplace = false;
+                AutoUpdate = false;
 
-                trigger OnAfterInsertRecord()
+
+                textelement(Personal_no) { }
+                textelement(SHARECAPITAL) { }
+                textelement(DEPOSITCONTRIBUTION) { }
+                textelement(REGISTRATION) { }
+                textelement(TShirt) { }
+                textelement(OthersProducts) { }
+                textelement(EMERGENCYLOAN_AMOUNT) { }
+                textelement(EMERGENCYLOAN_PR) { }
+                textelement(EMERGENCYLOAN_INT) { }
+                textelement(KIVUKIOLOAN_AMOUNT) { }
+                textelement(KIVUKIOLOAN_PR) { }
+                textelement(KIVUKIOLOAN_INT) { }
+                textelement(MWOKOZILOAN_AMOUNT) { }
+                textelement(MWOKOZILOAN_PR) { }
+                textelement(MWOKOZILOAN_INT) { }
+                textelement(SCHOOLFEES_AMOUNT) { }
+                textelement(SCHOOLFEES_PR) { }
+                textelement(SCHOOLFEES_INT) { }
+                textelement(NORMALLOAN1_AMOUNT) { }
+                textelement(NORMALLOAN1_PR) { }
+                textelement(NORMALLOAN1_INT) { }
+                textelement(NORMALLOAN2_AMOUNT) { }
+                textelement(NORMALLOAN2_PR) { }
+                textelement(NORMALLOAN2_INT) { }
+                textelement(MBUYULOAN_PR) { }
+                textelement(MBUYULOAN_INT) { }
+                textelement(MBUYULOAN_AMOUNT) { }
+                textelement(TOTALLOANAmount) { }
+                textelement(GRANTTOTAL) { }
+
+                trigger OnBeforeInsertRecord()
                 var
-                    MembershipExist: Record "Membership Exit";
-                    MemberRegister: Record Customer;
+                    MemberNo: Code[50];
+                    MemberName: Text[100];
+                    MemberID: Code[20];
+                    StaffNo: Code[20];
                 begin
-                    MembershipExist.Reset;
-                    MembershipExist.SetRange(MembershipExist."Member No.", MemberRegister."No.");
-                    if MembershipExist.Find('-') then
-                        currXMLport.Skip;
+                    // Skip header/empty rows
+                    if not IsNumeric(Personal_no) then
+                        currXMLport.Skip();
+
+                    StaffNo := CopyStr(DelChr(Personal_no, '=', ' '), 1, 20);
+                    if StaffNo = '' then currXMLport.Skip();
+
+                    // Validate member exists
+                    if not GetMemberDetails(StaffNo, MemberNo, MemberName, MemberID) then begin
+                        FailedRows += 1;
+                        FailedMembers += '\' + StaffNo;
+                        currXMLport.Skip();
+                    end;
+
+                    // Set member info
+                    "Bamburi CheckoffLines".SetSkipCalcTotals(true);
+                    "Bamburi CheckoffLines"."Receipt Header No" := ReceiptHeaderNo;
+                    "Bamburi CheckoffLines"."Entry No" := Format(SuccessRows + 1);
+                    "Bamburi CheckoffLines"."Staff/Payroll No" := StaffNo;
+                    "Bamburi CheckoffLines"."Member No" := MemberNo;
+                    "Bamburi CheckoffLines".Name := CopyStr(MemberName, 1, 50);
+                    "Bamburi CheckoffLines"."ID No." := MemberID;
+                    "Bamburi CheckoffLines"."Member Found" := true;
+
+                    // Evaluate all decimal fields safely
+                    CleanEvaluate(SHARECAPITAL, "Bamburi CheckoffLines"."Share Capital");
+                    CleanEvaluate(DEPOSITCONTRIBUTION, "Bamburi CheckoffLines"."Deposit Contribution");
+                    CleanEvaluate(REGISTRATION, "Bamburi CheckoffLines"."Registration");
+                    CleanEvaluate(TShirt, "Bamburi CheckoffLines"."T-Shirt");
+                    CleanEvaluate(OthersProducts, "Bamburi CheckoffLines"."Other Products");
+                    CleanEvaluate(EMERGENCYLOAN_AMOUNT, "Bamburi CheckoffLines"."EMERGENCY LOAN Amount");
+                    CleanEvaluate(EMERGENCYLOAN_PR, "Bamburi CheckoffLines"."Emergency Loan  Principle");
+                    CleanEvaluate(EMERGENCYLOAN_INT, "Bamburi CheckoffLines"."Emergency Loan Interest");
+                    CleanEvaluate(KIVUKIOLOAN_AMOUNT, "Bamburi CheckoffLines"."Kivukio Loan Amount");
+                    CleanEvaluate(KIVUKIOLOAN_PR, "Bamburi CheckoffLines"."Kivukio Loan Principle");
+                    CleanEvaluate(KIVUKIOLOAN_INT, "Bamburi CheckoffLines"."Kivukio Loan Interest");
+                    CleanEvaluate(MWOKOZILOAN_AMOUNT, "Bamburi CheckoffLines"."Mwokozi Loan Amount");
+                    CleanEvaluate(MWOKOZILOAN_PR, "Bamburi CheckoffLines"."Mwokozi Loan Principle");
+                    CleanEvaluate(MWOKOZILOAN_INT, "Bamburi CheckoffLines"."Mwokozi Loan Interest");
+                    CleanEvaluate(SCHOOLFEES_AMOUNT, "Bamburi CheckoffLines"."School Fees Amount");
+                    CleanEvaluate(SCHOOLFEES_PR, "Bamburi CheckoffLines"."School Fees Principle");
+                    CleanEvaluate(SCHOOLFEES_INT, "Bamburi CheckoffLines"."School Fees Interest");
+                    CleanEvaluate(NORMALLOAN1_AMOUNT, "Bamburi CheckoffLines"."Normal Loan 1 Amount");
+                    CleanEvaluate(NORMALLOAN1_PR, "Bamburi CheckoffLines"."Normal Loan 1 Principle");
+                    CleanEvaluate(NORMALLOAN1_INT, "Bamburi CheckoffLines"."Normal Loan 1 Interest");
+                    CleanEvaluate(NORMALLOAN2_AMOUNT, "Bamburi CheckoffLines"."Normal Loan 2 Amount");
+                    CleanEvaluate(NORMALLOAN2_PR, "Bamburi CheckoffLines"."Normal Loan 2 Principle");
+                    CleanEvaluate(NORMALLOAN2_INT, "Bamburi CheckoffLines"."Normal Loan 2 Interest");
+                    CleanEvaluate(MBUYULOAN_PR, "Bamburi CheckoffLines"."Mbuyu Loan Amount");
+                    CleanEvaluate(MBUYULOAN_INT, "Bamburi CheckoffLines"."Mbuyu Loan Principle");
+                    CleanEvaluate(MBUYULOAN_AMOUNT, "Bamburi CheckoffLines"."Mbuyu Loan Interest");
+                    CleanEvaluate(TOTALLOANAmount, "Bamburi CheckoffLines"."Total Loans");
+                    CleanEvaluate(GRANTTOTAL, "Bamburi CheckoffLines"."Grand Total");
+
+                    "Bamburi CheckoffLines".Insert(true);
+                    SuccessRows += 1;
                 end;
             }
         }
@@ -172,14 +115,68 @@ XmlPort 50200 "Import Checkoff Distributed"
 
     requestpage
     {
-
-        layout
-        {
-        }
-
-        actions
-        {
-        }
+        layout { }
+        actions { }
     }
-}
 
+    var
+        ReceiptHeaderNo: Code[20];
+        SuccessRows: Integer;
+        FailedRows: Integer;
+        FailedMembers: Text;
+
+    trigger OnPreXmlPort()
+    begin
+        if ReceiptHeaderNo = '' then Error('Set Receipt Header No first');
+        SuccessRows := 0;
+        FailedRows := 0;
+        FailedMembers := '';
+    end;
+
+    trigger OnPostXmlPort()
+    begin
+        Message('Done\Success: %1\Failed: %2\%3', SuccessRows, FailedRows, FailedMembers);
+    end;
+
+    procedure SetReceiptHeaderNo(No: Code[20])
+    begin
+        ReceiptHeaderNo := No;
+    end;
+
+    local procedure CleanEvaluate(RawText: Text; var TargetField: Decimal)
+    var
+        CleanText: Text;
+        Result: Decimal;
+    begin
+        CleanText := DelChr(RawText, '=', '," ');
+        if (CleanText = '') or (CleanText = '-') then begin
+            TargetField := 0;
+            exit;
+        end;
+        if not Evaluate(Result, CleanText) then
+            Result := 0;
+        TargetField := Result;
+    end;
+
+    local procedure IsNumeric(TextValue: Text): Boolean
+    var
+        TestDecimal: Decimal;
+    begin
+        exit(Evaluate(TestDecimal, DelChr(TextValue, '=', ' ')));
+    end;
+
+    local procedure GetMemberDetails(StaffNo: Code[20]; var MemberNo: Code[50]; var MemberName: Text[100]; var MemberID: Code[20]): Boolean
+    var
+        Cust: Record Customer;
+    begin
+        Cust.SetRange("Personal No", StaffNo);
+        Cust.SetFilter("Customer Type", '%1|%2', Cust."Customer Type"::BOSA, Cust."Customer Type"::STAFF);
+        if Cust.FindFirst() then begin
+            MemberNo := Cust."No.";
+            MemberName := Cust.Name;
+            MemberID := Cust."ID No.";
+            exit(true);
+        end;
+        exit(false);
+    end;
+}

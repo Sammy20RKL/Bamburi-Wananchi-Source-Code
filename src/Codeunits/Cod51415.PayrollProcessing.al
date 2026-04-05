@@ -50,7 +50,7 @@ Codeunit 51415 "Payroll Processing"//Number2
         PayrollType: Code[20];
         SpecialTranAmount: Decimal;
         EmpSalary: Record "Payroll Employee.";
-        txBenefitAmt: Decimal;
+        // txBenefitAmt: Decimal;
         TelTaxACC: Code[20];
         loans: Record "Loans Register";
         Management: Boolean;
@@ -99,6 +99,7 @@ Codeunit 51415 "Payroll Processing"//Number2
         curTotAllowances: Decimal;
         curExcessPension: Decimal;
         curNSSF: Decimal;
+        curNSSF1: Decimal;
         curDefinedContrib: Decimal;
         curPensionStaff: Decimal;
         curNonTaxable: Decimal;
@@ -154,7 +155,7 @@ Codeunit 51415 "Payroll Processing"//Number2
         intRate: Decimal;
         LoanRegister: Record "Loans Register";
     begin
-        fnInitialize;
+        fnInitialize();
         fnGetJournalDet(strEmpCode);
         //PayrollType
 
@@ -369,24 +370,44 @@ Codeunit 51415 "Payroll Processing"//Number2
                 curNssf_Base_Amount := curBasicPay;
 
 
+            ///new
+            if blnPaysNssf then begin
+                curNSSF := (9000 * 0.06);
+                curTransAmount := curNSSF;
+                curNSSF := curNSSF;
+                strTransDescription := 'N.S.S.F Tier 1';
+                TGroup := 'STATUTORIES';
+                TGroupOrder := 7;
+                TSubGroupOrder := 4;
+                fnUpdatePeriodTrans(strEmpCode, 'NSSF Tier 1', TGroup, TGroupOrder, TSubGroupOrder,
+                strTransDescription, curTransAmount, 0, intMonth, intYear, '', '', SelectedPeriod, Dept, NSSFEMPyee,
+                Journalpostas::Credit, Journalpostingtype::"G/L Account", '', Coopparameters::NSSF);
 
-            IF blnPaysNssf THEN
-                // curNSSF := curNssfEmployee;
-                IF curNssf_Base_Amount > 72000 THEN BEGIN
-                    curNSSF := 72000 * 0.06;
-                END ELSE BEGIN
-                    curNSSF := curNssf_Base_Amount * 0.06;
-                END;
-            //fnGetEmployeeNSSF(curNssf_Base_Amount);//client using the old rates
-            curTransAmount := curNSSF;
-            curNSSF := curNSSF;
-            strTransDescription := 'N.S.S.F';
-            TGroup := 'STATUTORIES';
-            TGroupOrder := 7;
-            TSubGroupOrder := 1;
-            fnUpdatePeriodTrans(strEmpCode, 'NSSF', TGroup, TGroupOrder, TSubGroupOrder,
-            strTransDescription, curTransAmount, 0, intMonth, intYear, '', '', SelectedPeriod, Dept, NSSFEMPyee,
-            JournalPostAs::Credit, JournalPostingType::"G/L Account", '', CoopParameters::NSSF);
+                curNSSF1 := (curGrossPay - 9000) * 0.06;
+                if curNSSF1 > 5940 then begin
+                    curNSSF1 := 5940;
+                end;
+                curTransAmount := curNSSF1;
+                curNSSF1 := curNSSF1;
+                strTransDescription := 'N.S.S.F Tier 2';
+                TGroup := 'STATUTORIES';
+                TGroupOrder := 7;
+                TSubGroupOrder := 1;
+                fnUpdatePeriodTrans(strEmpCode, 'NSSF Tier 2', TGroup, TGroupOrder, TSubGroupOrder,
+                strTransDescription, curTransAmount, 0, intMonth, intYear, '', '', SelectedPeriod, Dept, NSSFEMPyee,
+                Journalpostas::Credit, Journalpostingtype::"G/L Account", '', Coopparameters::NSSF);
+
+                //Get the Defined contribution to post based on the Max Def contrb allowed   ****************All Defined Contributions not included
+                // curDefinedContrib := curNSSF + curNSSF1;//+ EmployeeP."Insurance Premium";//curNSSF; //(curNSSF + curPensionStaff + curNonTaxable) - curMorgageReliefAmount
+                // curTransAmount := curDefinedContrib;
+                // strTransDescription := 'Defined Contributions';
+                // TGroup := 'TAX CALCULATIONS';
+                // TGroupOrder := 6;
+                // TSubGroupOrder := 1;
+                // fnUpdatePeriodTrans(strEmpCode, 'DEFCON', TGroup, TGroupOrder, TSubGroupOrder, strTransDescription, curTransAmount, 0, intMonth,
+                // intYear, '', '', SelectedPeriod, Dept, '', Journalpostas::" ", Journalpostingtype::" ", '', Coopparameters::none);
+            end;
+            /// new end
 
             ///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.house Levy
             Curhouselevy := curGrossPay * 1.5 / 100;
@@ -423,8 +444,8 @@ Codeunit 51415 "Payroll Processing"//Number2
                  NHIFEMPyee, JournalPostAs::Credit, JournalPostingType::"G/L Account", '', CoopParameters::NHIF);
             END;
             //Get the Defined contribution to post based on the Max Def contrb allowed   ****************All Defined Contributions not included
-            curDefinedContrib := curNSSF + Curhouselevy + curNHIF; //(curNSSF + curPensionStaff + curNonTaxable) - curMorgageReliefAmount
-                                                                   // curDefinedContrib:= fnGetEmployeeNSSF
+            curDefinedContrib := curNSSF + curNSSF1 + Curhouselevy + curNHIF; //(curNSSF + curPensionStaff + curNonTaxable) - curMorgageReliefAmount
+                                                                              // curDefinedContrib:= fnGetEmployeeNSSF
             curTransAmount := curDefinedContrib;
             strTransDescription := 'Defined Contributions';
             TGroup := 'TAX CALCULATIONS';
@@ -433,15 +454,6 @@ Codeunit 51415 "Payroll Processing"//Number2
 
             fnUpdatePeriodTrans(strEmpCode, 'DEFCON', TGroup, TGroupOrder, TSubGroupOrder, strTransDescription, curTransAmount, 0, intMonth,
             intYear, '', '', SelectedPeriod, Dept, '', JournalPostAs::" ", JournalPostingType::" ", '', CoopParameters::none);
-
-
-            //Get the Gross taxable amount
-            //>GrossTaxable = Gross + Benefits + nValueofQuarters  ******Confirm CurValueofQuaters
-            curGrossTaxable := curGrossPay + curBenefits + curValueOfQuarters;
-
-            //>If GrossTaxable = 0 Then TheDefinedToPost = 0
-            IF curGrossTaxable = 0 THEN curDefinedContrib := 0;
-
 
             VitalSetup.GET();
             //Get Insurance Relief
@@ -457,8 +469,8 @@ Codeunit 51415 "Payroll Processing"//Number2
                 TGroupOrder := 6;
                 TSubGroupOrder := 8;
                 fnUpdatePeriodTrans(strEmpCode, 'INSRD', TGroup, TGroupOrder, TSubGroupOrder, strTransDescription,
-           curTransAmount, 0, intMonth, intYear, '', '', SelectedPeriod, Dept, '', JournalPostAs::" ", JournalPostingType::" ", '',
-           CoopParameters::"Insurance Contribution");
+                                    curTransAmount, 0, intMonth, intYear, '', '', SelectedPeriod, Dept, '', JournalPostAs::" ", JournalPostingType::" ", '',
+                                    CoopParameters::"Insurance Contribution");
 
             END;
 
@@ -471,11 +483,9 @@ Codeunit 51415 "Payroll Processing"//Number2
                 TGroupOrder := 6;
                 TSubGroupOrder := 9;
                 fnUpdatePeriodTrans(strEmpCode, 'PSNR', TGroup, TGroupOrder, TSubGroupOrder, strTransDescription,
-                 curTransAmount, 0, intMonth, intYear, '', '', SelectedPeriod, Dept, '', JournalPostAs::" ", JournalPostingType::" ", '',
-                 CoopParameters::none);
+                                    curTransAmount, 0, intMonth, intYear, '', '', SelectedPeriod, Dept, '', JournalPostAs::" ", JournalPostingType::" ", '',
+                                    CoopParameters::none);
             END;
-            //ELSE
-            // curReliefPersonal := 0;
 
             //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
             //>Pension Contribution [self] relief
@@ -563,7 +573,8 @@ Codeunit 51415 "Payroll Processing"//Number2
                 TSubGroupOrder := 2;
                 fnUpdatePeriodTrans(strEmpCode, 'NHIF RELIEF', TGroup, TGroupOrder, TSubGroupOrder, strTransDescription,
                  curTransAmount, 0, intMonth, intYear, '', '', SelectedPeriod, Dept,
-                 NHIFEMPyee, JournalPostAs::Debit, JournalPostingType::"G/L Account", '', CoopParameters::NHIF);
+                 NHIFEMPyee, JournalPostAs::Debit,
+                  JournalPostingType::"G/L Account", '', CoopParameters::NHIF);
             END;
 
             IF curPensionStaff > curMaxPensionContrib THEN
@@ -571,29 +582,10 @@ Codeunit 51415 "Payroll Processing"//Number2
 
             ELSE
                 curTaxablePay := curGrossTaxable - (curSalaryArrears + curDefinedContrib + curPensionStaff + curOOI + curHOSP + curNonTaxable);
-            //Taxable Benefit
-            txBenefitAmt := 0;
-            IF EmpSalary.GET(strEmpCode) THEN BEGIN
-                IF EmpSalary."Pays NSSF" = FALSE THEN BEGIN
-                    IF fnCheckPaysPension(strEmpCode, SelectedPeriod) = TRUE THEN BEGIN
-                        IF (EmpSalary."Basic Pay" * 0.1) > 20000 THEN BEGIN
-                            txBenefitAmt := EmpSalary."Basic Pay" * 0.2;
-                        END ELSE BEGIN
-                            txBenefitAmt := ((EmpSalary."Basic Pay" * 0.2) + (EmpSalary."Basic Pay" * 0.1)) - 20000;
-                            IF txBenefitAmt < 0 THEN
-                                txBenefitAmt := 0;
-                        END;
-                        strTransDescription := 'Taxable Pension';
-                        TGroup := 'TAX CALCULATIONS';
-                        TGroupOrder := 6;
-                        TSubGroupOrder := 6;
-                        fnUpdatePeriodTrans(strEmpCode, 'TXBB', TGroup, TGroupOrder, TSubGroupOrder, strTransDescription,
-                         txBenefitAmt, 0, intMonth, intYear, '', '', SelectedPeriod, Dept, '', JournalPostAs::" ", JournalPostingType::" ", '',
-                         CoopParameters::none);
-                    END;
-                END;
-            END;
-            curTransAmount := curTaxablePay + txBenefitAmt;
+            curTaxablePay := curGrossPay - curDefinedContrib;
+
+
+            curTransAmount := curTaxablePay;//+ txBenefitAmt;
             strTransDescription := 'Taxable Pay';
             TGroup := 'TAX CALCULATIONS';
             TGroupOrder := 6;
@@ -603,7 +595,7 @@ Codeunit 51415 "Payroll Processing"//Number2
              CoopParameters::none);
 
             //Get the Tax charged for the month
-            curTaxablePay := curTaxablePay + txBenefitAmt;
+            curTaxablePay := curTaxablePay;// + txBenefitAmt;
             curTaxCharged := fnGetEmployeePaye(curTaxablePay);//-(curInsuranceReliefAmount+curReliefPersonal+CurrInsuranceRel+ShifRelief);
             curTransAmount := curTaxCharged;
             strTransDescription := 'Tax Charged';
@@ -621,7 +613,7 @@ Codeunit 51415 "Payroll Processing"//Number2
                 //curPAYE :=ROUND( curTaxCharged - curMaximumRelief,1,'<')
                 curPAYE := (curTaxCharged - curReliefPersonal)
             ELSE
-                curPAYE := (curTaxCharged - curReliefPersonal);
+                curPAYE := (curTaxCharged - curReliefPersonal - ShifRelief - CurrInsuranceRel);
             IF NOT blnPaysPaye THEN curPAYE := 0; //Get statutory Exemption for the staff. If exempted from tax, set PAYE=0
             curTransAmount := curPAYE;//+curTransAmount2;
             IF curPAYE < 0 THEN curTransAmount := 0;
@@ -671,7 +663,7 @@ Codeunit 51415 "Payroll Processing"//Number2
             IF prEmployeeTransactions.FIND('-') THEN BEGIN
                 curTotalDeductions := 0;
                 REPEAT
-                    prTransactionCodes.RESET;
+                    prTransactionCodes.Reset();
                     prTransactionCodes.SETRANGE(prTransactionCodes."Transaction Code", prEmployeeTransactions."Transaction Code");
                     prTransactionCodes.SETRANGE(prTransactionCodes."Transaction Type", prTransactionCodes."Transaction Type"::Deduction);
                     IF prTransactionCodes.FIND('-') THEN BEGIN
@@ -681,9 +673,7 @@ Codeunit 51415 "Payroll Processing"//Number2
                         strExtractedFrml := '';
 
                         IF prTransactionCodes."Is Formulae" THEN BEGIN
-
                             strExtractedFrml := fnPureFormula(strEmpCode, intMonth, intYear, prTransactionCodes.Formulae);
-
                             curTransAmount := fnFormulaResult(strExtractedFrml); //Get the calculated amount
 
                         END ELSE BEGIN
@@ -703,9 +693,9 @@ Codeunit 51415 "Payroll Processing"//Number2
                                 IF prTransactionCodes."Customer Posting Group" <> '' THEN BEGIN
                                     Customer.SETRANGE(Customer."Customer Posting Group", prTransactionCodes."Customer Posting Group");
                                 END;
+
                                 Customer.RESET;
                                 Customer.SETRANGE(Customer."No.", HrEmployee."Payroll No");
-                                //MESSAGE('%1,%2,%3',JournalAcc,strEmpCode,Customer."Payroll/Staff No");
                                 IF Customer.FIND('-') THEN BEGIN
                                     JournalAcc := Customer."No.";
                                     JournalPostingType := JournalPostingType::Member;
@@ -737,15 +727,9 @@ Codeunit 51415 "Payroll Processing"//Number2
                         IF (prTransactionCodes."Special Transaction" = prTransactionCodes."Special Transaction"::"Staff Loan") AND
                            (prTransactionCodes."Repayment Method" = prTransactionCodes."Repayment Method"::Reducing) THEN BEGIN
                             curTransAmount := 0;
-                            curLoanInt := 0;
-                            IF (FnLoanInterestExempted(prEmployeeTransactions."Loan Number") = FALSE) THEN
-                                curLoanInt := fnCalcLoanInterest2(strEmpCode, prEmployeeTransactions."Transaction Code", //prEmployeeTransactions."Outstanding Interest";
-                                FnGetInterestRate(prEmployeeTransactions."Transaction Code"), prTransactionCodes."Repayment Method",
-                                   prEmployeeTransactions.Amount, prEmployeeTransactions.Balance, SelectedPeriod, FALSE, prEmployeeTransactions."Loan Number");
+                            curLoanInt := prEmployeeTransactions."Interest Charged";
                             curTransAmount := curLoanInt;
-                            //for Reducing mk
-                            prEmployeeTransactions."Interest Charged" := curTransAmount;
-                            prEmployeeTransactions.Modify();
+
 
                             //end 
                             curTotalDeductions := curTotalDeductions + curTransAmount; //Sum-up all the deductions
@@ -762,8 +746,7 @@ Codeunit 51415 "Payroll Processing"//Number2
                                   JournalAcc, JournalPostAs::Credit, JournalPostingType, prEmployeeTransactions."Loan Number",
                                   CoopParameters::"loan Interest");
                             curTransAmount := prEmployeeTransactions.Amount;
-                            prEmployeeTransactions.Amount := curTransAmount;
-                            prEmployeeTransactions.Modify();
+
                         END;
                         //Loan Calculation Amortized
 
@@ -793,15 +776,8 @@ Codeunit 51415 "Payroll Processing"//Number2
                            (prTransactionCodes."Repayment Method" = prTransactionCodes."Repayment Method"::Amortized) THEN BEGIN
                             curTransAmount := 0;
                             curLoanInt := 0;
-                            curLoanInt := fnCalcLoanInterest2(strEmpCode, prEmployeeTransactions."Transaction Code",
-                            prTransactionCodes."Interest Rate", prTransactionCodes."Repayment Method",
-                              prEmployeeTransactions."Original Amount", prEmployeeTransactions.Balance, SelectedPeriod, FALSE, prEmployeeTransactions."Loan Number");
-                            //Post the Interest
-                            //MESSAGE('Loanno %1|curLoanInt %2|prEmployeeTransactions."Original Amount" %3',prEmployeeTransactions."Loan Number",curLoanInt,prEmployeeTransactions."Original Amount");
-                            //IF (curLoanInt<>0) THEN BEGIN
+                            curLoanInt := prEmployeeTransactions."Interest Charged";
                             curTransAmount := curLoanInt;
-
-                            // curTransAmount := prEmployeeTransactions.Amount-curLoanInt;
 
                             curTotalDeductions := curTotalDeductions + curTransAmount; //Sum-up all the deductions
                             curTransBalance := 0;
@@ -815,19 +791,7 @@ Codeunit 51415 "Payroll Processing"//Number2
                               prEmployeeTransactions.Membership, prEmployeeTransactions."Reference No", SelectedPeriod, Dept,
                               JournalAcc, JournalPostAs::Credit, JournalPostingType, prEmployeeTransactions."Loan Number",
                               CoopParameters::"loan Interest");
-                            //mk
 
-                            prEmployeeTransactions."Interest Charged" := curTransAmount;
-
-                            prEmployeeTransactions.MODIFY;
-
-                            // END;
-                            //Get the Principal Amt
-                            curTransAmount := prEmployeeTransactions."Amtzd Loan Repay Amt" - curLoanInt;
-                            // curTransAmount :=curLoanInt;// prEmployeeTransactions.Amount;
-                            //Modify PREmployeeTransaction Table
-                            prEmployeeTransactions.Amount := curTransAmount;
-                            prEmployeeTransactions.MODIFY;
                         END;
                         //Loan Calculation Amortized
 
@@ -851,6 +815,10 @@ Codeunit 51415 "Payroll Processing"//Number2
                                     END;
                                 END
                         END;
+                        //for Loans stick to this
+                        if prTransactionCodes."Co-Op Parameters" = prTransactionCodes."Co-Op Parameters"::Loan then
+                            curTransAmount := prEmployeeTransactions."Loan Repayment Amount";
+
                         curTotalDeductions := curTotalDeductions + curTransAmount; //Sum-up all the deductions
                         curTransAmount := curTransAmount;
                         curTransBalance := curTransBalance;
@@ -883,21 +851,23 @@ Codeunit 51415 "Payroll Processing"//Number2
                     END;
 
                 UNTIL prEmployeeTransactions.NEXT = 0;
-                curTotalDeductions := curTotalDeductions + curDefinedContrib + curPAYE;// - Curhouselevy;
-                // curTotalDeductions := curTotalDeductions + curNSSF + curPAYE + curPayeArrears + Curhouselevy + curNHIF;
-
-                curTransBalance := 0;
-                strTransCode := 'TOT-DED';
-                strTransDescription := 'TOTAL DEDUCTION';
-                TGroup := 'DEDUCTIONS';
-                TGroupOrder := 8;
-                TSubGroupOrder := 9;
-                fnUpdatePeriodTrans(strEmpCode, strTransCode, TGroup, TGroupOrder, TSubGroupOrder,
-                  strTransDescription, curTotalDeductions, curTransBalance, intMonth, intYear,
-                  prEmployeeTransactions.Membership, prEmployeeTransactions."Reference No", SelectedPeriod, Dept,
-                  '', JournalPostAs::" ", JournalPostingType::" ", '', CoopParameters::none)
             END;
-            curNetPay := curGrossPay - ROUND((curTotalDeductions + IsCashBenefit + Teltax2), 0.05, '<') + ShifRelief;//Add ShifRelief to the NetPay
+            curTotalDeductions := curTotalDeductions + curDefinedContrib + curPAYE;// - Curhouselevy;
+                                                                                   // curTotalDeductions := curTotalDeductions + curNSSF + curPAYE + curPayeArrears + Curhouselevy + curNHIF;
+
+            curTransBalance := 0;
+            strTransCode := 'TOT-DED';
+            strTransDescription := 'TOTAL DEDUCTION';
+            TGroup := 'DEDUCTIONS';
+            TGroupOrder := 8;
+            TSubGroupOrder := 9;
+            fnUpdatePeriodTrans(strEmpCode, strTransCode, TGroup, TGroupOrder, TSubGroupOrder,
+              strTransDescription, curTotalDeductions, curTransBalance, intMonth, intYear,
+              prEmployeeTransactions.Membership, prEmployeeTransactions."Reference No", SelectedPeriod, Dept,
+              '', JournalPostAs::" ", JournalPostingType::" ", '', CoopParameters::none);
+
+
+            curNetPay := curGrossPay - ROUND((curTotalDeductions + IsCashBenefit + Teltax2), 0.05, '<');//+ ShifRelief;//Add ShifRelief to the NetPay
             curNetPay := ROUND(curNetPay, 0.05, '<'); //- curExcessPension
             curNetPay := curNetPay - ROUND(curTotCompanyDed, 0.05, '<'); //******Get Company Deduction*****
             curNetRnd_Effect := ROUND(curNetPay, 0.05, '<') - ROUND(curNetPay, 0.05, '<');
@@ -913,6 +883,7 @@ Codeunit 51415 "Payroll Processing"//Number2
         END
     end;
 
+    //New Insertions... Festus ----2026 Jan, Confirm Loans and Other Deductions
     procedure fnClosePayrollPeriod(dtOpenPeriod: Date; PayrollCode: Code[20]) Closed: Boolean
     var
         dtNewPeriod: Date;
@@ -930,6 +901,8 @@ Codeunit 51415 "Payroll Processing"//Number2
         prNewPayrollPeriods: Record "Payroll Calender.";
         CreateTrans: Boolean;
         ControlInfo: Record "Control-Information.";
+        loanSchedule: Record "Loan Repayment Schedule";
+        payrollEmployee: Record "Payroll Employee.";
     begin
         //ControlInfo.GET();
         dtNewPeriod := CalcDate('1M', dtOpenPeriod);
@@ -939,9 +912,18 @@ Codeunit 51415 "Payroll Processing"//Number2
         intMonth := Date2dmy(dtOpenPeriod, 2);
         intYear := Date2dmy(dtOpenPeriod, 3);
 
+        //Clear Existing Period Transactions
+        prEmployeeTrans.Reset();
+        prEmployeeTrans.SetRange(prEmployeeTrans."Payroll Period", dtNewPeriod);
+        prEmployeeTrans.SetRange(prEmployeeTrans."Period Month", intNewMonth);
+        prEmployeeTrans.SetRange(prEmployeeTrans."Period Year", intNewYear);
+        prEmployeeTrans.DeleteAll();
+
+        //only insert Incomes
         prEmployeeTransactions.Reset;
         prEmployeeTransactions.SetRange(prEmployeeTransactions."Period Month", intMonth);
         prEmployeeTransactions.SetRange(prEmployeeTransactions."Period Year", intYear);
+        prEmployeeTransactions.SetRange(prEmployeeTransactions."Transaction Type", prEmployeeTransactions."Transaction Type"::Income);
 
         //Multiple Payroll
         if ControlInfo."Multiple Payroll" then
@@ -953,33 +935,8 @@ Codeunit 51415 "Payroll Processing"//Number2
                 prTransactionCodes.SetRange(prTransactionCodes."Transaction Code", prEmployeeTransactions."Transaction Code");
                 if prTransactionCodes.Find('-') then begin
                     with prTransactionCodes do begin
-                        case prTransactionCodes."Balance Type" of
-                            prTransactionCodes."balance type"::None:
-                                begin
-                                    curTransAmount := prEmployeeTransactions.Amount;
-                                    curTransBalance := 0;
-                                end;
-                            prTransactionCodes."balance type"::Increasing:
-                                begin
-                                    curTransAmount := prEmployeeTransactions.Amount;
-                                    curTransBalance := prEmployeeTransactions.Balance + prEmployeeTransactions.Amount;
-                                end;
-                            prTransactionCodes."balance type"::Reducing:
-                                begin
-                                    curTransAmount := prEmployeeTransactions.Amount;
-                                    if prEmployeeTransactions.Balance < prEmployeeTransactions.Amount then begin
-                                        curTransAmount := prEmployeeTransactions.Balance;
-                                        curTransBalance := 0;
-                                    end else begin
-                                        curTransBalance := prEmployeeTransactions.Balance - prEmployeeTransactions.Amount;
-                                    end;
-
-                                    if curTransBalance < 0 then begin
-                                        curTransAmount := 0;
-                                        curTransBalance := 0;
-                                    end;
-                                end;
-                        end;
+                        curTransAmount := prEmployeeTransactions.Amount;
+                        curTransBalance := 0;
                     end;
                 end;
 
@@ -1028,6 +985,15 @@ Codeunit 51415 "Payroll Processing"//Number2
             until prEmployeeTransactions.Next = 0;
         end;
 
+        //now insert the Deductions
+        payrollEmployee.Reset();
+        payrollEmployee.SetRange(payrollEmployee.Status, payrollEmployee.Status::Active);
+        if payrollEmployee.Find('-') then begin
+            repeat
+                fnGetDeductionsforPeriod(payrollEmployee."No.", intNewMonth, intNewYear, dtNewPeriod);
+            until payrollEmployee.Next() = 0;
+        end;
+
         //Update the Period as Closed
         prPayrollPeriods.Reset;
         prPayrollPeriods.SetRange(prPayrollPeriods."Period Month", intMonth);
@@ -1050,6 +1016,7 @@ Codeunit 51415 "Payroll Processing"//Number2
         prNewPayrollPeriods."Date Opened" := dtNewPeriod;
         prNewPayrollPeriods.Closed := false;
         prNewPayrollPeriods."Payroll Code" := PayrollCode;
+        prNewPayrollPeriods."Created By" := UserId;
         prNewPayrollPeriods.Insert;
 
         //Effect the transactions for the P9
@@ -1059,17 +1026,345 @@ Codeunit 51415 "Payroll Processing"//Number2
         fnGetNegativePay(intMonth, intYear, dtOpenPeriod);
     end;
 
+    procedure fnGetDeductionsforPeriod(employeeNo: Code[30]; intNewMonth: Integer; intNewYear: Integer; dtNewPeriod: Date)
+    var
+        payrollTransactionCodes: Record "Payroll Transaction Code.";
+        loansRegister: Record "Loans Register";
+        payrollEmployee: Record "Payroll Employee.";
+        memberRegister: Record Customer;
+        memberNumber: Code[20];
+        montlycon: Decimal;
+        loanPrinciple: Decimal;
+        loanInterest: Decimal;
+        totalLoanAmount: Decimal;
+        endMonthDate: Date;
+        ShareCapital: Decimal;
+        loanNumber: Code[20];
+        loanBalance: Decimal;
+        insuranceContribution: Decimal;
+        holidaySavings: Decimal;
+    begin
+        payrollEmployee.Reset();
+        payrollEmployee.SetRange(payrollEmployee."No.", employeeNo);
+        if payrollEmployee.Find('-') then begin
+            memberNumber := payrollEmployee."Sacco Membership No.";
+            //get member
+            memberRegister.Reset();
+            memberRegister.get(memberNumber);
+            //get the Deduction Transactions...
+            payrollTransactionCodes.Reset();
+            payrollTransactionCodes.SetRange(payrollTransactionCodes."Transaction Type", payrollTransactionCodes."Transaction Type"::Deduction);
+            if payrollTransactionCodes.Find('-') then begin
+                repeat
+                    montlycon := 0;
+                    ShareCapital := 0;
+                    endMonthDate := CalcDate('1M', dtNewPeriod);
+                    //loop for each trans code
+                    //Deposits
+                    if payrollTransactionCodes."Transaction Code" = 'D011' then begin
+                        montlycon := memberRegister."Monthly Contribution";
+                        fnInsertTransactions(employeeNo, payrollTransactionCodes."Transaction Code", payrollTransactionCodes."Transaction Name", payrollTransactionCodes."Transaction Type"::Deduction, montlycon, 0, intNewMonth, intNewYear, dtNewPeriod, memberNumber, '', 0, 0);
+                    end;
+                    //Normal Loan 1
+                    if payrollTransactionCodes."Transaction Code" = 'D008' then begin
+                        loanPrinciple := 0;
+                        loanInterest := 0;
+                        CalculateLoanRepayment('NORM1', loanPrinciple, loanInterest, memberNumber, endMonthDate, dtNewPeriod, loanNumber, loanBalance);
+                        totalLoanAmount := loanPrinciple + loanInterest;
+
+                        if totalLoanAmount > 0 then
+                            fnInsertTransactions(employeeNo, payrollTransactionCodes."Transaction Code", payrollTransactionCodes."Transaction Name", payrollTransactionCodes."Transaction Type"::Deduction, totalLoanAmount, loanBalance, intNewMonth, intNewYear, dtNewPeriod, memberNumber, loanNumber, loanPrinciple, loanInterest);
+                    end;//Normal Loan 2
+                    if payrollTransactionCodes."Transaction Code" = 'D009' then begin
+
+                        loanPrinciple := 0;
+                        loanInterest := 0;
+                        CalculateLoanRepayment('NORM2', loanPrinciple, loanInterest, memberNumber, endMonthDate, dtNewPeriod, loanNumber, loanBalance);
+                        totalLoanAmount := loanPrinciple + loanInterest;
+
+                        if totalLoanAmount > 0 then
+                            fnInsertTransactions(employeeNo, payrollTransactionCodes."Transaction Code", payrollTransactionCodes."Transaction Name", payrollTransactionCodes."Transaction Type"::Deduction, totalLoanAmount, loanBalance, intNewMonth, intNewYear, dtNewPeriod, memberNumber, loanNumber, loanPrinciple, loanInterest);
+                    end;
+                    //Hall hall loan
+                    if payrollTransactionCodes."Transaction Code" = 'D002' then begin
+
+                        loanPrinciple := 0;
+                        loanInterest := 0;
+                        CalculateLoanRepayment('HALL', loanPrinciple, loanInterest, memberNumber, endMonthDate, dtNewPeriod, loanNumber, loanBalance);
+                        totalLoanAmount := loanPrinciple + loanInterest;
+
+                        if totalLoanAmount > 0 then
+                            fnInsertTransactions(employeeNo, payrollTransactionCodes."Transaction Code", payrollTransactionCodes."Transaction Name", payrollTransactionCodes."Transaction Type"::Deduction, totalLoanAmount, loanBalance, intNewMonth, intNewYear, dtNewPeriod, memberNumber, loanNumber, loanPrinciple, loanInterest);
+                    end;
+                    //Share Capital
+                    if payrollTransactionCodes."Transaction Code" = 'D015' then begin
+                        memberRegister.CalcFields("Shares Retained");
+                        if memberRegister."Shares Retained" >= 15000 then
+                            ShareCapital := 0
+                        else if memberRegister."Shares Retained" >= 5000 then
+                            ShareCapital := 417
+                        else
+                            ShareCapital := 1000;
+
+                        fnInsertTransactions(employeeNo, payrollTransactionCodes."Transaction Code", payrollTransactionCodes."Transaction Name", payrollTransactionCodes."Transaction Type"::Deduction, ShareCapital, 0, intNewMonth, intNewYear, dtNewPeriod, memberNumber, '', 0, 0);
+                    end;
+                    //Emergency loan
+                    if payrollTransactionCodes."Transaction Code" = 'D001' then begin
+
+                        loanPrinciple := 0;
+                        loanInterest := 0;
+                        CalculateLoanRepayment('EMER', loanPrinciple, loanInterest, memberNumber, endMonthDate, dtNewPeriod, loanNumber, loanBalance);
+                        totalLoanAmount := loanPrinciple + loanInterest;
+
+                        if totalLoanAmount > 0 then
+                            fnInsertTransactions(employeeNo, payrollTransactionCodes."Transaction Code", payrollTransactionCodes."Transaction Name", payrollTransactionCodes."Transaction Type"::Deduction, totalLoanAmount, loanBalance, intNewMonth, intNewYear, dtNewPeriod, memberNumber, loanNumber, loanPrinciple, loanInterest);
+                    end;
+                    //Instant loan
+                    if payrollTransactionCodes."Transaction Code" = 'D003' then begin
+
+                        loanPrinciple := 0;
+                        loanInterest := 0;
+                        CalculateLoanRepayment('INST', loanPrinciple, loanInterest, memberNumber, endMonthDate, dtNewPeriod, loanNumber, loanBalance);
+                        totalLoanAmount := loanPrinciple + loanInterest;
+
+                        if totalLoanAmount > 0 then
+                            fnInsertTransactions(employeeNo, payrollTransactionCodes."Transaction Code", payrollTransactionCodes."Transaction Name", payrollTransactionCodes."Transaction Type"::Deduction, totalLoanAmount, loanBalance, intNewMonth, intNewYear, dtNewPeriod, memberNumber, loanNumber, loanPrinciple, loanInterest);
+                    end;
+                    //Emergency loan
+                    if payrollTransactionCodes."Transaction Code" = 'D004' then begin
+
+                        loanPrinciple := 0;
+                        loanInterest := 0;
+                        CalculateLoanRepayment('KIVUK', loanPrinciple, loanInterest, memberNumber, endMonthDate, dtNewPeriod, loanNumber, loanBalance);
+                        totalLoanAmount := loanPrinciple + loanInterest;
+
+                        if totalLoanAmount > 0 then
+                            fnInsertTransactions(employeeNo, payrollTransactionCodes."Transaction Code", payrollTransactionCodes."Transaction Name", payrollTransactionCodes."Transaction Type"::Deduction, totalLoanAmount, loanBalance, intNewMonth, intNewYear, dtNewPeriod, memberNumber, loanNumber, loanPrinciple, loanInterest);
+                    end;
+                    //S_Emergency loan
+                    if payrollTransactionCodes."Transaction Code" = 'D005' then begin
+
+                        loanPrinciple := 0;
+                        loanInterest := 0;
+                        CalculateLoanRepayment('MWOK', loanPrinciple, loanInterest, memberNumber, endMonthDate, dtNewPeriod, loanNumber, loanBalance);
+                        totalLoanAmount := loanPrinciple + loanInterest;
+
+                        if totalLoanAmount > 0 then
+                            fnInsertTransactions(employeeNo, payrollTransactionCodes."Transaction Code", payrollTransactionCodes."Transaction Name", payrollTransactionCodes."Transaction Type"::Deduction, totalLoanAmount, loanBalance, intNewMonth, intNewYear, dtNewPeriod, memberNumber, loanNumber, loanPrinciple, loanInterest);
+                    end;
+                    //School fees loan
+                    if payrollTransactionCodes."Transaction Code" = 'D007' then begin
+
+                        loanPrinciple := 0;
+                        loanInterest := 0;
+                        CalculateLoanRepayment('SCHLOAN', loanPrinciple, loanInterest, memberNumber, endMonthDate, dtNewPeriod, loanNumber, loanBalance);
+                        totalLoanAmount := loanPrinciple + loanInterest;
+
+                        if totalLoanAmount > 0 then
+                            fnInsertTransactions(employeeNo, payrollTransactionCodes."Transaction Code", payrollTransactionCodes."Transaction Name", payrollTransactionCodes."Transaction Type"::Deduction, totalLoanAmount, loanBalance, intNewMonth, intNewYear, dtNewPeriod, memberNumber, loanNumber, loanPrinciple, loanInterest);
+                    end;
+                    //S_School fees loan
+                    if payrollTransactionCodes."Transaction Code" = 'D006' then begin
+
+                        loanPrinciple := 0;
+                        loanInterest := 0;
+                        CalculateLoanRepayment('X-MAS', loanPrinciple, loanInterest, memberNumber, endMonthDate, dtNewPeriod, loanNumber, loanBalance);
+                        totalLoanAmount := loanPrinciple + loanInterest;
+
+                        if totalLoanAmount > 0 then
+                            fnInsertTransactions(employeeNo, payrollTransactionCodes."Transaction Code", payrollTransactionCodes."Transaction Name", payrollTransactionCodes."Transaction Type"::Deduction, totalLoanAmount, loanBalance, intNewMonth, intNewYear, dtNewPeriod, memberNumber, loanNumber, loanPrinciple, loanInterest);
+                    end;
+                    //Quick loan
+                    if payrollTransactionCodes."Transaction Code" = 'D07' then begin
+
+                        loanPrinciple := 0;
+                        loanInterest := 0;
+                        CalculateLoanRepayment('15', loanPrinciple, loanInterest, memberNumber, endMonthDate, dtNewPeriod, loanNumber, loanBalance);
+                        totalLoanAmount := loanPrinciple + loanInterest;
+
+                        if totalLoanAmount > 0 then
+                            fnInsertTransactions(employeeNo, payrollTransactionCodes."Transaction Code", payrollTransactionCodes."Transaction Name", payrollTransactionCodes."Transaction Type"::Deduction, totalLoanAmount, loanBalance, intNewMonth, intNewYear, dtNewPeriod, memberNumber, loanNumber, loanPrinciple, loanInterest);
+                    end;
+                    //S_Quick loan
+                    if payrollTransactionCodes."Transaction Code" = 'D08' then begin
+
+                        loanPrinciple := 0;
+                        loanInterest := 0;
+                        CalculateLoanRepayment('16', loanPrinciple, loanInterest, memberNumber, endMonthDate, dtNewPeriod, loanNumber, loanBalance);
+                        totalLoanAmount := loanPrinciple + loanInterest;
+
+                        if totalLoanAmount > 0 then
+                            fnInsertTransactions(employeeNo, payrollTransactionCodes."Transaction Code", payrollTransactionCodes."Transaction Name", payrollTransactionCodes."Transaction Type"::Deduction, totalLoanAmount, loanBalance, intNewMonth, intNewYear, dtNewPeriod, memberNumber, loanNumber, loanPrinciple, loanInterest);
+                    end;
+                    //Investment loan
+                    if payrollTransactionCodes."Transaction Code" = 'D09' then begin
+
+                        loanPrinciple := 0;
+                        loanInterest := 0;
+                        CalculateLoanRepayment('19', loanPrinciple, loanInterest, memberNumber, endMonthDate, dtNewPeriod, loanNumber, loanBalance);
+                        totalLoanAmount := loanPrinciple + loanInterest;
+
+                        if totalLoanAmount > 0 then
+                            fnInsertTransactions(employeeNo, payrollTransactionCodes."Transaction Code", payrollTransactionCodes."Transaction Name", payrollTransactionCodes."Transaction Type"::Deduction, totalLoanAmount, loanBalance, intNewMonth, intNewYear, dtNewPeriod, memberNumber, loanNumber, loanPrinciple, loanInterest);
+                    end;
+                    //Insurance
+                    if payrollTransactionCodes."Transaction Code" = 'D10' then begin
+
+                        insuranceContribution := memberRegister."Insurance Contribution";
+                        fnInsertTransactions(employeeNo, payrollTransactionCodes."Transaction Code", payrollTransactionCodes."Transaction Name", payrollTransactionCodes."Transaction Type"::Deduction, insuranceContribution, 0, intNewMonth, intNewYear, dtNewPeriod, memberNumber, '', 0, 0);
+                    end;//Normal Loan
+                    if payrollTransactionCodes."Transaction Code" = 'D12' then begin
+
+                        loanPrinciple := 0;
+                        loanInterest := 0;
+                        CalculateLoanRepayment('20', loanPrinciple, loanInterest, memberNumber, endMonthDate, dtNewPeriod, loanNumber, loanBalance);
+                        totalLoanAmount := loanPrinciple + loanInterest;
+
+                        if totalLoanAmount > 0 then
+                            fnInsertTransactions(employeeNo, payrollTransactionCodes."Transaction Code", payrollTransactionCodes."Transaction Name", payrollTransactionCodes."Transaction Type"::Deduction, totalLoanAmount, loanBalance, intNewMonth, intNewYear, dtNewPeriod, memberNumber, loanNumber, loanPrinciple, loanInterest);
+                    end;
+                    //House Levy
+                    if payrollTransactionCodes."Transaction Code" = 'D13' then begin
+                        holidaySavings := memberRegister."Holiday Contribution";
+
+                        fnInsertTransactions(employeeNo, payrollTransactionCodes."Transaction Code", payrollTransactionCodes."Transaction Name", payrollTransactionCodes."Transaction Type"::Deduction, holidaySavings, 0, intNewMonth, intNewYear, dtNewPeriod, memberNumber, '', 0, 0);
+                    end;
+
+                    //Holiday Savings
+                    if payrollTransactionCodes."Transaction Code" = 'D15' then begin
+                        holidaySavings := memberRegister."Holiday Contribution";
+
+                        fnInsertTransactions(employeeNo, payrollTransactionCodes."Transaction Code", payrollTransactionCodes."Transaction Name", payrollTransactionCodes."Transaction Type"::Deduction, holidaySavings, 0, intNewMonth, intNewYear, dtNewPeriod, memberNumber, '', 0, 0);
+                    end;
+                until payrollTransactionCodes.Next() = 0;
+            end;
+        end;
+    end;
+
+    procedure fnInsertTransactions(payrollNumber: Code[20]; transCode: Code[20]; transName: Code[20]; transType: Option Income,Deduction; transAmount: Decimal; loanBalance: Decimal; intNewMonth: Integer; intNewYear: Integer; dtNewPeriod: Date; memberNumber: Code[20]; loanNumber: Code[20]; loanRepaymentAmount: Decimal; interestCharged: Decimal)
+    var
+        loansRegister: Record "Loans Register";
+        prEmployeeTrans: Record "Payroll Employee Transactions.";
+    begin
+
+        prEmployeeTrans.Reset;
+        prEmployeeTrans.SetRange("No.", payrollNumber);
+        prEmployeeTrans.SetRange("Transaction Code", transCode);
+        prEmployeeTrans.SetRange("Period Month", intNewMonth);
+        prEmployeeTrans.SetRange("Period Year", intNewYear);
+
+        if prEmployeeTrans.FindFirst() then
+            exit;
+
+        //Insert record for the next period
+        with prEmployeeTrans do begin
+            prEmployeeTrans.Init;
+            prEmployeeTrans."No." := payrollNumber;
+            prEmployeeTrans."Transaction Code" := transCode;
+            prEmployeeTrans."Transaction Name" := transName;
+            prEmployeeTrans."Transaction Type" := transType;
+            prEmployeeTrans.Amount := transAmount;
+            prEmployeeTrans.Balance := loanBalance;
+            prEmployeeTrans."Amtzd Loan Repay Amt" := loanRepaymentAmount;
+            prEmployeeTrans."Original Amount" := loanBalance;
+            prEmployeeTrans.Membership := memberNumber;
+            prEmployeeTrans."Reference No" := loanNumber;
+            prEmployeeTrans."Loan Number" := loanNumber;
+            prEmployeeTrans."Loan Repayment Amount" := loanRepaymentAmount;
+            prEmployeeTrans."Interest Charged" := interestCharged;
+            prEmployeeTrans."Period Month" := intNewMonth;
+            prEmployeeTrans."Period Year" := intNewYear;
+            prEmployeeTrans."Payroll Period" := dtNewPeriod;
+            // prEmployeeTrans."Payroll Code" := PayrollCode;
+            prEmployeeTrans."Sacco Membership No." := memberNumber;
+            prEmployeeTrans.Insert;
+        end;
+    end;
+
+    procedure CalculateLoanRepayment(LoanProductType: Code[10]; var Principal: Decimal; var Interest: Decimal; CustomerNo: Code[20]; ASAT: Date; BeginMonthDate: Date; var loanNumber: Code[20]; var loanBalance: Decimal)
+    var
+        LoansRegister: Record "Loans Register";
+        LoanRepaymentSchedule: Record "Loan Repayment Schedule";
+    begin
+        Principal := 0;
+        Interest := 0;
+        loanNumber := '';
+        loanBalance := 0;
+
+        LoansRegister.Reset;
+        LoansRegister.SetRange("Client Code", CustomerNo);
+        LoansRegister.SetRange("Loan Product Type", LoanProductType);
+        LoansRegister.SetRange(Posted, true);
+        LoansRegister.SetFilter("Outstanding Balance", '>%1', 0);
+        LoansRegister.SetAutoCalcFields("Outstanding Balance", "Oustanding Interest");
+        LoansRegister.SetCurrentKey("Client Code", "Application Date");
+        LoansRegister.SetFilter("Repayment Start Date", '..%1', ASAT);
+        LoansRegister.Ascending(false); // latest loans first
+
+        if not LoansRegister.FindSet() then
+            exit;
+
+        LoansRegister.CalcFields("Outstanding Balance", "Oustanding Interest", "Interest Due");
+        loanBalance := LoansRegister."Outstanding Balance";
+        loanNumber := LoansRegister."Loan  No.";
+        // 2. Otherwise, try to find schedule entries within this month
+        LoanRepaymentSchedule.Reset;
+        LoanRepaymentSchedule.SetRange("Loan No.", LoansRegister."Loan  No.");
+        LoanRepaymentSchedule.SetRange("Repayment Date", BeginMonthDate, ASAT);
+        LoanRepaymentSchedule.SetFilter(LoanRepaymentSchedule."Repayment Date", '%1..%2', ASAT, CalcDate('CM', ASAT));
+
+        if LoanRepaymentSchedule.FindLast() then begin
+            // --- Calculate Principal ---
+            if LoanRepaymentSchedule."Principal Repayment" > LoansRegister."Outstanding Balance" then
+                Principal := ROUND(LoansRegister."Outstanding Balance", 1, '>')
+            else
+                Principal := ROUND(LoanRepaymentSchedule."Principal Repayment", 1, '>');
+
+            // --- Calculate Interest ---
+            if LoanRepaymentSchedule."Principal Repayment" < LoansRegister."Outstanding Balance" then
+                Interest := ROUND(LoanRepaymentSchedule."Monthly Interest", 1, '>')
+            else
+                Interest := ROUND(LoansRegister."Oustanding Interest", 1, '>');
+        end else begin
+            // No schedule found → fallback to balances
+            Principal := ROUND(LoansRegister."Outstanding Balance", 1, '>');
+            Interest := ROUND(LoansRegister."Oustanding Interest", 1, '>');
+
+            LoanRepaymentSchedule.Reset();
+            LoanRepaymentSchedule.SetRange("Loan No.", LoansRegister."Loan  No.");
+            // LoanRepaymentSchedule.SetRange("Repayment Date", BeginMonthDate, ASAT);
+            if LoanRepaymentSchedule.FindLast() then begin
+                // --- Calculate Principal ---
+                if LoanRepaymentSchedule."Principal Repayment" > LoansRegister."Outstanding Balance" then
+                    Principal := ROUND(LoansRegister."Outstanding Balance", 1, '>')
+                else
+                    Principal := ROUND(LoanRepaymentSchedule."Principal Repayment", 1, '>');
+
+                // --- Calculate Interest ---
+                if LoanRepaymentSchedule."Principal Repayment" < LoansRegister."Outstanding Balance" then
+                    // Interest := ROUND(LoanRepaymentSchedule."Monthly Interest", 1, '>')
+                    Interest := ROUND(LoansRegister."Approved Amount" * (LoansRegister.Interest / 1200), 1, '>')
+                else
+                    Interest := ROUND(LoansRegister."Oustanding Interest", 1, '>');
+            end;
+        end;
+    end;
+
+
     procedure fnGetNegativePay(intMonth: Integer; intYear: Integer; dtOpenPeriod: Date)
     var
-        prPeriodTransactions: Record "prPeriod Transactions.";
+
         prEmployeeTransactions: Record "Payroll Employee Transactions.";
         intNewMonth: Integer;
         intNewYear: Integer;
         dtNewPeriod: Date;
+        prPeriodTransactions: Record "prPeriod Transactions.";
     begin
         dtNewPeriod := CalcDate('1M', dtOpenPeriod);
         intNewMonth := Date2dmy(dtNewPeriod, 2);
         intNewYear := Date2dmy(dtNewPeriod, 3);
+
+
 
         prPeriodTransactions.Reset;
         prPeriodTransactions.SetRange(prPeriodTransactions."Period Month", intMonth);
@@ -1116,6 +1411,7 @@ Codeunit 51415 "Payroll Processing"//Number2
         P9NetPay: Decimal;
         prPeriodTransactions: Record "prPeriod Transactions.";
         prEmployee: Record "Payroll Employee.";
+        prEmployeeP9Info: Record "Payroll Employee P9.";
     begin
         P9BasicPay := 0;
         P9Allowances := 0;
@@ -1133,6 +1429,12 @@ Codeunit 51415 "Payroll Processing"//Number2
         P9NHIF := 0;
         P9Deductions := 0;
         P9NetPay := 0;
+
+        //Clear existing logs
+        prEmployeeP9Info.Reset();
+        prEmployeeP9Info.SetRange(prEmployeeP9Info."Payroll Period", dtCurPeriod);
+        // prEmployeeP9Info.SetRange(prEmployeeP9Info."Period Month", intMonth);
+        prEmployeeP9Info.DeleteAll();
 
         prEmployee.Reset;
         prEmployee.SetRange(prEmployee.Status, prEmployee.Status::Active);
@@ -1401,7 +1703,7 @@ Codeunit 51415 "Payroll Processing"//Number2
                 IF prSalCard.GET(EmpCode) THEN
                     "Payment Mode" := prSalCard."Payment Mode";
 
-                INSERT; // Insert only if the record does not exist
+                Insert(); // Insert only if the record does not exist
 
                 // Update the Payroll Employee Transactions with the Amount
                 fnUpdateEmployeeTrans("Employee Code", "Transaction Code", Amount, "Period Month", "Period Year", "Payroll Period");
@@ -1670,50 +1972,6 @@ Codeunit 51415 "Payroll Processing"//Number2
         exit(Found);
     end;
 
-    procedure fnCalcLoanInterest2(strEmpCode: Code[20]; strTransCode: Code[20]; InterestRate: Decimal; RecoveryMethod: Option Reducing,"Straight line",Amortized; LoanAmount: Decimal; Balance: Decimal; CurrPeriod: Date; Welfare: Boolean; LoanNo_: Code[20]) LnInterest: Decimal
-    var
-        curLoanInt: Decimal;
-        intMonth: Integer;
-        intYear: Integer;
-        Lns: Record "Loans Register";
-        LnsBal: Decimal;
-        DateF: Text;
-        RefDate: Date;
-    begin
-        intMonth := DATE2DMY(CurrPeriod, 2);
-        intYear := DATE2DMY(CurrPeriod, 3);
-        curLoanInt := 0;
-        LnsBal := 0;
-
-
-        DateF := '..' + FORMAT(RefDate);
-        Lns.RESET;
-        // Lns.SETFILTER("Date filter", DateF);
-        Lns.SETRANGE("Loan  No.", LoanNo_);
-        IF Lns.FINDFIRST THEN BEGIN
-            Lns.CALCFIELDS("Outstanding Balance");
-            LnsBal := Lns."Outstanding Balance";
-        END;
-
-
-        IF InterestRate > 0 THEN BEGIN
-            IF RecoveryMethod = RecoveryMethod::"Straight line" THEN //Straight Line Method [1]
-                curLoanInt := (InterestRate / 1200) * LoanAmount;
-
-            IF RecoveryMethod = RecoveryMethod::Reducing THEN //Reducing Balance [0]
-
-         curLoanInt := (InterestRate / 1200) * LnsBal;
-
-            IF RecoveryMethod = RecoveryMethod::Amortized THEN //Amortized [2]
-                curLoanInt := (InterestRate / 1200) * LnsBal;
-
-
-        END ELSE
-            curLoanInt := 0;
-
-        //Return the Amount
-        LnInterest := ROUND(curLoanInt, 0.05, '<');
-    end;
 
     procedure fnCalcLoanInterest(strEmpCode: Code[20]; strTransCode: Code[20]; InterestRate: Decimal; RecoveryMethod: Option Reducing,"Straight line",Amortized; LoanAmount: Decimal; Balance: Decimal; CurrPeriod: Date; Welfare: Boolean) LnInterest: Decimal
     var
@@ -1768,7 +2026,7 @@ Codeunit 51415 "Payroll Processing"//Number2
         LNPric: Decimal;
         ObjPRTransactioons: Record "prPeriod Transactions.";
     begin
-        ObjPRTransactioons.Reset;
+        ObjPRTransactioons.Reset();
         ObjPRTransactioons.SetRange(ObjPRTransactioons."Employee Code", "Payroll Employee Transactions."."No.");
         // Check if record already exists
         if not ObjPRTransactioons.FindFirst() then begin

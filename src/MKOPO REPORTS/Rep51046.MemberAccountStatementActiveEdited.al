@@ -424,6 +424,7 @@ report 51046 "Member Account Statement(act1)"
 
                 trigger OnPreDataItem()
                 begin
+                    CurrReport.Break();
                     ClosingBalanceFOSAShares := FOSASharesBF;
                     OpenBalanceFOSAShares := FOSASharesBF;
                     // ReportForNav.OnPreDataItem('FOSAShares', FOSAShares);

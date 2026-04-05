@@ -896,7 +896,7 @@ Codeunit 50120 "PORTALIntegration MFS"
             objMember."Monthly Contribution" := "Updated Fig";
             objMember.Modify;
             sms := 'You have adjusted your monthly contributions to: ' + Format("Updated Fig") + ' account number ' + FAccNo +
-                  '. Thank you for using SURESTEP Sacco Portal';
+                  '. Thank you for using Bamburi Wananchi Sacco Portal';
             FnSMSMessage(FAccNo, phoneNumber, sms);
 
             //MESSAGE('Updated');
@@ -904,7 +904,10 @@ Codeunit 50120 "PORTALIntegration MFS"
     end;
 
 
-    procedure FnSMSMessage(accfrom: Text[30]; phone: Text[20]; message: Text[250])
+    procedure
+
+
+    FnSMSMessage(accfrom: Text[30]; phone: Text[20]; message: Text[250])
     begin
 
         SMSMessages.Reset;

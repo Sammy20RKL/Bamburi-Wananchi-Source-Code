@@ -2308,6 +2308,7 @@ Codeunit 51120 PORTALIntegration
         memberRegister.SetRange(memberRegister."No.", accfrom);
         if memberRegister.Find('-') then begin
             Emailaddress := memberRegister."E-Mail";
+            Emailaddress := memberRegister."E-Mail (Personal)";
             memberName := memberRegister.Name;
         end;
         EmailSubject := 'Bamburi Portal Notification';
@@ -2315,12 +2316,12 @@ Codeunit 51120 PORTALIntegration
 
         EMailBody := 'Dear <b>' + memberName + '</b>,</br></br>' +
             message + '</br>' +
-            'Thank You For Choosing to Save With Us' + '</br>' +
-            'Kind regards,' + '<br></br>' +
+            ' Thank You For Choosing to Save With Us ' + '</br>' +
+            'Kind regards, ' + '<br></br>' +
 
-            Companyinfo.Name + '</br>' + Companyinfo.Address + '</br>' + Companyinfo.City + '</br>' +
-            Companyinfo."Post Code" + '</br>' + Companyinfo."Country/Region Code" + '</br>' +
-            Companyinfo."Phone No." + '</br>' + Companyinfo."E-Mail";
+            Companyinfo.Name + ' </br>' + Companyinfo."Address 2" + ' </br>' + Companyinfo.City + ' </br>' +
+            Companyinfo."Post Code" + ' </br>' + Companyinfo."Country/Region Code" + ' </br>' +
+            Companyinfo."Phone No." + ' </br>' + Companyinfo."E-Mail";
         if Emailaddress <> '' then
             EmailCodeunit.SendMail(Emailaddress, EmailSubject, EmailBody);
     end;

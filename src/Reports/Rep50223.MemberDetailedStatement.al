@@ -25,7 +25,7 @@ report 50223 "Member Detailed Statement"
             column(Company_Fax_No; Company."Phone No.") { }
             column(RegistrationDate_MemberRegister; Customer."Registration Date") { }
             column(PhoneNo_MemberRegister; Customer."Phone No.") { }
-            column(CurrentShares_MemberRegister; Customer."Current Shares") { }
+            column(CurrentShares_MembderRegister; Customer."Current Shares") { }
             column(Company_Email; Company."E-Mail") { }
             column(Company_Name; Company.Name) { }
             column(Company_Picture; Company.Picture) { }
@@ -232,7 +232,7 @@ report 50223 "Member Detailed Statement"
             dataitem(FOSAShares; "Cust. Ledger Entry")
             {
                 DataItemLink = "Customer No." = field("No."), "Posting Date" = field("Date Filter");
-                DataItemTableView = sorting("Posting Date") where("Transaction Type" = filter("FOSA Shares"), Reversed = filter(false));
+                // DataItemTableView = sorting("Posting Date") where("Transaction Type" = filter("FOSA Shares"), Reversed = filter(false));
 
                 column(PostingDate_FOSAShares; FOSAShares."Posting Date") { }
                 column(DocumentNo_FOSAShares; FOSAShares."Document No.") { }
@@ -245,6 +245,7 @@ report 50223 "Member Detailed Statement"
 
                 trigger OnPreDataItem()
                 begin
+                    CurrReport.Break();
                     ClosingBalanceFOSAShares := FOSASharesBF;
                     OpenBalanceFOSAShares := FOSASharesBF;
                     // ReportForNav.OnPreDataItem('FOSAShares', FOSAShares);

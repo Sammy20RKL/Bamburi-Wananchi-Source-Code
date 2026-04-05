@@ -62,8 +62,8 @@ Report 51035 "Members Loans Guarantors"
             }
             dataitem("Loans Guarantee Details"; "Loans Guarantee Details")
             {
-                DataItemLink = "Loanees  No" = field("No."), "Loan No" = field("Loan No. Filter");
-                DataItemTableView = where("Outstanding Balance" = filter(> 0), Substituted = filter(false));
+                DataItemLink = "Loanees  No" = field("No.");
+                DataItemTableView = where(Substituted = filter(false));
                 RequestFilterFields = "Member No", "Loan No";
                 column(ReportForNavId_1000000001; 1000000001)
                 {
@@ -86,7 +86,7 @@ Report 51035 "Members Loans Guarantors"
                 column(EntryNo; EntryNo)
                 {
                 }
-                column(OutStandingBal; "Loans Guarantee Details"."Outstanding Balance")
+                column(OutStandingBal; LoanOutstandingBal)
                 {
                 }
                 column(TotalOutstandingBal; TotalOutstandingBal)
@@ -101,7 +101,7 @@ Report 51035 "Members Loans Guarantors"
                 column(CommittedShares; CommittedShares)
                 {
                 }
-                column(OriginalAmount; "Loans Guarantee Details"."Original Amount")
+                column(OriginalAmount; "Loans Guarantee Details"."Amont Guaranteed")
                 {
                 }
 
@@ -114,6 +114,7 @@ Report 51035 "Members Loans Guarantors"
                     Loansr.Reset;
                     Loansr.SetRange(Loansr."Loan  No.", "Loan No");
                     if Loansr.Find('-') then BEGIN
+                        Loansr.CalcFields(Loansr."Outstanding Balance");
                         MemberNo := Loansr."Client Code";
                         MemberName := Loansr."Client Name";
                         EmployerCode := Loansr."Employer Code";
@@ -150,26 +151,9 @@ Report 51035 "Members Loans Guarantors"
                     //         until ObjLoanGuar.Next = 0;
                     //     end;
                     //     //END
-                    ObjLoanGuar.Reset;
-                    ObjLoanGuar.SetRange("Loan No", "Loan No");
-                    ObjLoanGuar.SetRange("Member No", "Loans Guarantee Details"."Member No");
-
-                    if ObjLoanGuar.FindSet then begin
-                        repeat
-                            ObjLoanGuar.CalcFields("Outstanding Balance");
-
-                            if ApprovedAmt > 0 then begin
-                                CommittedShares := (ObjLoanGuar."Outstanding Balance" / ApprovedAmt) * ObjLoanGuar."Amont Guaranteed";
-
-                                // Message('Commited shares %1', CommittedShares);
-
-                                if CommittedShares > 0 then begin
-                                    ObjLoanGuar."Committed Shares" := CommittedShares;
-                                    ObjLoanGuar.Modify;
-                                end;
-                            end;
-                        until ObjLoanGuar.Next = 0;
-                    end;
+                    LoanOutstandingBal := Loansr."Outstanding Balance";
+                    if ApprovedAmt > 0 then
+                        CommittedShares := (Loansr."Outstanding Balance" / ApprovedAmt) * "Loans Guarantee Details"."Amont Guaranteed";
 
                 end;
             }
@@ -246,6 +230,7 @@ Report 51035 "Members Loans Guarantors"
     }
 
     var
+        LoanOutstandingBal: Decimal;
         LastFieldNo: Integer;
         FooterPrinted: Boolean;
         AvailableSH: Decimal;

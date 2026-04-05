@@ -2455,6 +2455,11 @@ Page 56043 "Bamburi SACCO Role Center"
                 }
                 group("Payroll Periodic Activities")
                 {
+                    action("Process Payroll")
+                    {
+                        RunObject = report "Process Payroll";
+                        ApplicationArea = All;
+                    }
                     action("Payroll Employee Transactions")
                     {
                         RunObject = page "Payroll Employee Transactions";
@@ -2542,16 +2547,16 @@ Page 56043 "Bamburi SACCO Role Center"
                         RunObject = page "Payroll PAYE Setup.";
                         ApplicationArea = All;
                     }
-                    action("Payroll NSSF Setup")
-                    {
-                        RunObject = page "Payroll NSSF Setup.";
-                        ApplicationArea = All;
-                    }
-                    action("Payroll NHIF Setup")
-                    {
-                        RunObject = page "Payroll NHIF Setup.";
-                        ApplicationArea = All;
-                    }
+                    // action("Payroll NSSF Setup")
+                    // {
+                    //     RunObject = page "Payroll NSSF Setup.";
+                    //     ApplicationArea = All;
+                    // }
+                    // action("Payroll NHIF Setup")
+                    // {
+                    //     RunObject = page "Payroll NHIF Setup.";
+                    //     ApplicationArea = All;
+                    // }
                     action("Payroll Posting Group")
                     {
                         RunObject = page "Payroll Posting Group.";

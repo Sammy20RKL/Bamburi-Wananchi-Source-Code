@@ -196,6 +196,7 @@ Page 51007 "BOSA Loans Disbursement Card"
                     ApplicationArea = Basic;
                     Editable = false;
                 }
+
                 field("Repayment Frequency"; Rec."Repayment Frequency")
                 {
                     ApplicationArea = Basic;

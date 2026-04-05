@@ -43,7 +43,7 @@ page 50367 "Member Account Card"
                 {
                     ApplicationArea = Basic;
                     Caption = 'Mobile No.';
-                    Editable = true;
+                    Editable = false;
                     Style = StrongAccent;
                 }
 
@@ -972,6 +972,7 @@ page 50367 "Member Account Card"
                 {
                     ApplicationArea = Basic;
                     Image = "Report";
+                    Visible = false;
                     Promoted = true;
                     PromotedCategory = "Report";
 
@@ -1025,6 +1026,7 @@ page 50367 "Member Account Card"
 
                     trigger OnAction()
                     var
+                        f: report 51036;
                         LoansReg: Record "Loans Register";
                     begin
                         LoansReg.Reset();

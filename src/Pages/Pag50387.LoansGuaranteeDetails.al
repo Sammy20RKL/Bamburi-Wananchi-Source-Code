@@ -41,7 +41,7 @@ page 50387 "Loans Guarantee Details"
                     ApplicationArea = Basic;
                 }
 
-                field("Committed Shares"; Rec."Committed Shares")
+                field("Committed Shares"; Rec.Shares)
                 {
                     ApplicationArea = Basic;
                 }

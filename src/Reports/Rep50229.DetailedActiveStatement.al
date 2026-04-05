@@ -20,6 +20,7 @@ report 50229 "Detailed Active Statement"
             column(Shares_Retained; Customer."Shares Retained") { }
             column(HolidaySavings_cj; Customer."Holiday Savings") { }
             column(IDNo_Members; Customer."ID No.") { }
+            column(Company_Name; Company.Name) { }
             column(Company_Address; Company.Address) { }
             column(Company_Address_2; Company."Address 2") { }
             column(Company_Fax_No; Company."Phone No.") { }
@@ -244,6 +245,7 @@ report 50229 "Detailed Active Statement"
 
                 trigger OnPreDataItem()
                 begin
+                    CurrReport.Break();
                     ClosingBalanceFOSAShares := FOSASharesBF;
                     OpenBalanceFOSAShares := FOSASharesBF;
                     // ReportForNav.OnPreDataItem('FOSAShares', FOSAShares);

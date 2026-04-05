@@ -115,7 +115,7 @@ page 57006 "Bamburi Checkoff Card"
 
                 trigger OnAction()
                 var
-                    BamburiCheckoffImport: XmlPort "Bamburi Checkoff 2026";
+                    BamburiCheckoffImport: XmlPort 50200;
                 begin
                     BamburiCheckoffImport.SetReceiptHeaderNo(Rec.No);
                     BamburiCheckoffImport.Run();
