@@ -2232,6 +2232,10 @@ tableextension 50047 "CustomerExt" extends Customer
         field(69513; "P_No"; Code[30])
         {
         }
+        field(69514; "Mid-Month Advance"; Decimal)
+        {
+        }
+        field(69515; "Bonus Recovery"; Decimal) { }
     }
     keys
     {

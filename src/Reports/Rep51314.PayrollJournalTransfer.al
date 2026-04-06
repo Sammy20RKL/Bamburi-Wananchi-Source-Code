@@ -263,7 +263,7 @@ Report 51314 "Payroll JournalTransfer."
 
         if AccountType = Accounttype::Customer then begin
             AccountType := Accounttype::Customer;
-            AccountNo := MemberNo;
+            //AccountNo := MemberNo;
 
             GlobalDime1 := 'BOSA';
         end;

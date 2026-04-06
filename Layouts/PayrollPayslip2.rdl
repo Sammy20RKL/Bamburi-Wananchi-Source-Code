@@ -24,250 +24,6 @@
       <rd:DataSourceID>4ccbf86e-7c51-4718-830c-9a1a149af3c9</rd:DataSourceID>
     </DataSource>
   </DataSources>
-  <DataSets>
-    <DataSet Name="DataSet_Result">
-      <Query>
-        <DataSourceName>DataSource</DataSourceName>
-        <CommandText />
-      </Query>
-      <Fields>
-        <Field Name="No">
-          <DataField>No</DataField>
-        </Field>
-        <Field Name="Surname">
-          <DataField>Surname</DataField>
-        </Field>
-        <Field Name="FirstName">
-          <DataField>FirstName</DataField>
-        </Field>
-        <Field Name="Lastname">
-          <DataField>Lastname</DataField>
-        </Field>
-        <Field Name="FullName">
-          <DataField>FullName</DataField>
-        </Field>
-        <Field Name="CName">
-          <DataField>CName</DataField>
-        </Field>
-        <Field Name="CAddress">
-          <DataField>CAddress</DataField>
-        </Field>
-        <Field Name="CPic">
-          <DataField>CPic</DataField>
-        </Field>
-        <Field Name="PeriodName">
-          <DataField>PeriodName</DataField>
-        </Field>
-        <Field Name="IncrementDate_PayrollEmployee">
-          <DataField>IncrementDate_PayrollEmployee</DataField>
-        </Field>
-        <Field Name="PINNo">
-          <DataField>PINNo</DataField>
-        </Field>
-        <Field Name="JobGroup_PayrollEmployee">
-          <DataField>JobGroup_PayrollEmployee</DataField>
-        </Field>
-        <Field Name="JobDescription_PayrollEmployee">
-          <DataField>JobDescription_PayrollEmployee</DataField>
-        </Field>
-        <Field Name="GlobalDimension1_PayrollEmployee">
-          <DataField>GlobalDimension1_PayrollEmployee</DataField>
-        </Field>
-        <Field Name="GlobalDimension2_PayrollEmployee">
-          <DataField>GlobalDimension2_PayrollEmployee</DataField>
-        </Field>
-        <Field Name="NSSFNo">
-          <DataField>NSSFNo</DataField>
-        </Field>
-        <Field Name="BankCode_PayrollEmployee">
-          <DataField>BankCode_PayrollEmployee</DataField>
-        </Field>
-        <Field Name="NHIFNo">
-          <DataField>NHIFNo</DataField>
-        </Field>
-        <Field Name="BankName">
-          <DataField>BankName</DataField>
-        </Field>
-        <Field Name="BranchName">
-          <DataField>BranchName</DataField>
-        </Field>
-        <Field Name="DateOfRetirement_PayrollEmployee">
-          <DataField>DateOfRetirement_PayrollEmployee</DataField>
-        </Field>
-        <Field Name="Department">
-          <DataField>Department</DataField>
-        </Field>
-        <Field Name="UserId">
-          <DataField>UserId</DataField>
-        </Field>
-        <Field Name="BankAccNo">
-          <DataField>BankAccNo</DataField>
-        </Field>
-        <Field Name="Departmentname">
-          <DataField>Departmentname</DataField>
-        </Field>
-        <Field Name="DepartmentCode_PayrollEmployee">
-          <DataField>DepartmentCode_PayrollEmployee</DataField>
-        </Field>
-        <Field Name="BANKN">
-          <DataField>BANKN</DataField>
-        </Field>
-        <Field Name="BranchN">
-          <DataField>BranchN</DataField>
-        </Field>
-        <Field Name="ACCn">
-          <DataField>ACCn</DataField>
-        </Field>
-        <Field Name="Designation">
-          <DataField>Designation</DataField>
-        </Field>
-        <Field Name="Employee_Code">
-          <DataField>Employee_Code</DataField>
-        </Field>
-        <Field Name="TCode">
-          <DataField>TCode</DataField>
-        </Field>
-        <Field Name="TName">
-          <DataField>TName</DataField>
-        </Field>
-        <Field Name="coop_parameters">
-          <DataField>coop_parameters</DataField>
-        </Field>
-        <Field Name="Grouping">
-          <DataField>Grouping</DataField>
-        </Field>
-        <Field Name="TBalances">
-          <DataField>TBalances</DataField>
-        </Field>
-        <Field Name="TBalancesFormat">
-          <DataField>TBalancesFormat</DataField>
-        </Field>
-        <Field Name="SubGroupOrder">
-          <DataField>SubGroupOrder</DataField>
-        </Field>
-        <Field Name="Amount">
-          <DataField>Amount</DataField>
-        </Field>
-        <Field Name="AmountFormat">
-          <DataField>AmountFormat</DataField>
-        </Field>
-        <Field Name="PeriodMonth_prPeriodTransactions">
-          <DataField>PeriodMonth_prPeriodTransactions</DataField>
-        </Field>
-        <Field Name="PeriodYear_prPeriodTransactions">
-          <DataField>PeriodYear_prPeriodTransactions</DataField>
-        </Field>
-        <Field Name="NSSF">
-          <DataField>NSSF</DataField>
-        </Field>
-        <Field Name="NSSFFormat">
-          <DataField>NSSFFormat</DataField>
-        </Field>
-        <Field Name="NSSF2">
-          <DataField>NSSF2</DataField>
-        </Field>
-        <Field Name="NSSF2Format">
-          <DataField>NSSF2Format</DataField>
-        </Field>
-        <Field Name="Pens">
-          <DataField>Pens</DataField>
-        </Field>
-        <Field Name="PensFormat">
-          <DataField>PensFormat</DataField>
-        </Field>
-        <Field Name="TaxablePay">
-          <DataField>TaxablePay</DataField>
-        </Field>
-        <Field Name="TaxablePayFormat">
-          <DataField>TaxablePayFormat</DataField>
-        </Field>
-        <Field Name="Taxcharged">
-          <DataField>Taxcharged</DataField>
-        </Field>
-        <Field Name="TaxchargedFormat">
-          <DataField>TaxchargedFormat</DataField>
-        </Field>
-        <Field Name="prelief">
-          <DataField>prelief</DataField>
-        </Field>
-        <Field Name="preliefFormat">
-          <DataField>preliefFormat</DataField>
-        </Field>
-        <Field Name="NHIFR">
-          <DataField>NHIFR</DataField>
-        </Field>
-        <Field Name="NHIFRFormat">
-          <DataField>NHIFRFormat</DataField>
-        </Field>
-        <Field Name="insrel">
-          <DataField>insrel</DataField>
-        </Field>
-        <Field Name="insrelFormat">
-          <DataField>insrelFormat</DataField>
-        </Field>
-        <Field Name="paye">
-          <DataField>paye</DataField>
-        </Field>
-        <Field Name="payeFormat">
-          <DataField>payeFormat</DataField>
-        </Field>
-        <Field Name="Sloanamount">
-          <DataField>Sloanamount</DataField>
-        </Field>
-        <Field Name="SloanamountFormat">
-          <DataField>SloanamountFormat</DataField>
-        </Field>
-        <Field Name="SloanBalance">
-          <DataField>SloanBalance</DataField>
-        </Field>
-        <Field Name="SloanBalanceFormat">
-          <DataField>SloanBalanceFormat</DataField>
-        </Field>
-        <Field Name="SharesAmount">
-          <DataField>SharesAmount</DataField>
-        </Field>
-        <Field Name="SharesAmountFormat">
-          <DataField>SharesAmountFormat</DataField>
-        </Field>
-        <Field Name="LoanInterestAmont">
-          <DataField>LoanInterestAmont</DataField>
-        </Field>
-        <Field Name="LoanInterestAmontFormat">
-          <DataField>LoanInterestAmontFormat</DataField>
-        </Field>
-        <Field Name="BenevolentAmount">
-          <DataField>BenevolentAmount</DataField>
-        </Field>
-        <Field Name="BenevolentAmountFormat">
-          <DataField>BenevolentAmountFormat</DataField>
-        </Field>
-        <Field Name="LikizoContribution">
-          <DataField>LikizoContribution</DataField>
-        </Field>
-        <Field Name="LikizoContributionFormat">
-          <DataField>LikizoContributionFormat</DataField>
-        </Field>
-        <Field Name="ShareCapital">
-          <DataField>ShareCapital</DataField>
-        </Field>
-        <Field Name="ShareCapitalFormat">
-          <DataField>ShareCapitalFormat</DataField>
-        </Field>
-        <Field Name="Housing_Levy">
-          <DataField>Housing_Levy</DataField>
-        </Field>
-        <Field Name="Housing_LevyFormat">
-          <DataField>Housing_LevyFormat</DataField>
-        </Field>
-        <Field Name="TotalDeduction">
-          <DataField>TotalDeduction</DataField>
-        </Field>
-        <Field Name="TotalDeductionFormat">
-          <DataField>TotalDeductionFormat</DataField>
-        </Field>
-      </Fields>
-    </DataSet>
-  </DataSets>
   <ReportSections>
     <ReportSection>
       <Body>
@@ -3809,12 +3565,6 @@
       </Page>
     </ReportSection>
   </ReportSections>
-  <ReportParametersLayout>
-    <GridLayoutDefinition>
-      <NumberOfColumns>4</NumberOfColumns>
-      <NumberOfRows>2</NumberOfRows>
-    </GridLayoutDefinition>
-  </ReportParametersLayout>
   <Code>Public Function BlankZero(ByVal Value As Decimal)
     if Value = 0 then
         Return ""
@@ -3852,4 +3602,248 @@ End Function
 </Code>
   <Language>=User!Language</Language>
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="No">
+          <DataField>No</DataField>
+        </Field>
+        <Field Name="Surname">
+          <DataField>Surname</DataField>
+        </Field>
+        <Field Name="FirstName">
+          <DataField>FirstName</DataField>
+        </Field>
+        <Field Name="Lastname">
+          <DataField>Lastname</DataField>
+        </Field>
+        <Field Name="FullName">
+          <DataField>FullName</DataField>
+        </Field>
+        <Field Name="CName">
+          <DataField>CName</DataField>
+        </Field>
+        <Field Name="CAddress">
+          <DataField>CAddress</DataField>
+        </Field>
+        <Field Name="CPic">
+          <DataField>CPic</DataField>
+        </Field>
+        <Field Name="PeriodName">
+          <DataField>PeriodName</DataField>
+        </Field>
+        <Field Name="IncrementDate_PayrollEmployee">
+          <DataField>IncrementDate_PayrollEmployee</DataField>
+        </Field>
+        <Field Name="PINNo">
+          <DataField>PINNo</DataField>
+        </Field>
+        <Field Name="JobGroup_PayrollEmployee">
+          <DataField>JobGroup_PayrollEmployee</DataField>
+        </Field>
+        <Field Name="JobDescription_PayrollEmployee">
+          <DataField>JobDescription_PayrollEmployee</DataField>
+        </Field>
+        <Field Name="GlobalDimension1_PayrollEmployee">
+          <DataField>GlobalDimension1_PayrollEmployee</DataField>
+        </Field>
+        <Field Name="GlobalDimension2_PayrollEmployee">
+          <DataField>GlobalDimension2_PayrollEmployee</DataField>
+        </Field>
+        <Field Name="NSSFNo">
+          <DataField>NSSFNo</DataField>
+        </Field>
+        <Field Name="BankCode_PayrollEmployee">
+          <DataField>BankCode_PayrollEmployee</DataField>
+        </Field>
+        <Field Name="NHIFNo">
+          <DataField>NHIFNo</DataField>
+        </Field>
+        <Field Name="BankName">
+          <DataField>BankName</DataField>
+        </Field>
+        <Field Name="BranchName">
+          <DataField>BranchName</DataField>
+        </Field>
+        <Field Name="DateOfRetirement_PayrollEmployee">
+          <DataField>DateOfRetirement_PayrollEmployee</DataField>
+        </Field>
+        <Field Name="Department">
+          <DataField>Department</DataField>
+        </Field>
+        <Field Name="UserId">
+          <DataField>UserId</DataField>
+        </Field>
+        <Field Name="BankAccNo">
+          <DataField>BankAccNo</DataField>
+        </Field>
+        <Field Name="Departmentname">
+          <DataField>Departmentname</DataField>
+        </Field>
+        <Field Name="DepartmentCode_PayrollEmployee">
+          <DataField>DepartmentCode_PayrollEmployee</DataField>
+        </Field>
+        <Field Name="BANKN">
+          <DataField>BANKN</DataField>
+        </Field>
+        <Field Name="BranchN">
+          <DataField>BranchN</DataField>
+        </Field>
+        <Field Name="ACCn">
+          <DataField>ACCn</DataField>
+        </Field>
+        <Field Name="Designation">
+          <DataField>Designation</DataField>
+        </Field>
+        <Field Name="Employee_Code">
+          <DataField>Employee_Code</DataField>
+        </Field>
+        <Field Name="TCode">
+          <DataField>TCode</DataField>
+        </Field>
+        <Field Name="TName">
+          <DataField>TName</DataField>
+        </Field>
+        <Field Name="coop_parameters">
+          <DataField>coop_parameters</DataField>
+        </Field>
+        <Field Name="Grouping">
+          <DataField>Grouping</DataField>
+        </Field>
+        <Field Name="TBalances">
+          <DataField>TBalances</DataField>
+        </Field>
+        <Field Name="TBalancesFormat">
+          <DataField>TBalancesFormat</DataField>
+        </Field>
+        <Field Name="SubGroupOrder">
+          <DataField>SubGroupOrder</DataField>
+        </Field>
+        <Field Name="Amount">
+          <DataField>Amount</DataField>
+        </Field>
+        <Field Name="AmountFormat">
+          <DataField>AmountFormat</DataField>
+        </Field>
+        <Field Name="PeriodMonth_prPeriodTransactions">
+          <DataField>PeriodMonth_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="PeriodYear_prPeriodTransactions">
+          <DataField>PeriodYear_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="NSSF">
+          <DataField>NSSF</DataField>
+        </Field>
+        <Field Name="NSSFFormat">
+          <DataField>NSSFFormat</DataField>
+        </Field>
+        <Field Name="NSSF2">
+          <DataField>NSSF2</DataField>
+        </Field>
+        <Field Name="NSSF2Format">
+          <DataField>NSSF2Format</DataField>
+        </Field>
+        <Field Name="Pens">
+          <DataField>Pens</DataField>
+        </Field>
+        <Field Name="PensFormat">
+          <DataField>PensFormat</DataField>
+        </Field>
+        <Field Name="TaxablePay">
+          <DataField>TaxablePay</DataField>
+        </Field>
+        <Field Name="TaxablePayFormat">
+          <DataField>TaxablePayFormat</DataField>
+        </Field>
+        <Field Name="Taxcharged">
+          <DataField>Taxcharged</DataField>
+        </Field>
+        <Field Name="TaxchargedFormat">
+          <DataField>TaxchargedFormat</DataField>
+        </Field>
+        <Field Name="prelief">
+          <DataField>prelief</DataField>
+        </Field>
+        <Field Name="preliefFormat">
+          <DataField>preliefFormat</DataField>
+        </Field>
+        <Field Name="NHIFR">
+          <DataField>NHIFR</DataField>
+        </Field>
+        <Field Name="NHIFRFormat">
+          <DataField>NHIFRFormat</DataField>
+        </Field>
+        <Field Name="insrel">
+          <DataField>insrel</DataField>
+        </Field>
+        <Field Name="insrelFormat">
+          <DataField>insrelFormat</DataField>
+        </Field>
+        <Field Name="paye">
+          <DataField>paye</DataField>
+        </Field>
+        <Field Name="payeFormat">
+          <DataField>payeFormat</DataField>
+        </Field>
+        <Field Name="Sloanamount">
+          <DataField>Sloanamount</DataField>
+        </Field>
+        <Field Name="SloanamountFormat">
+          <DataField>SloanamountFormat</DataField>
+        </Field>
+        <Field Name="SloanBalance">
+          <DataField>SloanBalance</DataField>
+        </Field>
+        <Field Name="SloanBalanceFormat">
+          <DataField>SloanBalanceFormat</DataField>
+        </Field>
+        <Field Name="SharesAmount">
+          <DataField>SharesAmount</DataField>
+        </Field>
+        <Field Name="SharesAmountFormat">
+          <DataField>SharesAmountFormat</DataField>
+        </Field>
+        <Field Name="LoanInterestAmont">
+          <DataField>LoanInterestAmont</DataField>
+        </Field>
+        <Field Name="LoanInterestAmontFormat">
+          <DataField>LoanInterestAmontFormat</DataField>
+        </Field>
+        <Field Name="BenevolentAmount">
+          <DataField>BenevolentAmount</DataField>
+        </Field>
+        <Field Name="BenevolentAmountFormat">
+          <DataField>BenevolentAmountFormat</DataField>
+        </Field>
+        <Field Name="LikizoContribution">
+          <DataField>LikizoContribution</DataField>
+        </Field>
+        <Field Name="LikizoContributionFormat">
+          <DataField>LikizoContributionFormat</DataField>
+        </Field>
+        <Field Name="ShareCapital">
+          <DataField>ShareCapital</DataField>
+        </Field>
+        <Field Name="ShareCapitalFormat">
+          <DataField>ShareCapitalFormat</DataField>
+        </Field>
+        <Field Name="Housing_Levy">
+          <DataField>Housing_Levy</DataField>
+        </Field>
+        <Field Name="Housing_LevyFormat">
+          <DataField>Housing_LevyFormat</DataField>
+        </Field>
+        <Field Name="TotalDeduction">
+          <DataField>TotalDeduction</DataField>
+        </Field>
+        <Field Name="TotalDeductionFormat">
+          <DataField>TotalDeductionFormat</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
 </Report>

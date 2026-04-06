@@ -58,8 +58,8 @@ Table 51318 "Payroll Transaction Code."
         }
         field(23; "Repayment Method"; Option)
         {
-            OptionCaption = 'Reducing,Straight line,Amortized';
-            OptionMembers = Reducing,"Straight line",Amortized;
+            OptionCaption = 'Reducing,Straight line,Amortized,One-Time';
+            OptionMembers = Reducing,"Straight line",Amortized,"One-Time";
         }
         field(24; "Fringe Benefit"; Boolean)
         {
