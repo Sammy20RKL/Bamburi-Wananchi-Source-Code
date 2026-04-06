@@ -53,7 +53,7 @@ Report 50311 "Payroll Employees Report."
             column(CName; CompanyInformation.Name)
             {
             }
-            column(CAddress; CompanyInformation.Address)
+            column(CAddress; CompanyInformation."Address 2")
             {
             }
             column(CPic; CompanyInformation.Picture)

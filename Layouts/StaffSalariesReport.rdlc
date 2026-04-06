@@ -22,7 +22,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Polytech Sacco Staff Loan Report</Value>
+                    <Value>Bamburi Sacco Staff Loan Report</Value>
                     <Style>
                       <FontFamily>Cambria</FontFamily>
                       <FontSize>9pt</FontSize>
@@ -965,7 +965,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>

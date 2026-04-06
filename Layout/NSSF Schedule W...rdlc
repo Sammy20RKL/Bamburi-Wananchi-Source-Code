@@ -1686,7 +1686,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=ReportItems!User_Name_Caption.Value</Value>
+                      <Value>=First(Fields!User_Name_Caption.Value, "DataSet_Result")</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                       </Style>
@@ -1709,7 +1709,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=ReportItems!NATIONAL_SOCIAL_SECURITY_FUNDCaption.Value</Value>
+                      <Value>=First(Fields!NATIONAL_SOCIAL_SECURITY_FUNDCaption.Value, "DataSet_Result")</Value>
                       <Style>
                         <FontFamily>Tahoma</FontFamily>
                         <FontSize>14pt</FontSize>
@@ -1738,7 +1738,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=ReportItems!Print_Date_Caption.Value</Value>
+                      <Value>=First(Fields!Print_Date_Caption.Value, "DataSet_Result")</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                       </Style>
@@ -1762,7 +1762,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=ReportItems!Page_No_Caption.Value</Value>
+                      <Value>=First(Fields!Page_No_Caption.Value, "DataSet_Result")</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                       </Style>
@@ -1786,7 +1786,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=ReportItems!Period_Caption.Value</Value>
+                      <Value>=First(Fields!Period_Caption.Value, "DataSet_Result")</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                       </Style>
@@ -1889,7 +1889,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=ReportItems!PeriodName.Value</Value>
+                      <Value>=First(Fields!PeriodName.Value, "DataSet_Result")</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                       </Style>

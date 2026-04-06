@@ -92,7 +92,7 @@ Report 50476 "PAYE Schedule"
             column(Taxable_Pay_Caption; Taxable_Pay_CaptionLbl)
             {
             }
-            column(Prepared_by_______________________________________Date_________________Caption; Prepared_by_______________________________________Date_________________CaptionLbl)
+            column(Prepared_by_______________________________________Date________________Caption; Prepared_by_______________________________________Date_________________CaptionLbl)
             {
             }
             column(Checked_by________________________________________Date_________________Caption; Checked_by________________________________________Date_________________CaptionLbl)
@@ -165,7 +165,7 @@ Report 50476 "PAYE Schedule"
                 if companyinfo.Get() then
                     companyinfo.CalcFields(companyinfo.Picture);
                 CompName := companyinfo.Name;
-                Addr1 := companyinfo.Address;
+                Addr1 := companyinfo."Address 2";
 
                 Addr2 := companyinfo.City;
                 Email := companyinfo."E-Mail";
