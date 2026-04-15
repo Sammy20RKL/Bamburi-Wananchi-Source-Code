@@ -56,7 +56,7 @@ Codeunit 51415 "Payroll Processing"//Number2
         Management: Boolean;
         intRate: Decimal;
         // PayrollPeriodBuffer: Record UnknownRecord51516974;
-        ShifRelief: Decimal;
+        //ShifRelief: Decimal;
         PayrollSetup: Record "Payroll General Setup.";
         loanshedule: Record "Loan Repayment Schedule";
 
@@ -160,7 +160,7 @@ Codeunit 51415 "Payroll Processing"//Number2
         //PayrollType
 
         //Declare Variables......Festus
-        ShifRelief := 0;
+        //ShifRelief := 0;
         curNHIF := 0;
         PayrollType := PayrollCode;
 
@@ -559,23 +559,23 @@ Codeunit 51415 "Payroll Processing"//Number2
                     CoopParameters::none);
                 END;
             END;
-            // Calculate ShifRelief for PAYE reduction ONLY - no journal posting
-            IF blnPaysNhif THEN BEGIN
-                curNHIF := fnGetEmployeeNHIF(curNhif_Base_Amount);
+            // Calculate ShifRelief for PAYE reduction ONLY - no journal posting // shif relief commented out as per new tax relief is not used any more
+            // IF blnPaysNhif THEN BEGIN
+            //     curNHIF := fnGetEmployeeNHIF(curNhif_Base_Amount);
 
-                ShifRelief := curNHIF * 0.15;
-                ShifRelief := ROUND(ShifRelief, 0.05, '<');
+            //     ShifRelief := curNHIF * 0.15;
+            //     ShifRelief := ROUND(ShifRelief, 0.05, '<');
 
-                // curTransAmount := ShifRelief;
-                // strTransDescription := 'SHIF Relief - ';
-                // TGroup := 'STATUTORIES';
-                // TGroupOrder := 7;
-                // TSubGroupOrder := 2;
-                // fnUpdatePeriodTrans(strEmpCode, 'NHIF RELIEF', TGroup, TGroupOrder, TSubGroupOrder, strTransDescription,
-                //  curTransAmount, 0, intMonth, intYear, '', '', SelectedPeriod, Dept,
-                //  NHIFEMPyee, JournalPostAs::Debit,
-                //   JournalPostingType::"G/L Account", '', CoopParameters::NHIF);
-            END;
+            // curTransAmount := ShifRelief;
+            // strTransDescription := 'SHIF Relief - ';
+            // TGroup := 'STATUTORIES';
+            // TGroupOrder := 7;
+            // TSubGroupOrder := 2;
+            // fnUpdatePeriodTrans(strEmpCode, 'NHIF RELIEF', TGroup, TGroupOrder, TSubGroupOrder, strTransDescription,
+            //  curTransAmount, 0, intMonth, intYear, '', '', SelectedPeriod, Dept,
+            //  NHIFEMPyee, JournalPostAs::Debit,
+            //   JournalPostingType::"G/L Account", '', CoopParameters::NHIF);
+            // END;
 
             IF curPensionStaff > curMaxPensionContrib THEN
                 curTaxablePay := curGrossTaxable - (curSalaryArrears + curDefinedContrib + curMaxPensionContrib + curOOI + curHOSP + curNonTaxable)
@@ -613,7 +613,8 @@ Codeunit 51415 "Payroll Processing"//Number2
                 //curPAYE :=ROUND( curTaxCharged - curMaximumRelief,1,'<')
                 curPAYE := (curTaxCharged - curReliefPersonal)
             ELSE
-                curPAYE := (curTaxCharged - curReliefPersonal - ShifRelief - CurrInsuranceRel);
+                // curPAYE := (curTaxCharged - curReliefPersonal - ShifRelief - CurrInsuranceRel);
+                curPAYE := (curTaxCharged - curReliefPersonal - CurrInsuranceRel);
             IF NOT blnPaysPaye THEN curPAYE := 0; //Get statutory Exemption for the staff. If exempted from tax, set PAYE=0
             curTransAmount := curPAYE;//+curTransAmount2;
             IF curPAYE < 0 THEN curTransAmount := 0;

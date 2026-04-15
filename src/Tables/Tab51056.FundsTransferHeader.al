@@ -210,7 +210,7 @@ Table 51056 "Funds Transfer Header"
         if "No." = '' then begin
             Setup.Get;
             Setup.TestField(Setup."Funds Transfer Nos");
-            // NoSeriesMgt.InitSeries(Setup."Funds Transfer Nos", xRec."No. Series", 0D, "No.", "No. Series");
+            "No." := NoSeriesMgt.GetNextNo(Setup."Funds Transfer Nos");
         end;
 
         "Document Date" := Today;

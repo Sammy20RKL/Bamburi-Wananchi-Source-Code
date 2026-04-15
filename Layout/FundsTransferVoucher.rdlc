@@ -1,0 +1,955 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>3d4772b1-f905-441f-89e5-0dc878e2c80d</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Tablix Name="Tablix1">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>1.43333in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.43333in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.43333in</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox1">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Paying Bank Name</Value>
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox1</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox3">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Receiving Bank Name</Value>
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox3</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox5">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Amount To Receive</Value>
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox5</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="PayingBankName">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!PayingBankName.Value</Value>
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>PayingBankName</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="ReceivingBankName">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!ReceivingBankName.Value</Value>
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>ReceivingBankName</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="AmountToReceive">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!AmountToReceive.Value</Value>
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>AmountToReceive</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <KeepWithGroup>After</KeepWithGroup>
+                </TablixMember>
+                <TablixMember>
+                  <Group Name="Details" />
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>DataSet_Result</DataSetName>
+            <Top>0.42167in</Top>
+            <Left>0.78833in</Left>
+            <Height>0.5in</Height>
+            <Width>4.3in</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Tablix>
+        </ReportItems>
+        <Height>2.2in</Height>
+        <Style />
+      </Body>
+      <Width>6.5in</Width>
+      <Page>
+        <PageHeader>
+          <Height>0.91667in</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Image Name="Image1">
+              <Source>Database</Source>
+              <Value>=First(Fields!CompanyPicture.Value, "DataSet_Result")</Value>
+              <MIMEType>image/png</MIMEType>
+              <Sizing>FitProportional</Sizing>
+              <Top>0.13833in</Top>
+              <Left>0.39667in</Left>
+              <Height>0.7in</Height>
+              <Width>0.825in</Width>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+              </Style>
+            </Image>
+            <Textbox Name="Textbox7">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!CompanyName.Value, "DataSet_Result")</Value>
+                      <Style />
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox7</rd:DefaultName>
+              <Top>0.34667in</Top>
+              <Left>1.58in</Left>
+              <Height>0.25in</Height>
+              <Width>3.94167in</Width>
+              <ZIndex>1</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+          </ReportItems>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </PageHeader>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="LblFundsTransferVoucher">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblFundsTransferVoucher</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblFundsTransferVoucher</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblVoucherNo">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblVoucherNo</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblVoucherNo</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblDocumentDate">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblDocumentDate</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblDocumentDate</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblPostingDate">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblPostingDate</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblPostingDate</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblPayMode">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblPayMode</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblPayMode</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblPayingBank">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblPayingBank</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblPayingBank</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblBankName">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblBankName</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblBankName</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblCurrency">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblCurrency</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblCurrency</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblAmountToTransfer">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblAmountToTransfer</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblAmountToTransfer</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblAmountToTransferLCY">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblAmountToTransferLCY</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblAmountToTransferLCY</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblTotalLineAmount">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblTotalLineAmount</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblTotalLineAmount</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblDescription">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblDescription</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblDescription</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblChequeDocNo">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblChequeDocNo</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblChequeDocNo</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblBranch">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblBranch</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblBranch</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblStatus">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblStatus</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblStatus</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblCreatedBy">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblCreatedBy</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblCreatedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblDateCreated">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblDateCreated</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblDateCreated</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblLineNo">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblLineNo</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblLineNo</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblReceivingBank">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblReceivingBank</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblReceivingBank</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblReceivingBankName">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblReceivingBankName</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblReceivingBankName</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblReceivingAccountNo">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblReceivingAccountNo</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblReceivingAccountNo</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblAmountToReceive">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblAmountToReceive</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblAmountToReceive</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblLineDescription">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblLineDescription</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblLineDescription</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblPreparedBy">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblPreparedBy</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblPreparedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblCheckedBy">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblCheckedBy</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblCheckedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblApprovedBy">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblApprovedBy</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblApprovedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblSignature">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblSignature</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblSignature</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblDate">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblDate</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblDate</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblPrintedBy">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblPrintedBy</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblPrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblPrintedDate">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblPrintedDate</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblPrintedDate</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblPrintedTime">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblPrintedTime</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblPrintedTime</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LblDraft">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LblDraft</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LblDraft</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <ReportParametersLayout>
+    <GridLayoutDefinition>
+      <NumberOfColumns>1</NumberOfColumns>
+      <NumberOfRows>32</NumberOfRows>
+      <CellDefinitions>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>LblFundsTransferVoucher</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>1</RowIndex>
+          <ParameterName>LblVoucherNo</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>2</RowIndex>
+          <ParameterName>LblDocumentDate</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>3</RowIndex>
+          <ParameterName>LblPostingDate</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>4</RowIndex>
+          <ParameterName>LblPayMode</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>5</RowIndex>
+          <ParameterName>LblPayingBank</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>6</RowIndex>
+          <ParameterName>LblBankName</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>7</RowIndex>
+          <ParameterName>LblCurrency</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>8</RowIndex>
+          <ParameterName>LblAmountToTransfer</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>9</RowIndex>
+          <ParameterName>LblAmountToTransferLCY</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>10</RowIndex>
+          <ParameterName>LblTotalLineAmount</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>11</RowIndex>
+          <ParameterName>LblDescription</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>12</RowIndex>
+          <ParameterName>LblChequeDocNo</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>13</RowIndex>
+          <ParameterName>LblBranch</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>14</RowIndex>
+          <ParameterName>LblStatus</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>15</RowIndex>
+          <ParameterName>LblCreatedBy</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>16</RowIndex>
+          <ParameterName>LblDateCreated</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>17</RowIndex>
+          <ParameterName>LblLineNo</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>18</RowIndex>
+          <ParameterName>LblReceivingBank</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>19</RowIndex>
+          <ParameterName>LblReceivingBankName</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>20</RowIndex>
+          <ParameterName>LblReceivingAccountNo</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>21</RowIndex>
+          <ParameterName>LblAmountToReceive</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>22</RowIndex>
+          <ParameterName>LblLineDescription</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>23</RowIndex>
+          <ParameterName>LblPreparedBy</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>24</RowIndex>
+          <ParameterName>LblCheckedBy</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>25</RowIndex>
+          <ParameterName>LblApprovedBy</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>26</RowIndex>
+          <ParameterName>LblSignature</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>27</RowIndex>
+          <ParameterName>LblDate</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>28</RowIndex>
+          <ParameterName>LblPrintedBy</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>29</RowIndex>
+          <ParameterName>LblPrintedDate</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>30</RowIndex>
+          <ParameterName>LblPrintedTime</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>31</RowIndex>
+          <ParameterName>LblDraft</ParameterName>
+        </CellDefinition>
+      </CellDefinitions>
+    </GridLayoutDefinition>
+  </ReportParametersLayout>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="CompanyName">
+          <DataField>CompanyName</DataField>
+        </Field>
+        <Field Name="CompanyAddress">
+          <DataField>CompanyAddress</DataField>
+        </Field>
+        <Field Name="CompanyPhone">
+          <DataField>CompanyPhone</DataField>
+        </Field>
+        <Field Name="CompanyPicture">
+          <DataField>CompanyPicture</DataField>
+        </Field>
+        <Field Name="CompanyEmail">
+          <DataField>CompanyEmail</DataField>
+        </Field>
+        <Field Name="ReportTitle">
+          <DataField>ReportTitle</DataField>
+        </Field>
+        <Field Name="PrintedBy">
+          <DataField>PrintedBy</DataField>
+        </Field>
+        <Field Name="PrintedDate">
+          <DataField>PrintedDate</DataField>
+        </Field>
+        <Field Name="PrintedTime">
+          <DataField>PrintedTime</DataField>
+        </Field>
+        <Field Name="No">
+          <DataField>No</DataField>
+        </Field>
+        <Field Name="DocumentDate">
+          <DataField>DocumentDate</DataField>
+        </Field>
+        <Field Name="PostingDate">
+          <DataField>PostingDate</DataField>
+        </Field>
+        <Field Name="PayMode">
+          <DataField>PayMode</DataField>
+        </Field>
+        <Field Name="PayingBankAccount">
+          <DataField>PayingBankAccount</DataField>
+        </Field>
+        <Field Name="PayingBankName">
+          <DataField>PayingBankName</DataField>
+        </Field>
+        <Field Name="BankAccountNo">
+          <DataField>BankAccountNo</DataField>
+        </Field>
+        <Field Name="CurrencyCode">
+          <DataField>CurrencyCode</DataField>
+        </Field>
+        <Field Name="AmountToTransfer">
+          <DataField>AmountToTransfer</DataField>
+        </Field>
+        <Field Name="AmountToTransferFormat">
+          <DataField>AmountToTransferFormat</DataField>
+        </Field>
+        <Field Name="AmountToTransferLCY">
+          <DataField>AmountToTransferLCY</DataField>
+        </Field>
+        <Field Name="AmountToTransferLCYFormat">
+          <DataField>AmountToTransferLCYFormat</DataField>
+        </Field>
+        <Field Name="TotalLineAmount">
+          <DataField>TotalLineAmount</DataField>
+        </Field>
+        <Field Name="TotalLineAmountFormat">
+          <DataField>TotalLineAmountFormat</DataField>
+        </Field>
+        <Field Name="TotalLineAmountLCY">
+          <DataField>TotalLineAmountLCY</DataField>
+        </Field>
+        <Field Name="TotalLineAmountLCYFormat">
+          <DataField>TotalLineAmountLCYFormat</DataField>
+        </Field>
+        <Field Name="Description">
+          <DataField>Description</DataField>
+        </Field>
+        <Field Name="ChequeDocNo">
+          <DataField>ChequeDocNo</DataField>
+        </Field>
+        <Field Name="GlobalDimension2Code">
+          <DataField>GlobalDimension2Code</DataField>
+        </Field>
+        <Field Name="Status">
+          <DataField>Status</DataField>
+        </Field>
+        <Field Name="CreatedBy">
+          <DataField>CreatedBy</DataField>
+        </Field>
+        <Field Name="DateCreated">
+          <DataField>DateCreated</DataField>
+        </Field>
+        <Field Name="TimeCreated">
+          <DataField>TimeCreated</DataField>
+        </Field>
+        <Field Name="TransferType">
+          <DataField>TransferType</DataField>
+        </Field>
+        <Field Name="IsDraft">
+          <DataField>IsDraft</DataField>
+        </Field>
+        <Field Name="LineNo">
+          <DataField>LineNo</DataField>
+        </Field>
+        <Field Name="DocumentNo">
+          <DataField>DocumentNo</DataField>
+        </Field>
+        <Field Name="ReceivingBankAccount">
+          <DataField>ReceivingBankAccount</DataField>
+        </Field>
+        <Field Name="ReceivingBankName">
+          <DataField>ReceivingBankName</DataField>
+        </Field>
+        <Field Name="ReceivingAccountNo">
+          <DataField>ReceivingAccountNo</DataField>
+        </Field>
+        <Field Name="AmountToReceive">
+          <DataField>AmountToReceive</DataField>
+        </Field>
+        <Field Name="AmountToReceiveFormat">
+          <DataField>AmountToReceiveFormat</DataField>
+        </Field>
+        <Field Name="AmountToReceiveLCY">
+          <DataField>AmountToReceiveLCY</DataField>
+        </Field>
+        <Field Name="AmountToReceiveLCYFormat">
+          <DataField>AmountToReceiveLCYFormat</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>

@@ -248,7 +248,7 @@ Report 50047 "P9 Report"
                 TotalL := 0;
                 P9.Reset;
                 P9.SetRange(P9."Employee Code", "No.");
-                P9.SetRange(P9."Period Year", 2017);
+                P9.SetRange(P9."Period Year", intYear);
                 if P9.Find('-') then begin
                     repeat
                         TotaA := TotaA + P9."Basic Pay";
@@ -277,8 +277,21 @@ Report 50047 "P9 Report"
     {
         SaveValues = true;
 
+
         layout
         {
+            area(Content)
+            {
+                group(General)
+                {
+                    Caption = 'Please select the year for the report';
+                    field(YearFilter; intYear)
+                    {
+                        Caption = 'Year';
+                    }
+                }
+            }
+
         }
 
         actions
@@ -309,6 +322,7 @@ Report 50047 "P9 Report"
     end;
 
     var
+        intYear: Integer;
         MonthText: Text;
         ObjUserSetup: Record "User Setup";
         ColG: Decimal;

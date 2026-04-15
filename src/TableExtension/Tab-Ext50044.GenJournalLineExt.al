@@ -151,10 +151,10 @@ tableextension 50044 "GenJournalLineExt" extends "Gen. Journal Line"
                 //     Description := 'Unallocated Funds';
                 if "Transaction Type" = "transaction type"::"Insurance Contribution" then
                     Description := 'Insurance Contribution';
-                // if "Transaction Type" = "transaction type"::"CIC shares" then
-                //     Description := 'Normal shares';
-                // if "Transaction Type" = "transaction type"::"Pepea Shares" then
-                //     Description := 'Pepea Shares';
+                if "Transaction Type" = "transaction type"::"Other Products" then
+                    Description := 'Other Products';
+                if "Transaction Type" = "transaction type"::"Sales of T-Shirt" then
+                    Description := 'Sales of T-Shirt';
 
             end;
         }

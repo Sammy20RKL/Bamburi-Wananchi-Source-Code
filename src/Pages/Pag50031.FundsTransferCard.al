@@ -169,7 +169,7 @@ page 50031 "Funds Transfer Card"
                     FHeader.Reset;
                     FHeader.SetRange(FHeader."No.", Rec."No.");
                     if FHeader.FindFirst then
-                        Report.Run(51516011, true, true, FHeader);
+                        Report.Run(56893, true, true, FHeader);
 
                 end;
             }
@@ -202,6 +202,8 @@ page 50031 "Funds Transfer Card"
                 var
                     Text001: label 'This request is already pending approval';
                 begin
+                    if Rec.Status = Rec.Status::"Pending Approval" then
+                        Error(Text001);
                     if Confirm('Are you sure you want to send this approval request', false) = true then begin
                         SwizzApprovalsCodeUnit.OnSendFundsTransferForApproval(rec."No.", Rec);
                         Message('Approval Request Sent!');

@@ -148,8 +148,12 @@ Report 50856 "Actual Vs Budget"
                     DatefilterTwo: Text;
                 begin
                     BlankLineNo := "G/L Account"."No. of Blank Lines" + 1;
-                    Variance := "G/L Account"."Budgeted Amount" - "G/L Account"."Net Change";
-
+                    if "G/L Account"."Net Change" < 0 then
+                        // Income accounts (credit/negative Net Change)
+                        Variance := -"G/L Account"."Net Change" - "G/L Account"."Budgeted Amount"
+                    else
+                        // Expense accounts (debit/positive Net Change)
+                        Variance := "G/L Account"."Budgeted Amount" - "G/L Account"."Net Change";
                     // ///Budget comparison
                     // DateFormula2 := '-CY';
                     // DateFormula := '<CY>';

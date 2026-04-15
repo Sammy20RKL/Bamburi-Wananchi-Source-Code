@@ -272,7 +272,9 @@ Table 51387 "Receipt Allocation"
         }
 
 
+
     }
+
 
     keys
     {

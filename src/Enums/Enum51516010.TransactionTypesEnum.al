@@ -29,11 +29,12 @@ enum 51516010 "TransactionTypesEnum"
     }
     value(4; "Insurance Contribution")
     {
-        Caption = 'Insurance Contribution';
+        Caption = '';
+
     }
     value(7; "Benevolent Fund")
     {
-        Caption = 'Benevolent Fund';
+        Caption = '';
     }
     value(2; "Loan")//2
     {
@@ -49,22 +50,23 @@ enum 51516010 "TransactionTypesEnum"
     }
     value(11; "Mwanangu Savings")
     {
-
+        Caption = '';
     }
     value(12; "Loan Insurance Charged")
     {
-        Caption = 'Insurance Charge';
+        Caption = '';
     }
     value(9; "Loan Insurance Paid")
     {
-
+        Caption = '';
     }
     value(16; "Sales of T-Shirt")
     {
-
+        Caption = 'Sales of T-Shirt';
     }
     value(15; "Standing Order Charges")
     {
+        Caption = '';
     }
     value(5; "Interest Due")//5
     {
@@ -72,18 +74,19 @@ enum 51516010 "TransactionTypesEnum"
     }
     value(18; "Jiokoe Savings")
     {
+        Caption = '';
     }
     value(24; "Holiday Savings")//24
     {
-        Caption = 'Holiday Savings';
+        Caption = '';
     }
     value(20; "Welfare Contribution")
     {
-
+        Caption = '';
     }
     value(21; "Withholding Tax")
     {
-        Caption = 'Withholding Tax';
+        Caption = '';
     }
     value(22; "Loan Adjustment")
     {
@@ -100,12 +103,12 @@ enum 51516010 "TransactionTypesEnum"
     }
     value(25; "FOSA Shares")
     {
-        Caption = 'FOSA Shares';
+        Caption = '';
     }
-    // value(26; "Welfare Contribution 2")
-    // {
-    //     Caption = 'Welfare Contribution 2';
-    // }
+    value(26; "Other Products")
+    {
+        Caption = 'Other Products';
+    }
     value(27; "Loan Penalty")
     {
         Caption = 'Loan Penalty';
@@ -148,7 +151,7 @@ enum 51516010 "TransactionTypesEnum"
     // }
     value(37; "Insurance Paid")
     {
-        Caption = 'Insurance Paid';
+        Caption = '';
     }
     // value(38; "FOSA Account")
     // {
@@ -156,7 +159,7 @@ enum 51516010 "TransactionTypesEnum"
     // }
     value(39; "Partial Disbursement")
     {
-        Caption = 'Partial Disbursement';
+        Caption = '';
     }
     value(40; "Loan Due")
     {
@@ -164,7 +167,7 @@ enum 51516010 "TransactionTypesEnum"
     }
     value(41; Investment)
     {
-        Caption = 'FOSA Shares';
+        Caption = '';
 
     }
     value(42; "Bank Charges")

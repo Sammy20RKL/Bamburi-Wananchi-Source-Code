@@ -164,6 +164,7 @@ page 57006 "Bamburi Checkoff Card"
                 Promoted = true;
                 PromotedCategory = Process;
                 Image = Allocate;
+                Visible = false;
                 ApplicationArea = All;
 
                 trigger OnAction()
@@ -350,6 +351,11 @@ page 57006 "Bamburi Checkoff Card"
                             if RcptBufLines."T-Shirt" > 0 then begin
                                 FnInsertMemberContribution(Jtemplate, JBatch, RcptBufLines."Member No", Rec."Document No", 'T-Shirt Checkoff', RcptBufLines."T-Shirt",
                                 GenJournalLine."Transaction Type"::"Sales of T-Shirt");
+                                //other products
+                                if RcptBufLines."Other Products" > 0 then begin
+                                    FnInsertMemberContribution(Jtemplate, JBatch, RcptBufLines."Member No", Rec."Document No", 'Other Products Checkoff', RcptBufLines."Other Products",
+                                    GenJournalLine."Transaction Type"::"Other Products");
+                                end;
                             end;
                             //Add Loan lines...
                             FnPostLoansBal();
@@ -509,7 +515,11 @@ page 57006 "Bamburi Checkoff Card"
     begin
         // Emergency Loan
         if RcptBufLines."Emergency Loan Amount" > 0 then begin
-            loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."Emergency Loan Amount", Rec."Loan CutOff Date", 'EMER');
+            // Use Loan No1. if available, otherwise auto-find
+            if RcptBufLines."Loan No1" <> '' then
+                loanNumber := RcptBufLines."Loan No1"
+            else
+                loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."Emergency Loan Amount", Rec."Loan CutOff Date", 'EMER');
             if loanNumber <> '' then begin
                 FnPostDistributedLoan(RcptBufLines, loanNumber, RcptBufLines."Emergency Loan Interest", RcptBufLines."Emergency Loan  Principle", 'EMER');
             end else begin
@@ -559,7 +569,11 @@ page 57006 "Bamburi Checkoff Card"
 
         // Normal Loan 2
         if RcptBufLines."Normal Loan 2 Amount" > 0 then begin
-            loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."Normal Loan 2 Amount", Rec."Loan CutOff Date", 'NORM2');
+            // Use Loan No. if available, otherwise auto-find
+            if RcptBufLines."Loan No." <> '' then
+                loanNumber := RcptBufLines."Loan No."
+            else
+                loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."Normal Loan 2 Amount", Rec."Loan CutOff Date", 'NORM2');
             if loanNumber <> '' then begin
                 FnPostDistributedLoan(RcptBufLines, loanNumber, RcptBufLines."Normal Loan 2 Interest", RcptBufLines."Normal Loan 2 Principle", 'NORM2');
             end else begin
@@ -601,7 +615,7 @@ page 57006 "Bamburi Checkoff Card"
     end;
 
     local procedure FnInsertMemberContribution(Jtemplate: Code[30]; Jbatch: code[30]; memberNo: Code[15]; documentNo: code[30];
-    transDescription: Code[30]; transAmount: Decimal; TransactionType: Option " ","Registration Fee","Share Capital","Interest Paid","Loan Repayment","Deposit Contribution","Insurance Contribution","Benevolent Fund",Loan,"Unallocated Funds","Sales of T-Shirt",Dividend,"FOSA Account"): Code[50]
+    transDescription: Code[30]; transAmount: Decimal; TransactionType: Option " ","Registration Fee","Share Capital","Interest Paid","Loan Repayment","Deposit Contribution","Insurance Contribution","Benevolent Fund",Loan,"Unallocated Funds","Sales of T-Shirt","Other Products",Dividend,"FOSA Account"): Code[50]
     begin
         LineN := LineN + 10000;
         Gnljnline.Init;

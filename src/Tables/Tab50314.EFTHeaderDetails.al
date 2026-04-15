@@ -114,7 +114,6 @@ table 50314 "EFT Header Details"
 
                         end;
 
-
                         EFTDetails.Modify;
                     until EFTDetails.Next = 0;
                 end;
@@ -156,7 +155,7 @@ table 50314 "EFT Header Details"
         if No = '' then begin
             NoSetup.Get();
             NoSetup.TestField(NoSetup."EFT Header Nos.");
-            //  NoSeriesMgt.InitSeries(NoSetup."EFT Header Nos.", xRec."No. Series", 0D, No, "No. Series");
+            NO := NoSeriesMgt.GetNextNo(NoSetup."EFT Header Nos.")
         end;
 
 

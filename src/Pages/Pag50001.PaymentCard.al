@@ -250,8 +250,8 @@ Page 50001 "Payment Card"
                 var
                     Approvals: Codeunit SwizzsoftApprovalsCodeUnit;
                 begin
-                    if (rec.Status <> Rec.Status::New) then begin
-                        Message('Only Vouchers with Status Open Can be Submitted for Approval');
+                    if (rec.Status <> Rec.Status::"Pending Approval") then begin
+                        Message('Only Vouchers with Status Pending Approval can be cancelled');
                     end
                     else
                         if Confirm('Cancel Approval Request ?', false) = false then begin

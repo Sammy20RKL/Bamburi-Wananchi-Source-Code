@@ -295,7 +295,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -401,7 +400,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Polytech Sacco Bank Reconciliation Summary</Value>
+                    <Value>Summary Sacco Bank Reconciliation Summary</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
                       <FontFamily>Cambria</FontFamily>

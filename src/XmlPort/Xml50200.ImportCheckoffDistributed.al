@@ -24,6 +24,7 @@ XmlPort 50200 "Import Checkoff Distributed"
                 textelement(EMERGENCYLOAN_AMOUNT) { }
                 textelement(EMERGENCYLOAN_PR) { }
                 textelement(EMERGENCYLOAN_INT) { }
+                textelement(LOAN_NO1) { }
                 textelement(KIVUKIOLOAN_AMOUNT) { }
                 textelement(KIVUKIOLOAN_PR) { }
                 textelement(KIVUKIOLOAN_INT) { }
@@ -39,9 +40,14 @@ XmlPort 50200 "Import Checkoff Distributed"
                 textelement(NORMALLOAN2_AMOUNT) { }
                 textelement(NORMALLOAN2_PR) { }
                 textelement(NORMALLOAN2_INT) { }
+                textelement(Loan_No) { }
+                textelement(MBUYULOAN_AMOUNT) { }
                 textelement(MBUYULOAN_PR) { }
                 textelement(MBUYULOAN_INT) { }
-                textelement(MBUYULOAN_AMOUNT) { }
+                textelement(HALLOHALLOLOAN_AMOUNT) { }
+                textelement(HALLOHALLOLOAN_PR) { }
+                textelement(HALLOHALLOLOAN_INT) { }
+
                 textelement(TOTALLOANAmount) { }
                 textelement(GRANTTOTAL) { }
 
@@ -82,9 +88,18 @@ XmlPort 50200 "Import Checkoff Distributed"
                     CleanEvaluate(REGISTRATION, "Bamburi CheckoffLines"."Registration");
                     CleanEvaluate(TShirt, "Bamburi CheckoffLines"."T-Shirt");
                     CleanEvaluate(OthersProducts, "Bamburi CheckoffLines"."Other Products");
-                    CleanEvaluate(EMERGENCYLOAN_AMOUNT, "Bamburi CheckoffLines"."EMERGENCY LOAN Amount");
+                    CleanEvaluate(EMERGENCYLOAN_AMOUNT, "Bamburi CheckoffLines"."Emergency Loan Amount");
                     CleanEvaluate(EMERGENCYLOAN_PR, "Bamburi CheckoffLines"."Emergency Loan  Principle");
                     CleanEvaluate(EMERGENCYLOAN_INT, "Bamburi CheckoffLines"."Emergency Loan Interest");
+                    "Bamburi CheckoffLines"."Loan No1" := CopyStr(DelChr(LOAN_NO1, '=', ' '), 1, 20);
+                    // Loan not found - clear it but track it, don't skip the row
+                    if "Bamburi CheckoffLines"."Loan No1" <> '' then begin
+                        if not LoanRec.Get("Bamburi CheckoffLines"."Loan No1") then begin
+                            FailedLoans += 1;
+                            FailedLoanList += '\Loan Not Found: ' + "Bamburi CheckoffLines"."Loan No1" + ' (Staff: ' + StaffNo + ')';
+                            "Bamburi CheckoffLines"."Loan No1" := ''; // clear invalid loan
+                        end;
+                    end;
                     CleanEvaluate(KIVUKIOLOAN_AMOUNT, "Bamburi CheckoffLines"."Kivukio Loan Amount");
                     CleanEvaluate(KIVUKIOLOAN_PR, "Bamburi CheckoffLines"."Kivukio Loan Principle");
                     CleanEvaluate(KIVUKIOLOAN_INT, "Bamburi CheckoffLines"."Kivukio Loan Interest");
@@ -100,9 +115,21 @@ XmlPort 50200 "Import Checkoff Distributed"
                     CleanEvaluate(NORMALLOAN2_AMOUNT, "Bamburi CheckoffLines"."Normal Loan 2 Amount");
                     CleanEvaluate(NORMALLOAN2_PR, "Bamburi CheckoffLines"."Normal Loan 2 Principle");
                     CleanEvaluate(NORMALLOAN2_INT, "Bamburi CheckoffLines"."Normal Loan 2 Interest");
-                    CleanEvaluate(MBUYULOAN_PR, "Bamburi CheckoffLines"."Mbuyu Loan Amount");
-                    CleanEvaluate(MBUYULOAN_INT, "Bamburi CheckoffLines"."Mbuyu Loan Principle");
-                    CleanEvaluate(MBUYULOAN_AMOUNT, "Bamburi CheckoffLines"."Mbuyu Loan Interest");
+                    "Bamburi CheckoffLines"."Loan No." := CopyStr(DelChr(Loan_No, '=', ' '), 1, 20);
+                    // Loan not found - clear it but track it, don't skip the row
+                    if "Bamburi CheckoffLines"."Loan No." <> '' then begin
+                        if not LoanRec.Get("Bamburi CheckoffLines"."Loan No.") then begin
+                            FailedLoans += 1;
+                            FailedLoanList += '\Loan Not Found: ' + "Bamburi CheckoffLines"."Loan No." + ' (Staff: ' + StaffNo + ')';
+                            "Bamburi CheckoffLines"."Loan No." := ''; // clear invalid loan
+                        end;
+                    end;
+                    CleanEvaluate(MBUYULOAN_AMOUNT, "Bamburi CheckoffLines"."Mbuyu Loan Amount");
+                    CleanEvaluate(MBUYULOAN_PR, "Bamburi CheckoffLines"."Mbuyu Loan Principle");
+                    CleanEvaluate(MBUYULOAN_INT, "Bamburi CheckoffLines"."Mbuyu Loan Interest");
+                    CleanEvaluate(HALLOHALLOLOAN_AMOUNT, "Bamburi CheckoffLines"."HALLO HALLO Loan Amount");
+                    CleanEvaluate(HALLOHALLOLOAN_PR, "Bamburi CheckoffLines"."HALLO HALLO Loan Principle");
+                    CleanEvaluate(HALLOHALLOLOAN_INT, "Bamburi CheckoffLines"."HALLO HALLO Loan Interest");
                     CleanEvaluate(TOTALLOANAmount, "Bamburi CheckoffLines"."Total Loans");
                     CleanEvaluate(GRANTTOTAL, "Bamburi CheckoffLines"."Grand Total");
 
@@ -124,6 +151,9 @@ XmlPort 50200 "Import Checkoff Distributed"
         SuccessRows: Integer;
         FailedRows: Integer;
         FailedMembers: Text;
+        FailedLoans: Integer;
+        FailedLoanList: Text;
+        LoanRec: Record "Loans Register";
 
     trigger OnPreXmlPort()
     begin
@@ -131,11 +161,15 @@ XmlPort 50200 "Import Checkoff Distributed"
         SuccessRows := 0;
         FailedRows := 0;
         FailedMembers := '';
+        FailedLoans := 0;
+        FailedLoanList := '';
     end;
 
     trigger OnPostXmlPort()
     begin
-        Message('Done\Success: %1\Failed: %2\%3', SuccessRows, FailedRows, FailedMembers);
+        //   Message('Done\Success: %1\Failed: %2\%3', SuccessRows, FailedRows, FailedMembers);
+        Message('Done\Success: %1\Failed Members: %2\Failed Loans: %3\%4\%5',
+    SuccessRows, FailedRows, FailedLoans, FailedMembers, FailedLoanList);
     end;
 
     procedure SetReceiptHeaderNo(No: Code[20])

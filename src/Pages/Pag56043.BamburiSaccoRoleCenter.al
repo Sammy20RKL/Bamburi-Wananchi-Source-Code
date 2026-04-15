@@ -1624,6 +1624,7 @@ Page 56043 "Bamburi SACCO Role Center"
                 //.......................................End of Defaulter Management .................................
                 group("Holiday Savings")
                 {
+                    Visible = false;
                     action("Process Holiday savings")
                     {
                         ApplicationArea = Basic, Suite;

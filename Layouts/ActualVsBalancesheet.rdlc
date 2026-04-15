@@ -19,7 +19,7 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1.08452cm</Width>
+                  <Width>2.61319cm</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>5.71429cm</Width>
@@ -694,7 +694,7 @@
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Center</TextAlign>
+                                <TextAlign>Right</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -750,7 +750,7 @@
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Center</TextAlign>
+                                <TextAlign>Right</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -806,7 +806,7 @@
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Center</TextAlign>
+                                <TextAlign>Right</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -1192,10 +1192,10 @@
                 </FilterValues>
               </Filter>
             </Filters>
-            <Top>0.45828cm</Top>
-            <Left>0.3175cm</Left>
+            <Top>0.59939cm</Top>
+            <Left>0cm</Left>
             <Height>1.69204cm</Height>
-            <Width>17.13042cm</Width>
+            <Width>18.65909cm</Width>
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -1255,10 +1255,10 @@
             </Style>
           </Textbox>
         </ReportItems>
-        <Height>2.5379cm</Height>
+        <Height>3.1729cm</Height>
         <Style />
       </Body>
-      <Width>17.57959cm</Width>
+      <Width>19.48459cm</Width>
       <Page>
         <PageHeader>
           <Height>1.57056cm</Height>
@@ -1297,7 +1297,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Polytech Sacco</Value>
+                      <Value>Bamburi Wananchi Sacco</Value>
                       <Style>
                         <FontFamily>Cambria</FontFamily>
                         <FontSize>11pt</FontSize>

@@ -122,5 +122,8 @@ Page 56188 "SwizzKash Paybill Trans"
     actions
     {
     }
+    var
+        manu: page 9010;
+        yy: Page 5510;
 }
 

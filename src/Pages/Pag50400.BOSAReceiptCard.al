@@ -246,7 +246,8 @@ page 50400 "BOSA Receipt Card"
                     GenJournalLine.Validate(GenJournalLine."Account No.");
                     GenJournalLine."Posting Date" := Rec."Cheque Date";
                     //GenJournalLine."Posting Date":="Transaction Date";
-                    GenJournalLine.Description := 'Bosa Receipt for %1 ' + LoanApp."Client Name" + ' MEMBNo. ' + '- ' + LoanApp."Client Code";// Rec."Account No." + '-' + Rec.Name;
+                    GenJournalLine.Description := StrSubstNo('Bosa Receipt for MEMBNo. %1', Rec."Account No.");
+                    //GenJournalLine.Description := 'Bosa Receipt for %1 ' + LoanApp."Client Name" + ' MEMBNo. ' + '- ' + LoanApp."Client Code";// Rec."Account No." + '-' + Rec.Name;
                     GenJournalLine.Validate(GenJournalLine."Currency Code");
                     ReceiptAllocations."Global Dimension 1 Code" := Rec."Global Dimension 1 Code";
                     ReceiptAllocations."Global Dimension 2 Code" := Rec."Global Dimension 2 Code";

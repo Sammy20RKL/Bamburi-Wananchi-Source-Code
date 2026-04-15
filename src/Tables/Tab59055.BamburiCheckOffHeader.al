@@ -189,20 +189,19 @@ table 59055 "Bamburi Checkoff Header"
         if BamburiCheckoffLines.FindSet() then
             repeat
                 Total += BamburiCheckoffLines."Share Capital" +
-
-                        BamburiCheckoffLines."Deposit Contribution" +
-                        BamburiCheckoffLines.Benevolent +
-                        BamburiCheckoffLines."Other Products" +
-                        BamburiCheckoffLines.Registration +
-                        BamburiCheckoffLines."T-Shirt" +
-                        BamburiCheckoffLines."Emergency Loan Amount" +
-                        BamburiCheckoffLines."Kivukio Loan Amount" +
-                        BamburiCheckoffLines."Mwokozi Loan Amount" +
-                        BamburiCheckoffLines."Mbuyu Loan Amount" +
-                        BamburiCheckoffLines."School Fees Amount" +
-                        BamburiCheckoffLines."Normal Loan 1 Amount" +
-                        BamburiCheckoffLines."Normal Loan 2 Amount" +
-                        BamburiCheckoffLines."Mbuyu Loan Amount";
+            BamburiCheckoffLines."Deposit Contribution" +
+            BamburiCheckoffLines.Benevolent +
+            BamburiCheckoffLines."Other Products" +
+            BamburiCheckoffLines.Registration +
+            BamburiCheckoffLines."T-Shirt" +
+            BamburiCheckoffLines."Emergency Loan Amount" +
+            BamburiCheckoffLines."Kivukio Loan Amount" +
+            BamburiCheckoffLines."Mwokozi Loan Amount" +
+            BamburiCheckoffLines."School Fees Amount" +
+            BamburiCheckoffLines."Normal Loan 1 Amount" +
+            BamburiCheckoffLines."Normal Loan 2 Amount" +
+            BamburiCheckoffLines."Mbuyu Loan Amount" +
+            BamburiCheckoffLines."HALLO HALLO Loan Amount";
             // BamburiCheckoffLines."Instant Loan Amount" ;
             // BamburiCheckoffLines."Total Loans";
             // BamburiCheckoffLines."Welfare Contribution";
