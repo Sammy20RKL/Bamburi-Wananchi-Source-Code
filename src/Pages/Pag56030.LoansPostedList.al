@@ -197,6 +197,7 @@ Page 56030 "Loans Posted List"
                     Caption = 'Loan Category';
                 }
 
+
             }
         }
     }

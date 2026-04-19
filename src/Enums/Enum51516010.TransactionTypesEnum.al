@@ -97,6 +97,10 @@ enum 51516010 "TransactionTypesEnum"
     {
         Caption = 'Penalty Paid';
     }
+    value(17; "MOBILE_FOSA_TRANSFER")
+    {
+        Caption = '';
+    }
     value(19; Withdrawal)
     {
         Caption = 'Withdrawal';
@@ -200,24 +204,24 @@ enum 51516010 "TransactionTypesEnum"
     // {
 
     // }
-    // value(57; "EXCISE_DUTY")
-    // {
-    //     Caption = 'EXCISE_DUTY';
-    // }
+    value(57; "EXCISE_DUTY")
+    {
+        Caption = '';
+    }
     // value(58; "MOBILE_FOSA_TRANSFER")
     // {
     //     Caption = 'MOBILE_FOSA_TRANSFER';
     // }
-    // value(59; "MOBILE_BOSA_TRANSFER")
-    // {
-    //     Caption = 'MOBILE_BOSA_TRANSFER';
-    // }
-    // value(60; "MOBILE_FOSA_TRANSFER_CHARGE")
-    // {
-    //     Caption = 'MOBILE_FOSA_TRANSFER_CHARGE';
-    // }
-    // value(61; "MOBILE_BOSA_TRANSFER_CHARGE")
-    // {
-    //     Caption = 'MOBILE_BOSA_TRANSFER_CHARGE';
-    // }
+    value(59; "MOBILE_BOSA_TRANSFER")
+    {
+        Caption = '';
+    }
+    value(60; "MOBILE_FOSA_TRANSFER_CHARGE")
+    {
+        Caption = '';
+    }
+    value(61; "MOBILE_BOSA_TRANSFER_CHARGE")
+    {
+        Caption = '';
+    }
 }

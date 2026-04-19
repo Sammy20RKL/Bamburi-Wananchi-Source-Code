@@ -136,7 +136,12 @@ codeunit 56701 LoanAgingProcessor
                         end;
 
                         //get the expected date of completion..
-                        ExpectedDateofCompletion := CalcDate(Format(Loans.Installments) + 'M', Loans."Loan Disbursement Date");// "Issued Date");
+                        //ExpectedDateofCompletion := CalcDate(Format(Loans.Installments) + 'M', Loans."Loan Disbursement Date");// "Issued Date");
+                        // Check BOTH date and installments before calculating
+                        if (Loans."Loan Disbursement Date" <> 0D) and (Loans.Installments > 0) then
+                            ExpectedDateofCompletion := CalcDate(Format(Loans.Installments) + 'M', Loans."Loan Disbursement Date")
+                        else
+                            ExpectedDateofCompletion := 0D; // skip this loan safely
 
                         //get the scheduled balance as per AsAt date...
                         LSchedule.Reset;

@@ -67,11 +67,12 @@ page 57307 "Posted Loans List"
                 {
                     ApplicationArea = Basic;
                 }
+
                 field("Requested Amount"; Rec."Requested Amount")
                 {
                     ApplicationArea = Basic;
                     Editable = false;
-                    // visible = false;
+                    visible = true;
                 }
 
 

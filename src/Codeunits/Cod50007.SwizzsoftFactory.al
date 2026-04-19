@@ -95,7 +95,7 @@ Codeunit 50007 "Swizzsoft Factory."
         UserSetup.Reset;
         UserSetup.SetRange(UserSetup."User id", UserId);
         if UserSetup.Find('-') then begin
-            branchCode := 'NAIROBI';
+            branchCode := UserSetup.Branch;
         end;
         exit(branchCode);
     end;

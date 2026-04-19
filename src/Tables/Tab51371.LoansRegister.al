@@ -4753,6 +4753,19 @@ Table 51371 "Loans Register"
         {
             DataClassification = ToBeClassified;
         }
+        field(9968099; "Deduct Checkoff"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(9968100; "Run Interest"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(9968101; "Cleard"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+
+        }
     }
 
     keys

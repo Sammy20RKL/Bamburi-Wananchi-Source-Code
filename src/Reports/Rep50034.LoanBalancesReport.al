@@ -1,7 +1,7 @@
 Report 50034 "Loan Balances Report"
 {
     ApplicationArea = All;
-    Caption = 'Polytech Sacco Loans Book Report';
+    Caption = 'Bamburi Sacco Loans Book Report';
     UsageCategory = ReportsAndAnalysis;
     RDLCLayout = './Layouts/LoanBalancesReport.rdlc';
     dataset

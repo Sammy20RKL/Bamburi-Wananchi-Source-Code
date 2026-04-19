@@ -22,7 +22,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto">=First(Fields!Company_Name.Value, "DataSet_Result")</Value>
+                    <Value>=First(Fields!Company_Name.Value, "DataSet_Result")</Value>
                     <Style>
                       <FontSize>15pt</FontSize>
                       <FontWeight>Bold</FontWeight>
@@ -56,7 +56,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto">=First(Fields!Company_Address.Value, "DataSet_Result")</Value>
+                    <Value>=First(Fields!Company_Address.Value, "DataSet_Result")</Value>
                     <Style>
                       <FontSize>8pt</FontSize>
                       <FontWeight>Bold</FontWeight>
@@ -91,7 +91,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto">=First(Fields!Company_Address_2.Value, "DataSet_Result")</Value>
+                    <Value>=First(Fields!Company_Address_2.Value, "DataSet_Result")</Value>
                     <Style>
                       <FontSize>8pt</FontSize>
                       <FontWeight>Bold</FontWeight>
@@ -126,7 +126,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto">=First(Fields!Company_Phone_No.Value, "DataSet_Result")</Value>
+                    <Value>=First(Fields!Company_Phone_No.Value, "DataSet_Result")</Value>
                     <Style>
                       <FontSize>8pt</FontSize>
                       <FontWeight>Bold</FontWeight>
@@ -161,7 +161,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto">=First(Fields!Company_Fax_No.Value, "DataSet_Result")</Value>
+                    <Value>=First(Fields!Company_Fax_No.Value, "DataSet_Result")</Value>
                     <Style>
                       <FontSize>8pt</FontSize>
                       <FontWeight>Bold</FontWeight>
@@ -196,7 +196,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto">=First(Fields!Company_Email.Value, "DataSet_Result")</Value>
+                    <Value>=First(Fields!Company_Email.Value, "DataSet_Result")</Value>
                     <Style>
                       <FontSize>8pt</FontSize>
                       <FontWeight>Bold</FontWeight>
@@ -248,7 +248,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto">LOANS DEFAULTER AGING</Value>
+                    <Value>LOANS DEFAULTER AGING</Value>
                     <Style>
                       <FontWeight>Bold</FontWeight>
                     </Style>
@@ -347,7 +347,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Loan No.</Value>
+                                  <Value>Loan No.</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -383,7 +383,7 @@
                               <Style>Solid</Style>
                               <Width>1pt</Width>
                             </RightBorder>
-                            <BackgroundColor>LightGrey</BackgroundColor>
+                            <BackgroundColor>SeaGreen</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -401,7 +401,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Member No</Value>
+                                  <Value>Member No</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -437,7 +437,7 @@
                               <Style>Solid</Style>
                               <Width>1pt</Width>
                             </RightBorder>
-                            <BackgroundColor>LightGrey</BackgroundColor>
+                            <BackgroundColor>SeaGreen</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -455,7 +455,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Member Name</Value>
+                                  <Value>Member Name</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -490,7 +490,7 @@
                               <Style>Solid</Style>
                               <Width>1pt</Width>
                             </RightBorder>
-                            <BackgroundColor>LightGrey</BackgroundColor>
+                            <BackgroundColor>SeaGreen</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -508,7 +508,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Loans Product Type </Value>
+                                  <Value>Loans Product Type </Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -543,7 +543,7 @@
                               <Style>Solid</Style>
                               <Width>1pt</Width>
                             </RightBorder>
-                            <BackgroundColor>LightGrey</BackgroundColor>
+                            <BackgroundColor>SeaGreen</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -561,7 +561,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Issued Amount</Value>
+                                  <Value>Issued Amount</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -596,7 +596,7 @@
                               <Style>Solid</Style>
                               <Width>1pt</Width>
                             </RightBorder>
-                            <BackgroundColor>LightGrey</BackgroundColor>
+                            <BackgroundColor>SeaGreen</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -614,7 +614,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Issued Date </Value>
+                                  <Value>Issued Date </Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -649,7 +649,7 @@
                               <Style>Solid</Style>
                               <Width>1pt</Width>
                             </RightBorder>
-                            <BackgroundColor>LightGrey</BackgroundColor>
+                            <BackgroundColor>SeaGreen</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -667,7 +667,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Performing</Value>
+                                  <Value>Performing</Value>
                                   <Style>
                                     <FontFamily>SEGOE UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -682,7 +682,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">(0 Days)</Value>
+                                  <Value>(0 Days)</Value>
                                   <Style>
                                     <FontFamily>SEGOE UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -720,7 +720,7 @@
                               <Style>Solid</Style>
                               <Width>1pt</Width>
                             </RightBorder>
-                            <BackgroundColor>LightGrey</BackgroundColor>
+                            <BackgroundColor>SeaGreen</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -738,7 +738,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Watch</Value>
+                                  <Value>Watch</Value>
                                   <Style>
                                     <FontFamily>SEGOE UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -753,7 +753,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">(1 - 30 Days)</Value>
+                                  <Value>(1 - 30 Days)</Value>
                                   <Style>
                                     <FontFamily>SEGOE UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -791,7 +791,7 @@
                               <Style>Solid</Style>
                               <Width>1pt</Width>
                             </RightBorder>
-                            <BackgroundColor>LightGrey</BackgroundColor>
+                            <BackgroundColor>SeaGreen</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -809,7 +809,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Substandard</Value>
+                                  <Value>Substandard</Value>
                                   <Style>
                                     <FontFamily>SEGOE UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -824,7 +824,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">(31 - 180 Days)</Value>
+                                  <Value>(31 - 180 Days)</Value>
                                   <Style>
                                     <FontFamily>SEGOE UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -862,7 +862,7 @@
                               <Style>Solid</Style>
                               <Width>1pt</Width>
                             </RightBorder>
-                            <BackgroundColor>LightGrey</BackgroundColor>
+                            <BackgroundColor>SeaGreen</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -880,7 +880,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Doubtful</Value>
+                                  <Value>Doubtful</Value>
                                   <Style>
                                     <FontFamily>SEGOE UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -895,7 +895,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">(181 - 360 Days)</Value>
+                                  <Value>(181 - 360 Days)</Value>
                                   <Style>
                                     <FontFamily>SEGOE UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -933,7 +933,7 @@
                               <Style>Solid</Style>
                               <Width>1pt</Width>
                             </RightBorder>
-                            <BackgroundColor>LightGrey</BackgroundColor>
+                            <BackgroundColor>SeaGreen</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -951,7 +951,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Loss</Value>
+                                  <Value>Loss</Value>
                                   <Style>
                                     <FontFamily>SEGOE UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -966,7 +966,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Over 360 Days</Value>
+                                  <Value>Over 360 Days</Value>
                                   <Style>
                                     <FontFamily>SEGOE UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1004,7 +1004,7 @@
                               <Style>Solid</Style>
                               <Width>1pt</Width>
                             </RightBorder>
-                            <BackgroundColor>LightGrey</BackgroundColor>
+                            <BackgroundColor>SeaGreen</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -1022,7 +1022,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Outstanding.Bal</Value>
+                                  <Value>Outstanding.Bal</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -1059,7 +1059,7 @@
                               <Style>Solid</Style>
                               <Width>1pt</Width>
                             </RightBorder>
-                            <BackgroundColor>LightGrey</BackgroundColor>
+                            <BackgroundColor>SeaGreen</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -1077,7 +1077,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Arrears</Value>
+                                  <Value>Arrears</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -1114,7 +1114,7 @@
                               <Style>Solid</Style>
                               <Width>1pt</Width>
                             </RightBorder>
-                            <BackgroundColor>LightGrey</BackgroundColor>
+                            <BackgroundColor>SeaGreen</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -1132,7 +1132,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Days in Arrears</Value>
+                                  <Value>Days in Arrears</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -1169,7 +1169,7 @@
                               <Style>Solid</Style>
                               <Width>1pt</Width>
                             </RightBorder>
-                            <BackgroundColor>LightGrey</BackgroundColor>
+                            <BackgroundColor>SeaGreen</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -1187,7 +1187,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Current.Outstanding Bal</Value>
+                                  <Value>Current.Outstanding Bal</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -1224,7 +1224,7 @@
                               <Style>Solid</Style>
                               <Width>1pt</Width>
                             </RightBorder>
-                            <BackgroundColor>LightGrey</BackgroundColor>
+                            <BackgroundColor>SeaGreen</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -1247,7 +1247,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!Loans__Loan__No__.Value</Value>
+                                  <Value>=Fields!Loans__Loan__No__.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>d</Format>
@@ -1301,7 +1301,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!ClientCode_LoansRegister.Value</Value>
+                                  <Value>=Fields!ClientCode_LoansRegister.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                   </Style>
@@ -1354,7 +1354,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!Loans__Client_Name_.Value</Value>
+                                  <Value>=Fields!Loans__Client_Name_.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                   </Style>
@@ -1405,7 +1405,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!Loans__Loan_Product_Type_.Value</Value>
+                                  <Value>=Fields!Loans__Loan_Product_Type_.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                   </Style>
@@ -1436,7 +1436,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!ApprovedAmount_LoansRegister.Value</Value>
+                                  <Value>=Fields!ApprovedAmount_LoansRegister.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>n2</Format>
@@ -1467,7 +1467,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!IssuedDate_LoansRegister.Value</Value>
+                                  <Value>=Fields!IssuedDate_LoansRegister.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>MM/dd/yyyy</Format>
@@ -1499,7 +1499,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!V0Month_.Value</Value>
+                                  <Value>=Fields!V0Month_.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>#,0.00;#,0.00-;''</Format>
@@ -1553,7 +1553,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!V1Month_.Value</Value>
+                                  <Value>=Fields!V1Month_.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>#,0.00;#,0.00-;''</Format>
@@ -1587,7 +1587,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!V2Month_.Value</Value>
+                                  <Value>=Fields!V2Month_.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>#,0.00;(#,0.00);''</Format>
@@ -1621,7 +1621,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!V3Month_.Value</Value>
+                                  <Value>=Fields!V3Month_.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>#,0.00;(#,0.00);''</Format>
@@ -1655,7 +1655,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!Over3Month.Value</Value>
+                                  <Value>=Fields!Over3Month.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>#,0.00;(#,0.00);''</Format>
@@ -1689,7 +1689,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!lastbalance.Value</Value>
+                                  <Value>=Fields!lastbalance.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>n2</Format>
@@ -1723,7 +1723,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!AmountinArrears_LoansRegister.Value</Value>
+                                  <Value>=Fields!AmountinArrears_LoansRegister.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>n2</Format>
@@ -1757,7 +1757,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!period.Value</Value>
+                                  <Value>=Fields!period.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                   </Style>
@@ -1790,7 +1790,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!Loans_Loans__Outstanding_Balance_.Value</Value>
+                                  <Value>=Fields!Loans_Loans__Outstanding_Balance_.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>#,0.00;(#,0.00)</Format>
@@ -1829,7 +1829,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">TOTAL</Value>
+                                  <Value>TOTAL</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -1864,7 +1864,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto" />
+                                  <Value />
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -1896,7 +1896,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto" />
+                                  <Value />
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -1928,7 +1928,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto" />
+                                  <Value />
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -1960,7 +1960,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Sum(Fields!V0Month_.Value)</Value>
+                                  <Value>=Sum(Fields!V0Month_.Value)</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -1995,7 +1995,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Sum(Fields!V1Month_.Value)</Value>
+                                  <Value>=Sum(Fields!V1Month_.Value)</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -2030,7 +2030,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Sum(Fields!V2Month_.Value)</Value>
+                                  <Value>=Sum(Fields!V2Month_.Value)</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -2065,7 +2065,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Sum(Fields!V3Month_.Value)</Value>
+                                  <Value>=Sum(Fields!V3Month_.Value)</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -2100,7 +2100,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Sum(Fields!Over3Month.Value)</Value>
+                                  <Value>=Sum(Fields!Over3Month.Value)</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -2135,7 +2135,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=sum(Fields!lastbalance.Value)</Value>
+                                  <Value>=sum(Fields!lastbalance.Value)</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -2169,7 +2169,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Sum(Fields!AmountinArrears_LoansRegister.Value)</Value>
+                                  <Value>=Sum(Fields!AmountinArrears_LoansRegister.Value)</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -2204,7 +2204,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto" />
+                                  <Value />
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -2238,7 +2238,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Sum(Fields!Loans_Loans__Outstanding_Balance_.Value)</Value>
+                                  <Value>=Sum(Fields!Loans_Loans__Outstanding_Balance_.Value)</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>

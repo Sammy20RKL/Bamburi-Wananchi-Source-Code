@@ -821,7 +821,9 @@ Page 56043 "Bamburi SACCO Role Center"
                     {
                         ApplicationArea = Basic, Suite;
                         Caption = 'Loan Aging New';
-                        RunObject = report "loan aging new";
+                        RunObject = report "Loan Aging New 2026";
+                        // RunObject = report "loan aging new";
+
                     }
 
                     action("Close Income Statement")
@@ -1263,7 +1265,15 @@ Page 56043 "Bamburi SACCO Role Center"
                     ApplicationArea = Basic, Suite;
                     Caption = 'Posted BOSA Loans';
                     RunObject = Page "Posted Loans List";
+                    visible = false;
                     ToolTip = 'Open the list of the Loans Posted.';
+                }
+                action("PostedLoansDetails")
+                {
+                    ApplicationArea = Basic, Suite;
+                    Caption = 'Posted Loans Details';
+                    RunObject = Page "Bamburi  Posted Loans Lists";
+                    ToolTip = 'Open the list of the Loans Posted with details.';
                 }
                 group("Loan Rescheduling")
                 {
@@ -1771,6 +1781,11 @@ Page 56043 "Bamburi SACCO Role Center"
                                 Image = Setup;
                                 RunObject = report "Dividend Transfer To ArreaLoan";
                             }
+                            action("Process Dividends for Members")
+                            {
+                                ApplicationArea = all;
+                                RunObject = Report "Process Dividends for member2";
+                            }
                         }
                         group("Share capital Manangement")
                         {
@@ -1856,25 +1871,27 @@ Page 56043 "Bamburi SACCO Role Center"
                         // RunObject = report "Loans Defaulter Aging 130";
                         RunObject = report "Loans Defaulter Aging Nav";
                     }
-                    group("Loan Aging New")
+
+                }
+                group("Loan Aging New")
+                {
+                    Visible = false;
+                    action("Run Aging")
                     {
+                        Caption = 'Process Loan Aging New';
+                        ToolTip = 'Process Loan Aging New';
+                        RunObject = codeunit LoanAgingProcessor;
+                    }
+                    action("Loan Aging nav")
+                    {
+                        ApplicationArea = all;
+                        RunObject = report "loan aging new Nav";
+                        Caption = 'Loan Aging New';
+                        ToolTip = 'Loan Aging New';
                         Visible = false;
-                        action("Run Aging")
-                        {
-                            Caption = 'Process Loan Aging New';
-                            ToolTip = 'Process Loan Aging New';
-                            RunObject = codeunit LoanAgingProcessor;
-                        }
-                        action("Loan Aging nav")
-                        {
-                            ApplicationArea = all;
-                            RunObject = report "loan aging new Nav";
-                            Caption = 'Loan Aging New';
-                            ToolTip = 'Loan Aging New';
-                            Visible = true;
-                        }
                     }
                 }
+
             }
             //....................... START OF ALTERNATIVE CHANNELS MAIN MENU ...................................
             group(SwizzKash)
@@ -2067,7 +2084,8 @@ Page 56043 "Bamburi SACCO Role Center"
                     action(Portal)
                     {
                         Caption = 'Debug Portal';
-                        RunObject = codeunit "PORTALIntegration MFS";
+                        // RunObject = codeunit "PORTALIntegration MFS";
+                        RunObject = codeunit "Dividends Processing Codeunit";
                         Image = RollUpCosts;
                     }
                     action(SCHEDULE)
@@ -2075,6 +2093,7 @@ Page 56043 "Bamburi SACCO Role Center"
 
                         RunObject = Report "Loan Repayment Schedules";
                         Image = RollUpCosts;
+                        Visible = false;
                     }
 
 

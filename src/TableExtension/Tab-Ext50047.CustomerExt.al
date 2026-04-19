@@ -2236,6 +2236,13 @@ tableextension 50047 "CustomerExt" extends Customer
         {
         }
         field(69515; "Bonus Recovery"; Decimal) { }
+        field(69516; "Qualifying Deposits"; Decimal)
+        {
+        }
+        field(695167; "Qualifying share Capital"; Decimal)
+        {
+        }
+
     }
     keys
     {

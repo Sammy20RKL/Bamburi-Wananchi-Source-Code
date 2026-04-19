@@ -4,7 +4,7 @@ Codeunit 56700 "Dividends Processing Codeunit"
 
     trigger OnRun()
     begin
-        //FnGetTheDivTotalPayable('1001');
+        FnGetTheDivTotalPayable('BWS1973');
     end;
 
     var
@@ -738,7 +738,7 @@ Codeunit 56700 "Dividends Processing Codeunit"
                         'Bank Charge- ' + YearCalc, '');
                         LineNo := LineNo + 10000;
                         SFactory.FnCreateGnlJournalLine('PAYMENTS', 'DIVIDEND', Format(PostingDate), LineNo, GenJournalLine."transaction type"::" ",
-                        GenJournalLine."account type"::"G/L Account", '101410', PostingDate, (chargges) * -1, 'BOSA', '',
+                        GenJournalLine."account type"::"G/L Account", '6-400-001', PostingDate, (chargges) * -1, 'BOSA', '',
                         ' Bank Charge- ' + YearCalc, '');
                         // //------------------------------------2.1. charge WITHHOLDING TAX GL A/C-----------------------------------------------------------------------
                         //------------------------------------3. DEBITORMAT(PostingDate) MEMBER DIVIDEND A/C_PROCESSING FEE--------------------------------------------------------------
@@ -1492,7 +1492,7 @@ Codeunit 56700 "Dividends Processing Codeunit"
                             'Bank Charge- ' + YearCalc, '');
                             LineNo := LineNo + 10000;
                             SFactory.FnCreateGnlJournalLine('PAYMENTS', 'DIVIDEND', Format(PostingDate), LineNo, GenJournalLine."transaction type"::" ",
-                           GenJournalLine."account type"::"G/L Account", '101410', PostingDate, (chargges) * -1, 'BOSA', '',
+                           GenJournalLine."account type"::"G/L Account", '6-400-001', PostingDate, (chargges) * -1, 'BOSA', '',
                            ' Bank Charge- ' + YearCalc, '');
                             // //------------------------------------2.1. charge WITHHOLDING TAX GL A/C-----------------------------------------------------------------------
                             //------------------------------------3. DEBITORMAT(PostingDate) MEMBER DIVIDEND A/C_PROCESSING FEE--------------------------------------------------------------
@@ -2156,7 +2156,7 @@ Codeunit 56700 "Dividends Processing Codeunit"
                     'Bank Charge- ' + YearCalc, '');
                     LineNo := LineNo + 10000;
                     SFactory.FnCreateGnlJournalLine('PAYMENTS', 'DIVIDEND', Format(PostingDate), LineNo, GenJournalLine."transaction type"::" ",
-                   GenJournalLine."account type"::"G/L Account", '101410', PostingDate, (chargges) * -1, 'BOSA', '',
+                   GenJournalLine."account type"::"G/L Account", '6-400-001', PostingDate, (chargges) * -1, 'BOSA', '',
                    ' Bank Charge- ' + YearCalc, '');
                     // //------------------------------------2.1. charge WITHHOLDING TAX GL A/C-----------------------------------------------------------------------
                     //------------------------------------3. DEBITORMAT(PostingDate) MEMBER DIVIDEND A/C_PROCESSING FEE--------------------------------------------------------------
@@ -2921,7 +2921,7 @@ Codeunit 56700 "Dividends Processing Codeunit"
                 'Bank Charge- ' + YearCalc, '');
                 LineNo := LineNo + 10000;
                 SFactory.FnCreateGnlJournalLine('PAYMENTS', 'DIVIDEND', Format(PostingDate), LineNo, GenJournalLine."transaction type"::" ",
-               GenJournalLine."account type"::"G/L Account", '101410', PostingDate, (chargges) * -1, 'BOSA', '',
+               GenJournalLine."account type"::"G/L Account", '', PostingDate, (chargges) * -1, 'BOSA', '',
                ' Bank Charge- ' + YearCalc, '');
 
 
