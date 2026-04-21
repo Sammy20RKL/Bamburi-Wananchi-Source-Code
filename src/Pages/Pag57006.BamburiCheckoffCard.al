@@ -529,7 +529,10 @@ page 57006 "Bamburi Checkoff Card"
 
         // Kivukio Loan
         if RcptBufLines."Kivukio Loan Amount" > 0 then begin
-            loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."Kivukio Loan Amount", Rec."Loan CutOff Date", 'KIVUK');
+            if RcptBufLines."Kivukio Loan No." <> '' then
+                loanNumber := RcptBufLines."Kivukio Loan No."
+            else
+                loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."Kivukio Loan Amount", Rec."Loan CutOff Date", 'KIVUK');
             if loanNumber <> '' then begin
                 FnPostDistributedLoan(RcptBufLines, loanNumber, RcptBufLines."Kivukio Loan Interest", RcptBufLines."Kivukio Loan Principle", 'KIVUK');
             end else begin
@@ -539,7 +542,10 @@ page 57006 "Bamburi Checkoff Card"
 
         // Normal Loan 1
         if RcptBufLines."Normal Loan 1 Amount" > 0 then begin
-            loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."Normal Loan 1 Amount", Rec."Loan CutOff Date", 'NORM1');
+            if RcptBufLines."Norm1 Loan No." <> '' then
+                loanNumber := RcptBufLines."Norm1 Loan No."
+            else
+                loanNumber := fnGetLoanNumber(RcptBufLines, RcptBufLines."Normal Loan 1 Amount", Rec."Loan CutOff Date", 'NORM1');
             if loanNumber <> '' then begin
                 FnPostDistributedLoan(RcptBufLines, loanNumber, RcptBufLines."Normal Loan 1 Interest", RcptBufLines."Normal Loan 1 Principle", 'NORM1');
             end else begin

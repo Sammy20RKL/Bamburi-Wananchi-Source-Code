@@ -63,11 +63,16 @@ page 57005 "Bamburi CheckoffLines"
                 field("Loan No1"; Rec."Loan No1")
                 {
                     ApplicationArea = Basic;
-                    Caption = 'Loan No';
+                    Caption = 'Emergency Loan No.';
                 }
                 field("Kivukio Loan Amount"; Rec."Kivukio Loan Amount") { ApplicationArea = Basic; }
                 field("Kivukio Loan Principle"; Rec."Kivukio Loan Principle") { ApplicationArea = Basic; }
                 field("Kivukio Loan Interest"; Rec."Kivukio Loan Interest") { ApplicationArea = Basic; }
+                field("Kivukio Loan No."; Rec."Kivukio Loan No.")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Kivukio Loan No.';
+                }
                 field("Mwokozi Loan Amount"; Rec."Mwokozi Loan Amount") { ApplicationArea = Basic; }
                 field("Mwokozi Loan Principle"; Rec."Mwokozi Loan Principle") { ApplicationArea = Basic; }
                 field("Mwokozi Loan Interest"; Rec."Mwokozi Loan Interest") { ApplicationArea = Basic; }
@@ -84,10 +89,19 @@ page 57005 "Bamburi CheckoffLines"
                 field("Normal Loan 1 Amount"; Rec."Normal Loan 1 Amount") { ApplicationArea = Basic; }
                 field("Normal Loan 1 Principle"; Rec."Normal Loan 1 Principle") { ApplicationArea = Basic; }
                 field("Normal Loan 1 Interest"; Rec."Normal Loan 1 Interest") { ApplicationArea = Basic; }
+                field("Norm1 Loan No."; Rec."Norm1 Loan No.")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Norm1 Loan No.';
+                }
                 field("Normal Loan 2 Amount"; Rec."Normal Loan 2 Amount") { ApplicationArea = Basic; }
                 field("Normal Loan 2 Principle"; Rec."Normal Loan 2 Principle") { ApplicationArea = Basic; }
                 field("Normal Loan 2 Interest"; Rec."Normal Loan 2 Interest") { ApplicationArea = Basic; }
-                field("Loan No."; Rec."Loan No.") { ApplicationArea = Basic; }
+                field("Loan No."; Rec."Loan No.")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Norm2 Loans No.';
+                }
                 //field("Normal Loan 3 Amount"; Rec."Normal Loan 3 Amount") { ApplicationArea = Basic; }
                 //field("Normal Loan 3 Principle"; Rec."Normal Loan 3 Principle") { ApplicationArea = Basic; }
                 //field("Normal Loan 3 Interest"; Rec."Normal Loan 3 Interest") { ApplicationArea = Basic; }

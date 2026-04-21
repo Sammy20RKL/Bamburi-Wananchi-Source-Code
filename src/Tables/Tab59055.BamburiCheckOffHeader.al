@@ -208,7 +208,7 @@ table 59055 "Bamburi Checkoff Header"
 
             // totalWelfare += BamburiCheckoffLines."Welfare Contribution";
             until BamburiCheckoffLines.Next() = 0;
-        "Scheduled Amount" := ROUND(Total, 1, '=');
+        "Scheduled Amount" := ROUND(Total, 1, '>');
         // "Scheduled Amount" := Total;
         "Total Welfare" := totalWelfare;
         // Rec.Modify(true);

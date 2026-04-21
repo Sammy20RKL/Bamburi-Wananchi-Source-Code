@@ -63,6 +63,8 @@ table 59056 "Bamburi CheckoffLines"
         field(58; "Other Products"; Decimal) { }
         field(78; "Loan No."; Code[20]) { TableRelation = "Loans Register"."Loan  No."; }
         field(79; "Loan No1"; Code[20]) { TableRelation = "Loans Register"."Loan  No."; }
+        field(80; "Kivukio Loan No."; Code[20]) { TableRelation = "Loans Register"."Loan  No."; }
+        field(81; "Norm1 Loan No."; Code[20]) { TableRelation = "Loans Register"."Loan  No."; }
 
 
         field(52; "Total Loans"; Decimal)

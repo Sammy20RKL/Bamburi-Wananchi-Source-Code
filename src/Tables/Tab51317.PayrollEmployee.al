@@ -441,7 +441,7 @@ Table 51317 "Payroll Employee."
         }
         field(95; "Payroll No"; Code[20])
         {
-            TableRelation = Customer."No.";
+            TableRelation = Customer."No." WHERE(staff = CONST(true));
 
             trigger OnValidate()
             begin

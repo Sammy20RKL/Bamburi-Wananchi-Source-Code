@@ -682,6 +682,7 @@ Page 56043 "Bamburi SACCO Role Center"
                         Visible = true;
                     }
 
+
                 }
                 group(Receivables)
                 {
