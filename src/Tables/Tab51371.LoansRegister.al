@@ -385,13 +385,16 @@ Table 51371 "Loans Register"
                 */
                 GenSetUp.Get();
                 if Cust.Get("Client Code") then begin
-                    // IF Cust."Registration Date" <> 0D THEN
-                    //     RefDate := CALCDATE('<+' + GenSetup."Share Capital Period" + '>', Cust."Registration Date");
-                    // IF Today < RefDate THEN BEGIN
-                    //     ERROR('Member does not qualify for this loan!. Qualification date is %1.', RefDate);
-                    //           if Today < RefDate then
-                    // Error('Member does not qualify for this loan. Qualification date is %1.', RefDate);
-                    //    END; // For members who are not 6 months old in the Sacco
+                    IF Cust."Registration Date" <> 0D THEN
+                        RefDate := CALCDATE('<+' + GenSetUp."Share Capital Period" + '>', Cust."Registration Date");
+                    IF Today < RefDate THEN BEGIN
+                        ERROR('You do not qualify for this loan yet. You must be a member for at least %1 before applying. You will be eligible from %2.',
+                            GenSetUp."Share Capital Period",
+                            RefDate);
+                        // ERROR('Member does not qualify for this loan!. Qualification date is %1.', RefDate);
+                        //  if Today < RefDate then
+                        // Error('Member does not qualify for this loan. Qualification date is %1.', RefDate);
+                    END; // For members who are not 6 months old in the Sacco
 
                     Cust.CALCFIELDS("Shares Retained");
                     // IF Cust."Shares Retained" < GenSetUp."Retained Shares" THEN
@@ -2232,7 +2235,7 @@ Table 51371 "Loans Register"
         }
         field(68004; "Top Up Amount"; Decimal)
         {
-            CalcFormula = sum("Loan Offset Details"."Total Top Up" where("Loan No." = field("Loan  No."),
+            CalcFormula = sum("Loan Offset Details"."Principle Top Up" where("Loan No." = field("Loan  No."),
                                                                           "Client Code" = field("Client Code")));
             Editable = false;
             FieldClass = FlowField;

@@ -24,7 +24,23 @@ Table 51376 "Loan Offset Details"
             trigger OnValidate()
             var
                 Amtt: Decimal;
+                NewLoan: Record "Loans Register";
+                OffsetLoan: Record "Loans Register";
             begin
+                NewLoan.Reset;
+                NewLoan.SetRange(NewLoan."Loan  No.", "Loan No.");
+                if NewLoan.Find('-') then;
+
+                OffsetLoan.Reset();
+                OffsetLoan.SetRange(OffsetLoan."Loan  No.", "Loan Top Up");
+                if OffsetLoan.Find('-') then;
+                IF NewLoan."Loan Product Type" <> OffsetLoan."Loan Product Type" then begin
+                    Error('You cannot offset/Topup a loan of a different product type. New Loan is "%1" but the loan being offset/Topup is "%2". Both must be the same product.',
+           NewLoan."loan Product Type",
+           OffsetLoan."Loan Product Type");
+                end;
+
+
                 if Confirm('Are you sure you want to offset this loan?', true) = true then begin
 
                     "Loan Type" := '';

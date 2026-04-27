@@ -46,6 +46,14 @@ page 50367 "Member Account Card"
                     Editable = false;
                     Style = StrongAccent;
                 }
+                field("Mobile Phone No"; Rec."Mobile Phone No")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Mobile Phone No.';
+                    Editable = false;
+                    Visible = true;
+                    Style = StrongAccent;
+                }
 
                 field(Gender; Rec.Gender)
                 {

@@ -3151,7 +3151,7 @@ Codeunit 51120 PORTALIntegration
     end;
 
 
-    procedure OnlineLoanApplication(BosaNo: Code[30]; LoanType: Code[30]; LoanAmount: Decimal; loanpurpose: Text; repaymentPeriod: Integer) GeneratedApplicationNo: Code[20]
+    procedure OnlineLoanApplication(BosaNo: Code[30]; LoanType: Code[100]; LoanAmount: Decimal; loanpurpose: Text; repaymentPeriod: Integer) GeneratedApplicationNo: Code[20]
     var
         ObjLoanApplications: Record "Online Loan Application";
     begin

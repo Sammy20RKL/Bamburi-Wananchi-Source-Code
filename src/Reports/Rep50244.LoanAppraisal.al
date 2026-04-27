@@ -696,7 +696,7 @@ Report 50244 "Loan Appraisal"
                 column(Loans_Top_up__Loan_No__; "Loan Top Up")
                 {
                 }
-                column(Loans_Top_up__Total_Top_Up_; "Total Top Up")
+                column(Loans_Top_up__Total_Top_Up_; "Total Top Up")// summation of principle and interest top up
                 {
                 }
                 column(Loans_Top_up__Interest_Top_Up_; "Interest Top Up")
@@ -807,7 +807,7 @@ Report 50244 "Loan Appraisal"
                         end;
                     end;
 
-                    TOTALBRIDGED := TOTALBRIDGED + "Loan Offset Details"."Total Top Up";
+                    TOTALBRIDGED := TOTALBRIDGED + "Loan Offset Details"."Principle Top Up";
 
                     if TOTALBRIDGED > Recomm then
                         WarnBridged := UpperCase('WARNING: Bridging Total is Higher than the Qualifing Amount.')
@@ -917,8 +917,9 @@ Report 50244 "Loan Appraisal"
                     LoanTopUp.SetRange(LoanTopUp."Client Code", "Loans Register"."Client Code");
                     if LoanTopUp.Find('-') then begin
                         repeat
-                            BRIGEDAMOUNT := ROUND(BRIGEDAMOUNT + LoanTopUp."Principle Top Up" + LoanTopUp."Interest Top Up", 0.01, '>');
-                            TotalBridgeAmount := ROUND(TotalBridgeAmount + LoanTopUp."Total Top Up", 0.01, '>');
+                            // BRIGEDAMOUNT := ROUND(BRIGEDAMOUNT + LoanTopUp."Principle Top Up" + LoanTopUp."Interest Top Up", 0.01, '>');
+                            BRIGEDAMOUNT := ROUND(BRIGEDAMOUNT + LoanTopUp."Principle Top Up", 0.01, '>');
+                            TotalBridgeAmount := ROUND(TotalBridgeAmount + LoanTopUp."Principle Top Up", 0.01, '>');
 
                             TopUpFee := ROUND(GenSetUp."Loan Top Up Commision(%)" * (BRIGEDAMOUNT) / 100, 1, '>');
                             if TotalBridgeAmount < LoanTopUp."LoanArrears" then begin

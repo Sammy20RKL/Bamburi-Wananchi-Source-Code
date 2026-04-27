@@ -5,7 +5,8 @@ Codeunit 50120 "PORTALIntegration MFS"
     begin
         // Message(SubmitLoan('2736', 'PLN36'));
 
-        SubmitLoan('BWS1165', 'PN0014')
+        // SubmitLoan('BWS1165', 'PN0014');
+        // OnlineLoanApplication('BWS1973', 'SCHLOAN', 500000, 'Test Loan', 12);
     end;
 
     var

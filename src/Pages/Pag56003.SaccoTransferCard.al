@@ -371,24 +371,24 @@ Page 56003 "Sacco Transfer Card"
                                     GenJournalLine."Loan No" := Rec."Source Loan No";
                                 END ELSE
 
-                                    IF Rec."Source Account Type" = Rec."Source Account Type"::MWANANGU THEN BEGIN
-                                        GenJournalLine."Account Type" := GenJournalLine."Account Type"::Vendor;
-                                        GenJournalLine."Shortcut Dimension 1 Code" := 'BOSA';
-                                        GenJournalLine."Shortcut Dimension 2 Code" := BTRANS."Global Dimension 2 Code";
+                                    // IF Rec."Source Account Type" = Rec."Source Account Type"::MWANANGU THEN BEGIN
+                                    //     GenJournalLine."Account Type" := GenJournalLine."Account Type"::Vendor;
+                                    //     GenJournalLine."Shortcut Dimension 1 Code" := 'BOSA';
+                                    //     GenJournalLine."Shortcut Dimension 2 Code" := BTRANS."Global Dimension 2 Code";
+                                    //     GenJournalLine."Account No." := Rec."Source Account No";
+                                    // END ELSE
+                                    IF Rec."Source Account Type" = Rec."Source Account Type"::"G/L ACCOUNT" THEN BEGIN
+                                        GenJournalLine."Account Type" := GenJournalLine."Account Type"::"G/L Account";
+                                        GenJournalLine."Transaction Type" := Rec."Source Transaction Type";
+                                        GenJournalLine."Shortcut Dimension 2 Code" := '01';
                                         GenJournalLine."Account No." := Rec."Source Account No";
                                     END ELSE
-                                        IF Rec."Source Account Type" = Rec."Source Account Type"::"G/L ACCOUNT" THEN BEGIN
-                                            GenJournalLine."Account Type" := GenJournalLine."Account Type"::"G/L Account";
-                                            GenJournalLine."Transaction Type" := Rec."Source Transaction Type";
-                                            GenJournalLine."Shortcut Dimension 2 Code" := '01';
+                                        IF Rec."Source Account Type" = Rec."Source Account Type"::Bank THEN BEGIN
+                                            GenJournalLine."Account Type" := GenJournalLine."Account Type"::"Bank Account";
+                                            GenJournalLine."Shortcut Dimension 1 Code" := 'BOSA';
+                                            GenJournalLine."Shortcut Dimension 2 Code" := BTRANS."Global Dimension 2 Code";
                                             GenJournalLine."Account No." := Rec."Source Account No";
-                                        END ELSE
-                                            IF Rec."Source Account Type" = Rec."Source Account Type"::Bank THEN BEGIN
-                                                GenJournalLine."Account Type" := GenJournalLine."Account Type"::"Bank Account";
-                                                GenJournalLine."Shortcut Dimension 1 Code" := 'BOSA';
-                                                GenJournalLine."Shortcut Dimension 2 Code" := BTRANS."Global Dimension 2 Code";
-                                                GenJournalLine."Account No." := Rec."Source Account No";
-                                            END;
+                                        END;
                             GenJournalLine."Posting Date" := Rec."Transaction Date";
                             GenJournalLine.Description := BSched."Description" + ' ' + Rec."Source Account No";
                             Rec.CALCFIELDS("Schedule Total");

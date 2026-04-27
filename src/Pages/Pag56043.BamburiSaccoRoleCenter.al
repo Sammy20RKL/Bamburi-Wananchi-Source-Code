@@ -2085,8 +2085,8 @@ Page 56043 "Bamburi SACCO Role Center"
                     action(Portal)
                     {
                         Caption = 'Debug Portal';
-                        // RunObject = codeunit "PORTALIntegration MFS";
-                        RunObject = codeunit "Dividends Processing Codeunit";
+                        RunObject = codeunit "PORTALIntegration MFS";
+                        // RunObject = codeunit "Dividends Processing Codeunit";
                         Image = RollUpCosts;
                     }
                     action(SCHEDULE)

@@ -45,8 +45,8 @@ Table 51016 "Sacco Transfers"
         }
         field(10; "Source Account Type"; Option)
         {
-            OptionCaption = 'Customer,MWANANGU,Fosa,Bank,G/L ACCOUNT,MEMBER';
-            OptionMembers = Customer,MWANANGU,Fosa,Bank,"G/L ACCOUNT",MEMBER;
+            OptionCaption = 'Customer,Fosa,Bank,G/L ACCOUNT,MEMBER';
+            OptionMembers = Customer,Fosa,Bank,"G/L ACCOUNT",MEMBER;
         }
         field(11; "Source Account No"; Code[20])
         {

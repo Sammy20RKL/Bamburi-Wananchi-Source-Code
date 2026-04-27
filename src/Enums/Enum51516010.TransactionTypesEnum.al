@@ -99,7 +99,7 @@ enum 51516010 "TransactionTypesEnum"
     }
     value(17; "MOBILE_FOSA_TRANSFER")
     {
-        Caption = '';
+        Caption = 'Mobile FOSA Transfer';
     }
     value(19; Withdrawal)
     {

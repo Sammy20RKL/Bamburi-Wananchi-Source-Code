@@ -441,7 +441,7 @@ Table 51317 "Payroll Employee."
         }
         field(95; "Payroll No"; Code[20])
         {
-            TableRelation = Customer."No." WHERE(staff = CONST(true));
+            TableRelation = Customer."No." WHERE(staff = const(true));
 
             trigger OnValidate()
             begin
@@ -671,6 +671,8 @@ Table 51317 "Payroll Employee."
     // end;
 
     var
+        p: page "Sales Invoice";
+        s: Page "Purchase Invoice";
         PayrollDepartments: Record PayrollDepartments;
         ObjCust: Record Customer;
         CurrExchRate: Record "Currency Exchange Rate";
