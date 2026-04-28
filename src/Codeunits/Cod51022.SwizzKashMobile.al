@@ -13,7 +13,7 @@ Codeunit 51022 SwizzKashMobile
         // AdvanceEligibility();ii
         // PostMPESAWithdrawals();
         // FnUpdateWallets();
-        // CreateMWallets();
+        CreateMWallets();
         // CreateMWallet('2128');
     end;
 
@@ -309,7 +309,7 @@ Codeunit 51022 SwizzKashMobile
         mobilePhone: Code[30];
     begin
         CustomersTable.Reset();
-        CustomersTable.SetRange(CustomersTable."Customer Posting Group", 'Member');
+        CustomersTable.SetRange(CustomersTable."Customer Posting Group", 'BOSA');
         CustomersTable.SetRange(CustomersTable.Status, CustomersTable.Status::Active);
         if CustomersTable.Find('-') then begin
             repeat
@@ -352,7 +352,7 @@ Codeunit 51022 SwizzKashMobile
                     SaccoNoSeries.GET;
                     SaccoNoSeries.TESTFIELD(SaccoNoSeries."Swizzkash Reg No.");
                     applicationNumber := NoSeriesMgt.GetNextNo(SaccoNoSeries."Swizzkash Reg No.", Today, true);
-                    applicationNumber := swizzKashApplications."No.";
+                    //applicationNumber := swizzKashApplications."No.";
 
                     swizzKashApplications.Init();
                     SwizzKashApplications."No." := applicationNumber;

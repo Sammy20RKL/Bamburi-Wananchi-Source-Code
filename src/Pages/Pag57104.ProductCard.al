@@ -77,7 +77,7 @@ Page 57104 "Product Card"
                 field("Mobile Phone No"; Rec."Mobile Phone No")
                 {
                     ApplicationArea = Basic;
-                    Editable = false;
+                    Editable = true;
                     Visible = true;
                 }
 

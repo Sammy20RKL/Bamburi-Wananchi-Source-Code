@@ -198,6 +198,7 @@ Table 56119 "SwizzKash Applications"
         IF "No." = '' THEN BEGIN
             SaccoNoSeries.GET;
             SaccoNoSeries.TESTFIELD(SaccoNoSeries."Swizzkash Reg No.");
+            "No." := NoSeriesMgt.GetNextNo(SaccoNoSeries."SwizzKash Reg No.");
             // NoSeriesMgt.InitSeries(SaccoNoSeries."Swizzkash Reg No.", xRec."No. Series", 0D, "No.", "No. Series");
         END;
 

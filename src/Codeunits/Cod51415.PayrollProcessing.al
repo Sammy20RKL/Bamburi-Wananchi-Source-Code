@@ -154,6 +154,7 @@ Codeunit 51415 "Payroll Processing"//Number2
         EmployeeP: Record "Payroll Employee.";
         intRate: Decimal;
         LoanRegister: Record "Loans Register";
+        PostingGroup: Record "Payroll Posting Groups.";
     begin
         fnInitialize();
         fnGetJournalDet(strEmpCode);
@@ -387,6 +388,7 @@ Codeunit 51415 "Payroll Processing"//Number2
                 if curNSSF1 > 5940 then begin
                     curNSSF1 := 5940;
                 end;
+                curNSSF1 := Round(curNSSF1, 0.05, '>');
                 curTransAmount := curNSSF1;
                 curNSSF1 := curNSSF1;
                 strTransDescription := 'N.S.S.F Tier 2';
@@ -406,8 +408,9 @@ Codeunit 51415 "Payroll Processing"//Number2
                 // TSubGroupOrder := 1;
                 // fnUpdatePeriodTrans(strEmpCode, 'DEFCON', TGroup, TGroupOrder, TSubGroupOrder, strTransDescription, curTransAmount, 0, intMonth,
                 // intYear, '', '', SelectedPeriod, Dept, '', Journalpostas::" ", Journalpostingtype::" ", '', Coopparameters::none);
+                /// new end
             end;
-            /// new end
+
 
             ///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.house Levy
             Curhouselevy := curGrossPay * 1.5 / 100;
