@@ -409,6 +409,23 @@ Codeunit 51415 "Payroll Processing"//Number2
                 // fnUpdatePeriodTrans(strEmpCode, 'DEFCON', TGroup, TGroupOrder, TSubGroupOrder, strTransDescription, curTransAmount, 0, intMonth,
                 // intYear, '', '', SelectedPeriod, Dept, '', Journalpostas::" ", Journalpostingtype::" ", '', Coopparameters::none);
                 /// new end
+                // ── NSSF Employer Debit
+                // PostingGroup.Get('SALARY');
+                // curTransAmount := curNSSF + curNSSF1; // Employer matches employee total
+                // strTransDescription := 'N.S.S.F Employer Contribution';
+                // TGroup := 'STATUTORIES';
+                // TGroupOrder := 7;
+                // TSubGroupOrder := 6;
+                // fnUpdatePeriodTrans(strEmpCode, 'NSSF-EXPR', TGroup, TGroupOrder, TSubGroupOrder,
+                //     strTransDescription, curTransAmount, 0, intMonth, intYear, '', '', SelectedPeriod, Dept,
+                //     PostingGroup."SSF Employer Account",
+                //     JournalPostAs::Debit, JournalPostingType::"G/L Account", '', CoopParameters::NSSF);
+
+                // // ── NSSF Employer Credit
+                // fnUpdatePeriodTrans(strEmpCode, 'NSSF-LIAB', TGroup, TGroupOrder, TSubGroupOrder,
+                //     strTransDescription, curTransAmount, 0, intMonth, intYear, '', '', SelectedPeriod, Dept,
+                //     PostingGroup."SSF Employee Account",
+                //     JournalPostAs::Credit, JournalPostingType::"G/L Account", '', CoopParameters::NSSF);
             end;
 
 

@@ -82,7 +82,7 @@ enum 51516010 "TransactionTypesEnum"
     }
     value(20; "Welfare Contribution")
     {
-        Caption = '';
+        Caption = 'Welfare Contribution';
     }
     value(21; "Withholding Tax")
     {

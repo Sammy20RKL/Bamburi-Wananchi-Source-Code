@@ -64,7 +64,7 @@ Table 59047 "Online Loan Application"
         field(9; "Application Date"; Date) { Editable = false; }
         field(10; Email; Code[100]) { Editable = false; }
         field(11; Telephone; Code[20]) { Editable = false; }
-        field(12; "Home Address"; Code[20]) { Editable = false; }
+        field(12; "Home Address"; Code[100]) { Editable = false; }
         field(13; Station; Code[20]) { Editable = false; }
         field(14; "Loan Amount"; Decimal) { }
         field(15; "Repayment Period"; Integer) { Editable = false; }

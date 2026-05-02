@@ -133,6 +133,32 @@ Codeunit 51120 PORTALIntegration
         end;
     end;
 
+    procedure MemberDepositContributionsJon(MemberNo: Code[20]) JsonResponse: Text
+    var
+        CustLedEntry: Record "Cust. Ledger Entry";
+        JObject: JsonObject;
+        JArray: JsonArray;
+        JLine: JsonObject;
+    begin
+        JObject.Add('memberNo', MemberNo);
+
+        CustLedEntry.SetRange("Customer No.", MemberNo);
+        CustLedEntry.SetRange("Transaction Type", CustLedEntry."Transaction Type"::"Deposit Contribution");
+
+        if CustLedEntry.FindSet() then
+            repeat
+                Clear(JLine);
+                JLine.Add('postingDate', Format(CustLedEntry."Posting Date"));
+                JLine.Add('description', CustLedEntry.Description);
+                JLine.Add('amount', Abs(CustLedEntry.Amount));
+                JLine.Add('transactionType', Format(CustLedEntry."Transaction Type"));
+                JArray.Add(JLine);
+            until CustLedEntry.Next() = 0;
+
+        JObject.Add('contributions', JArray);
+        JObject.WriteTo(JsonResponse);
+    end;
+
     procedure Fnlogin(username: Code[50]; password: Text) status: Boolean
     var
         InStream: InStream;

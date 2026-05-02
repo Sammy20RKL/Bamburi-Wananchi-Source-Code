@@ -53,6 +53,16 @@ Page 56043 "Bamburi SACCO Role Center"
                 ApplicationArea = Basic, Suite;
                 Visible = true;
             }
+            part(Control9; "Help And Chart Wrapper")
+            {
+                ApplicationArea = Basic, Suite;
+                Visible = false;
+            }
+            part(LoanProductsChart; "Loan Products Chart")
+            {
+                ApplicationArea = Basic, Suite;
+                Visible = true;
+            }
             // part(Control123; "Team Member Activities")
             // {
             //     ApplicationArea = Suite;

@@ -55,5 +55,7 @@ Page 56006 "Posted Internal Transfers"
     actions
     {
     }
+    var
+        p: Page 760;
 }
 

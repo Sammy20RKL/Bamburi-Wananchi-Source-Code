@@ -28,6 +28,18 @@ Page 56638 "Loans DrillDown List"
                     ApplicationArea = Basic;
                     Editable = false;
                 }
+                field("Client Code"; Rec."Client Code")
+                {
+                    ApplicationArea = Basic;
+                    Editable = false;
+                    Style = StrongAccent;
+                }
+                field("Client Name"; Rec."Client Name")
+                {
+                    ApplicationArea = Basic;
+                    Editable = false;
+                    Style = StrongAccent;
+                }
 
                 field("Expected Date of Completion"; Rec."Expected Date of Completion")
                 {
@@ -38,25 +50,18 @@ Page 56638 "Loans DrillDown List"
                     ApplicationArea = Basic;
                     Editable = false;
                 }
-                field("Client Code"; Rec."Client Code")
-                {
-                    ApplicationArea = Basic;
-                    Editable = false;
-                }
+
                 field("BOSA No"; Rec."BOSA No")
                 {
                     ApplicationArea = Basic;
+                    Visible = false;
                 }
                 field("Issued Date"; Rec."Issued Date")
                 {
                     ApplicationArea = Basic;
                     Editable = false;
                 }
-                field("Client Name"; Rec."Client Name")
-                {
-                    ApplicationArea = Basic;
-                    Editable = false;
-                }
+
 
                 field(Repayment; Rec.Repayment)
                 {
