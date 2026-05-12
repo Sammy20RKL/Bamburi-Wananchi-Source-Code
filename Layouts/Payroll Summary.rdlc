@@ -1,0 +1,275 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <Height>2in</Height>
+        <Style />
+      </Body>
+      <Width>6.5in</Width>
+      <Page>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="ReportForNavId_1">
+          <DataField>ReportForNavId_1</DataField>
+        </Field>
+        <Field Name="CompName">
+          <DataField>CompName</DataField>
+        </Field>
+        <Field Name="pic">
+          <DataField>pic</DataField>
+        </Field>
+        <Field Name="Addr1">
+          <DataField>Addr1</DataField>
+        </Field>
+        <Field Name="Addr2">
+          <DataField>Addr2</DataField>
+        </Field>
+        <Field Name="Email">
+          <DataField>Email</DataField>
+        </Field>
+        <Field Name="Year">
+          <DataField>Year</DataField>
+        </Field>
+        <Field Name="PeriodName">
+          <DataField>PeriodName</DataField>
+        </Field>
+        <Field Name="EmployeeCode_prPeriodTransactions">
+          <DataField>EmployeeCode_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="TransactionCode_prPeriodTransactions">
+          <DataField>TransactionCode_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="GroupText_prPeriodTransactions">
+          <DataField>GroupText_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="TransactionName_prPeriodTransactions">
+          <DataField>TransactionName_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="Amount_prPeriodTransactions">
+          <DataField>Amount_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="Amount_prPeriodTransactionsFormat">
+          <DataField>Amount_prPeriodTransactionsFormat</DataField>
+        </Field>
+        <Field Name="Balance_prPeriodTransactions">
+          <DataField>Balance_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="Balance_prPeriodTransactionsFormat">
+          <DataField>Balance_prPeriodTransactionsFormat</DataField>
+        </Field>
+        <Field Name="OriginalAmount_prPeriodTransactions">
+          <DataField>OriginalAmount_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="OriginalAmount_prPeriodTransactionsFormat">
+          <DataField>OriginalAmount_prPeriodTransactionsFormat</DataField>
+        </Field>
+        <Field Name="GroupOrder_prPeriodTransactions">
+          <DataField>GroupOrder_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="SubGroupOrder_prPeriodTransactions">
+          <DataField>SubGroupOrder_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="PeriodMonth_prPeriodTransactions">
+          <DataField>PeriodMonth_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="PeriodYear_prPeriodTransactions">
+          <DataField>PeriodYear_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="PeriodFilter_prPeriodTransactions">
+          <DataField>PeriodFilter_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="PayrollPeriod_prPeriodTransactions">
+          <DataField>PayrollPeriod_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="Membership_prPeriodTransactions">
+          <DataField>Membership_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="ReferenceNo_prPeriodTransactions">
+          <DataField>ReferenceNo_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="DepartmentCode_prPeriodTransactions">
+          <DataField>DepartmentCode_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="Lumpsumitems_prPeriodTransactions">
+          <DataField>Lumpsumitems_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="TravelAllowance_prPeriodTransactions">
+          <DataField>TravelAllowance_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="GLAccount_prPeriodTransactions">
+          <DataField>GLAccount_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="CompanyDeduction_prPeriodTransactions">
+          <DataField>CompanyDeduction_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="EmpAmount_prPeriodTransactions">
+          <DataField>EmpAmount_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="EmpAmount_prPeriodTransactionsFormat">
+          <DataField>EmpAmount_prPeriodTransactionsFormat</DataField>
+        </Field>
+        <Field Name="EmpBalance_prPeriodTransactions">
+          <DataField>EmpBalance_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="EmpBalance_prPeriodTransactionsFormat">
+          <DataField>EmpBalance_prPeriodTransactionsFormat</DataField>
+        </Field>
+        <Field Name="JournalAccountCode_prPeriodTransactions">
+          <DataField>JournalAccountCode_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="JournalAccountType_prPeriodTransactions">
+          <DataField>JournalAccountType_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="PostAs_prPeriodTransactions">
+          <DataField>PostAs_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="LoanNumber_prPeriodTransactions">
+          <DataField>LoanNumber_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="coopparameters_prPeriodTransactions">
+          <DataField>coopparameters_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="PayrollCode_prPeriodTransactions">
+          <DataField>PayrollCode_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="PaymentMode_prPeriodTransactions">
+          <DataField>PaymentMode_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="FosaAccountNo_prPeriodTransactions">
+          <DataField>FosaAccountNo_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="employeeName">
+          <DataField>employeeName</DataField>
+        </Field>
+        <Field Name="Organization_prPeriodTransactions">
+          <DataField>Organization_prPeriodTransactions</DataField>
+        </Field>
+        <Field Name="Basicpay">
+          <DataField>Basicpay</DataField>
+        </Field>
+        <Field Name="BasicpayFormat">
+          <DataField>BasicpayFormat</DataField>
+        </Field>
+        <Field Name="Totalallowances">
+          <DataField>Totalallowances</DataField>
+        </Field>
+        <Field Name="TotalallowancesFormat">
+          <DataField>TotalallowancesFormat</DataField>
+        </Field>
+        <Field Name="grosspay">
+          <DataField>grosspay</DataField>
+        </Field>
+        <Field Name="grosspayFormat">
+          <DataField>grosspayFormat</DataField>
+        </Field>
+        <Field Name="nssf">
+          <DataField>nssf</DataField>
+        </Field>
+        <Field Name="nssfFormat">
+          <DataField>nssfFormat</DataField>
+        </Field>
+        <Field Name="nhif">
+          <DataField>nhif</DataField>
+        </Field>
+        <Field Name="nhifFormat">
+          <DataField>nhifFormat</DataField>
+        </Field>
+        <Field Name="paye">
+          <DataField>paye</DataField>
+        </Field>
+        <Field Name="payeFormat">
+          <DataField>payeFormat</DataField>
+        </Field>
+        <Field Name="pension">
+          <DataField>pension</DataField>
+        </Field>
+        <Field Name="pensionFormat">
+          <DataField>pensionFormat</DataField>
+        </Field>
+        <Field Name="totaldeductions">
+          <DataField>totaldeductions</DataField>
+        </Field>
+        <Field Name="totaldeductionsFormat">
+          <DataField>totaldeductionsFormat</DataField>
+        </Field>
+        <Field Name="net">
+          <DataField>net</DataField>
+        </Field>
+        <Field Name="netFormat">
+          <DataField>netFormat</DataField>
+        </Field>
+        <Field Name="Transfer">
+          <DataField>Transfer</DataField>
+        </Field>
+        <Field Name="TransferFormat">
+          <DataField>TransferFormat</DataField>
+        </Field>
+        <Field Name="SN">
+          <DataField>SN</DataField>
+        </Field>
+        <Field Name="ReportForNavId_47">
+          <DataField>ReportForNavId_47</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>

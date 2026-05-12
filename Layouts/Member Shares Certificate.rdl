@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <Height>2in</Height>
+        <Style />
+      </Body>
+      <Width>6.5in</Width>
+      <Page>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="ReportForNavId_1102755000">
+          <DataField>ReportForNavId_1102755000</DataField>
+        </Field>
+        <Field Name="TotalCurrectshares">
+          <DataField>TotalCurrectshares</DataField>
+        </Field>
+        <Field Name="TotalCurrectsharesFormat">
+          <DataField>TotalCurrectsharesFormat</DataField>
+        </Field>
+        <Field Name="TotalSharecap">
+          <DataField>TotalSharecap</DataField>
+        </Field>
+        <Field Name="TotalSharecapFormat">
+          <DataField>TotalSharecapFormat</DataField>
+        </Field>
+        <Field Name="TotalLift">
+          <DataField>TotalLift</DataField>
+        </Field>
+        <Field Name="TotalLiftFormat">
+          <DataField>TotalLiftFormat</DataField>
+        </Field>
+        <Field Name="TotalTamba">
+          <DataField>TotalTamba</DataField>
+        </Field>
+        <Field Name="TotalTambaFormat">
+          <DataField>TotalTambaFormat</DataField>
+        </Field>
+        <Field Name="TotalFOSA">
+          <DataField>TotalFOSA</DataField>
+        </Field>
+        <Field Name="TotalFOSAFormat">
+          <DataField>TotalFOSAFormat</DataField>
+        </Field>
+        <Field Name="TotalPepea">
+          <DataField>TotalPepea</DataField>
+        </Field>
+        <Field Name="TotalPepeaFormat">
+          <DataField>TotalPepeaFormat</DataField>
+        </Field>
+        <Field Name="TotalVan">
+          <DataField>TotalVan</DataField>
+        </Field>
+        <Field Name="TotalVanFormat">
+          <DataField>TotalVanFormat</DataField>
+        </Field>
+        <Field Name="USERID">
+          <DataField>USERID</DataField>
+        </Field>
+        <Field Name="PayrollStaffNo_Members">
+          <DataField>PayrollStaffNo_Members</DataField>
+        </Field>
+        <Field Name="No_Members">
+          <DataField>No_Members</DataField>
+        </Field>
+        <Field Name="Name_Members">
+          <DataField>Name_Members</DataField>
+        </Field>
+        <Field Name="EmployerCode_Members">
+          <DataField>EmployerCode_Members</DataField>
+        </Field>
+        <Field Name="PageNo_Members">
+          <DataField>PageNo_Members</DataField>
+        </Field>
+        <Field Name="Shares_Retained">
+          <DataField>Shares_Retained</DataField>
+        </Field>
+        <Field Name="Shares_RetainedFormat">
+          <DataField>Shares_RetainedFormat</DataField>
+        </Field>
+        <Field Name="ShareCapBF">
+          <DataField>ShareCapBF</DataField>
+        </Field>
+        <Field Name="ShareCapBFFormat">
+          <DataField>ShareCapBFFormat</DataField>
+        </Field>
+        <Field Name="IDNo_Members">
+          <DataField>IDNo_Members</DataField>
+        </Field>
+        <Field Name="GlobalDimension2Code_Members">
+          <DataField>GlobalDimension2Code_Members</DataField>
+        </Field>
+        <Field Name="Company_Name">
+          <DataField>Company_Name</DataField>
+        </Field>
+        <Field Name="Company_Address">
+          <DataField>Company_Address</DataField>
+        </Field>
+        <Field Name="Company_Picture">
+          <DataField>Company_Picture</DataField>
+        </Field>
+        <Field Name="TotalShares">
+          <DataField>TotalShares</DataField>
+        </Field>
+        <Field Name="TotalSharesFormat">
+          <DataField>TotalSharesFormat</DataField>
+        </Field>
+        <Field Name="CertificateNo">
+          <DataField>CertificateNo</DataField>
+        </Field>
+        <Field Name="IDnoMember">
+          <DataField>IDnoMember</DataField>
+        </Field>
+        <Field Name="FullName">
+          <DataField>FullName</DataField>
+        </Field>
+        <Field Name="NumberText">
+          <DataField>NumberText</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>

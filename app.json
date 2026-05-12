@@ -1,0 +1,45 @@
+{
+  "id": "f5861ea0-ba7e-4b49-9070-aae699232d78",
+  "name": "Bamburi",
+  "publisher": "Swizzsoft Systems and Solutions",
+  "version": "13.00.0.0",
+  "brief": "",
+  "description": "",
+  "privacyStatement": "",
+  "EULA": "",
+  "help": "",
+  "url": "",
+  "logo": "",
+  "dependencies": [
+  {
+    "id": "437dbf0e-84ff-417a-965d-ed2bb9650972",
+    "name": "Base Application",
+    "publisher": "Microsoft",
+    "version": "27.0.16410.18056"
+  }
+],
+  "screenshots": [],
+  "platform": "1.0.0.0",
+  "application": "27.0.0.0",
+  "target": "OnPrem",
+  "idRanges": [
+    {
+      "from": 50000,
+      "to": 51519900
+    }
+  ],
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": true,
+    "includeSourceInSymbolFile": true
+  },
+  "runtime": "16.0",
+  "features": [
+    "NoImplicitWith"
+  ],
+  "suppressWarnings": ["AL0200","AL0601","AL0118","AL0299","AL0486","AL0269","AL0523","AL0235","AL0251","AL0254","AL0374","AL0424","AL0432","AL0457","AL0467","AL0472","AL0473","AL0479","AL0482","AL0483","AL0509","AL0520","AL0557","AL0558","AL0567","AL0588","AL0592","AL0609","AL0610",
+  "AL0611","AL0626","AL0627","AL0628","AL0633","AL0634","AL0640","AL0641","AL0642","AL0643","AL0644","AL0645","AL0646",
+  "AL0647","AL0659","AL0679","AL0684","AL0700","AL0702","AL0717","AL1000","AL1003","AL1004","AL1005","AL1011","AL1025",
+  "AL1026","AL1029","AL0468","AL1030","AL0604","AL0606","AL0589","AL0551","AL0685","AL1055","AL1056","AL1058","AL1059","AL1072","AL0603","AL0667","AL0729","AL0755","AL0481","AL0697"]
+
+}

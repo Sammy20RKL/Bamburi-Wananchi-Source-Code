@@ -1,0 +1,340 @@
+#pragma warning disable AA0005, AA0008, AA0018, AA0021, AA0072, AA0137, AA0201, AA0204, AA0206, AA0218, AA0228, AL0254, AL0424, AS0011, AW0006 // ForNAV settings
+Report 56593 "Member Missing NOK"
+{
+    DefaultLayout = RDLC;
+    RDLCLayout = './Layouts/Member Missing NOK.rdlc';
+
+    dataset
+    {
+        dataitem(Customer; Customer)
+        {
+            CalcFields = "Current Shares";
+            DataItemTableView = where(Status = filter(Active));
+            PrintOnlyIfDetail = false;
+            RequestFilterFields = "No.", Status, "Registration Date";
+            column(ReportForNavId_4645; 4645)
+            {
+            }
+            column(FORMAT_TODAY_0_4_; Format(Today, 0, 4))
+            {
+            }
+            column(COMPANYNAME; COMPANYNAME)
+            {
+            }
+            column(Company_Name; Company.Name)
+            {
+            }
+            column(Company_Address; Company.Address)
+            {
+            }
+            column(Company_Address_2; Company."Address 2")
+            {
+            }
+            column(Company_Phone_No; Company."Phone No.")
+            {
+            }
+            column(Company_Fax_No; Company."Fax No.")
+            {
+            }
+            column(Company_Picture; Company.Picture)
+            {
+            }
+            column(Company_Email; Company."E-Mail")
+            {
+            }
+            column(CurrReport_PAGENO; CurrReport.PageNo)
+            {
+            }
+            column(USERID; UserId)
+            {
+            }
+            column(IDNo_MembersRegister; Customer."ID No.")
+            {
+            }
+            column(MobilePhoneNo_MembersRegister; Customer."Mobile Phone No")
+            {
+            }
+            column(No_MembersRegister; Customer."No.")
+            {
+            }
+            column(Name_MembersRegister; Customer.Name)
+            {
+            }
+            column(Status_MembersRegister; Customer.Status)
+            {
+            }
+            column(CurrentShares_MembersRegister; Customer."Current Shares")
+            {
+            }
+            column(GlobalDimension2Code_MembersRegister; Customer."Global Dimension 2 Code")
+            {
+            }
+            column(EmployerCode_MembersRegister; Customer."Employer Code")
+            {
+            }
+            column(SharesRetained_MembersRegister; Customer."Shares Retained")
+            {
+            }
+            column(BenevolentFund_MembersRegister; Customer."Benevolent Fund")
+            {
+            }
+            column(FOSAShares_MembersRegister; Customer."FOSA Shares")
+            {
+            }
+            column(AdditionalShares_MembersRegister; Customer."Additional Shares")
+            {
+            }
+            column(EntryNo; EntryNo)
+            {
+            }
+            column(WithdrawalDate_MembersRegister; Customer."Withdrawal Date")
+            {
+            }
+            column(GroupCode_MembersRegister; Customer."Group Code")
+            {
+            }
+            column(MemberHouseGroupName_MembersRegister; Customer."Member House Group Name")
+            {
+            }
+            column(RegistrationFeePaid_MembersRegister; Customer."Registration Fee Paid")
+            {
+            }
+
+            trigger OnAfterGetRecord()
+            begin
+                EntryNo := EntryNo + 1;
+            end;
+        }
+    }
+
+    requestpage
+    {
+
+        layout
+        {
+            area(content)
+            {
+            }
+        }
+
+        actions
+        {
+        }
+    }
+
+    labels
+    {
+    }
+
+    trigger OnInitReport()
+    begin
+        Company.Get();
+        Company.CalcFields(Company.Picture);
+    end;
+
+    trigger OnPreReport()
+    begin
+        if "COMPY INFOR".Get then begin
+            "COMPY INFOR".CalcFields("COMPY INFOR".Picture);
+            Name := "COMPY INFOR".Name;
+        end;
+    end;
+
+    var
+        RPeriod: Decimal;
+        BatchL: Code[100];
+        // Batches: Record UnknownRecord51516377;
+        // ApprovalSetup: Record "Table Permission Buffer";
+        LocationFilter: Code[20];
+        TotalApproved: Decimal;
+        // cust: Record UnknownRecord51516364;
+        BOSABal: Decimal;
+        SuperBal: Decimal;
+        // LAppl: Record UnknownRecord51516371;
+        Deposits: Decimal;
+        CompanyCode: Code[20];
+        LoanType: Text[50];
+        // LoanProdType: Record UnknownRecord51516381;
+        LCount: Integer;
+        RFilters: Text[250];
+        DValue: Record "Dimension Value";
+        // VALREPAY: Record UnknownRecord51516365;
+        Loans_RegisterCaptionLbl: label 'Approved Loans Report';
+        CurrReport_PAGENOCaptionLbl: label 'Page';
+        Loan_TypeCaptionLbl: label 'Loan Type';
+        Client_No_CaptionLbl: label 'Client No.';
+        Outstanding_LoanCaptionLbl: label 'Outstanding Loan';
+        PeriodCaptionLbl: label 'Period';
+        Approved_DateCaptionLbl: label 'Approved Date';
+        Loan_TypeCaption_Control1102760043Lbl: label 'Loan Type';
+        Verified_By__________________________________________________CaptionLbl: label 'Verified By..................';
+        Confirmed_By__________________________________________________CaptionLbl: label 'Confirmed By..................';
+        Sign________________________CaptionLbl: label 'Sign...............';
+        Sign________________________Caption_Control1102755003Lbl: label 'Sign...............';
+        Date________________________CaptionLbl: label 'Date..............';
+        Date________________________Caption_Control1102755005Lbl: label 'Date..............';
+        // GenSetUp: Record UnknownRecord51516398;
+        // LoanApp: Record UnknownRecord51516371;
+        // CustRec: Record UnknownRecord51516364;
+        // CustRecord: Record UnknownRecord51516364;
+        TShares: Decimal;
+        TLoans: Decimal;
+        LoanShareRatio: Decimal;
+        Eligibility: Decimal;
+        TotalSec: Decimal;
+        saccded: Decimal;
+        saccded2: Decimal;
+        grosspay: Decimal;
+        Tdeduct: Decimal;
+        Cshares: Decimal;
+        "Cshares*3": Decimal;
+        "Cshares*4": Decimal;
+        QUALIFY_SHARES: Decimal;
+        salary: Decimal;
+        // LoanG: Record UnknownRecord51516372;
+        GShares: Decimal;
+        Recomm: Decimal;
+        GShares1: Decimal;
+        NETTAKEHOME: Decimal;
+        Msalary: Decimal;
+        RecPeriod: Integer;
+        FOSARecomm: Decimal;
+        FOSARecoPRD: Integer;
+        "Asset Value": Decimal;
+        InterestRate: Decimal;
+        RepayPeriod: Decimal;
+        LBalance: Decimal;
+        TotalMRepay: Decimal;
+        LInterest: Decimal;
+        LPrincipal: Decimal;
+        SecuredSal: Decimal;
+        Linterest1: Integer;
+        LOANBALANCE: Decimal;
+        // BRIDGEDLOANS: Record UnknownRecord51516376;
+        BRIDGEBAL: Decimal;
+        LOANBALANCEFOSASEC: Decimal;
+        TotalTopUp: Decimal;
+        TotalIntPayable: Decimal;
+        GTotals: Decimal;
+        TempVal: Decimal;
+        TempVal2: Decimal;
+        "TempCshares*4": Decimal;
+        "TempCshares*3": Decimal;
+        InstallP: Decimal;
+        RecomRemark: Text[150];
+        InstallRecom: Decimal;
+        TopUpComm: Decimal;
+        TotalTopupComm: Decimal;
+        // LoanTopUp: Record UnknownRecord51516376;
+        "Interest Payable": Decimal;
+        // "general set-up": Record UnknownRecord51516398;
+        Days: Integer;
+        EndMonthInt: Decimal;
+        BRIDGEBAL2: Decimal;
+        DefaultInfo: Text[80];
+        TOTALBRIDGED: Decimal;
+        DEpMultiplier: Decimal;
+        MAXAvailable: Decimal;
+        // SalDetails: Record UnknownRecord51516373;
+        Earnings: Decimal;
+        Deductions: Decimal;
+        BrTopUpCom: Decimal;
+        LoanAmount: Decimal;
+        Company: Record "Company Information";
+        CompanyAddress: Code[20];
+        CompanyEmail: Text[30];
+        CompanyTel: Code[20];
+        CurrentAsset: Decimal;
+        CurrentLiability: Decimal;
+        FixedAsset: Decimal;
+        Equity: Decimal;
+        Sales: Decimal;
+        SalesOnCredit: Decimal;
+        AppraiseDeposits: Boolean;
+        AppraiseShares: Boolean;
+        AppraiseSalary: Boolean;
+        AppraiseGuarantors: Boolean;
+        AppraiseBusiness: Boolean;
+        TLoan: Decimal;
+        LoanBal: Decimal;
+        GuaranteedAmount: Decimal;
+        RunBal: Decimal;
+        TGuaranteedAmount: Decimal;
+        GuarantorQualification: Boolean;
+        TotalLoanBalance: Decimal;
+        TGAmount: Decimal;
+        NetSalary: Decimal;
+        Riskamount: Decimal;
+        WarnBridged: Text;
+        WarnSalary: Text;
+        WarnDeposits: Text;
+        WarnGuarantor: Text;
+        WarnShare: Text;
+        RiskGshares: Decimal;
+        RiskDeposits: Decimal;
+        BasicEarnings: Decimal;
+        DepX: Decimal;
+        LoanPrincipal: Decimal;
+        loanInterest: Decimal;
+        AmountGuaranteed: Decimal;
+        StatDeductions: Decimal;
+        GuarOutstanding: Decimal;
+        TwoThirds: Decimal;
+        Bridged_AmountCaption: Integer;
+        LNumber: Code[20];
+        TotalLoanDeductions: Decimal;
+        TotalRepayments: Decimal;
+        Totalinterest: Decimal;
+        Band: Decimal;
+        TotalOutstanding: Decimal;
+        // BANDING: Record UnknownRecord51516402;
+        NtTakeHome: Decimal;
+        ATHIRD: Decimal;
+        Psalary: Decimal;
+        // LoanApss: Record UnknownRecord51516371;
+        TotalLoanBal: Decimal;
+        TotalBand: Decimal;
+        // LoanAp: Record UnknownRecord51516371;
+        TotalRepay: Decimal;
+        TotalInt: Decimal;
+        LastFieldNo: Integer;
+        TotLoans: Decimal;
+        JazaLevy: Decimal;
+        BridgeLevy: Decimal;
+        Upfronts: Decimal;
+        Netdisbursed: Decimal;
+        TotalLRepayments: Decimal;
+        BridgedRepayment: Decimal;
+        OutstandingLrepay: Decimal;
+        // Loantop: Record UnknownRecord51516376;
+        BRIGEDAMOUNT: Decimal;
+        TOTALBRIGEDAMOUNT: Decimal;
+        FinalInst: Decimal;
+        NonRec: Decimal;
+        TotalUpfronts: Decimal;
+        TotalNetPay: Decimal;
+        NameCreditOff: label 'Name.......................';
+        NameCreditDate: label 'Date........................';
+        NameCreditSign: label 'Signature..................';
+        NameCreditMNG: label 'Name.......................';
+        NameCreditMNGDate: label 'Date........................';
+        NameCreditMNGSign: label 'Signature..................';
+        NameCEO: label 'Name......................';
+        NameCEOSign: label 'Signature.................';
+        NameCEODate: label 'Date.......................';
+        CreditCom1: label 'Name......................';
+        CreditCom1Sign: label 'Signature.................';
+        CreditCom1Date: label 'Date.......................';
+        CreditCom2: label 'Name......................';
+        CreditCom2Sign: label 'Signature.................';
+        CreditCom2Date: label 'Date......................';
+        CreditCom3: label 'Name.....................';
+        CreditComDate3: label 'Date......................';
+        CreditComSign3: label 'Signature.................';
+        Comment: label '....................';
+        "COMPY INFOR": Record "Company Information";
+        Name: Text;
+        PICTURE: Text;
+        EntryNo: Integer;
+}
+

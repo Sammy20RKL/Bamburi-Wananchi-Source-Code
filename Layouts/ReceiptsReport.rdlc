@@ -1,0 +1,1405 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Description>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
+</Description>
+  <Author>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
+</Author>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>3ed4baa4-70a3-426a-abd8-79c2b8e88553</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Tablix Name="Tablix1">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>2.4881in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.61458in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.86707in</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox3">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Account No</Value>
+                                  <Style>
+                                    <FontFamily>Trebuchet MS</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox3</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#7292cc</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#4c68a2</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox5">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Name </Value>
+                                  <Style>
+                                    <FontFamily>Trebuchet MS</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox5</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#7292cc</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#4c68a2</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox11">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Cheque Date </Value>
+                                  <Style>
+                                    <FontFamily>Trebuchet MS</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox11</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#7292cc</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#4c68a2</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox15">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Trans Date </Value>
+                                  <Style>
+                                    <FontFamily>Trebuchet MS</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox15</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#7292cc</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#4c68a2</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox19">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Trans Type </Value>
+                                  <Style>
+                                    <FontFamily>Trebuchet MS</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox19</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#7292cc</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#4c68a2</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox21">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Loan No </Value>
+                                  <Style>
+                                    <FontFamily>Trebuchet MS</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox21</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#7292cc</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#4c68a2</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox23">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Amount </Value>
+                                  <Style>
+                                    <FontFamily>Trebuchet MS</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox23</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#7292cc</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#4c68a2</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="AccountNo_Receipts">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!AccountNo_Receipts.Value</Value>
+                                  <Style>
+                                    <FontFamily>Trebuchet MS</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <Color>#4d4d4d</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>AccountNo_Receipts</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#e5e5e5</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Name_Receipts">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Name_Receipts.Value</Value>
+                                  <Style>
+                                    <FontFamily>Trebuchet MS</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <Color>#4d4d4d</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Name_Receipts</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#e5e5e5</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="ChequeDate_Receipts">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!ChequeDate_Receipts.Value</Value>
+                                  <Style>
+                                    <FontFamily>Trebuchet MS</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <Format>d</Format>
+                                    <Color>#4d4d4d</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>ChequeDate_Receipts</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#e5e5e5</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TransactionDate_Receipts">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!TransactionDate_Receipts.Value</Value>
+                                  <Style>
+                                    <FontFamily>Trebuchet MS</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <Format>d</Format>
+                                    <Color>#4d4d4d</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>TransactionDate_Receipts</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#e5e5e5</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TransactionType_Allocations">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!TransactionType_Allocations.Value</Value>
+                                  <Style>
+                                    <FontFamily>Trebuchet MS</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <Color>#4d4d4d</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>TransactionType_Allocations</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#e5e5e5</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="LoanNo_Allocations">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!LoanNo_Allocations.Value</Value>
+                                  <Style>
+                                    <FontFamily>Trebuchet MS</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <Color>#4d4d4d</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>LoanNo_Allocations</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#e5e5e5</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Amount_Allocations">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Sum(Fields!Amount_Allocations.Value)</Value>
+                                  <Style>
+                                    <FontFamily>Trebuchet MS</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <Format>#,0.00;(#,0.00)</Format>
+                                    <Color>#4d4d4d</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Amount_Allocations</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#e5e5e5</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox45">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!AccountNo_Receipts.Value</Value>
+                                  <Style>
+                                    <FontFamily>Trebuchet MS</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>Maroon</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox45</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#c6daf8</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#9eb6e4</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox46">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Name_Receipts.Value</Value>
+                                  <Style>
+                                    <FontFamily>Trebuchet MS</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>Maroon</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox46</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#c6daf8</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#9eb6e4</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox49">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!ChequeDate_Receipts.Value</Value>
+                                  <Style>
+                                    <FontFamily>Trebuchet MS</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Format>d</Format>
+                                    <Color>Maroon</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox49</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#c6daf8</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#9eb6e4</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox51">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!TransactionDate_Receipts.Value</Value>
+                                  <Style>
+                                    <FontFamily>Trebuchet MS</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Format>d</Format>
+                                    <Color>Maroon</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox51</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#c6daf8</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#9eb6e4</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox53">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Trebuchet MS</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>Maroon</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox53</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#c6daf8</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#9eb6e4</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox54">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Trebuchet MS</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>Maroon</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox54</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#c6daf8</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#9eb6e4</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox55">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Sum(Fields!Amount_Allocations.Value)</Value>
+                                  <Style>
+                                    <FontFamily>Trebuchet MS</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Format>#,0.00;(#,0.00)</Format>
+                                    <Color>Maroon</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox55</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#c6daf8</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#9eb6e4</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox31">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Trebuchet MS</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>Maroon</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox31</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#9eb6e4</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#7292cc</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox32">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Trebuchet MS</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>Maroon</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox32</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#9eb6e4</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#7292cc</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox35">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Trebuchet MS</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>Maroon</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox35</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#9eb6e4</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#7292cc</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox37">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Trebuchet MS</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>Maroon</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox37</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#9eb6e4</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#7292cc</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox39">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Trebuchet MS</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>Maroon</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox39</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#9eb6e4</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#7292cc</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox40">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Trebuchet MS</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>Maroon</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox40</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#9eb6e4</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#7292cc</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox41">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Sum(Fields!Amount_Allocations.Value)</Value>
+                                  <Style>
+                                    <FontFamily>Trebuchet MS</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Format>#,0.00;(#,0.00)</Format>
+                                    <Color>Maroon</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox41</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#9eb6e4</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#7292cc</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <TablixHeader>
+                    <Size>0.97917in</Size>
+                    <CellContents>
+                      <Textbox Name="Textbox27">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value>Transaction </Value>
+                                <Style>
+                                  <FontFamily>Trebuchet MS</FontFamily>
+                                  <FontSize>9pt</FontSize>
+                                  <FontWeight>Bold</FontWeight>
+                                  <Color>White</Color>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>Textbox27</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>#7292cc</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BackgroundColor>#4c68a2</BackgroundColor>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixHeader>
+                  <TablixMembers>
+                    <TablixMember />
+                  </TablixMembers>
+                  <KeepWithGroup>After</KeepWithGroup>
+                </TablixMember>
+                <TablixMember>
+                  <Group Name="TransactionNo_Receipts">
+                    <GroupExpressions>
+                      <GroupExpression>=Fields!TransactionNo_Receipts.Value</GroupExpression>
+                    </GroupExpressions>
+                  </Group>
+                  <SortExpressions>
+                    <SortExpression>
+                      <Value>=Fields!TransactionNo_Receipts.Value</Value>
+                    </SortExpression>
+                  </SortExpressions>
+                  <TablixHeader>
+                    <Size>0.97917in</Size>
+                    <CellContents>
+                      <Textbox Name="TransactionNo_Receipts1">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value>=Fields!TransactionNo_Receipts.Value</Value>
+                                <Style>
+                                  <FontFamily>Trebuchet MS</FontFamily>
+                                  <FontSize>8pt</FontSize>
+                                  <FontWeight>Bold</FontWeight>
+                                  <Color>Maroon</Color>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>TransactionNo_Receipts1</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>#c6daf8</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BackgroundColor>#9eb6e4</BackgroundColor>
+                          <VerticalAlign>Bottom</VerticalAlign>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixHeader>
+                  <TablixMembers>
+                    <TablixMember>
+                      <Group Name="Details" />
+                      <Visibility>
+                        <Hidden>true</Hidden>
+                        <ToggleItem>TransactionNo_Receipts1</ToggleItem>
+                      </Visibility>
+                    </TablixMember>
+                    <TablixMember>
+                      <KeepWithGroup>Before</KeepWithGroup>
+                    </TablixMember>
+                  </TablixMembers>
+                </TablixMember>
+                <TablixMember>
+                  <TablixHeader>
+                    <Size>0.97917in</Size>
+                    <CellContents>
+                      <Textbox Name="Textbox29">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value>Total</Value>
+                                <Style>
+                                  <FontFamily>Trebuchet MS</FontFamily>
+                                  <FontSize>9pt</FontSize>
+                                  <FontWeight>Bold</FontWeight>
+                                  <Color>Maroon</Color>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>Textbox29</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>#9eb6e4</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BackgroundColor>#7292cc</BackgroundColor>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixHeader>
+                  <KeepWithGroup>Before</KeepWithGroup>
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>DataSet_Result</DataSetName>
+            <Top>1.12847in</Top>
+            <Height>1in</Height>
+            <Width>9.94892in</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Tablix>
+          <Textbox Name="Textbox57">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>MMH SACCO</Value>
+                    <Style>
+                      <FontSize>12pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                      <TextDecoration>Underline</TextDecoration>
+                      <Color>Maroon</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>MEMBER RECEIPTING REPORT</Value>
+                    <Style>
+                      <FontSize>12pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                      <TextDecoration>Underline</TextDecoration>
+                      <Color>Maroon</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox57</rd:DefaultName>
+            <Left>2.25446in</Left>
+            <Height>0.91964in</Height>
+            <Width>7.49653in</Width>
+            <ZIndex>1</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+        </ReportItems>
+        <Height>2.12847in</Height>
+        <Style />
+      </Body>
+      <Width>9.99059in</Width>
+      <Page>
+        <PageHeight>8.5in</PageHeight>
+        <PageWidth>11in</PageWidth>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>e4a54e37-873f-4d64-b26b-f3fb6593e334</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="ReportForNavId_1000000000">
+          <DataField>ReportForNavId_1000000000</DataField>
+        </Field>
+        <Field Name="TransactionNo_Receipts">
+          <DataField>TransactionNo_Receipts</DataField>
+        </Field>
+        <Field Name="AccountNo_Receipts">
+          <DataField>AccountNo_Receipts</DataField>
+        </Field>
+        <Field Name="Name_Receipts">
+          <DataField>Name_Receipts</DataField>
+        </Field>
+        <Field Name="Amount_Receipts">
+          <DataField>Amount_Receipts</DataField>
+        </Field>
+        <Field Name="Amount_ReceiptsFormat">
+          <DataField>Amount_ReceiptsFormat</DataField>
+        </Field>
+        <Field Name="ChequeNo_Receipts">
+          <DataField>ChequeNo_Receipts</DataField>
+        </Field>
+        <Field Name="ChequeDate_Receipts">
+          <DataField>ChequeDate_Receipts</DataField>
+        </Field>
+        <Field Name="Posted_Receipts">
+          <DataField>Posted_Receipts</DataField>
+        </Field>
+        <Field Name="TransactionDate_Receipts">
+          <DataField>TransactionDate_Receipts</DataField>
+        </Field>
+        <Field Name="ReportForNavId_1000000009">
+          <DataField>ReportForNavId_1000000009</DataField>
+        </Field>
+        <Field Name="DocumentNo_Allocations">
+          <DataField>DocumentNo_Allocations</DataField>
+        </Field>
+        <Field Name="TransactionType_Allocations">
+          <DataField>TransactionType_Allocations</DataField>
+        </Field>
+        <Field Name="LoanNo_Allocations">
+          <DataField>LoanNo_Allocations</DataField>
+        </Field>
+        <Field Name="Amount_Allocations">
+          <DataField>Amount_Allocations</DataField>
+        </Field>
+        <Field Name="Amount_AllocationsFormat">
+          <DataField>Amount_AllocationsFormat</DataField>
+        </Field>
+        <Field Name="InterestAmount_Allocations">
+          <DataField>InterestAmount_Allocations</DataField>
+        </Field>
+        <Field Name="InterestAmount_AllocationsFormat">
+          <DataField>InterestAmount_AllocationsFormat</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>

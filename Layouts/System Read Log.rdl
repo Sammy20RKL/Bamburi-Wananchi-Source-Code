@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <Height>2in</Height>
+        <Style />
+      </Body>
+      <Width>6.5in</Width>
+      <Page>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="ProductID">
+          <DataField>ProductID</DataField>
+        </Field>
+        <Field Name="EntryNo">
+          <DataField>EntryNo</DataField>
+        </Field>
+        <Field Name="Transaction_Type_ID">
+          <DataField>Transaction_Type_ID</DataField>
+        </Field>
+        <Field Name="Account_Type_ID">
+          <DataField>Account_Type_ID</DataField>
+        </Field>
+        <Field Name="Product">
+          <DataField>Product</DataField>
+        </Field>
+        <Field Name="BranchID">
+          <DataField>BranchID</DataField>
+        </Field>
+        <Field Name="Account_ID">
+          <DataField>Account_ID</DataField>
+        </Field>
+        <Field Name="Transaction_Description">
+          <DataField>Transaction_Description</DataField>
+        </Field>
+        <Field Name="Transaction_Amount">
+          <DataField>Transaction_Amount</DataField>
+        </Field>
+        <Field Name="Transaction_AmountFormat">
+          <DataField>Transaction_AmountFormat</DataField>
+        </Field>
+        <Field Name="Authorized_By">
+          <DataField>Authorized_By</DataField>
+        </Field>
+        <Field Name="UserID_SessionEvent">
+          <DataField>UserID_SessionEvent</DataField>
+        </Field>
+        <Field Name="ClientComputerName_SessionEvent">
+          <DataField>ClientComputerName_SessionEvent</DataField>
+        </Field>
+        <Field Name="DatabaseName_SessionEvent">
+          <DataField>DatabaseName_SessionEvent</DataField>
+        </Field>
+        <Field Name="EventDatetime_SessionEvent">
+          <DataField>EventDatetime_SessionEvent</DataField>
+        </Field>
+        <Field Name="EventType_SessionEvent">
+          <DataField>EventType_SessionEvent</DataField>
+        </Field>
+        <Field Name="SessionID_SessionEvent">
+          <DataField>SessionID_SessionEvent</DataField>
+        </Field>
+        <Field Name="ServerInstanceID_SessionEvent">
+          <DataField>ServerInstanceID_SessionEvent</DataField>
+        </Field>
+        <Field Name="Company_Name">
+          <DataField>Company_Name</DataField>
+        </Field>
+        <Field Name="Company_Address">
+          <DataField>Company_Address</DataField>
+        </Field>
+        <Field Name="Company_City">
+          <DataField>Company_City</DataField>
+        </Field>
+        <Field Name="Company_Picture">
+          <DataField>Company_Picture</DataField>
+        </Field>
+        <Field Name="Company_Email">
+          <DataField>Company_Email</DataField>
+        </Field>
+        <Field Name="USERID">
+          <DataField>USERID</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>

@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <Height>2in</Height>
+        <Style />
+      </Body>
+      <Width>6.5in</Width>
+      <Page>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="Code">
+          <DataField>Code</DataField>
+        </Field>
+        <Field Name="Independent_Auditor">
+          <DataField>Independent_Auditor</DataField>
+        </Field>
+        <Field Name="Asat">
+          <DataField>Asat</DataField>
+        </Field>
+        <Field Name="CurrentYear">
+          <DataField>CurrentYear</DataField>
+        </Field>
+        <Field Name="PreviousYear">
+          <DataField>PreviousYear</DataField>
+        </Field>
+        <Field Name="ThisYear">
+          <DataField>ThisYear</DataField>
+        </Field>
+        <Field Name="Sacco_Principal_Activities">
+          <DataField>Sacco_Principal_Activities</DataField>
+        </Field>
+        <Field Name="IntCurrentDeposits">
+          <DataField>IntCurrentDeposits</DataField>
+        </Field>
+        <Field Name="IntCurrentDepositsFormat">
+          <DataField>IntCurrentDepositsFormat</DataField>
+        </Field>
+        <Field Name="IntShareCapital">
+          <DataField>IntShareCapital</DataField>
+        </Field>
+        <Field Name="IntShareCapitalFormat">
+          <DataField>IntShareCapitalFormat</DataField>
+        </Field>
+        <Field Name="InterestonMemberdeposits">
+          <DataField>InterestonMemberdeposits</DataField>
+        </Field>
+        <Field Name="InterestonMemberdepositsFormat">
+          <DataField>InterestonMemberdepositsFormat</DataField>
+        </Field>
+        <Field Name="LInterestonMemberdeposits">
+          <DataField>LInterestonMemberdeposits</DataField>
+        </Field>
+        <Field Name="LInterestonMemberdepositsFormat">
+          <DataField>LInterestonMemberdepositsFormat</DataField>
+        </Field>
+        <Field Name="ShareCapital">
+          <DataField>ShareCapital</DataField>
+        </Field>
+        <Field Name="ShareCapitalFormat">
+          <DataField>ShareCapitalFormat</DataField>
+        </Field>
+        <Field Name="LShareCapital">
+          <DataField>LShareCapital</DataField>
+        </Field>
+        <Field Name="LShareCapitalFormat">
+          <DataField>LShareCapitalFormat</DataField>
+        </Field>
+        <Field Name="LprofitorLossbeforetax">
+          <DataField>LprofitorLossbeforetax</DataField>
+        </Field>
+        <Field Name="LprofitorLossbeforetaxFormat">
+          <DataField>LprofitorLossbeforetaxFormat</DataField>
+        </Field>
+        <Field Name="profitorLossbeforetax">
+          <DataField>profitorLossbeforetax</DataField>
+        </Field>
+        <Field Name="profitorLossbeforetaxFormat">
+          <DataField>profitorLossbeforetaxFormat</DataField>
+        </Field>
+        <Field Name="RetainedEarnings">
+          <DataField>RetainedEarnings</DataField>
+        </Field>
+        <Field Name="RetainedEarningsFormat">
+          <DataField>RetainedEarningsFormat</DataField>
+        </Field>
+        <Field Name="IncomeTaxExpense">
+          <DataField>IncomeTaxExpense</DataField>
+        </Field>
+        <Field Name="IncomeTaxExpenseFormat">
+          <DataField>IncomeTaxExpenseFormat</DataField>
+        </Field>
+        <Field Name="LIncomeTaxExpense">
+          <DataField>LIncomeTaxExpense</DataField>
+        </Field>
+        <Field Name="LIncomeTaxExpenseFormat">
+          <DataField>LIncomeTaxExpenseFormat</DataField>
+        </Field>
+        <Field Name="LRetainedEarnings">
+          <DataField>LRetainedEarnings</DataField>
+        </Field>
+        <Field Name="LRetainedEarningsFormat">
+          <DataField>LRetainedEarningsFormat</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>

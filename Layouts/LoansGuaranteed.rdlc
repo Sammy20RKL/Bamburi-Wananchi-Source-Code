@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <Height>2in</Height>
+        <Style />
+      </Body>
+      <Width>6.5in</Width>
+      <Page>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="ReportForNavId_7301">
+          <DataField>ReportForNavId_7301</DataField>
+        </Field>
+        <Field Name="No_Members">
+          <DataField>No_Members</DataField>
+        </Field>
+        <Field Name="Name_Members">
+          <DataField>Name_Members</DataField>
+        </Field>
+        <Field Name="CurrentShares_Members">
+          <DataField>CurrentShares_Members</DataField>
+        </Field>
+        <Field Name="CurrentShares_MembersFormat">
+          <DataField>CurrentShares_MembersFormat</DataField>
+        </Field>
+        <Field Name="Status_Members">
+          <DataField>Status_Members</DataField>
+        </Field>
+        <Field Name="ReportForNavId_5140">
+          <DataField>ReportForNavId_5140</DataField>
+        </Field>
+        <Field Name="LoanNo_LoanGuarantors">
+          <DataField>LoanNo_LoanGuarantors</DataField>
+        </Field>
+        <Field Name="MemberNo_LoanGuarantors">
+          <DataField>MemberNo_LoanGuarantors</DataField>
+        </Field>
+        <Field Name="Name_LoanGuarantors">
+          <DataField>Name_LoanGuarantors</DataField>
+        </Field>
+        <Field Name="LoanBalance_LoanGuarantors">
+          <DataField>LoanBalance_LoanGuarantors</DataField>
+        </Field>
+        <Field Name="LoanBalance_LoanGuarantorsFormat">
+          <DataField>LoanBalance_LoanGuarantorsFormat</DataField>
+        </Field>
+        <Field Name="Shares_LoanGuarantors">
+          <DataField>Shares_LoanGuarantors</DataField>
+        </Field>
+        <Field Name="Shares_LoanGuarantorsFormat">
+          <DataField>Shares_LoanGuarantorsFormat</DataField>
+        </Field>
+        <Field Name="NoOfLoansGuaranteed_LoanGuarantors">
+          <DataField>NoOfLoansGuaranteed_LoanGuarantors</DataField>
+        </Field>
+        <Field Name="Substituted_LoanGuarantors">
+          <DataField>Substituted_LoanGuarantors</DataField>
+        </Field>
+        <Field Name="Date_LoanGuarantors">
+          <DataField>Date_LoanGuarantors</DataField>
+        </Field>
+        <Field Name="SharesRecovery_LoanGuarantors">
+          <DataField>SharesRecovery_LoanGuarantors</DataField>
+        </Field>
+        <Field Name="NewUpload_LoanGuarantors">
+          <DataField>NewUpload_LoanGuarantors</DataField>
+        </Field>
+        <Field Name="AmontGuaranteed_LoanGuarantors">
+          <DataField>AmontGuaranteed_LoanGuarantors</DataField>
+        </Field>
+        <Field Name="AmontGuaranteed_LoanGuarantorsFormat">
+          <DataField>AmontGuaranteed_LoanGuarantorsFormat</DataField>
+        </Field>
+        <Field Name="StaffPayrollNo_LoanGuarantors">
+          <DataField>StaffPayrollNo_LoanGuarantors</DataField>
+        </Field>
+        <Field Name="AccountNo_LoanGuarantors">
+          <DataField>AccountNo_LoanGuarantors</DataField>
+        </Field>
+        <Field Name="SelfGuarantee_LoanGuarantors">
+          <DataField>SelfGuarantee_LoanGuarantors</DataField>
+        </Field>
+        <Field Name="IDNo_LoanGuarantors">
+          <DataField>IDNo_LoanGuarantors</DataField>
+        </Field>
+        <Field Name="OutstandingBalance_LoanGuarantors">
+          <DataField>OutstandingBalance_LoanGuarantors</DataField>
+        </Field>
+        <Field Name="OutstandingBalance_LoanGuarantorsFormat">
+          <DataField>OutstandingBalance_LoanGuarantorsFormat</DataField>
+        </Field>
+        <Field Name="MemberGuaranteed_LoanGuarantors">
+          <DataField>MemberGuaranteed_LoanGuarantors</DataField>
+        </Field>
+        <Field Name="MemberGuaranteed_LoanGuarantorsFormat">
+          <DataField>MemberGuaranteed_LoanGuarantorsFormat</DataField>
+        </Field>
+        <Field Name="MemberGuar">
+          <DataField>MemberGuar</DataField>
+        </Field>
+        <Field Name="MemberNo">
+          <DataField>MemberNo</DataField>
+        </Field>
+        <Field Name="DuePeriod">
+          <DataField>DuePeriod</DataField>
+        </Field>
+        <Field Name="DuePeriodFormat">
+          <DataField>DuePeriodFormat</DataField>
+        </Field>
+        <Field Name="ReportForNavId_1120054000">
+          <DataField>ReportForNavId_1120054000</DataField>
+        </Field>
+        <Field Name="ClientCode_LoansRegister">
+          <DataField>ClientCode_LoansRegister</DataField>
+        </Field>
+        <Field Name="ClientName_LoansRegister">
+          <DataField>ClientName_LoansRegister</DataField>
+        </Field>
+        <Field Name="OutstandingBalance_LoansRegister">
+          <DataField>OutstandingBalance_LoansRegister</DataField>
+        </Field>
+        <Field Name="OutstandingBalance_LoansRegisterFormat">
+          <DataField>OutstandingBalance_LoansRegisterFormat</DataField>
+        </Field>
+        <Field Name="ApprovedAmount_LoansRegister">
+          <DataField>ApprovedAmount_LoansRegister</DataField>
+        </Field>
+        <Field Name="ApprovedAmount_LoansRegisterFormat">
+          <DataField>ApprovedAmount_LoansRegisterFormat</DataField>
+        </Field>
+        <Field Name="EmployerCode_LoansRegister">
+          <DataField>EmployerCode_LoansRegister</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>

@@ -1,0 +1,11 @@
+body {
+    margin: 0;
+    padding: 4px;
+    background: transparent;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+#loanContainer {
+    width: 100%;
+    height: 280px;
+}

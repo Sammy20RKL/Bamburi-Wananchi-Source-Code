@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <Height>2in</Height>
+        <Style />
+      </Body>
+      <Width>6.5in</Width>
+      <Page>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="ReportForNavId_1102755000">
+          <DataField>ReportForNavId_1102755000</DataField>
+        </Field>
+        <Field Name="OutstandingBalance_Loans">
+          <DataField>OutstandingBalance_Loans</DataField>
+        </Field>
+        <Field Name="OutstandingBalance_LoansFormat">
+          <DataField>OutstandingBalance_LoansFormat</DataField>
+        </Field>
+        <Field Name="LoanNo_Loans">
+          <DataField>LoanNo_Loans</DataField>
+        </Field>
+        <Field Name="ClientName_Loans">
+          <DataField>ClientName_Loans</DataField>
+        </Field>
+        <Field Name="LoanProductType_LoansRegister">
+          <DataField>LoanProductType_LoansRegister</DataField>
+        </Field>
+        <Field Name="ClientCode_Loans">
+          <DataField>ClientCode_Loans</DataField>
+        </Field>
+        <Field Name="ReportForNavId_1102755005">
+          <DataField>ReportForNavId_1102755005</DataField>
+        </Field>
+        <Field Name="City_Members">
+          <DataField>City_Members</DataField>
+        </Field>
+        <Field Name="Address2_Members">
+          <DataField>Address2_Members</DataField>
+        </Field>
+        <Field Name="Address_Members">
+          <DataField>Address_Members</DataField>
+        </Field>
+        <Field Name="DOCNAME">
+          <DataField>DOCNAME</DataField>
+        </Field>
+        <Field Name="CName">
+          <DataField>CName</DataField>
+        </Field>
+        <Field Name="Caddress">
+          <DataField>Caddress</DataField>
+        </Field>
+        <Field Name="CmobileNo">
+          <DataField>CmobileNo</DataField>
+        </Field>
+        <Field Name="clogo">
+          <DataField>clogo</DataField>
+        </Field>
+        <Field Name="Cwebsite">
+          <DataField>Cwebsite</DataField>
+        </Field>
+        <Field Name="Email">
+          <DataField>Email</DataField>
+        </Field>
+        <Field Name="loansOFFICER">
+          <DataField>loansOFFICER</DataField>
+        </Field>
+        <Field Name="ReportForNavId_1120054001">
+          <DataField>ReportForNavId_1120054001</DataField>
+        </Field>
+        <Field Name="AmountInArrears_DefaultNoticesRegister">
+          <DataField>AmountInArrears_DefaultNoticesRegister</DataField>
+        </Field>
+        <Field Name="AmountInArrears_DefaultNoticesRegisterFormat">
+          <DataField>AmountInArrears_DefaultNoticesRegisterFormat</DataField>
+        </Field>
+        <Field Name="DaysInArrears_DefaultNoticesRegister">
+          <DataField>DaysInArrears_DefaultNoticesRegister</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>

@@ -1,0 +1,461 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <Height>2in</Height>
+        <Style />
+      </Body>
+      <Width>6.5in</Width>
+      <Page>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="Code">
+          <DataField>Code</DataField>
+        </Field>
+        <Field Name="Previous_Deposits_Interest">
+          <DataField>Previous_Deposits_Interest</DataField>
+        </Field>
+        <Field Name="Previous_Deposits_InterestFormat">
+          <DataField>Previous_Deposits_InterestFormat</DataField>
+        </Field>
+        <Field Name="Previous_Dividends_Interest">
+          <DataField>Previous_Dividends_Interest</DataField>
+        </Field>
+        <Field Name="Previous_Dividends_InterestFormat">
+          <DataField>Previous_Dividends_InterestFormat</DataField>
+        </Field>
+        <Field Name="Deposits_Interest">
+          <DataField>Deposits_Interest</DataField>
+        </Field>
+        <Field Name="Deposits_InterestFormat">
+          <DataField>Deposits_InterestFormat</DataField>
+        </Field>
+        <Field Name="Dividends_Interest">
+          <DataField>Dividends_Interest</DataField>
+        </Field>
+        <Field Name="Dividends_InterestFormat">
+          <DataField>Dividends_InterestFormat</DataField>
+        </Field>
+        <Field Name="RetainedEarningscoreCapital">
+          <DataField>RetainedEarningscoreCapital</DataField>
+        </Field>
+        <Field Name="RetainedEarningscoreCapitalFormat">
+          <DataField>RetainedEarningscoreCapitalFormat</DataField>
+        </Field>
+        <Field Name="LRetainedEarningscoreCapital">
+          <DataField>LRetainedEarningscoreCapital</DataField>
+        </Field>
+        <Field Name="LRetainedEarningscoreCapitalFormat">
+          <DataField>LRetainedEarningscoreCapitalFormat</DataField>
+        </Field>
+        <Field Name="Active">
+          <DataField>Active</DataField>
+        </Field>
+        <Field Name="Dormant">
+          <DataField>Dormant</DataField>
+        </Field>
+        <Field Name="LActive">
+          <DataField>LActive</DataField>
+        </Field>
+        <Field Name="LDormant">
+          <DataField>LDormant</DataField>
+        </Field>
+        <Field Name="StatutoryReserve">
+          <DataField>StatutoryReserve</DataField>
+        </Field>
+        <Field Name="StatutoryReserveFormat">
+          <DataField>StatutoryReserveFormat</DataField>
+        </Field>
+        <Field Name="LStatutoryReserve">
+          <DataField>LStatutoryReserve</DataField>
+        </Field>
+        <Field Name="LStatutoryReserveFormat">
+          <DataField>LStatutoryReserveFormat</DataField>
+        </Field>
+        <Field Name="Institutionalcapital">
+          <DataField>Institutionalcapital</DataField>
+        </Field>
+        <Field Name="InstitutionalcapitalFormat">
+          <DataField>InstitutionalcapitalFormat</DataField>
+        </Field>
+        <Field Name="LInstitutionalcapital">
+          <DataField>LInstitutionalcapital</DataField>
+        </Field>
+        <Field Name="LInstitutionalcapitalFormat">
+          <DataField>LInstitutionalcapitalFormat</DataField>
+        </Field>
+        <Field Name="FemaleLNumberofEmployees">
+          <DataField>FemaleLNumberofEmployees</DataField>
+        </Field>
+        <Field Name="FemaleNumberofEmployees">
+          <DataField>FemaleNumberofEmployees</DataField>
+        </Field>
+        <Field Name="MaleLNumberofEmployees">
+          <DataField>MaleLNumberofEmployees</DataField>
+        </Field>
+        <Field Name="MaleNumberofEmployees">
+          <DataField>MaleNumberofEmployees</DataField>
+        </Field>
+        <Field Name="TotalAssets">
+          <DataField>TotalAssets</DataField>
+        </Field>
+        <Field Name="TotalAssetsFormat">
+          <DataField>TotalAssetsFormat</DataField>
+        </Field>
+        <Field Name="LTotalAssets">
+          <DataField>LTotalAssets</DataField>
+        </Field>
+        <Field Name="LTotalAssetsFormat">
+          <DataField>LTotalAssetsFormat</DataField>
+        </Field>
+        <Field Name="DepositAmount">
+          <DataField>DepositAmount</DataField>
+        </Field>
+        <Field Name="DepositAmountFormat">
+          <DataField>DepositAmountFormat</DataField>
+        </Field>
+        <Field Name="LDepositAmount">
+          <DataField>LDepositAmount</DataField>
+        </Field>
+        <Field Name="LDepositAmountFormat">
+          <DataField>LDepositAmountFormat</DataField>
+        </Field>
+        <Field Name="LoanandAdvances">
+          <DataField>LoanandAdvances</DataField>
+        </Field>
+        <Field Name="LoanandAdvancesFormat">
+          <DataField>LoanandAdvancesFormat</DataField>
+        </Field>
+        <Field Name="LLoanandAdvances">
+          <DataField>LLoanandAdvances</DataField>
+        </Field>
+        <Field Name="LLoanandAdvancesFormat">
+          <DataField>LLoanandAdvancesFormat</DataField>
+        </Field>
+        <Field Name="InterestonMemberdeposits">
+          <DataField>InterestonMemberdeposits</DataField>
+        </Field>
+        <Field Name="InterestonMemberdepositsFormat">
+          <DataField>InterestonMemberdepositsFormat</DataField>
+        </Field>
+        <Field Name="LInterestonMemberdeposits">
+          <DataField>LInterestonMemberdeposits</DataField>
+        </Field>
+        <Field Name="LInterestonMemberdepositsFormat">
+          <DataField>LInterestonMemberdepositsFormat</DataField>
+        </Field>
+        <Field Name="IntCurrentDeposits">
+          <DataField>IntCurrentDeposits</DataField>
+        </Field>
+        <Field Name="IntCurrentDepositsFormat">
+          <DataField>IntCurrentDepositsFormat</DataField>
+        </Field>
+        <Field Name="PersonalExpenseRevenue">
+          <DataField>PersonalExpenseRevenue</DataField>
+        </Field>
+        <Field Name="PersonalExpenseRevenueFormat">
+          <DataField>PersonalExpenseRevenueFormat</DataField>
+        </Field>
+        <Field Name="LPersonalExpenseRevenue">
+          <DataField>LPersonalExpenseRevenue</DataField>
+        </Field>
+        <Field Name="LPersonalExpenseRevenueFormat">
+          <DataField>LPersonalExpenseRevenueFormat</DataField>
+        </Field>
+        <Field Name="IntShareCapital">
+          <DataField>IntShareCapital</DataField>
+        </Field>
+        <Field Name="IntShareCapitalFormat">
+          <DataField>IntShareCapitalFormat</DataField>
+        </Field>
+        <Field Name="FinancialAssets">
+          <DataField>FinancialAssets</DataField>
+        </Field>
+        <Field Name="FinancialAssetsFormat">
+          <DataField>FinancialAssetsFormat</DataField>
+        </Field>
+        <Field Name="LFinancialAssets">
+          <DataField>LFinancialAssets</DataField>
+        </Field>
+        <Field Name="LFinancialAssetsFormat">
+          <DataField>LFinancialAssetsFormat</DataField>
+        </Field>
+        <Field Name="TotalRevenue">
+          <DataField>TotalRevenue</DataField>
+        </Field>
+        <Field Name="TotalRevenueFormat">
+          <DataField>TotalRevenueFormat</DataField>
+        </Field>
+        <Field Name="LTotalRevenue">
+          <DataField>LTotalRevenue</DataField>
+        </Field>
+        <Field Name="LTotalRevenueFormat">
+          <DataField>LTotalRevenueFormat</DataField>
+        </Field>
+        <Field Name="TotalInteresstIncome">
+          <DataField>TotalInteresstIncome</DataField>
+        </Field>
+        <Field Name="TotalInteresstIncomeFormat">
+          <DataField>TotalInteresstIncomeFormat</DataField>
+        </Field>
+        <Field Name="LTotalInteresstIncome">
+          <DataField>LTotalInteresstIncome</DataField>
+        </Field>
+        <Field Name="LTotalInteresstIncomeFormat">
+          <DataField>LTotalInteresstIncomeFormat</DataField>
+        </Field>
+        <Field Name="TotalExpenses">
+          <DataField>TotalExpenses</DataField>
+        </Field>
+        <Field Name="TotalExpensesFormat">
+          <DataField>TotalExpensesFormat</DataField>
+        </Field>
+        <Field Name="LTotalExpenses">
+          <DataField>LTotalExpenses</DataField>
+        </Field>
+        <Field Name="LTotalExpensesFormat">
+          <DataField>LTotalExpensesFormat</DataField>
+        </Field>
+        <Field Name="ShareCapital">
+          <DataField>ShareCapital</DataField>
+        </Field>
+        <Field Name="ShareCapitalFormat">
+          <DataField>ShareCapitalFormat</DataField>
+        </Field>
+        <Field Name="LShareCapital">
+          <DataField>LShareCapital</DataField>
+        </Field>
+        <Field Name="LShareCapitalFormat">
+          <DataField>LShareCapitalFormat</DataField>
+        </Field>
+        <Field Name="Nonwithdrawabledeposits">
+          <DataField>Nonwithdrawabledeposits</DataField>
+        </Field>
+        <Field Name="NonwithdrawabledepositsFormat">
+          <DataField>NonwithdrawabledepositsFormat</DataField>
+        </Field>
+        <Field Name="LNonwithdrawabledeposits">
+          <DataField>LNonwithdrawabledeposits</DataField>
+        </Field>
+        <Field Name="LNonwithdrawabledepositsFormat">
+          <DataField>LNonwithdrawabledepositsFormat</DataField>
+        </Field>
+        <Field Name="CorecapitaltoAssetsRatio">
+          <DataField>CorecapitaltoAssetsRatio</DataField>
+        </Field>
+        <Field Name="CorecapitaltoAssetsRatioFormat">
+          <DataField>CorecapitaltoAssetsRatioFormat</DataField>
+        </Field>
+        <Field Name="LCorecapitaltoAssetsRatio">
+          <DataField>LCorecapitaltoAssetsRatio</DataField>
+        </Field>
+        <Field Name="LCorecapitaltoAssetsRatioFormat">
+          <DataField>LCorecapitaltoAssetsRatioFormat</DataField>
+        </Field>
+        <Field Name="Corecapital">
+          <DataField>Corecapital</DataField>
+        </Field>
+        <Field Name="CorecapitalFormat">
+          <DataField>CorecapitalFormat</DataField>
+        </Field>
+        <Field Name="LCorecapital">
+          <DataField>LCorecapital</DataField>
+        </Field>
+        <Field Name="LCorecapitalFormat">
+          <DataField>LCorecapitalFormat</DataField>
+        </Field>
+        <Field Name="CorecapitaltoDepositsRatio">
+          <DataField>CorecapitaltoDepositsRatio</DataField>
+        </Field>
+        <Field Name="CorecapitaltoDepositsRatioFormat">
+          <DataField>CorecapitaltoDepositsRatioFormat</DataField>
+        </Field>
+        <Field Name="LCorecapitaltoDepositsRatio">
+          <DataField>LCorecapitaltoDepositsRatio</DataField>
+        </Field>
+        <Field Name="LCorecapitaltoDepositsRatioFormat">
+          <DataField>LCorecapitaltoDepositsRatioFormat</DataField>
+        </Field>
+        <Field Name="LExternalBorrowingtoAssetsRatio">
+          <DataField>LExternalBorrowingtoAssetsRatio</DataField>
+        </Field>
+        <Field Name="LExternalBorrowingtoAssetsRatioFormat">
+          <DataField>LExternalBorrowingtoAssetsRatioFormat</DataField>
+        </Field>
+        <Field Name="ExternalBorrowingtoAssetsRatio">
+          <DataField>ExternalBorrowingtoAssetsRatio</DataField>
+        </Field>
+        <Field Name="ExternalBorrowingtoAssetsRatioFormat">
+          <DataField>ExternalBorrowingtoAssetsRatioFormat</DataField>
+        </Field>
+        <Field Name="LiquidAssetstoTotalassetsshorttermliabilities">
+          <DataField>LiquidAssetstoTotalassetsshorttermliabilities</DataField>
+        </Field>
+        <Field Name="LiquidAssetstoTotalassetsshorttermliabilitiesFormat">
+          <DataField>LiquidAssetstoTotalassetsshorttermliabilitiesFormat</DataField>
+        </Field>
+        <Field Name="LLiquidAssetstoTotalassetsshorttermliabilities">
+          <DataField>LLiquidAssetstoTotalassetsshorttermliabilities</DataField>
+        </Field>
+        <Field Name="LLiquidAssetstoTotalassetsshorttermliabilitiesFormat">
+          <DataField>LLiquidAssetstoTotalassetsshorttermliabilitiesFormat</DataField>
+        </Field>
+        <Field Name="LiquidAssetsTotalAssets">
+          <DataField>LiquidAssetsTotalAssets</DataField>
+        </Field>
+        <Field Name="LiquidAssetsTotalAssetsFormat">
+          <DataField>LiquidAssetsTotalAssetsFormat</DataField>
+        </Field>
+        <Field Name="LLiquidAssetsTotalAssets">
+          <DataField>LLiquidAssetsTotalAssets</DataField>
+        </Field>
+        <Field Name="LLiquidAssetsTotalAssetsFormat">
+          <DataField>LLiquidAssetsTotalAssetsFormat</DataField>
+        </Field>
+        <Field Name="GrossLoansTotalAssets">
+          <DataField>GrossLoansTotalAssets</DataField>
+        </Field>
+        <Field Name="GrossLoansTotalAssetsFormat">
+          <DataField>GrossLoansTotalAssetsFormat</DataField>
+        </Field>
+        <Field Name="LGrossLoansTotalAssets">
+          <DataField>LGrossLoansTotalAssets</DataField>
+        </Field>
+        <Field Name="LGrossLoansTotalAssetsFormat">
+          <DataField>LGrossLoansTotalAssetsFormat</DataField>
+        </Field>
+        <Field Name="GrossLoansdeposits">
+          <DataField>GrossLoansdeposits</DataField>
+        </Field>
+        <Field Name="GrossLoansdepositsFormat">
+          <DataField>GrossLoansdepositsFormat</DataField>
+        </Field>
+        <Field Name="LGrossLoansdeposits">
+          <DataField>LGrossLoansdeposits</DataField>
+        </Field>
+        <Field Name="LGrossLoansdepositsFormat">
+          <DataField>LGrossLoansdepositsFormat</DataField>
+        </Field>
+        <Field Name="TotalExpensesTotalRevenue">
+          <DataField>TotalExpensesTotalRevenue</DataField>
+        </Field>
+        <Field Name="TotalExpensesTotalRevenueFormat">
+          <DataField>TotalExpensesTotalRevenueFormat</DataField>
+        </Field>
+        <Field Name="LTotalExpensesTotalRevenue">
+          <DataField>LTotalExpensesTotalRevenue</DataField>
+        </Field>
+        <Field Name="LTotalExpensesTotalRevenueFormat">
+          <DataField>LTotalExpensesTotalRevenueFormat</DataField>
+        </Field>
+        <Field Name="TotalExpensesTotalAssets">
+          <DataField>TotalExpensesTotalAssets</DataField>
+        </Field>
+        <Field Name="TotalExpensesTotalAssetsFormat">
+          <DataField>TotalExpensesTotalAssetsFormat</DataField>
+        </Field>
+        <Field Name="LTotalExpensesTotalAssets">
+          <DataField>LTotalExpensesTotalAssets</DataField>
+        </Field>
+        <Field Name="LTotalExpensesTotalAssetsFormat">
+          <DataField>LTotalExpensesTotalAssetsFormat</DataField>
+        </Field>
+        <Field Name="DividendsTotalRevenue">
+          <DataField>DividendsTotalRevenue</DataField>
+        </Field>
+        <Field Name="DividendsTotalRevenueFormat">
+          <DataField>DividendsTotalRevenueFormat</DataField>
+        </Field>
+        <Field Name="LDividendsTotalRevenue">
+          <DataField>LDividendsTotalRevenue</DataField>
+        </Field>
+        <Field Name="LDividendsTotalRevenueFormat">
+          <DataField>LDividendsTotalRevenueFormat</DataField>
+        </Field>
+        <Field Name="FinancialAssetsTotalAssets">
+          <DataField>FinancialAssetsTotalAssets</DataField>
+        </Field>
+        <Field Name="FinancialAssetsTotalAssetsFormat">
+          <DataField>FinancialAssetsTotalAssetsFormat</DataField>
+        </Field>
+        <Field Name="LFinancialAssetsTotalAssets">
+          <DataField>LFinancialAssetsTotalAssets</DataField>
+        </Field>
+        <Field Name="LFinancialAssetsTotalAssetsFormat">
+          <DataField>LFinancialAssetsTotalAssetsFormat</DataField>
+        </Field>
+        <Field Name="NoSaccoBraches">
+          <DataField>NoSaccoBraches</DataField>
+        </Field>
+        <Field Name="CurrentYear">
+          <DataField>CurrentYear</DataField>
+        </Field>
+        <Field Name="PreviousYear">
+          <DataField>PreviousYear</DataField>
+        </Field>
+        <Field Name="EndofLastyear">
+          <DataField>EndofLastyear</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>

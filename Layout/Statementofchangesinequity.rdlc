@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <Height>2in</Height>
+        <Style />
+      </Body>
+      <Width>6.5in</Width>
+      <Page>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="Code">
+          <DataField>Code</DataField>
+        </Field>
+        <Field Name="ShareCapital">
+          <DataField>ShareCapital</DataField>
+        </Field>
+        <Field Name="ShareCapitalFormat">
+          <DataField>ShareCapitalFormat</DataField>
+        </Field>
+        <Field Name="LShareCapital">
+          <DataField>LShareCapital</DataField>
+        </Field>
+        <Field Name="LShareCapitalFormat">
+          <DataField>LShareCapitalFormat</DataField>
+        </Field>
+        <Field Name="RLTransfertoStatury">
+          <DataField>RLTransfertoStatury</DataField>
+        </Field>
+        <Field Name="RLTransfertoStaturyFormat">
+          <DataField>RLTransfertoStaturyFormat</DataField>
+        </Field>
+        <Field Name="RTransfertoStatury">
+          <DataField>RTransfertoStatury</DataField>
+        </Field>
+        <Field Name="RTransfertoStaturyFormat">
+          <DataField>RTransfertoStaturyFormat</DataField>
+        </Field>
+        <Field Name="contShareCapital">
+          <DataField>contShareCapital</DataField>
+        </Field>
+        <Field Name="contShareCapitalFormat">
+          <DataField>contShareCapitalFormat</DataField>
+        </Field>
+        <Field Name="contLShareCapital">
+          <DataField>contLShareCapital</DataField>
+        </Field>
+        <Field Name="contLShareCapitalFormat">
+          <DataField>contLShareCapitalFormat</DataField>
+        </Field>
+        <Field Name="PriorYearAdjustment">
+          <DataField>PriorYearAdjustment</DataField>
+        </Field>
+        <Field Name="PriorYearAdjustmentFormat">
+          <DataField>PriorYearAdjustmentFormat</DataField>
+        </Field>
+        <Field Name="LPriorYearAdjustment">
+          <DataField>LPriorYearAdjustment</DataField>
+        </Field>
+        <Field Name="LPriorYearAdjustmentFormat">
+          <DataField>LPriorYearAdjustmentFormat</DataField>
+        </Field>
+        <Field Name="TransfertoStatury">
+          <DataField>TransfertoStatury</DataField>
+        </Field>
+        <Field Name="TransfertoStaturyFormat">
+          <DataField>TransfertoStaturyFormat</DataField>
+        </Field>
+        <Field Name="LTransfertoStatury">
+          <DataField>LTransfertoStatury</DataField>
+        </Field>
+        <Field Name="LTransfertoStaturyFormat">
+          <DataField>LTransfertoStaturyFormat</DataField>
+        </Field>
+        <Field Name="StatutoryReserve">
+          <DataField>StatutoryReserve</DataField>
+        </Field>
+        <Field Name="StatutoryReserveFormat">
+          <DataField>StatutoryReserveFormat</DataField>
+        </Field>
+        <Field Name="LStatutoryReserve">
+          <DataField>LStatutoryReserve</DataField>
+        </Field>
+        <Field Name="LStatutoryReserveFormat">
+          <DataField>LStatutoryReserveFormat</DataField>
+        </Field>
+        <Field Name="RetainedEarnings">
+          <DataField>RetainedEarnings</DataField>
+        </Field>
+        <Field Name="RetainedEarningsFormat">
+          <DataField>RetainedEarningsFormat</DataField>
+        </Field>
+        <Field Name="LRetainedEarnings">
+          <DataField>LRetainedEarnings</DataField>
+        </Field>
+        <Field Name="LRetainedEarningsFormat">
+          <DataField>LRetainedEarningsFormat</DataField>
+        </Field>
+        <Field Name="ThisYear">
+          <DataField>ThisYear</DataField>
+        </Field>
+        <Field Name="EndofLastyear">
+          <DataField>EndofLastyear</DataField>
+        </Field>
+        <Field Name="PreviousYear">
+          <DataField>PreviousYear</DataField>
+        </Field>
+        <Field Name="CurrentYear">
+          <DataField>CurrentYear</DataField>
+        </Field>
+        <Field Name="StartofPreviousyear">
+          <DataField>StartofPreviousyear</DataField>
+        </Field>
+        <Field Name="StartofThisYear">
+          <DataField>StartofThisYear</DataField>
+        </Field>
+        <Field Name="Proposeddividends">
+          <DataField>Proposeddividends</DataField>
+        </Field>
+        <Field Name="ProposeddividendsFormat">
+          <DataField>ProposeddividendsFormat</DataField>
+        </Field>
+        <Field Name="LProposeddividends">
+          <DataField>LProposeddividends</DataField>
+        </Field>
+        <Field Name="LProposeddividendsFormat">
+          <DataField>LProposeddividendsFormat</DataField>
+        </Field>
+        <Field Name="Honoraria">
+          <DataField>Honoraria</DataField>
+        </Field>
+        <Field Name="HonorariaFormat">
+          <DataField>HonorariaFormat</DataField>
+        </Field>
+        <Field Name="LHonoraria">
+          <DataField>LHonoraria</DataField>
+        </Field>
+        <Field Name="LHonorariaFormat">
+          <DataField>LHonorariaFormat</DataField>
+        </Field>
+        <Field Name="Surplus">
+          <DataField>Surplus</DataField>
+        </Field>
+        <Field Name="SurplusFormat">
+          <DataField>SurplusFormat</DataField>
+        </Field>
+        <Field Name="LSurplus">
+          <DataField>LSurplus</DataField>
+        </Field>
+        <Field Name="LSurplusFormat">
+          <DataField>LSurplusFormat</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>
