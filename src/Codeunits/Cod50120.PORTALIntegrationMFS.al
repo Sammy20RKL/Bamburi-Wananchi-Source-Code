@@ -966,7 +966,7 @@ Codeunit 50120 "PORTALIntegration MFS"
             phoneNumber := objMember."Mobile Phone No";
             ClientName := objMember.Name;
             sms := 'We have received your ' + LoanProductType + ' loan application of  amount : ' + Format(AmountApplied) +
-            '. We are processing your loan, you will hear from us soon. Thanks for using SWIZZSOFT SACCO  Portal.';
+            '. We are processing your loan, you will hear from us soon. Thanks for using Bamburi SACCO  Portal.';
             FnSMSMessage(ClientName, phoneNumber, sms);
             PortaLuPS.Init;
             // PortaLuPS.INSERT(TRUE);

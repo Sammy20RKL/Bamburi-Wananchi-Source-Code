@@ -339,6 +339,14 @@ Page 56029 "Loan Application Card"
 
                     end;
                 }
+                // field("Notify Guarantor SMS"; Rec."Notify Guarantor SMS")
+                // {
+                //     ApplicationArea = Basic;
+                // }
+                // field("Notify Member on Approval"; Rec."Notify Member on Approval")
+                // {
+                //     ApplicationArea = Basic;
+                // }
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ApplicationArea = Basic;
@@ -538,17 +546,26 @@ Page 56029 "Loan Application Card"
 
                     trigger OnAction()
                     begin
-                        if checkGuarantorCount() < 1 then begin
-                            Error('Loan Applications must have at least one Guarantor');
+
+                        if Confirm('Send Guarantor Notifications for Loan ?', false) = false then begin
+                            Rec."Notify Guarantor SMS" := true;
+                            exit;
+                        end else begin
+
+                            if checkGuarantorCount() < 1 then begin
+                                Error('Loan Applications must have at least one Guarantor');
+                            end;
+
+                            if Rec."Notify Guarantor SMS" = true then begin
+                                Message('Guarantor(s) already notified.');
+                            end else begin
+                                // if Rec.notif
+                                FnNotifyGuarantors();
+                                Rec."Notify Guarantor SMS" := true;
+                                Message('Guarantor(s) notified successfully.');
+                            end;
                         end;
 
-                        if Rec."Notify Guarantor SMS" = true then begin
-                            Message('Guarantor(s) already notified.');
-                        end else begin
-                            FnNotifyGuarantors();
-                            Rec."Notify Guarantor SMS" := true;
-                            Message('Guarantor(s) notified successfully.');
-                        end;
                     end;
                 }
                 action("Loans to Offset")
@@ -593,7 +610,11 @@ Page 56029 "Loan Application Card"
                             exit;
                         end else begin
                             SrestepApprovalsCodeUnit.SendLoanApplicationsRequestForApproval(Rec."Loan  No.", Rec);
-                            FnSendLoanApprovalNotifications();
+                            if Confirm('Send Loan Application Notifications to the member?', false) = false then begin
+                                // exit;
+                            end else begin
+                                FnSendLoanApprovalNotifications();
+                            end;
                             CurrPage.close();
                         end;
                     end;

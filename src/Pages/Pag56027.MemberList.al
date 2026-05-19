@@ -51,6 +51,10 @@ Page 56027 "Member List"
                 {
                     ApplicationArea = Basic;
                 }
+                field("Birth Certficate No."; Rec."Birth Certficate No.")
+                {
+                    ApplicationArea = Basic;
+                }
                 // field("Shares Retained"; Rec."Shares Retained")
                 // {
                 //     ApplicationArea = Basic;

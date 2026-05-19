@@ -254,6 +254,10 @@ Table 51399 "Sacco No. Series"
         field(47; "Micro Group Nos."; Code[10])
         {
         }
+        field(77; "Junior Member Nos"; Code[10])
+        {
+            TableRelation = "No. Series";
+        }
         field(48; "MPESA Change Nos"; Code[30])
         {
             TableRelation = "No. Series";

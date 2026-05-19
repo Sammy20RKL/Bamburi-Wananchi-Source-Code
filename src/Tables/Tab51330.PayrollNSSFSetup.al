@@ -6,6 +6,7 @@ Table 51330 "Payroll NSSF Setup."
     {
         field(10; "Tier Code"; Code[10])
         {
+            Editable = false;
         }
         field(11; Earnings; Decimal)
         {
@@ -37,6 +38,13 @@ Table 51330 "Payroll NSSF Setup."
         field(20; "Upper Limit"; Decimal)
         {
         }
+        field(21; "% Tier Contribution"; Decimal) { }
+        field(22; "Maximum Employee Contribution"; Decimal) { }
+        field(23; "Maximum Employer Contribution"; Decimal) { }
+        field(24; "Maximum Tier Contribution"; Decimal) { }
+        field(25; "maximum Monthly NSSF Contributions"; Decimal) { }
+        field(26; "Earning Tier Limit"; Decimal)
+        { }
     }
 
     keys

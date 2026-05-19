@@ -1406,13 +1406,52 @@ Table 51360 "Membership Applications"
         {
             TableRelation = Customer."No.";
             DataClassification = ToBeClassified;
-
             trigger OnValidate()
+            var
+                NextofKin: Record "Member App Next Of kin";
+                MemberNominee: Record "Member App Nominee";
             begin
-                Cust.Reset;
-                Cust.SetRange(Cust."No.", "Guardian No.");
-                if Cust.Find('-') then begin
-                    "Guardian Name" := Cust.Name;
+                if Rec."Guardian No." <> '' then begin
+                    Cust.Reset();
+                    Cust.SetRange(Cust."No.", Rec."Guardian No.");
+                    if Cust.Find('-') then
+                        Rec."Guardian Name" := Cust.Name
+                    else
+                        exit;
+
+                    // Use Rec."No." NOT Rec."Guardian No."
+                    NextofKin.Reset();
+                    NextofKin.SetRange(NextofKin."Account No", Rec."No.");
+                    NextofKin.DeleteAll();
+
+                    MemberNominee.Reset();
+                    MemberNominee.SetRange(MemberNominee."Account No", Rec."No.");
+                    MemberNominee.DeleteAll();
+
+                    NextofKin.Init();
+                    NextofKin."Account No" := Rec."No.";
+                    NextofKin.Name := Cust.Name;
+                    NextofKin."%Allocation" := 100;
+                    NextofKin."Date of Birth" := Cust."Date of Birth";
+                    NextofKin.Telephone := Cust."Phone No.";
+                    NextofKin."ID No." := Cust."ID No.";
+                    NextofKin.Address := Cust.Address;
+                    NextofKin.Beneficiary := true;
+                    NextofKin.Relationship := 'GUARDIAN';
+                    NextofKin.Insert();
+
+                    MemberNominee.Init();
+                    MemberNominee."Account No" := Rec."No.";
+                    MemberNominee.Name := Cust.Name;
+                    MemberNominee."ID No." := Cust."ID No.";
+                    MemberNominee.Beneficiary := true;
+                    MemberNominee."%Allocation" := 100;
+                    MemberNominee."Next Of Kin Type" := MemberNominee."Next Of Kin Type"::Beneficiary;
+                    MemberNominee."Date of Birth" := Cust."Date of Birth";
+                    MemberNominee.Telephone := Cust."Phone No.";
+                    MemberNominee.Address := Cust.Address;
+                    MemberNominee.Relationship := 'GUARDIAN';
+                    MemberNominee.Insert();
                 end;
             end;
         }

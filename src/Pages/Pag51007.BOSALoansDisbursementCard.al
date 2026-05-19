@@ -420,8 +420,12 @@ Page 51007 "BOSA Loans Disbursement Card"
                                             end;
                                         end;
                                         //Send Notifications
-                                        FnSendNotifications();
-                                        // SendMail();//--------email Addresses in the System
+                                        if Confirm('Send Loan Disbursement Notifications to the member?', false) = false then begin
+                                            // exit;
+                                        end else begin
+                                            FnSendNotifications();
+                                            // SendMail();//--------email Addresses in the System
+                                        end;
 
                                     end;
                                 until LoanApps.Next = 0;

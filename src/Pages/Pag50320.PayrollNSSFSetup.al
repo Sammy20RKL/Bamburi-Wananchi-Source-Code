@@ -15,47 +15,25 @@ page 50320 "Payroll NSSF Setup."
                 field("Tier Code"; Rec."Tier Code")
                 {
                     ApplicationArea = Basic;
+                    Editable = false;
                 }
-                field(Earnings; Rec.Earnings)
+                field("Earning Tier Limit"; Rec."Earning Tier Limit")
                 {
                     ApplicationArea = Basic;
                 }
-                field("Pensionable Earnings"; Rec."Pensionable Earnings")
+                field("Lower Limit"; Rec."Lower Limit") { }
+                field("Upper Limit"; Rec."Upper Limit") { }
+                field("% Tier Contribution"; Rec."% Tier Contribution")
                 {
                     ApplicationArea = Basic;
                 }
-                field("Tier 1 earnings"; Rec."Tier 1 earnings")
+                field("Maximum Employee Contribution"; Rec."Maximum Employee Contribution")
                 {
                     ApplicationArea = Basic;
                 }
-                field("Tier 1 Employee Deduction"; Rec."Tier 1 Employee Deduction")
-                {
-                    ApplicationArea = Basic;
-                }
-                field("Tier 1 Employer Contribution"; Rec."Tier 1 Employer Contribution")
-                {
-                    ApplicationArea = Basic;
-                }
-                field("Tier 2 earnings"; Rec."Tier 2 earnings")
-                {
-                    ApplicationArea = Basic;
-                }
-                field("Tier 2 Employee Deduction"; Rec."Tier 2 Employee Deduction")
-                {
-                    ApplicationArea = Basic;
-                }
-                field("Tier 2 Employer Contribution"; Rec."Tier 2 Employer Contribution")
-                {
-                    ApplicationArea = Basic;
-                }
-                field("Lower Limit"; Rec."Lower Limit")
-                {
-                    ApplicationArea = Basic;
-                }
-                field("Upper Limit"; Rec."Upper Limit")
-                {
-                    ApplicationArea = Basic;
-                }
+                field("Maximum Employer Contribution"; Rec."Maximum Employer Contribution") { }
+                field("Maximum Tier Contribution"; Rec."Maximum Tier Contribution") { }
+                field("maximum Monthly NSSF Contributions"; Rec."maximum Monthly NSSF Contributions") { }
             }
         }
     }

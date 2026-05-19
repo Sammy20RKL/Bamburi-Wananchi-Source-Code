@@ -1445,13 +1445,14 @@ page 56110 "Member Application Card"
                                     GenSetUp.Get;
                                     GenSetUp.TestField("Junior Expenses Account");
                                     if GenSetUp."Charge Junior BOSA Registration Fee" = true then begin
+                                        Commit();
                                         FnPostJuniorRegistrationFees(BOSAAccountNo, GenSetUp."Junior BOSA Registration Fee Amount");
                                     end;
                                 end;
 
 
-
-                            if GenSetUp."Auto Open FOSA Savings Acc." = true then begin
+                            if (Rec."Account Category" = Rec."Account Category"::"Regular Account") and
+                           GenSetUp."Auto Open FOSA Savings Acc." = true then begin
                                 dialogBox.Open('Creating New M-Wallet Account for applicant ' + Format(MembApp.Name));
                                 swizzMobile.CreateMWallet(BOSAAccountNo);
                                 // swizzkash
@@ -1483,7 +1484,10 @@ page 56110 "Member Application Card"
 
                             //-----
                             Message('Account created successfully.');
-                            Message('The Member Sacco no is %1', Cust."No.");
+                            if Rec."Account Category" = Rec."Account Category"::"Junior Account" then
+                                Message('Junior Account created successfully. The Junior Sacco No. is %1 and Guardian is %2', Cust."No.", Cust."Guardian Name")
+                            else
+                                Message('The Member Sacco No. is %1', Cust."No.");
 
                             //...............................modify the status of the application to closed
                             rec.Status := Rec.Status::Closed;
@@ -2174,136 +2178,172 @@ page 56110 "Member Application Card"
 
     begin
         Saccosetup.Get();
-
         ObjNoSeries.get();
+        if Rec."Account Category" = Rec."Account Category"::"Junior Account" then begin
+            NewMembNo := NoSeries.GetNextNo(ObjNoSeries."Junior Member Nos", today);
 
-        NewMembNo := NoSeries.GetNextNo(ObjNoSeries."Members Nos", today);
-        // NoSeriesLine.RESET;
-        // NoSeriesLine.SETRANGE(NoSeriesLine."Series Code", ObjNoSeries."Members Nos");
-        // IF NoSeriesLine.FINDSET THEN BEGIN
-        //     NoSeriesLine."Last No. Used" := INCSTR(NoSeriesLine."Last No. Used");
-        //     NoSeriesLine."Last Date Used" := TODAY;
-        //     NoSeriesLine.MODIFY;
-        // END;
+            Cust.Init();
+            Cust."No." := Format(NewMembNo);
+            Cust.Name := Rec.Name;
+            Cust."Account Category" := Rec."Account Category";
+            Cust."Birth Certficate No." := Rec."Birth Certficate No.";
+            Cust."Guardian No." := Rec."Guardian No.";
+            Cust."Guardian Name" := Rec."Guardian Name";
+            Cust."Global Dimension 1 Code" := Rec."Global Dimension 1 Code";
+            Cust."Global Dimension 2 Code" := Rec."Global Dimension 2 Code";
+            Cust."Customer Posting Group" := Rec."Customer Posting Group";
+            Cust."Registration Date" := Today;
+            Cust.Status := Cust.Status::Active;
+            Cust."Customer Type" := Cust."Customer Type";
+            Cust.Image := Rec.Picture;
+            Cust.Signature := Rec.Signature;
+            Cust."Monthly Contribution" := Rec."Monthly Contribution";
+            Cust."Recruited By" := Rec."Recruited By";
+            Cust."Sms Notification" := Rec."Sms Notification";
+
+            Cust."Office Branch" := Rec."Office Branch";
+            Cust.Department := Rec.Department;
+            Cust.Occupation := Rec.Occupation;
+            Cust.Designation := Rec.Designation;
+            Cust."Bank Code" := Rec."Bank Code";
+            Cust."Bank Name" := Rec."Bank Name";
+            Cust."Bank Branch Code" := Rec."Bank Branch";
+            Cust."Bank Account No." := Rec."Bank Account No";
+            Cust.Image := Rec.Picture;
+            Cust.Signature := Rec.Signature;
+            Cust."Monthly Contribution" := Rec."Monthly Contribution";
+            Cust."Contact Person" := Rec."Contact Person";
+            Cust."Contact Person Phone" := Rec."Contact Person Phone";
+            Cust."ContactPerson Relation" := Rec."ContactPerson Relation";
+            Cust."Recruited By" := Rec."Recruited By";
+            Cust."ContactPerson Occupation" := Rec."ContactPerson Occupation";
+            Cust."Village/Residence" := Rec."Village/Residence";
+            Cust.Insert(true);
+            BOSAACC := Cust."No.";
+            exit(BOSAACC);
+        end else begin
+
+            NewMembNo := NoSeries.GetNextNo(ObjNoSeries."Members Nos", today);
+            // NoSeriesLine.RESET;
+            // NoSeriesLine.SETRANGE(NoSeriesLine."Series Code", ObjNoSeries."Members Nos");
+            // IF NoSeriesLine.FINDSET THEN BEGIN
+            //     NoSeriesLine."Last No. Used" := INCSTR(NoSeriesLine."Last No. Used");
+            //     NoSeriesLine."Last Date Used" := TODAY;
+            //     NoSeriesLine.MODIFY;
+            // END;
 
 
-        //NewMembNo := Saccosetup."Last Memb No.";
+            //NewMembNo := Saccosetup."Last Memb No.";
 
 
 
-        //Create BOSA account
-        Cust.Init;
-        Cust."No." := Format(NewMembNo);
-        Cust.Name := Rec.Name;
-        // if Rec."Account Category" = Rec."Account Category"::Corporate then begin
-        //     Cust."Group Account" := true;
-        // end;
-        Cust."Group Account Name" := Rec.Name;
-        Cust."Nature of Business" := Rec."Nature of Business";
-        Cust.Address := Rec.Address;
-        Cust."Post Code" := Rec."Postal Code";
-        Cust.Pin := Rec."KRA Pin";
-        Cust.County := Rec.City;
+            //Create BOSA account
+            Cust.Init;
+            Cust."No." := Format(NewMembNo);
+            Cust.Name := Rec.Name;
+            // if Rec."Account Category" = Rec."Account Category"::Corporate then begin
+            //     Cust."Group Account" := true;
+            // end;
+            Cust."Group Account Name" := Rec.Name;
+            Cust."Nature of Business" := Rec."Nature of Business";
+            Cust.Address := Rec.Address;
+            Cust."Post Code" := Rec."Postal Code";
+            Cust.Pin := Rec."KRA Pin";
+            Cust.County := Rec.City;
+            Cust."Phone No." := Rec."Mobile Phone No";
+            Cust."Global Dimension 1 Code" := Rec."Global Dimension 1 Code";
+            Cust."Global Dimension 2 Code" := Rec."Global Dimension 2 Code";
+            Cust."Customer Posting Group" := Rec."Customer Posting Group";
+            Cust."Registration Date" := Today;
+            Cust."Mobile Phone No" := Rec."Mobile Phone No";
+            Cust.Status := Cust.Status::Active;
+            Cust."Employer Code" := Rec."Employer Code";
+            Cust."Employer Name" := Rec."Employer Name";
+            Cust."Date of Birth" := Rec."Date of Birth";
+            Cust."Station/Department" := Rec."Station/Department";
+            Cust."E-Mail" := Rec."E-Mail (Personal)";
+            Cust.Location := Rec.Location;
+            Cust.Title := Rec.Title;
+            Cust."Home Address" := Rec."Home Address";
+            Cust."Home Postal Code" := Rec."Home Postal Code";
+            Cust."Home Town" := Rec."Home Town";
+            Cust."Recruited By" := Rec."Recruited By";
+            Cust."Contact Person" := Rec."Contact Person";
+            Cust."ContactPerson Relation" := Rec."ContactPerson Relation";
+            Cust."ContactPerson Occupation" := Rec."ContactPerson Occupation";
+            Cust."Account Category" := Rec."Account Category";
 
+            //**
+            Cust."Office Branch" := Rec."Office Branch";
+            Cust.Department := Rec.Department;
+            Cust.Occupation := Rec.Occupation;
+            Cust.Designation := Rec.Designation;
+            Cust."Bank Code" := Rec."Bank Code";
+            Cust."Bank Branch Code" := Rec."Bank Name";
+            Cust."Bank Account No." := Rec."Bank Account No";
+            //**
+            //Joint
+            Cust."Share Of Ownership One" := Rec."Share Of Ownership One";
+            Cust."Source of Income Member One" := Rec."Source of Income Member One";
+            Cust."ID NO/Passport 2" := Rec."ID NO/Passport 2";
+            Cust.JointRelationship := Rec.JointRelationship;
+            Cust."Reasontocreatingajointaccount" := Rec.Reasontocreatingajointaccount;
+            Cust.Gender2 := Rec.Gender2;
+            Cust."Marital Status2" := Rec."Marital Status2";
+            Cust."Date of Birth2" := Rec."Date of Birth2";
+            Cust."Mobile No. 3" := Rec."Mobile No. 3";
+            Cust."E-Mail (Personal2)" := Rec."E-Mail (Personal2)";
+            Cust."Home Postal Code2" := Rec."Home Postal Code2";
+            Cust."Home Town2" := Rec."Home Town2";
+            Cust."Payroll/Staff No2" := Rec."Payroll/Staff No2";
+            Cust."Employer Code2" := Rec."Employer Code2";
+            Cust."Share Of Ownership Two" := Rec."Share Of Ownership Two";
+            Cust."Employer Name2" := Rec."Employer Name2";
+            Cust."Source of IncomeMember Two" := Rec."Source of IncomeMember Two";
+            //**
 
+            Cust."Sub-Location" := Rec."Sub-Location";
+            Cust.District := Rec.District;
+            Cust."Payroll/Staff No" := Rec."Payroll No";
+            Cust."Personal No" := Rec."Payroll No";
+            Cust."ID No." := Rec."ID No.";
+            Cust."Mobile Phone No" := Rec."Mobile Phone No";
+            Cust."Marital Status" := Rec."Marital Status";
+            Cust."Customer Type" := Cust."customer type";
+            Cust.Gender := Rec.Gender;
+            Cust."Sms Notification" := Rec."Sms Notification";
+            Cust.Age := Rec.Age;
 
-        Cust."Phone No." := Rec."Mobile Phone No";
-        Cust."Global Dimension 1 Code" := Rec."Global Dimension 1 Code";
-        Cust."Global Dimension 2 Code" := Rec."Global Dimension 2 Code";
-        Cust."Customer Posting Group" := Rec."Customer Posting Group";
-        Cust."Registration Date" := Today;
-        Cust."Mobile Phone No" := Rec."Mobile Phone No";
-        Cust.Status := Cust.Status::Active;
-        Cust."Employer Code" := Rec."Employer Code";
-        Cust."Employer Name" := Rec."Employer Name";
-        Cust."Date of Birth" := Rec."Date of Birth";
-        Cust."Station/Department" := Rec."Station/Department";
-        Cust."E-Mail" := Rec."E-Mail (Personal)";
-        Cust.Location := Rec.Location;
-        Cust.Title := Rec.Title;
-        Cust."Home Address" := Rec."Home Address";
-        Cust."Home Postal Code" := Rec."Home Postal Code";
-        Cust."Home Town" := Rec."Home Town";
-        Cust."Recruited By" := Rec."Recruited By";
-        Cust."Contact Person" := Rec."Contact Person";
-        Cust."ContactPerson Relation" := Rec."ContactPerson Relation";
-        Cust."ContactPerson Occupation" := Rec."ContactPerson Occupation";
-        Cust."Account Category" := Rec."Account Category";
-        //---Junior Accounts
-        Cust."Guardian No." := Rec."Guardian No.";
-        Cust."Guardian Name" := Rec."Guardian Name";
-        Cust."Birth Certficate No." := Rec."Birth Certficate No.";
+            Cust.Image := Rec.Picture;
+            Cust.Signature := Rec.Signature;
+            Cust.IPRS := Rec.IPRS;
+            //========================================================================Member Risk Rating
+            Cust."Individual Category" := Rec."Individual Category";
+            Cust."Entities" := Rec.Entities;
+            // Cust."Member Risk Level" := (Rec."Member Risk Level");
+            // Cust."Due Diligence Measure" := Format(Rec."Due Diligence Measure");
+            Cust."Member Residency Status" := Rec."Member Residency Status";
+            Cust."Industry Type" := Rec."Industry Type";
+            // Cust."Length Of Relationship" := Rec."Length Of Relationship";
+            Cust."International Trade" := Rec."International Trade";
+            Cust."Electronic Payment" := Rec."Electronic Payment";
+            Cust."Accounts Type Taken" := Rec."Accounts Type Taken";
+            Cust."Cards Type Taken" := Rec."Cards Type Taken";
+            //========================================================================
+            Cust."Monthly Contribution" := Rec."Monthly Contribution";
+            Cust."Contact Person" := Rec."Contact Person";
+            Cust."Contact Person Phone" := Rec."Contact Person Phone";
+            Cust."ContactPerson Relation" := Rec."ContactPerson Relation";
+            Cust."Recruited By" := Rec."Recruited By";
+            Cust."ContactPerson Occupation" := Rec."ContactPerson Occupation";
+            Cust."Village/Residence" := Rec."Village/Residence";
+            Cust.Insert(true);
 
-        //**
-        Cust."Office Branch" := Rec."Office Branch";
-        Cust.Department := Rec.Department;
-        Cust.Occupation := Rec.Occupation;
-        Cust.Designation := Rec.Designation;
-        Cust."Bank Code" := Rec."Bank Code";
-        Cust."Bank Branch Code" := Rec."Bank Name";
-        Cust."Bank Account No." := Rec."Bank Account No";
-        //**
-        //Joint
-        Cust."Share Of Ownership One" := Rec."Share Of Ownership One";
-        Cust."Source of Income Member One" := Rec."Source of Income Member One";
-        Cust."ID NO/Passport 2" := Rec."ID NO/Passport 2";
-        Cust.JointRelationship := Rec.JointRelationship;
-        Cust."Reasontocreatingajointaccount" := Rec.Reasontocreatingajointaccount;
-        Cust.Gender2 := Rec.Gender2;
-        Cust."Marital Status2" := Rec."Marital Status2";
-        Cust."Date of Birth2" := Rec."Date of Birth2";
-        Cust."Mobile No. 3" := Rec."Mobile No. 3";
-        Cust."E-Mail (Personal2)" := Rec."E-Mail (Personal2)";
-        Cust."Home Postal Code2" := Rec."Home Postal Code2";
-        Cust."Home Town2" := Rec."Home Town2";
-        Cust."Payroll/Staff No2" := Rec."Payroll/Staff No2";
-        Cust."Employer Code2" := Rec."Employer Code2";
-        Cust."Share Of Ownership Two" := Rec."Share Of Ownership Two";
-        Cust."Employer Name2" := Rec."Employer Name2";
-        Cust."Source of IncomeMember Two" := Rec."Source of IncomeMember Two";
-        //**
-
-        Cust."Sub-Location" := Rec."Sub-Location";
-        Cust.District := Rec.District;
-        Cust."Payroll/Staff No" := Rec."Payroll No";
-        Cust."Personal No" := Rec."Payroll No";
-        Cust."ID No." := Rec."ID No.";
-        Cust."Mobile Phone No" := Rec."Mobile Phone No";
-        Cust."Marital Status" := Rec."Marital Status";
-        Cust."Customer Type" := Cust."customer type";
-        Cust.Gender := Rec.Gender;
-        Cust."Sms Notification" := Rec."Sms Notification";
-        Cust.Age := Rec.Age;
-
-        Cust.Image := Rec.Picture;
-        Cust.Signature := Rec.Signature;
-        Cust.IPRS := Rec.IPRS;
-        //========================================================================Member Risk Rating
-        Cust."Individual Category" := Rec."Individual Category";
-        Cust."Entities" := Rec.Entities;
-        // Cust."Member Risk Level" := (Rec."Member Risk Level");
-        // Cust."Due Diligence Measure" := Format(Rec."Due Diligence Measure");
-        Cust."Member Residency Status" := Rec."Member Residency Status";
-        Cust."Industry Type" := Rec."Industry Type";
-        // Cust."Length Of Relationship" := Rec."Length Of Relationship";
-        Cust."International Trade" := Rec."International Trade";
-        Cust."Electronic Payment" := Rec."Electronic Payment";
-        Cust."Accounts Type Taken" := Rec."Accounts Type Taken";
-        Cust."Cards Type Taken" := Rec."Cards Type Taken";
-        //========================================================================
-        Cust."Monthly Contribution" := Rec."Monthly Contribution";
-        Cust."Contact Person" := Rec."Contact Person";
-        Cust."Contact Person Phone" := Rec."Contact Person Phone";
-        Cust."ContactPerson Relation" := Rec."ContactPerson Relation";
-        Cust."Recruited By" := Rec."Recruited By";
-        Cust."ContactPerson Occupation" := Rec."ContactPerson Occupation";
-        Cust."Village/Residence" := Rec."Village/Residence";
-        Cust.Insert(true);
-
-        Saccosetup."Last Memb No." := IncStr(NewMembNo);
-        Saccosetup.Modify;
-        BOSAACC := Cust."No.";
-        exit(BOSAACC);
+            Saccosetup."Last Memb No." := IncStr(NewMembNo);
+            Saccosetup.Modify;
+            BOSAACC := Cust."No.";
+            exit(BOSAACC);
+        end;
     end;
 
     local procedure FnPostRegistrationFees(memberNo: Code[50]; transAmount: Decimal)
@@ -2407,7 +2447,7 @@ page 56110 "Member Application Card"
         Gnljnline."Journal Template Name" := Jtemplate;
         Gnljnline."Journal Batch Name" := Jbatch;
         Gnljnline."Line No." := LineN;
-        Gnljnline."Account Type" := Gnljnline."bal. account type"::Customer;
+        Gnljnline."Account Type" := Gnljnline."Bal. Account Type"::Customer;
         Gnljnline."Account No." := memberNo;
         Gnljnline.Validate(Gnljnline."Account No.");
         Gnljnline."Document No." := Rec."No.";
@@ -2429,7 +2469,7 @@ page 56110 "Member Application Card"
         Gnljnline."Journal Template Name" := Jtemplate;
         Gnljnline."Journal Batch Name" := Jbatch;
         Gnljnline."Line No." := LineN;
-        Gnljnline."Account Type" := Gnljnline."bal. account type"::"G/L Account";
+        Gnljnline."Account Type" := Gnljnline."Bal. Account Type"::"G/L Account";
         Gnljnline."Account No." := GenSetUp."Junior Expenses Account";
         Gnljnline.Validate(Gnljnline."Account No.");
         Gnljnline."Document No." := Rec."No.";
@@ -2449,6 +2489,7 @@ page 56110 "Member Application Card"
         Gnljnline.Reset();
         Gnljnline.SetRange("Journal Template Name", Jtemplate);
         Gnljnline.SetRange("Journal Batch Name", Jbatch);
+        Gnljnline.SetRange("Document No.", Rec."No.");
         if Gnljnline.Find('-') then begin
             Page.Run(page::"General Journal", Gnljnline);
             Message('Registration fee of %1 has been posted', transAmount);

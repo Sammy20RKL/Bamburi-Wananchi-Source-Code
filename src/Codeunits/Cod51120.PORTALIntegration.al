@@ -133,6 +133,22 @@ Codeunit 51120 PORTALIntegration
         end;
     end;
 
+    procedure FnGetAllMembers() memberList: Text
+    begin
+        objMember.Reset;
+        objMember.SetFilter(Status, '%1', objMember.Status::Active);
+        if objMember.Find('-') then begin
+            repeat
+                memberList := Format(objMember."No.") + ':' +
+                             objMember.Name + ':::' +
+                             //  objMember."Mobile Phone No" + ':' +
+                             //  objMember."E-Mail" + ':' +
+                             //  objMember."ID No." + ':::' +
+                             memberList;
+            until objMember.Next = 0;
+        end;
+    end;
+
     procedure MemberDepositContributionsJon(MemberNo: Code[20]) JsonResponse: Text
     var
         CustLedEntry: Record "Cust. Ledger Entry";
@@ -2910,15 +2926,18 @@ Codeunit 51120 PORTALIntegration
         onlineGuarantors: Record "Online Loan Guarantors";
     begin
         isRemoved := false;
-        onlineGuarantors.Reset();
-        onlineGuarantors.SetRange(onlineGuarantors."Loan Application No", loanNumber);
-        onlineGuarantors.SetRange(onlineGuarantors.ApplicantNo, memberNumber);
-        onlineGuarantors.SetRange(onlineGuarantors."Member No", guarantorNumber);
-        if onlineGuarantors.Find('-') then begin
 
-            if onlineGuarantors.Delete() = true then
-                isRemoved := true;
+        onlineGuarantors.Reset();
+        onlineGuarantors.SetRange("Loan Application No", loanNumber);
+        onlineGuarantors.SetRange(ApplicantNo, memberNumber);
+        onlineGuarantors.SetRange("Member No", guarantorNumber);
+
+        if onlineGuarantors.FindFirst() then begin
+            onlineGuarantors.Delete(true);
+            exit(true);
         end;
+
+        exit(false);
     end;
 
     procedure FnApprovedGuarantors(Member: Code[40]; Loan: Code[40]) Guarantee: Text
@@ -3177,25 +3196,35 @@ Codeunit 51120 PORTALIntegration
     end;
 
 
-    procedure OnlineLoanApplication(BosaNo: Code[30]; LoanType: Code[100]; LoanAmount: Decimal; loanpurpose: Text; repaymentPeriod: Integer) GeneratedApplicationNo: Code[20]
+    procedure OnlineLoanApplication(BosaNo: Code[30]; LoanType: Code[100]; LoanAmount: Decimal; loanpurpose: Text; repaymentPeriod: Integer) GeneratedApplicationNo: Code[100]
     var
         ObjLoanApplications: Record "Online Loan Application";
     begin
-        //check defaulter status,
-        //same loan product, in application or applied
-        //check arrears
-        //check all parameters, 6 month, min, max, installments, 
-        //pre qualify
-
-
-
         ObjLoanApplications.Reset;
 
-        LoanProductType.Get(LoanType);
+        //LoanProductType.Get(LoanType);
 
         objMember.Reset;
         objMember.SetRange(objMember."No.", BosaNo);
         if objMember.Find('-') then begin
+            objMember.CalcFields(objMember."Current Shares");
+
+            if not LoanProductType.Get(LoanType) then
+                Error('Loan Product %1 does not exist in the system', LoanType);
+
+            // Now validate safely
+            if (LoanType = 'KIVUK') or (LoanType = 'HALL') or (LoanType = 'INST') then begin
+                if LoanAmount > LoanProductType."Max. Loan Amount" then
+                    Error('Amount Requested exceeds the maximum allowed limit of %1 for %2 product',
+                        LoanProductType."Max. Loan Amount",
+                        LoanProductType."Product Description");
+            end else begin
+                if LoanAmount > (objMember."Current Shares" * 3) then
+                    Error('Amount Requested of %1 exceeds your loan eligibility of %2',
+                        LoanAmount,
+                        objMember."Current Shares" * 3);
+            end;
+
 
             // ObjLoanApplications."Application No" := NewApplicationNo;
             ObjLoanApplications."Application Date" := Date;
@@ -3402,7 +3431,7 @@ Codeunit 51120 PORTALIntegration
 
                 ObjLoanApplications.Get(LoanNumber);
                 //send sms to guarantor
-                ReturnList := 'Dear Member, ' + ObjLoanApplications."Member Names" + ' has requested loan Guarantorship,' + 'of.' + Format(Amount) + 'Kindly login to the portal to accept or reject the request';
+                ReturnList := 'Dear Member, ' + ObjLoanApplications."Member Names" + ' has requested loan Guarantorship ' + 'of. ' + Format(Amount) + ' Kindly login to the portal to accept or reject the request.';
                 // SMSMessage('PORTALTRAN',FAccNo,objMember."Phone No.",ReturnList);
                 FnSMSMessage('PORTAL', objMember."Mobile Phone No", ReturnList);
 
@@ -3442,35 +3471,145 @@ Codeunit 51120 PORTALIntegration
 
     end;
 
-
-    procedure ApproveGuarantorship(MemberNo: Text; LoanNo: Code[20]; ApprovedStatus: Integer): Text
+    procedure ApproveGuarantorship(MemberNo: Text; LoanNo: Code[20]; ApprovedStatus: Integer) response: text;
+    var
+        LoanApplicant: Record Customer;
+        LoanApplication: Record "Online Loan Application";
+        objMember: Record Customer;
+        EmailMessage: Codeunit "Email Message";
+        EmailSender: Codeunit Email;
     begin
-        OnlineLoanGuarantors.Reset;
-        OnlineLoanGuarantors.SetRange(OnlineLoanGuarantors."Loan Application No", LoanNo);
-        OnlineLoanGuarantors.SetRange(OnlineLoanGuarantors."Member No", MemberNo);
-        if OnlineLoanGuarantors.Find('-') then begin
+        if (MemberNo = '') or (LoanNo = '') then begin
+            response := 'Failed, Member number or Loan number is missing';
+            exit;
+        end;
 
-            //Rejected
+        response := 'Failed, Please try again Later';
+
+        OnlineLoanGuarantors.Reset;
+        OnlineLoanGuarantors.SetRange("Loan Application No", LoanNo);
+        OnlineLoanGuarantors.SetRange("Member No", MemberNo);
+
+        if OnlineLoanGuarantors.Find('-') then begin
+            if not objMember.Get(MemberNo) then
+                Error('Member record not found.');
+
             if ApprovedStatus = 0 then begin
+                // Approved
                 OnlineLoanGuarantors.Approved := OnlineLoanGuarantors.Approved::Approved;
-                // OnlineLoanGuarantors.Amount := Amount;
                 OnlineLoanGuarantors."Approval Status" := true;
                 OnlineLoanGuarantors.Modify;
 
-                ReturnList := 'Dear Member, your loan guarantorship have been approved by,' + OnlineLoanGuarantors.Names + '. Login to members portal to Submit for appraisal ';
-                FnSMSMessage('WebPortal', objMember."Mobile Phone No", ReturnList);
+                // Notify APPLICANT - SMS
+                ReturnList := 'Dear Member, your loan guarantorship has been approved by ' + OnlineLoanGuarantors.Names + '. Login to the members portal to submit for appraisal.';
+                FnSMSMessage('WebPortal', OnlineLoanGuarantors."Applicant Mobile", ReturnList);
+
+                // Notify APPLICANT - Email
+                LoanApplication.Reset;
+                LoanApplication.SetRange("Application No", LoanNo);
+                if LoanApplication.Find('-') then begin
+                    LoanApplicant.Reset;
+                    LoanApplicant.SetRange("No.", LoanApplication."Membership No");
+                    if LoanApplicant.Find('-') then begin
+                        if LoanApplicant."E-Mail" <> '' then begin
+                            EmailMessage.Create(
+                                LoanApplicant."E-Mail",
+                                'Loan Guarantorship Approved',
+                                ReturnList,
+                                false
+                            );
+                            EmailSender.Send(EmailMessage);
+                        end;
+                    end;
+                end;
+
+                response := 'Success, Guarantorship approved successfully';
+
             end else if ApprovedStatus = 1 then begin
+                // Rejected
                 OnlineLoanGuarantors.Approved := OnlineLoanGuarantors.Approved::Rejected;
-                // OnlineLoanGuarantors.Amount := Amount;
                 OnlineLoanGuarantors."Approval Status" := false;
                 OnlineLoanGuarantors.Modify;
 
-                ReturnList := 'Dear Member, you have rejected loan Guarantorship.';
-                FnSMSMessage('WebPortal', objMember."Mobile Phone No", ReturnList);
+                // Notify GUARANTOR - SMS
+                ReturnList := 'Dear Member, you have successfully rejected the loan guarantorship request for ' + OnlineLoanGuarantors.ApplicantName + '.';
+                FnSMSMessage('WebPortal', OnlineLoanGuarantors.Telephone, ReturnList);
+
+                // Notify GUARANTOR - Email
+                if objMember."E-Mail" <> '' then begin
+                    EmailMessage.Create(
+                        objMember."E-Mail",
+                        'Loan Guarantorship Rejected',
+                        ReturnList,
+                        false
+                    );
+                    EmailSender.Send(EmailMessage);
+                end;
+
+                // Notify APPLICANT
+                LoanApplication.Reset;
+                LoanApplication.SetRange("Application No", LoanNo);
+                if LoanApplication.Find('-') then begin
+                    LoanApplicant.Reset;
+                    LoanApplicant.SetRange("No.", LoanApplication."Membership No");
+                    if LoanApplicant.Find('-') then begin
+
+                        // Notify APPLICANT - SMS
+                        ReturnList := 'Dear Member, your loan guarantorship request has been rejected by ' + OnlineLoanGuarantors.Names + '. Kindly login to the portal to select another guarantor.';
+                        FnSMSMessage('WebPortal', LoanApplicant."Mobile Phone No", ReturnList);
+
+                        // Notify APPLICANT - Email
+                        if LoanApplicant."E-Mail" <> '' then begin
+                            EmailMessage.Create(
+                                LoanApplicant."E-Mail",
+                                'Loan Guarantorship Rejected',
+                                ReturnList,
+                                false
+                            );
+                            EmailSender.Send(EmailMessage);
+                        end;
+                    end;
+                end;
+
+                response := 'Success, Guarantorship rejected successfully';
             end;
         end;
-
     end;
+
+
+
+    // procedure ApproveGuarantorship(MemberNo: Text; LoanNo: Code[20]; ApprovedStatus: Integer): Text
+    // begin
+    //     OnlineLoanGuarantors.Reset;
+    //     OnlineLoanGuarantors.SetRange(OnlineLoanGuarantors."Loan Application No", LoanNo);
+    //     OnlineLoanGuarantors.SetRange(OnlineLoanGuarantors."Member No", MemberNo);
+    //     if OnlineLoanGuarantors.Find('-') then begin
+
+    //         //Rejected
+    //         if ApprovedStatus = 0 then begin
+    //             OnlineLoanGuarantors.Approved := OnlineLoanGuarantors.Approved::Approved;
+    //             // OnlineLoanGuarantors.Amount := Amount;
+    //             OnlineLoanGuarantors."Approval Status" := true;
+    //             OnlineLoanGuarantors.Modify;
+
+    //             ReturnList := 'Dear Member, your loan guarantorship have been approved by,' + OnlineLoanGuarantors.Names + '. Login to members portal to Submit for appraisal ';
+    //             FnSMSMessage('WebPortal', objMember."Mobile Phone No", ReturnList);
+    //         end else if ApprovedStatus = 1 then begin
+    //             OnlineLoanGuarantors.Approved := OnlineLoanGuarantors.Approved::Rejected;
+    //             // OnlineLoanGuarantors.Amount := Amount;
+    //             OnlineLoanGuarantors."Approval Status" := false;
+    //             OnlineLoanGuarantors.Modify;
+
+    //             ReturnList := 'Dear Member, you have rejected loan Guarantorship.';
+    //             FnSMSMessage('WebPortal', OnlineLoanGuarantors.Telephone, ReturnList);
+
+    //             // Notify the APPLICANT that guarantor has rejected
+    //             ReturnList := 'Dear Member, ' + OnlineLoanGuarantors.Names + ' has rejected your loan Guarantorship request for loan ' + LoanNo + '. Kindly login to the portal to select another guarantor.';
+    //             FnSMSMessage('WebPortal', objMember."Mobile Phone No", ReturnList);
+    //         end;
+    //     end;
+
+    // end;
 
     procedure FnGetLoanNo(No: Text; LoanType: Text) Text: Text
     begin

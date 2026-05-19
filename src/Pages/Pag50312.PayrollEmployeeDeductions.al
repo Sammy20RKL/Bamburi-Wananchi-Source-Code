@@ -46,10 +46,14 @@ page 50312 "Payroll Employee Deductions."
                 {
                     ApplicationArea = Basic;
                 }
-                field("Amtzd Loan Repay Amt"; Rec."Amtzd Loan Repay Amt")
+                field("Loan Repayment Amount"; Rec."Loan Repayment Amount")
                 {
                     ApplicationArea = Basic;
                 }
+                // field("Amtzd Loan Repay Amt"; Rec."Amtzd Loan Repay Amt")
+                // {
+                //     ApplicationArea = Basic;
+                // }
                 field(Balance; Rec.Balance)
                 {
                     ApplicationArea = Basic;

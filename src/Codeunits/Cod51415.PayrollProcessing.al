@@ -155,6 +155,7 @@ Codeunit 51415 "Payroll Processing"//Number2
         intRate: Decimal;
         LoanRegister: Record "Loans Register";
         PostingGroup: Record "Payroll Posting Groups.";
+        payrollNSSFSetup: Record "Payroll NSSF Setup.";
     begin
         fnInitialize();
         fnGetJournalDet(strEmpCode);
@@ -370,34 +371,72 @@ Codeunit 51415 "Payroll Processing"//Number2
             IF intNSSF_BasedOn = intNSSF_BasedOn::Basic THEN
                 curNssf_Base_Amount := curBasicPay;
 
+            //Get NSSF Rates from the NSSF Setup Table
+            if blnPaysNssf then begin
+                payrollNSSFSetup.Reset();
+                payrollNSSFSetup.SetRange("Tier Code", 'TIER 1');
+                if payrollNSSFSetup.FindFirst() then begin
 
+                    curNSSF := payrollNSSFSetup."Earning Tier Limit" * (payrollNSSFSetup."% Tier Contribution" / 100);// (8000 * 0.06);
+                    curTransAmount := curNSSF;
+                    curNSSF := curNSSF;
+                    strTransDescription := 'N.S.S.F Tier 1';
+                    TGroup := 'STATUTORIES';
+                    TGroupOrder := 7;
+                    TSubGroupOrder := 4;
+                    fnUpdatePeriodTrans(strEmpCode, 'NSSF Tier 1', TGroup, TGroupOrder, TSubGroupOrder,
+                    strTransDescription, curTransAmount, 0, intMonth, intYear, '', '', SelectedPeriod, Dept, NSSFEMPyee,
+                    Journalpostas::Credit, Journalpostingtype::"G/L Account", '', Coopparameters::NSSF);
+
+                end;
+
+                payrollNSSFSetup.Reset();
+                payrollNSSFSetup.SetRange("Tier Code", 'TIER 2');
+                if payrollNSSFSetup.FindFirst() then begin
+                    curNSSF1 := (curGrossPay - payrollNSSFSetup."Lower Limit") * (payrollNSSFSetup."% Tier Contribution" / 100);
+                    if curNSSF1 > payrollNSSFSetup."Maximum Employee Contribution" then begin
+                        curNSSF1 := payrollNSSFSetup."Maximum Employee Contribution";
+                    end;
+                    curNSSF1 := Round(curNSSF1, 0.05, '>');
+                    curTransAmount := curNSSF1;
+                    curNSSF1 := curNSSF1;
+                    strTransDescription := 'N.S.S.F Tier 2';
+                    TGroup := 'STATUTORIES';
+                    TGroupOrder := 7;
+                    TSubGroupOrder := 1;
+                    fnUpdatePeriodTrans(strEmpCode, 'NSSF Tier 2', TGroup, TGroupOrder, TSubGroupOrder,
+                    strTransDescription, curTransAmount, 0, intMonth, intYear, '', '', SelectedPeriod, Dept, NSSFEMPyee,
+                    Journalpostas::Credit, Journalpostingtype::"G/L Account", '', Coopparameters::NSSF);
+
+                end;
+            end;
             ///new
             if blnPaysNssf then begin
-                curNSSF := (8000 * 0.06);
-                curTransAmount := curNSSF;
-                curNSSF := curNSSF;
-                strTransDescription := 'N.S.S.F Tier 1';
-                TGroup := 'STATUTORIES';
-                TGroupOrder := 7;
-                TSubGroupOrder := 4;
-                fnUpdatePeriodTrans(strEmpCode, 'NSSF Tier 1', TGroup, TGroupOrder, TSubGroupOrder,
-                strTransDescription, curTransAmount, 0, intMonth, intYear, '', '', SelectedPeriod, Dept, NSSFEMPyee,
-                Journalpostas::Credit, Journalpostingtype::"G/L Account", '', Coopparameters::NSSF);
+                // curNSSF := (8000 * 0.06);
+                // curTransAmount := curNSSF;
+                // curNSSF := curNSSF;
+                // strTransDescription := 'N.S.S.F Tier 1';
+                // TGroup := 'STATUTORIES';
+                // TGroupOrder := 7;
+                // TSubGroupOrder := 4;
+                // fnUpdatePeriodTrans(strEmpCode, 'NSSF Tier 1', TGroup, TGroupOrder, TSubGroupOrder,
+                // strTransDescription, curTransAmount, 0, intMonth, intYear, '', '', SelectedPeriod, Dept, NSSFEMPyee,
+                // Journalpostas::Credit, Journalpostingtype::"G/L Account", '', Coopparameters::NSSF);
 
-                curNSSF1 := (curGrossPay - 8000) * 0.06;
-                if curNSSF1 > 3840 then begin//5940
-                    curNSSF1 := 3840;
-                end;
-                curNSSF1 := Round(curNSSF1, 0.05, '>');
-                curTransAmount := curNSSF1;
-                curNSSF1 := curNSSF1;
-                strTransDescription := 'N.S.S.F Tier 2';
-                TGroup := 'STATUTORIES';
-                TGroupOrder := 7;
-                TSubGroupOrder := 1;
-                fnUpdatePeriodTrans(strEmpCode, 'NSSF Tier 2', TGroup, TGroupOrder, TSubGroupOrder,
-                strTransDescription, curTransAmount, 0, intMonth, intYear, '', '', SelectedPeriod, Dept, NSSFEMPyee,
-                Journalpostas::Credit, Journalpostingtype::"G/L Account", '', Coopparameters::NSSF);
+                // curNSSF1 := (curGrossPay - 8000) * 0.06;
+                // if curNSSF1 > 3840 then begin//5940
+                //     curNSSF1 := 3840;
+                // end;
+                // curNSSF1 := Round(curNSSF1, 0.05, '>');
+                // curTransAmount := curNSSF1;
+                // curNSSF1 := curNSSF1;
+                // strTransDescription := 'N.S.S.F Tier 2';
+                // TGroup := 'STATUTORIES';
+                // TGroupOrder := 7;
+                // TSubGroupOrder := 1;
+                // fnUpdatePeriodTrans(strEmpCode, 'NSSF Tier 2', TGroup, TGroupOrder, TSubGroupOrder,
+                // strTransDescription, curTransAmount, 0, intMonth, intYear, '', '', SelectedPeriod, Dept, NSSFEMPyee,
+                // Journalpostas::Credit, Journalpostingtype::"G/L Account", '', Coopparameters::NSSF);
 
                 //Get the Defined contribution to post based on the Max Def contrb allowed   ****************All Defined Contributions not included
                 // curDefinedContrib := curNSSF + curNSSF1;//+ EmployeeP."Insurance Premium";//curNSSF; //(curNSSF + curPensionStaff + curNonTaxable) - curMorgageReliefAmount
@@ -674,7 +713,7 @@ Codeunit 51415 "Payroll Processing"//Number2
 
             END;
             //Deductions of loans
-            fnGetDeductionsforPeriod(strEmpCode, intMonth, intYear, SelectedPeriod);
+            //fnGetDeductionsforPeriod(strEmpCode, intMonth, intYear, SelectedPeriod);
 
             //Deductions here
             prEmployeeTransactions.RESET;
@@ -1009,13 +1048,13 @@ Codeunit 51415 "Payroll Processing"//Number2
         end;
 
         //now insert the Deductions
-        // payrollEmployee.Reset();
-        // payrollEmployee.SetRange(payrollEmployee.Status, payrollEmployee.Status::Active);
-        // if payrollEmployee.Find('-') then begin
-        //     repeat
-        //         fnGetDeductionsforPeriod(payrollEmployee."No.", intNewMonth, intNewYear, dtNewPeriod);
-        //     until payrollEmployee.Next() = 0;
-        // end;
+        payrollEmployee.Reset();
+        payrollEmployee.SetRange(payrollEmployee.Status, payrollEmployee.Status::Active);
+        if payrollEmployee.Find('-') then begin
+            repeat
+                fnGetDeductionsforPeriod(payrollEmployee."No.", intNewMonth, intNewYear, dtNewPeriod);
+            until payrollEmployee.Next() = 0;
+        end;
 
         //Update the Period as Closed
         prPayrollPeriods.Reset;
@@ -1268,18 +1307,18 @@ Codeunit 51415 "Payroll Processing"//Number2
         prEmployeeTrans.SetRange("Period Month", intNewMonth);
         prEmployeeTrans.SetRange("Period Year", intNewYear);
 
-        // if prEmployeeTrans.FindFirst() then
-        //     exit;
-        if prEmployeeTrans.FindFirst() then begin
-            prEmployeeTrans.Amount := transAmount;
-            prEmployeeTrans.Balance := loanBalance;
-            prEmployeeTrans."Loan Repayment Amount" := loanRepaymentAmount;
-            prEmployeeTrans."Interest Charged" := interestCharged;
-            prEmployeeTrans."Reference No" := loanNumber;
-            prEmployeeTrans."Loan Number" := loanNumber;
-            prEmployeeTrans.Modify();
+        if prEmployeeTrans.FindFirst() then
             exit;
-        end;
+        // if prEmployeeTrans.FindFirst() then begin
+        //     prEmployeeTrans.Amount := transAmount;
+        //     prEmployeeTrans.Balance := loanBalance;
+        //     prEmployeeTrans."Loan Repayment Amount" := loanRepaymentAmount;
+        //     prEmployeeTrans."Interest Charged" := interestCharged;
+        //     prEmployeeTrans."Reference No" := loanNumber;
+        //     prEmployeeTrans."Loan Number" := loanNumber;
+        //     prEmployeeTrans.Modify();
+        //     exit;
+        // end;
 
         //Insert record for the next period
         with prEmployeeTrans do begin

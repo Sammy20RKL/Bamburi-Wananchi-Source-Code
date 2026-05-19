@@ -2578,11 +2578,11 @@ Page 56043 "Bamburi SACCO Role Center"
                         RunObject = page "Payroll PAYE Setup.";
                         ApplicationArea = All;
                     }
-                    // action("Payroll NSSF Setup")
-                    // {
-                    //     RunObject = page "Payroll NSSF Setup.";
-                    //     ApplicationArea = All;
-                    // }
+                    action("Payroll NSSF Setup")
+                    {
+                        RunObject = page "Payroll NSSF Setup.";
+                        ApplicationArea = All;
+                    }
                     // action("Payroll NHIF Setup")
                     // {
                     //     RunObject = page "Payroll NHIF Setup.";

@@ -11,7 +11,7 @@
       <am:Name>PBIRB</am:Name>
       <am:Version>15.7.1813.16</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2026-05-08T05:41:53.7844830Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2026-05-16T12:25:41.7586090Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
@@ -288,7 +288,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Withdrwable  Deposits:</Value>
+                                  <Value>Non Withdrawable  Deposits:</Value>
                                   <Style>
                                     <FontStyle>Italic</FontStyle>
                                     <FontFamily>Calibri</FontFamily>

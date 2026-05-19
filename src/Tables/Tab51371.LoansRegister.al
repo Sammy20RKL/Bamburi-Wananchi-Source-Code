@@ -4773,6 +4773,11 @@ Table 51371 "Loans Register"
             DataClassification = ToBeClassified;
 
         }
+        field(9968102; "Notify Member on Approval"; Boolean)
+        {
+            Caption = 'Notify Member on Approval';
+            DataClassification = CustomerContent;
+        }
     }
 
     keys

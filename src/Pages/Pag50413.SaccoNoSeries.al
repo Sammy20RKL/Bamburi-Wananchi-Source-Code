@@ -39,6 +39,10 @@ page 50413 "Sacco No. Series"
                 {
                     ApplicationArea = Basic;
                 }
+                field("Junior Member Nos"; Rec."Junior Member Nos")
+                {
+                    ApplicationArea = Basic;
+                }
                 field("Member Re-Application No.s"; Rec."Member Re-Application No.s")
                 {
                     ApplicationArea = Basic;
