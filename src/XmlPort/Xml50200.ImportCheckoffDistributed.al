@@ -24,11 +24,11 @@ XmlPort 50200 "Import Checkoff Distributed"
                 textelement(EMERGENCYLOAN_AMOUNT) { }
                 textelement(EMERGENCYLOAN_PR) { }
                 textelement(EMERGENCYLOAN_INT) { }
-                textelement(LOAN_NO1) { }
+                // textelement(LOAN_NO1) { }
                 textelement(KIVUKIOLOAN_AMOUNT) { }
                 textelement(KIVUKIOLOAN_PR) { }
                 textelement(KIVUKIOLOAN_INT) { }
-                textelement(KIVUKIOLOAN_NO) { }
+                // textelement(KIVUKIOLOAN_NO) { }
                 textelement(MWOKOZILOAN_AMOUNT) { }
                 textelement(MWOKOZILOAN_PR) { }
                 textelement(MWOKOZILOAN_INT) { }
@@ -38,11 +38,11 @@ XmlPort 50200 "Import Checkoff Distributed"
                 textelement(NORMALLOAN1_AMOUNT) { }
                 textelement(NORMALLOAN1_PR) { }
                 textelement(NORMALLOAN1_INT) { }
-                textelement(NORM1_LOAN_NO) { }
+                // textelement(NORM1_LOAN_NO) { }
                 textelement(NORMALLOAN2_AMOUNT) { }
                 textelement(NORMALLOAN2_PR) { }
                 textelement(NORMALLOAN2_INT) { }
-                textelement(Loan_No) { }
+                // textelement(Loan_No) { }
                 textelement(MBUYULOAN_AMOUNT) { }
                 textelement(MBUYULOAN_PR) { }
                 textelement(MBUYULOAN_INT) { }
@@ -93,27 +93,27 @@ XmlPort 50200 "Import Checkoff Distributed"
                     CleanEvaluate(EMERGENCYLOAN_AMOUNT, "Bamburi CheckoffLines"."Emergency Loan Amount");
                     CleanEvaluate(EMERGENCYLOAN_PR, "Bamburi CheckoffLines"."Emergency Loan  Principle");
                     CleanEvaluate(EMERGENCYLOAN_INT, "Bamburi CheckoffLines"."Emergency Loan Interest");
-                    "Bamburi CheckoffLines"."Loan No1" := CopyStr(DelChr(LOAN_NO1, '=', ' '), 1, 20);
-                    // Loan not found - clear it but track it, don't skip the row
-                    if "Bamburi CheckoffLines"."Loan No1" <> '' then begin
-                        if not LoanRec.Get("Bamburi CheckoffLines"."Loan No1") then begin
-                            FailedLoans += 1;
-                            FailedLoanList += '\Loan Not Found: ' + "Bamburi CheckoffLines"."Loan No1" + ' (Staff: ' + StaffNo + ')';
-                            "Bamburi CheckoffLines"."Loan No1" := ''; // clear invalid loan
-                        end;
-                    end;
+                    // "Bamburi CheckoffLines"."Loan No1" := CopyStr(DelChr(LOAN_NO1, '=', ' '), 1, 20);
+                    // // Loan not found - clear it but track it, don't skip the row
+                    // if "Bamburi CheckoffLines"."Loan No1" <> '' then begin
+                    //     if not LoanRec.Get("Bamburi CheckoffLines"."Loan No1") then begin
+                    //         FailedLoans += 1;
+                    //         FailedLoanList += '\Loan Not Found: ' + "Bamburi CheckoffLines"."Loan No1" + ' (Staff: ' + StaffNo + ')';
+                    //         "Bamburi CheckoffLines"."Loan No1" := ''; // clear invalid loan
+                    //     end;
+                    // end;
                     CleanEvaluate(KIVUKIOLOAN_AMOUNT, "Bamburi CheckoffLines"."Kivukio Loan Amount");
                     CleanEvaluate(KIVUKIOLOAN_PR, "Bamburi CheckoffLines"."Kivukio Loan Principle");
                     CleanEvaluate(KIVUKIOLOAN_INT, "Bamburi CheckoffLines"."Kivukio Loan Interest");
-                    "Bamburi CheckoffLines"."Kivukio Loan No." := CopyStr(DelChr(KIVUKIOLOAN_NO, '=', ' '), 1, 20);
-                    // Loan not found - clear it but track it, don't skip the row
-                    if "Bamburi CheckoffLines"."Kivukio Loan No." <> '' then begin
-                        if not LoanRec.Get("Bamburi CheckoffLines"."Kivukio Loan No.") then begin
-                            FailedLoans += 1;
-                            FailedLoanList += '\Loan Not Found: ' + "Bamburi CheckoffLines"."Kivukio Loan No." + ' (Staff: ' + StaffNo + ')';
-                            "Bamburi CheckoffLines"."Kivukio Loan No." := ''; // clear invalid loan
-                        end;
-                    end;
+                    // "Bamburi CheckoffLines"."Kivukio Loan No." := CopyStr(DelChr(KIVUKIOLOAN_NO, '=', ' '), 1, 20);
+                    // // Loan not found - clear it but track it, don't skip the row
+                    // if "Bamburi CheckoffLines"."Kivukio Loan No." <> '' then begin
+                    //     if not LoanRec.Get("Bamburi CheckoffLines"."Kivukio Loan No.") then begin
+                    //         FailedLoans += 1;
+                    //         FailedLoanList += '\Loan Not Found: ' + "Bamburi CheckoffLines"."Kivukio Loan No." + ' (Staff: ' + StaffNo + ')';
+                    //         "Bamburi CheckoffLines"."Kivukio Loan No." := ''; // clear invalid loan
+                    //     end;
+                    // end;
                     CleanEvaluate(MWOKOZILOAN_AMOUNT, "Bamburi CheckoffLines"."Mwokozi Loan Amount");
                     CleanEvaluate(MWOKOZILOAN_PR, "Bamburi CheckoffLines"."Mwokozi Loan Principle");
                     CleanEvaluate(MWOKOZILOAN_INT, "Bamburi CheckoffLines"."Mwokozi Loan Interest");
@@ -123,27 +123,27 @@ XmlPort 50200 "Import Checkoff Distributed"
                     CleanEvaluate(NORMALLOAN1_AMOUNT, "Bamburi CheckoffLines"."Normal Loan 1 Amount");
                     CleanEvaluate(NORMALLOAN1_PR, "Bamburi CheckoffLines"."Normal Loan 1 Principle");
                     CleanEvaluate(NORMALLOAN1_INT, "Bamburi CheckoffLines"."Normal Loan 1 Interest");
-                    "Bamburi CheckoffLines"."Norm1 Loan No." := CopyStr(DelChr(NORM1_LOAN_NO, '=', ' '), 1, 20);
-                    //Loan not found - clear it but track it, don't skip the row
-                    if "Bamburi CheckoffLines"."Norm1 Loan No." <> '' then begin
-                        if not LoanRec.Get("Bamburi CheckoffLines"."Norm1 Loan No.") then begin
-                            FailedLoans += 1;
-                            FailedLoanList += '\Loan Not Found: ' + "Bamburi CheckoffLines"."Norm1 Loan No." + ' (Staff: ' + StaffNo + ')';
-                            "Bamburi CheckoffLines"."Norm1 Loan No." := ''; // clear invalid loan
-                        end;
-                    end;
+                    // "Bamburi CheckoffLines"."Norm1 Loan No." := CopyStr(DelChr(NORM1_LOAN_NO, '=', ' '), 1, 20);
+                    // //Loan not found - clear it but track it, don't skip the row
+                    // if "Bamburi CheckoffLines"."Norm1 Loan No." <> '' then begin
+                    //     if not LoanRec.Get("Bamburi CheckoffLines"."Norm1 Loan No.") then begin
+                    //         FailedLoans += 1;
+                    //         FailedLoanList += '\Loan Not Found: ' + "Bamburi CheckoffLines"."Norm1 Loan No." + ' (Staff: ' + StaffNo + ')';
+                    //         "Bamburi CheckoffLines"."Norm1 Loan No." := ''; // clear invalid loan
+                    //     end;
+                    // end;
                     CleanEvaluate(NORMALLOAN2_AMOUNT, "Bamburi CheckoffLines"."Normal Loan 2 Amount");
                     CleanEvaluate(NORMALLOAN2_PR, "Bamburi CheckoffLines"."Normal Loan 2 Principle");
                     CleanEvaluate(NORMALLOAN2_INT, "Bamburi CheckoffLines"."Normal Loan 2 Interest");
-                    "Bamburi CheckoffLines"."Loan No." := CopyStr(DelChr(Loan_No, '=', ' '), 1, 20);
-                    // Loan not found - clear it but track it, don't skip the row
-                    if "Bamburi CheckoffLines"."Loan No." <> '' then begin
-                        if not LoanRec.Get("Bamburi CheckoffLines"."Loan No.") then begin
-                            FailedLoans += 1;
-                            FailedLoanList += '\Loan Not Found: ' + "Bamburi CheckoffLines"."Loan No." + ' (Staff: ' + StaffNo + ')';
-                            "Bamburi CheckoffLines"."Loan No." := ''; // clear invalid loan
-                        end;
-                    end;
+                    // "Bamburi CheckoffLines"."Loan No." := CopyStr(DelChr(Loan_No, '=', ' '), 1, 20);
+                    // // Loan not found - clear it but track it, don't skip the row
+                    // if "Bamburi CheckoffLines"."Loan No." <> '' then begin
+                    //     if not LoanRec.Get("Bamburi CheckoffLines"."Loan No.") then begin
+                    //         FailedLoans += 1;
+                    //         FailedLoanList += '\Loan Not Found: ' + "Bamburi CheckoffLines"."Loan No." + ' (Staff: ' + StaffNo + ')';
+                    //         "Bamburi CheckoffLines"."Loan No." := ''; // clear invalid loan
+                    //     end;
+                    // end;
                     CleanEvaluate(MBUYULOAN_AMOUNT, "Bamburi CheckoffLines"."Mbuyu Loan Amount");
                     CleanEvaluate(MBUYULOAN_PR, "Bamburi CheckoffLines"."Mbuyu Loan Principle");
                     CleanEvaluate(MBUYULOAN_INT, "Bamburi CheckoffLines"."Mbuyu Loan Interest");

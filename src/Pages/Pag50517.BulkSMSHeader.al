@@ -2,6 +2,8 @@
 page 50517 "Bulk SMS Header"
 {
     SourceTable = "Bulk SMS Header";
+    PageType = Card;
+    Editable = true;
 
     layout
     {
@@ -44,12 +46,12 @@ page 50517 "Bulk SMS Header"
             field("Status Time"; Rec."Status Time")
             {
                 ApplicationArea = Basic;
-                Editable = false;
+                Editable = true;
             }
             field("Status By"; Rec."Status By")
             {
                 ApplicationArea = Basic;
-                Editable = false;
+                Editable = true;
             }
             field(Message; Rec.Message)
             {

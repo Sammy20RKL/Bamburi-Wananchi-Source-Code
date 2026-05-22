@@ -1286,6 +1286,13 @@ Page 56043 "Bamburi SACCO Role Center"
                     RunObject = Page "Bamburi  Posted Loans Lists";
                     ToolTip = 'Open the list of the Loans Posted with details.';
                 }
+                action(checkoffLoans)
+                {
+                    ApplicationArea = Basic, suite;
+                    Caption = 'Check Off CheckList Loans';
+                    RunObject = Page "Check Off CheckList Loans";
+                    ToolTip = 'Open the list to edit loans under Checkoff.';
+                }
                 group("Loan Rescheduling")
                 {
                     Visible = false;

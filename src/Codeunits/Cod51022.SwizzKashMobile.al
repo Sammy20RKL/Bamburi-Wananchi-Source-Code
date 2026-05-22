@@ -5,7 +5,8 @@ Codeunit 51022 SwizzKashMobile
 
     trigger OnRun()
     begin
-        CleanMobileLoans();
+        ProcessLoanApplications();
+        // CleanMobileLoans();
         // TESTEnvironment();
         // ActivateUSSD();
         // fnProcessMBAMBURINotifications();
@@ -13,7 +14,7 @@ Codeunit 51022 SwizzKashMobile
         // AdvanceEligibility();ii
         // PostMPESAWithdrawals();
         // FnUpdateWallets();
-        CreateMWallets();
+        // CreateMWallets();
         // CreateMWallet('2128');
     end;
 
@@ -4124,7 +4125,7 @@ Codeunit 51022 SwizzKashMobile
             SwizzKashTransactionsTable.SETRANGE(Status, SwizzKashTransactionsTable.Status::Pending);
             SwizzKashTransactionsTable.SETRANGE("Transaction Type", SwizzKashTransactionsTable."Transaction Type"::"Loan Application");
             IF SwizzKashTransactionsTable.FIND('-') THEN BEGIN
-                response := '{ "StatusCode":"503","StatusDescription":"Request failed, you have another M-BAMBURI in application.", "DocumentNo":"' + SwizzKashTransactionsTable."Document No" + '" }';
+                response := '{ "StatusCode":"503","StatusDescription":"Request failed, you have another Instant Loan in application.", "DocumentNo":"' + SwizzKashTransactionsTable."Document No" + '" }';
             END ELSE BEGIN
 
                 VendorTable.RESET;
@@ -4153,7 +4154,7 @@ Codeunit 51022 SwizzKashMobile
                     SwizzKashTransactionsTable."Transaction Type" := SwizzKashTransactionsTable."Transaction Type"::"Loan Application";
                     SwizzKashTransactionsTable.INSERT;
 
-                    response := '{ "StatusCode":"200","StatusDescription":"Your M-BAMBURI request has been received and is being processed, Please wait for sms confirmation.", "DocumentNo":"' + DocumentNo + '" }';
+                    response := '{ "StatusCode":"200","StatusDescription":"Your Instant request has been received and is being processed, Please wait for sms confirmation.", "DocumentNo":"' + DocumentNo + '" }';
                 END ELSE BEGIN
                     response := '{ "StatusCode":"502","StatusDescription":"Request failed, Please contact the office for assistance.", "DocumentNo":"' + DocumentNo + '" }';
                 END;
@@ -7603,7 +7604,7 @@ Codeunit 51022 SwizzKashMobile
                 SaccoNoSeries.GET;
                 SaccoNoSeries.TESTFIELD(SaccoNoSeries."BOSA Loans Nos");
                 loanNo := NoSeriesMgt.GetNextNo(SaccoNoSeries."BOSA Loans Nos", Today, true);
-                loanNo := loansRegisterTable."Loan  No.";
+                // loanNo := loansRegisterTable."Loan  No.";
 
                 loansRegisterTable.INIT;
                 loansRegisterTable."Approved Amount" := amount;
@@ -7677,7 +7678,7 @@ Codeunit 51022 SwizzKashMobile
                     GenBatches.Description := 'Normal Loan';
                     GenBatches.VALIDATE(GenBatches."Journal Template Name");
                     GenBatches.VALIDATE(GenBatches.Name);
-                    GenBatches.INSERT;
+                    GenBatches.Insert(true);
                 END;
 
 
@@ -7701,7 +7702,7 @@ Codeunit 51022 SwizzKashMobile
                     GenJournalLine."Document No." := CopyStr(documentNo, 1, 20);
                     GenJournalLine."External Document No." := membersTable."No.";
                     GenJournalLine."Posting Date" := TODAY;
-                    GenJournalLine.Description := 'M-BAMBURI Loan Disbursment-' + loansRegisterTable."Loan  No.";
+                    GenJournalLine.Description := 'Instant Loan Disbursment-' + loansRegisterTable."Loan  No.";
                     GenJournalLine.Amount := amount;// AmountToDisburse;
                     GenJournalLine.VALIDATE(GenJournalLine.Amount);
                     IF GenJournalLine.Amount <> 0 THEN
@@ -7753,7 +7754,7 @@ Codeunit 51022 SwizzKashMobile
                     GenJournalLine.VALIDATE(GenJournalLine."Account No.");
                     GenJournalLine."Loan No" := loansRegisterTable."Loan  No.";
                     GenJournalLine."Posting Date" := TODAY;
-                    GenJournalLine.Description := 'M-BAMBURI Disbursment';
+                    GenJournalLine.Description := 'Instant Disbursment';
                     GenJournalLine.Amount := -amount;
                     GenJournalLine.VALIDATE(GenJournalLine.Amount);
                     IF GenJournalLine.Amount <> 0 THEN
@@ -7772,7 +7773,7 @@ Codeunit 51022 SwizzKashMobile
                     GenJournalLine.VALIDATE(GenJournalLine."Account No.");
                     GenJournalLine."Loan No" := loansRegisterTable."Loan  No.";
                     GenJournalLine."Posting Date" := TODAY;
-                    GenJournalLine.Description := 'M-BAMBURI Interest Charged';
+                    GenJournalLine.Description := 'Instant Interest Charged';
                     GenJournalLine.Amount := InterestAmount;
                     GenJournalLine.VALIDATE(GenJournalLine.Amount);
                     IF GenJournalLine.Amount <> 0 THEN
@@ -7812,7 +7813,7 @@ Codeunit 51022 SwizzKashMobile
                     GenJournalLine.VALIDATE(GenJournalLine."Account No.");
                     GenJournalLine."Loan No" := loansRegisterTable."Loan  No.";
                     GenJournalLine."Posting Date" := TODAY;
-                    GenJournalLine.Description := 'M-BAMBURI Vendor Comm';
+                    GenJournalLine.Description := 'Instant Vendor Comm';
                     GenJournalLine.Amount := vendorCommAmount * -1;
                     GenJournalLine.VALIDATE(GenJournalLine.Amount);
                     //Updated here to get the Interest from The Loan Interest Account
@@ -7875,7 +7876,7 @@ Codeunit 51022 SwizzKashMobile
                     swizzkasTransTable.Comments := 'POSTED';
                     swizzkasTransTable.MODIFY;
                     result := 'TRUE';
-                    msg := 'Dear ' + SplitString(membersTable.Name, ' ') + ', Your M-BAMBURI LOAN No ' + loanNo
+                    msg := 'Dear ' + SplitString(membersTable.Name, ' ') + ', Your Instant LOAN No ' + loanNo
                       + ' of Ksh ' + FORMAT((AmountToDisburse)) + ' has been disbursed to your M-WALLET Account, '
                       + ' Your loan of KShs ' + FORMAT(amount) + ' is due on ' + FORMAT(CALCDATE('+1M', TODAY));
 
@@ -8028,7 +8029,7 @@ Codeunit 51022 SwizzKashMobile
                     GenJournalLine."Document No." := documentNo;
                     GenJournalLine."External Document No." := membersTable."No.";
                     GenJournalLine."Posting Date" := swizzkasTransTable."Posting Date";
-                    GenJournalLine.Description := 'M-BAMBURI Loan Disbursment-' + loansRegisterTable."Loan  No.";
+                    GenJournalLine.Description := 'Instant Loan Disbursment-' + loansRegisterTable."Loan  No.";
                     GenJournalLine.Amount := amount;// AmountToDisburse;
                     GenJournalLine.VALIDATE(GenJournalLine.Amount);
                     IF GenJournalLine.Amount <> 0 THEN
@@ -8080,7 +8081,7 @@ Codeunit 51022 SwizzKashMobile
                     GenJournalLine.VALIDATE(GenJournalLine."Account No.");
                     GenJournalLine."Loan No" := loansRegisterTable."Loan  No.";
                     GenJournalLine."Posting Date" := swizzkasTransTable."Posting Date";
-                    GenJournalLine.Description := 'M-BAMBURI Disbursment';
+                    GenJournalLine.Description := 'Instant Disbursment';
                     GenJournalLine.Amount := -amount;
                     GenJournalLine.VALIDATE(GenJournalLine.Amount);
                     IF GenJournalLine.Amount <> 0 THEN
@@ -8099,7 +8100,7 @@ Codeunit 51022 SwizzKashMobile
                     GenJournalLine.VALIDATE(GenJournalLine."Account No.");
                     GenJournalLine."Loan No" := loansRegisterTable."Loan  No.";
                     GenJournalLine."Posting Date" := swizzkasTransTable."Posting Date";
-                    GenJournalLine.Description := 'M-BAMBURI Interest Charged';
+                    GenJournalLine.Description := 'Instant Interest Charged';
                     GenJournalLine.Amount := InterestAmount;
                     GenJournalLine.VALIDATE(GenJournalLine.Amount);
                     IF GenJournalLine.Amount <> 0 THEN
@@ -8139,7 +8140,7 @@ Codeunit 51022 SwizzKashMobile
                     GenJournalLine.VALIDATE(GenJournalLine."Account No.");
                     GenJournalLine."Loan No" := loansRegisterTable."Loan  No.";
                     GenJournalLine."Posting Date" := swizzkasTransTable."Posting Date";
-                    GenJournalLine.Description := 'M-BAMBURI Vendor Comm';
+                    GenJournalLine.Description := 'Instant Vendor Comm';
                     GenJournalLine.Amount := vendorCommAmount * -1;
                     GenJournalLine.VALIDATE(GenJournalLine.Amount);
                     //Updated here to get the Interest from The Loan Interest Account
@@ -8337,7 +8338,7 @@ Codeunit 51022 SwizzKashMobile
                                     GenJournalLine.Validate(GenJournalLine."Account No.");
                                     GenJournalLine."Document No." := documentNo;
                                     GenJournalLine."Posting Date" := Today;
-                                    GenJournalLine.Description := 'M-Bamburi ' + loansRegisterTable."Loan  No." + ' Interest roll over' + ' ' + Format(Today);
+                                    GenJournalLine.Description := 'Instant ' + loansRegisterTable."Loan  No." + ' Interest roll over' + ' ' + Format(Today);
                                     if LoanTypeTable.Get(loansRegisterTable."Loan Product Type") then begin
                                         GenJournalLine.Amount := InterestAmount;
                                         GenJournalLine.Validate(GenJournalLine.Amount);
@@ -9223,8 +9224,8 @@ Codeunit 51022 SwizzKashMobile
 
                             IF (LoansRegister."Loan Product Type" = 'INST') THEN BEGIN
                                 amount := 2;
-                                Res := '2::::You do not Qualify for this loan because You have an outstanding M-BAMBURI Loan::::False';
-                                Res := '{ "StatusCode":"403","StatusDescription":"OutstandingMploytechLoan","LimitAmount":0,"Message":"You do not Qualify for this loan because You have an outstanding M-BAMBURI Loan." } ';
+                                Res := '2::::You do not Qualify for this loan because You have an outstanding Instant Loan::::False';
+                                Res := '{ "StatusCode":"403","StatusDescription":"OutstandingMploytechLoan","LimitAmount":0,"Message":"You do not Qualify for this loan because You have an outstanding Instant Loan." } ';
                                 EXIT;
                             END;
                         END;
@@ -9243,7 +9244,7 @@ Codeunit 51022 SwizzKashMobile
                         IF (TODAY <= CALCDATE('3M', MpesaDisbus."Penalty Date")) THEN BEGIN
                             amount := 4;
                             Res := '4::::You do not Qualify for this loan because You have an been penalized for late Repayment::::False';
-                            Res := '{ "StatusCode":"404","StatusDescription":"OutstandingMploytechLoan","LimitAmount":0,"Message":"You do not Qualify for this loan because You have an been penalized for late Repayment." } ';
+                            Res := '{ "StatusCode":"404","StatusDescription":"OutstandingInstantLoan","LimitAmount":0,"Message":"You do not Qualify for this loan because You have an been penalized for late Repayment." } ';
                             EXIT;
                         END;
                     END;
@@ -9283,7 +9284,7 @@ Codeunit 51022 SwizzKashMobile
                 IF contributionOk = FALSE THEN amount := 6;
                 IF amount = 6 THEN BEGIN
                     Res := '6::::Your do not qualify for this loan because have not consistently saved for last 3 months::::False';
-                    Res := '{ "StatusCode":"406","StatusDescription":"OutstandingMploytechLoan","LimitAmount":0,"Message":"You do not qualify for this loan because have not consistently saved for last 3 months." } ';
+                    Res := '{ "StatusCode":"406","StatusDescription":"OutstandingMbamburiLoan","LimitAmount":0,"Message":"You do not qualify for this loan because have not consistently saved for last 3 months." } ';
                     EXIT;
                 END;
 

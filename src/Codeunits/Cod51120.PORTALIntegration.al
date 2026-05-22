@@ -102,14 +102,14 @@ Codeunit 51120 PORTALIntegration
         objMember.SetRange(objMember."ID No.", idNo);
         if objMember.Find('-') then begin
 
-            phoneNumber := objMember."Mobile Phone No";
+            phoneNumber := objMember."Phone No.";
             FAccNo := objMember."No.";
             Online.Reset;
             Online.SetRange("User Name", MemberNo);
             if Online.Find('-') then begin
                 //Online.INIT;
                 Online."User Name" := objMember."No.";
-                Online.MobileNumber := objMember."Mobile Phone No";
+                Online.MobileNumber := objMember."Phone No.";
                 Online.IdNumber := idNo;
                 Online.Password := NewPassword;
                 Online."Changed Password" := true;
@@ -119,7 +119,7 @@ Codeunit 51120 PORTALIntegration
             end else begin
                 Online.Init;
                 Online."User Name" := objMember."No.";
-                Online.MobileNumber := objMember."Mobile Phone No";
+                Online.MobileNumber := objMember."Phone No.";
                 Online.Email := objMember."E-Mail";
                 Online."Date Created" := Today;
                 Online.IdNumber := idNo;

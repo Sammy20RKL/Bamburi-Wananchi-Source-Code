@@ -29,7 +29,7 @@ page 50428 "Member Statistics FactBox"
             {
                 ApplicationArea = Basic;
             }
-            field("Mobile Phone No"; Rec."Mobile Phone No")
+            field("Mobile Phone No"; Rec."Phone No.")
             {
                 ApplicationArea = Basic;
             }

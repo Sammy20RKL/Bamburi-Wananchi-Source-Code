@@ -8,6 +8,7 @@ page 53899 "Bamburi  Posted Loans Lists"
     SourceTable = "Loans Register";
     SourceTableView = where("Outstanding Balance" = filter(> 0));
     UsageCategory = Lists;
+    Editable = false;
 
     layout
     {
@@ -117,13 +118,39 @@ page 53899 "Bamburi  Posted Loans Lists"
                 field("Run Interest"; Rec."Run Interest")
                 {
                     ApplicationArea = Basic;
+                    // field("Deduct Checkoff"; Rec."Deduct Checkoff")
+                    // {
+                    //     ApplicationArea = Basic;
+                    //     trigger OnValidate()
+                    //     var
+                    //         ExistingLoan: Record "Loans Register";
+                    //     begin
+                    //         if Rec."Deduct Checkoff" then begin
+                    //             ExistingLoan.Reset();
+                    //             ExistingLoan.SetRange("Client Code", Rec."Client Code");
+                    //             ExistingLoan.SetRange("Loan Product Type", Rec."Loan Product Type");
+                    //             ExistingLoan.SetRange("Deduct Checkoff", true);
+                    //             ExistingLoan.SetFilter("Loan  No.", '<>%1', Rec."Loan  No.");
+                    //             ExistingLoan.SetFilter("Outstanding Balance", '>%1', 0);
 
-                }
-                field(Cleard; Rec.Cleard)
-                {
-                    ApplicationArea = Basic;
+                    //             if ExistingLoan.FindFirst() then
+                    //                 Error('Client %1 already has Deduct Checkoff enabled on Loan No. %2 under Product Type [%3]. You cannot enable it on multiple loans of the same product.',
+                    //                     Rec."Client Code",
+                    //                     ExistingLoan."Loan  No.",
+                    //                     Rec."Loan Product Type");
+                    //         end;
+                    //     end;
+                    // }
+                    // field("Run Interest"; Rec."Run Interest")
+                    // {
+                    //     ApplicationArea = Basic;
+
+                    // }
+                    // field(Cleard; Rec.Cleard)
+                    // {
+                    //     ApplicationArea = Basic;
+                    // }
                 }
             }
         }
     }
-}
