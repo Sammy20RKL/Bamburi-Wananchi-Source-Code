@@ -7819,7 +7819,7 @@ Codeunit 51022 SwizzKashMobile
                     //Updated here to get the Interest from The Loan Interest Account
                     if LoanTypeTable.Get(loansRegisterTable."Loan Product Type") then begin
                         GenJournalLine."Bal. Account Type" := GenJournalLine."bal. account type"::"G/L Account";
-                        GenJournalLine."Bal. Account No." := LoanTypeTable."Loan Interest Account";
+                        GenJournalLine."Bal. Account No." := LoanTypeTable."Receivable Interest Account";
                         GenJournalLine."Loan Product Type" := LoanTypeTable.Code;
                         GenJournalLine.Validate(GenJournalLine."Bal. Account No.");
                     end;
@@ -8579,21 +8579,22 @@ Codeunit 51022 SwizzKashMobile
     BEGIN
         response := '{ "StatusCode":"02","StatusDescription":"INFONOTQUERIED","MemberInfo": [] }';
 
-        Vendor.RESET;
+        Vendor.Reset();
         Vendor.SETRANGE(Vendor."Mobile Phone No", phonenumber);
         IF Vendor.FIND('-') THEN BEGIN
-            // Members.RESET;
-            // Members.SETRANGE(Members."No.", Vendor."BOSA Account No");
-            // IF Members.FIND('-') THEN BEGIN
-            response := '{"StatusCode":"000","StatusDescription":"OK","MemberInfo": [ { "MemberNo":"' + Vendor."BOSA Account No" + '",' + '"MemberName":"' + Vendor.Name + '"}] }';
-            // END ELSE BEGIN
-            //     response := '{ "StatusCode":"01","StatusDescription":"MEMBERNOTFOUND","MemberInfo": [] }';
-            // END;
+            Members.Reset();
+            Members.SETRANGE(Members."No.", Vendor."BOSA Account No");
+            IF Members.FIND('-') THEN BEGIN
+                response := '{"StatusCode":"000","StatusDescription":"OK","MemberInfo": [ { "MemberNo":"' + Vendor."BOSA Account No" + '",' + '"MemberName":"' + Vendor.Name + '",' + '"MemberStatus":"' + Format(Members.Status) + '"}] }';
+            END ELSE BEGIN
+                response := '{ "StatusCode":"01","StatusDescription":"MEMBERNOTFOUND","MemberInfo": [] }';
+            END;
 
         END ELSE BEGIN
             response := '{ "StatusCode":"3","StatusDescription":"NUMBERNOTFOUND","MemberInfo": [] }';
         END;
     END;
+
 
     PROCEDURE GetMemberInformationAPP(phonenumber: Text[100]) response: Text;
     var
