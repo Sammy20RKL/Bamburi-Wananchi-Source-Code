@@ -5,17 +5,25 @@ Codeunit 51022 SwizzKashMobile
 
     trigger OnRun()
     begin
-        ProcessLoanApplications();
+        // ProcessLoanApplications();
+        // PaybillSwitch();
         // CleanMobileLoans();
         // TESTEnvironment();
         // ActivateUSSD();
         // fnProcessMBAMBURINotifications();
         // fnRePostLoan('LNM485495149', '100-2015', 10000, 'BLN_0004429');
-        // AdvanceEligibility();ii
+        // AdvanceEligibility('0112159679');
         // PostMPESAWithdrawals();
         // FnUpdateWallets();
         // CreateMWallets();
         // CreateMWallet('2128');
+        EnquireAccountBalanceBOSA(
+    '001',
+    '0112159679',
+    'po00',
+    '100-BWS1974',
+    CreateDateTime(DMY2Date(24, 2, 2026), 170500T)
+);
     end;
 
     var
@@ -1071,7 +1079,7 @@ Codeunit 51022 SwizzKashMobile
             Charges.SETRANGE(Charges.Code, GenLedgerSetup."Mobile Charge");
             IF Charges.FIND('-') THEN BEGIN
                 Charges.TESTFIELD(Charges."GL Account");
-                MobileCharges := Charges."Sacco Amount";// "Charge Amount";
+                MobileCharges := Charges."Charge Amount";// "Charge Amount";
                 MobileChargesACC := Charges."SAcco GL Account";// "GL Account";
             END;
 
@@ -1334,7 +1342,7 @@ Codeunit 51022 SwizzKashMobile
             IF Charges.FIND('-') THEN BEGIN
                 Charges.TESTFIELD(Charges."GL Account");
                 MobileCharges := Charges."Charge Amount";
-                MobileChargesACC := Charges."GL Account";
+                MobileChargesACC := Charges."SAcco GL Account";
             END;
 
             SwizzKashCommACC := GenLedgerSetup."SwizzKash Comm Acc";
