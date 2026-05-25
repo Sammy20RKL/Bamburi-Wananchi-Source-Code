@@ -174,7 +174,14 @@ Report 50227 "Member Loans Statement"
                     column(User7; loan."User ID")
                     {
                     }
-
+                    column(PrincipalClosingBal; PrincipalClosingBal)
+                    {
+                    }
+                    column(InterestClosingBal; InterestClosingBal) { }
+                    column(HasPrincipalRow; HasPrincipalRow)
+                    {
+                    }
+                    column(HasInterestRow; HasInterestRow) { }
                     trigger OnAfterGetRecord()
                     begin
                         if (loan."Loan No" = 'BLN_19847') AND (loan.Reversed = true) then CurrReport.Skip();
@@ -185,24 +192,40 @@ Report 50227 "Member Loans Statement"
                             if loan."Amount Posted" > 0 then begin
                                 loan."Debit Amount" := (loan."Amount Posted");
                             end;
-                        if loan."Transaction Type" = loan."transaction type"::"Interest Paid" then begin
-                            if loan."Amount Posted" < 0 then begin
-                                InterestPaid := loan."Amount Posted";
-                                SumInterestPaid := InterestPaid + SumInterestPaid;
-                            end;
-                        end;
-                        if loan."Transaction Type" = loan."transaction type"::"Loan Repayment" then begin
-                            if loan."Amount Posted" < 0 then begin
-                                loan."Amount Posted" := loan."Amount Posted";
-                            end;
-                        end;
+                        // if loan."Transaction Type" = loan."transaction type"::"Interest Paid" then begin
+                        //     if loan."Amount Posted" < 0 then begin
+                        //         InterestPaid := loan."Amount Posted";
+                        //         SumInterestPaid := InterestPaid + SumInterestPaid;
+                        //     end;
+                        // end;
+                        // if loan."Transaction Type" = loan."transaction type"::"Loan Repayment" then begin
+                        //     if loan."Amount Posted" < 0 then begin
+                        //         loan."Amount Posted" := loan."Amount Posted";
+                        //     end;
+                        // end;
+                        if loan."Transaction Type" in [loan."transaction type"::Loan, loan."transaction type"::"Loan Repayment"] then
+                            PrincipalClosingBal := PrincipalClosingBal + loan."Amount Posted"
+
+                        else
+                            if loan."Transaction Type" in [loan."transaction type"::"Interest Paid", loan."transaction type"::"Interest Due"] then
+                                InterestClosingBal := InterestClosingBal + loan."Amount Posted";
+
+                        if loan."Transaction Type" in [loan."transaction type"::Loan, loan."transaction type"::"Loan Repayment"] then
+                            HasPrincipalRow := true;
+                        if loan."Transaction Type" in [loan."transaction type"::"Interest Paid", loan."transaction type"::"Interest Due"] then
+                            HasInterestRow := true;
+
 
                     end;
 
                     trigger OnPreDataItem()
                     begin
                         CLosingBalance := PrincipleBF;
-                        OpeningBal := PrincipleBF;
+                        PrincipalClosingBal := PrincipleBF;
+                        InterestClosingBal := 0;
+                        // OpeningBal := PrincipleBF;
+                        HasPrincipalRow := false;
+                        HasInterestRow := false;
 
                     end;
                 }
@@ -329,6 +352,8 @@ Report 50227 "Member Loans Statement"
     end;
 
     var
+        HasPrincipalRow: Boolean;
+        HasInterestRow: Boolean;
         IncludeClearedLoans: Boolean;
         OpenBalance: Decimal;
         CLosingBalance: Decimal;
@@ -383,5 +408,7 @@ Report 50227 "Member Loans Statement"
         Totalrepayment: Decimal;
         StartDate: Date;
         EndDate: Date;
+        PrincipalClosingBal: Decimal;
+        InterestClosingBal: Decimal;
 }
 
