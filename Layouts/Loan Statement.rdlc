@@ -11,7 +11,7 @@
       <am:Name>PBIRB</am:Name>
       <am:Version>15.7.1813.16</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2026-05-25T06:54:44.0143662Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2026-05-26T07:26:32.3300089Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
@@ -24,6 +24,250 @@
       <rd:DataSourceID>3450a53f-2ed8-4362-a1e8-a40b23695f5e</rd:DataSourceID>
     </DataSource>
   </DataSources>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+      <Fields>
+        <Field Name="ReportForNavId_1102755000">
+          <DataField>ReportForNavId_1102755000</DataField>
+        </Field>
+        <Field Name="USERID">
+          <DataField>USERID</DataField>
+        </Field>
+        <Field Name="PayrollStaffNo_Members">
+          <DataField>PayrollStaffNo_Members</DataField>
+        </Field>
+        <Field Name="No_Members">
+          <DataField>No_Members</DataField>
+        </Field>
+        <Field Name="Phone_No_">
+          <DataField>Phone_No_</DataField>
+        </Field>
+        <Field Name="Registration_Date">
+          <DataField>Registration_Date</DataField>
+        </Field>
+        <Field Name="Name_Members">
+          <DataField>Name_Members</DataField>
+        </Field>
+        <Field Name="EmployerCode_Members">
+          <DataField>EmployerCode_Members</DataField>
+        </Field>
+        <Field Name="EmployerName">
+          <DataField>EmployerName</DataField>
+        </Field>
+        <Field Name="PageNo_Members">
+          <DataField>PageNo_Members</DataField>
+        </Field>
+        <Field Name="Shares_Retained">
+          <DataField>Shares_Retained</DataField>
+        </Field>
+        <Field Name="Shares_RetainedFormat">
+          <DataField>Shares_RetainedFormat</DataField>
+        </Field>
+        <Field Name="ShareCapBF">
+          <DataField>ShareCapBF</DataField>
+        </Field>
+        <Field Name="ShareCapBFFormat">
+          <DataField>ShareCapBFFormat</DataField>
+        </Field>
+        <Field Name="IDNo_Members">
+          <DataField>IDNo_Members</DataField>
+        </Field>
+        <Field Name="GlobalDimension2Code_Members">
+          <DataField>GlobalDimension2Code_Members</DataField>
+        </Field>
+        <Field Name="Company_Name">
+          <DataField>Company_Name</DataField>
+        </Field>
+        <Field Name="Company_Address">
+          <DataField>Company_Address</DataField>
+        </Field>
+        <Field Name="Company_Address_2">
+          <DataField>Company_Address_2</DataField>
+        </Field>
+        <Field Name="Company_Phone_No">
+          <DataField>Company_Phone_No</DataField>
+        </Field>
+        <Field Name="Company_Fax_No">
+          <DataField>Company_Fax_No</DataField>
+        </Field>
+        <Field Name="Company_Picture">
+          <DataField>Company_Picture</DataField>
+        </Field>
+        <Field Name="Company_Email">
+          <DataField>Company_Email</DataField>
+        </Field>
+        <Field Name="Company_Signature">
+          <DataField>Company_Signature</DataField>
+        </Field>
+        <Field Name="ReportForNavId_1102755024">
+          <DataField>ReportForNavId_1102755024</DataField>
+        </Field>
+        <Field Name="PrincipleBF">
+          <DataField>PrincipleBF</DataField>
+        </Field>
+        <Field Name="PrincipleBFFormat">
+          <DataField>PrincipleBFFormat</DataField>
+        </Field>
+        <Field Name="LoanNumber">
+          <DataField>LoanNumber</DataField>
+        </Field>
+        <Field Name="ProductType">
+          <DataField>ProductType</DataField>
+        </Field>
+        <Field Name="RequestedAmount">
+          <DataField>RequestedAmount</DataField>
+        </Field>
+        <Field Name="RequestedAmountFormat">
+          <DataField>RequestedAmountFormat</DataField>
+        </Field>
+        <Field Name="Interest">
+          <DataField>Interest</DataField>
+        </Field>
+        <Field Name="InterestFormat">
+          <DataField>InterestFormat</DataField>
+        </Field>
+        <Field Name="Installments">
+          <DataField>Installments</DataField>
+        </Field>
+        <Field Name="LoanPrincipleRepayment">
+          <DataField>LoanPrincipleRepayment</DataField>
+        </Field>
+        <Field Name="LoanPrincipleRepaymentFormat">
+          <DataField>LoanPrincipleRepaymentFormat</DataField>
+        </Field>
+        <Field Name="ApprovedAmount_Loans">
+          <DataField>ApprovedAmount_Loans</DataField>
+        </Field>
+        <Field Name="ApprovedAmount_LoansFormat">
+          <DataField>ApprovedAmount_LoansFormat</DataField>
+        </Field>
+        <Field Name="LoanProductTypeName_Loans">
+          <DataField>LoanProductTypeName_Loans</DataField>
+        </Field>
+        <Field Name="Repayment_Loans">
+          <DataField>Repayment_Loans</DataField>
+        </Field>
+        <Field Name="Repayment_LoansFormat">
+          <DataField>Repayment_LoansFormat</DataField>
+        </Field>
+        <Field Name="ModeofDisbursement_Loans">
+          <DataField>ModeofDisbursement_Loans</DataField>
+        </Field>
+        <Field Name="OutstandingBalance_Loans">
+          <DataField>OutstandingBalance_Loans</DataField>
+        </Field>
+        <Field Name="OutstandingBalance_LoansFormat">
+          <DataField>OutstandingBalance_LoansFormat</DataField>
+        </Field>
+        <Field Name="OustandingInterest_Loans">
+          <DataField>OustandingInterest_Loans</DataField>
+        </Field>
+        <Field Name="OustandingInterest_LoansFormat">
+          <DataField>OustandingInterest_LoansFormat</DataField>
+        </Field>
+        <Field Name="OutstandingI">
+          <DataField>OutstandingI</DataField>
+        </Field>
+        <Field Name="OutstandingIFormat">
+          <DataField>OutstandingIFormat</DataField>
+        </Field>
+        <Field Name="Totalrepayment">
+          <DataField>Totalrepayment</DataField>
+        </Field>
+        <Field Name="TotalrepaymentFormat">
+          <DataField>TotalrepaymentFormat</DataField>
+        </Field>
+        <Field Name="OutstandingP">
+          <DataField>OutstandingP</DataField>
+        </Field>
+        <Field Name="OutstandingPFormat">
+          <DataField>OutstandingPFormat</DataField>
+        </Field>
+        <Field Name="ReportForNavId_1102755031">
+          <DataField>ReportForNavId_1102755031</DataField>
+        </Field>
+        <Field Name="PostingDate_loan">
+          <DataField>PostingDate_loan</DataField>
+        </Field>
+        <Field Name="DocumentNo_loan">
+          <DataField>DocumentNo_loan</DataField>
+        </Field>
+        <Field Name="Description_loan">
+          <DataField>Description_loan</DataField>
+        </Field>
+        <Field Name="DebitAmount_Loan">
+          <DataField>DebitAmount_Loan</DataField>
+        </Field>
+        <Field Name="DebitAmount_LoanFormat">
+          <DataField>DebitAmount_LoanFormat</DataField>
+        </Field>
+        <Field Name="CreditAmount_Loan">
+          <DataField>CreditAmount_Loan</DataField>
+        </Field>
+        <Field Name="CreditAmount_LoanFormat">
+          <DataField>CreditAmount_LoanFormat</DataField>
+        </Field>
+        <Field Name="Amount_Loan">
+          <DataField>Amount_Loan</DataField>
+        </Field>
+        <Field Name="Amount_LoanFormat">
+          <DataField>Amount_LoanFormat</DataField>
+        </Field>
+        <Field Name="openBalance_loan">
+          <DataField>openBalance_loan</DataField>
+        </Field>
+        <Field Name="openBalance_loanFormat">
+          <DataField>openBalance_loanFormat</DataField>
+        </Field>
+        <Field Name="CLosingBalance_loan">
+          <DataField>CLosingBalance_loan</DataField>
+        </Field>
+        <Field Name="CLosingBalance_loanFormat">
+          <DataField>CLosingBalance_loanFormat</DataField>
+        </Field>
+        <Field Name="TransactionType_loan">
+          <DataField>TransactionType_loan</DataField>
+        </Field>
+        <Field Name="LoanNo">
+          <DataField>LoanNo</DataField>
+        </Field>
+        <Field Name="PrincipleBF_loans">
+          <DataField>PrincipleBF_loans</DataField>
+        </Field>
+        <Field Name="PrincipleBF_loansFormat">
+          <DataField>PrincipleBF_loansFormat</DataField>
+        </Field>
+        <Field Name="Loan_Description">
+          <DataField>Loan_Description</DataField>
+        </Field>
+        <Field Name="User7">
+          <DataField>User7</DataField>
+        </Field>
+        <Field Name="PrincipalClosingBal">
+          <DataField>PrincipalClosingBal</DataField>
+        </Field>
+        <Field Name="PrincipalClosingBalFormat">
+          <DataField>PrincipalClosingBalFormat</DataField>
+        </Field>
+        <Field Name="InterestClosingBal">
+          <DataField>InterestClosingBal</DataField>
+        </Field>
+        <Field Name="InterestClosingBalFormat">
+          <DataField>InterestClosingBalFormat</DataField>
+        </Field>
+        <Field Name="HasPrincipalRow">
+          <DataField>HasPrincipalRow</DataField>
+        </Field>
+        <Field Name="HasInterestRow">
+          <DataField>HasInterestRow</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
   <ReportSections>
     <ReportSection>
       <Body>
@@ -1233,7 +1477,9 @@
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <Style>
@@ -1272,7 +1518,9 @@
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <Style>
@@ -1304,14 +1552,16 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!TransactionType_loan.Value</Value>
+                                  <Value>=Fields!DocumentNo_loan.Value</Value>
                                   <Style>
                                     <FontFamily>Book Antiqua</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <Style>
@@ -1350,7 +1600,9 @@
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <Style>
@@ -1390,7 +1642,9 @@
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <Style>
@@ -1430,7 +1684,9 @@
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <Style>
@@ -1462,7 +1718,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!InterestClosingBal.Value</Value>
+                                  <Value>=Fields!InterestClosingBal.Value * -1</Value>
                                   <Style>
                                     <FontFamily>Book Antiqua</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1470,7 +1726,9 @@
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <Style>
@@ -1523,10 +1781,10 @@
                               <Style>None</Style>
                             </Border>
                             <TopBorder>
-                              <Style>None</Style>
+                              <Style>Solid</Style>
                             </TopBorder>
                             <BottomBorder>
-                              <Style>None</Style>
+                              <Style>Solid</Style>
                             </BottomBorder>
                             <BackgroundColor>White</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1566,10 +1824,10 @@
                               <Style>None</Style>
                             </Border>
                             <TopBorder>
-                              <Style>None</Style>
+                              <Style>Solid</Style>
                             </TopBorder>
                             <BottomBorder>
-                              <Style>None</Style>
+                              <Style>Solid</Style>
                             </BottomBorder>
                             <BackgroundColor>White</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1590,7 +1848,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(IIF(Fields!TransactionType_loan.Value = "Interest Paid" OR Fields!TransactionType_loan.Value = "Interest Due", Fields!CreditAmount_Loan.Value, 0))</Value>
+                                  <Value>=Sum(IIF(Fields!TransactionType_loan.Value = "Interest Paid" OR Fields!TransactionType_loan.Value = "Interest Due", IIF(IsNothing(Fields!CreditAmount_Loan.Value), 0, CDbl(Fields!CreditAmount_Loan.Value)), 0))</Value>
                                   <Style>
                                     <FontFamily>Book Antiqua</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1605,10 +1863,10 @@
                               <Style>None</Style>
                             </Border>
                             <TopBorder>
-                              <Style>None</Style>
+                              <Style>Solid</Style>
                             </TopBorder>
                             <BottomBorder>
-                              <Style>None</Style>
+                              <Style>Solid</Style>
                             </BottomBorder>
                             <BackgroundColor>White</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1644,10 +1902,10 @@
                               <Style>None</Style>
                             </Border>
                             <TopBorder>
-                              <Style>None</Style>
+                              <Style>Solid</Style>
                             </TopBorder>
                             <BottomBorder>
-                              <Style>None</Style>
+                              <Style>Solid</Style>
                             </BottomBorder>
                             <BackgroundColor>White</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1979,7 +2237,7 @@
                         </TablixMember>
                         <TablixMember>
                           <Visibility>
-                            <Hidden>=IIF(First(Fields!HasPrincipalRow.Value), False, True)</Hidden>
+                            <Hidden>=IIF(Max(IIF(Fields!HasPrincipalRow.Value, 1, 0)) &gt; 0, False, True)</Hidden>
                           </Visibility>
                           <KeepWithGroup>After</KeepWithGroup>
                         </TablixMember>
@@ -1994,7 +2252,7 @@
                         </TablixMember>
                         <TablixMember>
                           <Visibility>
-                            <Hidden>=IIF(First(Fields!HasPrincipalRow.Value), False, True)</Hidden>
+                            <Hidden>=IIF(Max(IIF(Fields!HasPrincipalRow.Value, 1, 0)) &gt; 0, False, True)</Hidden>
                           </Visibility>
                           <KeepWithGroup>Before</KeepWithGroup>
                         </TablixMember>
@@ -2003,19 +2261,22 @@
                         </TablixMember>
                         <TablixMember>
                           <Visibility>
-                            <Hidden>=IIF(First(Fields!HasInterestRow.Value), False, True)</Hidden>
+                            <Hidden>=IIF(First(Fields!HasInterestRow.Value, "Group5"), False, True)</Hidden>
                           </Visibility>
                           <KeepWithGroup>Before</KeepWithGroup>
                         </TablixMember>
                         <TablixMember>
+                          <Group Name="Details5" />
+                          <TablixMembers>
+                            <TablixMember />
+                          </TablixMembers>
                           <Visibility>
                             <Hidden>=IIF(Fields!TransactionType_loan.Value = "Interest Paid" OR Fields!TransactionType_loan.Value = "Interest Due", False, True)</Hidden>
                           </Visibility>
-                          <KeepWithGroup>Before</KeepWithGroup>
                         </TablixMember>
                         <TablixMember>
                           <Visibility>
-                            <Hidden>=IIF(First(Fields!HasInterestRow.Value), False, True)</Hidden>
+                            <Hidden>=IIF(First(Fields!HasInterestRow.Value, "Group5"), False, True)</Hidden>
                           </Visibility>
                           <KeepWithGroup>Before</KeepWithGroup>
                         </TablixMember>
@@ -2794,7 +3055,7 @@
                 <Style />
               </Paragraph>
             </Paragraphs>
-            <Top>5.7823in</Top>
+            <Top>4.92433in</Top>
             <Left>0.62925in</Left>
             <Height>0.25833in</Height>
             <Width>0.8899in</Width>
@@ -2814,7 +3075,7 @@
             <Value>=First(Fields!Company_Signature.Value, "DataSet_Result")</Value>
             <MIMEType>image/png</MIMEType>
             <Sizing>FitProportional</Sizing>
-            <Top>5.68465in</Top>
+            <Top>4.82668in</Top>
             <Left>1.77898in</Left>
             <Height>0.59765in</Height>
             <Width>0.856in</Width>
@@ -2826,7 +3087,7 @@
             </Style>
           </Image>
           <Line Name="Line1">
-            <Top>6.24897in</Top>
+            <Top>5.391in</Top>
             <Left>1.65998in</Left>
             <Height>0in</Height>
             <Width>0.975in</Width>
@@ -2838,7 +3099,7 @@
             </Style>
           </Line>
         </ReportItems>
-        <Height>6.35175in</Height>
+        <Height>5.73369in</Height>
         <Style>
           <Border />
         </Style>
@@ -3025,6 +3286,12 @@
       </Page>
     </ReportSection>
   </ReportSections>
+  <ReportParametersLayout>
+    <GridLayoutDefinition>
+      <NumberOfColumns>4</NumberOfColumns>
+      <NumberOfRows>2</NumberOfRows>
+    </GridLayoutDefinition>
+  </ReportParametersLayout>
   <Code>Public Function BlankZero(ByVal Value As Decimal)
     if Value = 0 then
         Return ""
@@ -3091,248 +3358,4 @@ kHZkSJhB2pEhYQZpR4aEGaQdGRJmkHZkSJhB2pEhYQZpR4aEGaQdGRJmkHZkSJhB2pEhYQZpBvD/AZI2
   </EmbeddedImages>
   <Language>=User!Language</Language>
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
-  <DataSets>
-    <DataSet Name="DataSet_Result">
-      <Fields>
-        <Field Name="ReportForNavId_1102755000">
-          <DataField>ReportForNavId_1102755000</DataField>
-        </Field>
-        <Field Name="USERID">
-          <DataField>USERID</DataField>
-        </Field>
-        <Field Name="PayrollStaffNo_Members">
-          <DataField>PayrollStaffNo_Members</DataField>
-        </Field>
-        <Field Name="No_Members">
-          <DataField>No_Members</DataField>
-        </Field>
-        <Field Name="Phone_No_">
-          <DataField>Phone_No_</DataField>
-        </Field>
-        <Field Name="Registration_Date">
-          <DataField>Registration_Date</DataField>
-        </Field>
-        <Field Name="Name_Members">
-          <DataField>Name_Members</DataField>
-        </Field>
-        <Field Name="EmployerCode_Members">
-          <DataField>EmployerCode_Members</DataField>
-        </Field>
-        <Field Name="EmployerName">
-          <DataField>EmployerName</DataField>
-        </Field>
-        <Field Name="PageNo_Members">
-          <DataField>PageNo_Members</DataField>
-        </Field>
-        <Field Name="Shares_Retained">
-          <DataField>Shares_Retained</DataField>
-        </Field>
-        <Field Name="Shares_RetainedFormat">
-          <DataField>Shares_RetainedFormat</DataField>
-        </Field>
-        <Field Name="ShareCapBF">
-          <DataField>ShareCapBF</DataField>
-        </Field>
-        <Field Name="ShareCapBFFormat">
-          <DataField>ShareCapBFFormat</DataField>
-        </Field>
-        <Field Name="IDNo_Members">
-          <DataField>IDNo_Members</DataField>
-        </Field>
-        <Field Name="GlobalDimension2Code_Members">
-          <DataField>GlobalDimension2Code_Members</DataField>
-        </Field>
-        <Field Name="Company_Name">
-          <DataField>Company_Name</DataField>
-        </Field>
-        <Field Name="Company_Address">
-          <DataField>Company_Address</DataField>
-        </Field>
-        <Field Name="Company_Address_2">
-          <DataField>Company_Address_2</DataField>
-        </Field>
-        <Field Name="Company_Phone_No">
-          <DataField>Company_Phone_No</DataField>
-        </Field>
-        <Field Name="Company_Fax_No">
-          <DataField>Company_Fax_No</DataField>
-        </Field>
-        <Field Name="Company_Picture">
-          <DataField>Company_Picture</DataField>
-        </Field>
-        <Field Name="Company_Email">
-          <DataField>Company_Email</DataField>
-        </Field>
-        <Field Name="Company_Signature">
-          <DataField>Company_Signature</DataField>
-        </Field>
-        <Field Name="ReportForNavId_1102755024">
-          <DataField>ReportForNavId_1102755024</DataField>
-        </Field>
-        <Field Name="PrincipleBF">
-          <DataField>PrincipleBF</DataField>
-        </Field>
-        <Field Name="PrincipleBFFormat">
-          <DataField>PrincipleBFFormat</DataField>
-        </Field>
-        <Field Name="LoanNumber">
-          <DataField>LoanNumber</DataField>
-        </Field>
-        <Field Name="ProductType">
-          <DataField>ProductType</DataField>
-        </Field>
-        <Field Name="RequestedAmount">
-          <DataField>RequestedAmount</DataField>
-        </Field>
-        <Field Name="RequestedAmountFormat">
-          <DataField>RequestedAmountFormat</DataField>
-        </Field>
-        <Field Name="Interest">
-          <DataField>Interest</DataField>
-        </Field>
-        <Field Name="InterestFormat">
-          <DataField>InterestFormat</DataField>
-        </Field>
-        <Field Name="Installments">
-          <DataField>Installments</DataField>
-        </Field>
-        <Field Name="LoanPrincipleRepayment">
-          <DataField>LoanPrincipleRepayment</DataField>
-        </Field>
-        <Field Name="LoanPrincipleRepaymentFormat">
-          <DataField>LoanPrincipleRepaymentFormat</DataField>
-        </Field>
-        <Field Name="ApprovedAmount_Loans">
-          <DataField>ApprovedAmount_Loans</DataField>
-        </Field>
-        <Field Name="ApprovedAmount_LoansFormat">
-          <DataField>ApprovedAmount_LoansFormat</DataField>
-        </Field>
-        <Field Name="LoanProductTypeName_Loans">
-          <DataField>LoanProductTypeName_Loans</DataField>
-        </Field>
-        <Field Name="Repayment_Loans">
-          <DataField>Repayment_Loans</DataField>
-        </Field>
-        <Field Name="Repayment_LoansFormat">
-          <DataField>Repayment_LoansFormat</DataField>
-        </Field>
-        <Field Name="ModeofDisbursement_Loans">
-          <DataField>ModeofDisbursement_Loans</DataField>
-        </Field>
-        <Field Name="OutstandingBalance_Loans">
-          <DataField>OutstandingBalance_Loans</DataField>
-        </Field>
-        <Field Name="OutstandingBalance_LoansFormat">
-          <DataField>OutstandingBalance_LoansFormat</DataField>
-        </Field>
-        <Field Name="OustandingInterest_Loans">
-          <DataField>OustandingInterest_Loans</DataField>
-        </Field>
-        <Field Name="OustandingInterest_LoansFormat">
-          <DataField>OustandingInterest_LoansFormat</DataField>
-        </Field>
-        <Field Name="OutstandingI">
-          <DataField>OutstandingI</DataField>
-        </Field>
-        <Field Name="OutstandingIFormat">
-          <DataField>OutstandingIFormat</DataField>
-        </Field>
-        <Field Name="Totalrepayment">
-          <DataField>Totalrepayment</DataField>
-        </Field>
-        <Field Name="TotalrepaymentFormat">
-          <DataField>TotalrepaymentFormat</DataField>
-        </Field>
-        <Field Name="OutstandingP">
-          <DataField>OutstandingP</DataField>
-        </Field>
-        <Field Name="OutstandingPFormat">
-          <DataField>OutstandingPFormat</DataField>
-        </Field>
-        <Field Name="ReportForNavId_1102755031">
-          <DataField>ReportForNavId_1102755031</DataField>
-        </Field>
-        <Field Name="PostingDate_loan">
-          <DataField>PostingDate_loan</DataField>
-        </Field>
-        <Field Name="DocumentNo_loan">
-          <DataField>DocumentNo_loan</DataField>
-        </Field>
-        <Field Name="Description_loan">
-          <DataField>Description_loan</DataField>
-        </Field>
-        <Field Name="DebitAmount_Loan">
-          <DataField>DebitAmount_Loan</DataField>
-        </Field>
-        <Field Name="DebitAmount_LoanFormat">
-          <DataField>DebitAmount_LoanFormat</DataField>
-        </Field>
-        <Field Name="CreditAmount_Loan">
-          <DataField>CreditAmount_Loan</DataField>
-        </Field>
-        <Field Name="CreditAmount_LoanFormat">
-          <DataField>CreditAmount_LoanFormat</DataField>
-        </Field>
-        <Field Name="Amount_Loan">
-          <DataField>Amount_Loan</DataField>
-        </Field>
-        <Field Name="Amount_LoanFormat">
-          <DataField>Amount_LoanFormat</DataField>
-        </Field>
-        <Field Name="openBalance_loan">
-          <DataField>openBalance_loan</DataField>
-        </Field>
-        <Field Name="openBalance_loanFormat">
-          <DataField>openBalance_loanFormat</DataField>
-        </Field>
-        <Field Name="CLosingBalance_loan">
-          <DataField>CLosingBalance_loan</DataField>
-        </Field>
-        <Field Name="CLosingBalance_loanFormat">
-          <DataField>CLosingBalance_loanFormat</DataField>
-        </Field>
-        <Field Name="TransactionType_loan">
-          <DataField>TransactionType_loan</DataField>
-        </Field>
-        <Field Name="LoanNo">
-          <DataField>LoanNo</DataField>
-        </Field>
-        <Field Name="PrincipleBF_loans">
-          <DataField>PrincipleBF_loans</DataField>
-        </Field>
-        <Field Name="PrincipleBF_loansFormat">
-          <DataField>PrincipleBF_loansFormat</DataField>
-        </Field>
-        <Field Name="Loan_Description">
-          <DataField>Loan_Description</DataField>
-        </Field>
-        <Field Name="User7">
-          <DataField>User7</DataField>
-        </Field>
-        <Field Name="PrincipalClosingBal">
-          <DataField>PrincipalClosingBal</DataField>
-        </Field>
-        <Field Name="PrincipalClosingBalFormat">
-          <DataField>PrincipalClosingBalFormat</DataField>
-        </Field>
-        <Field Name="InterestClosingBal">
-          <DataField>InterestClosingBal</DataField>
-        </Field>
-        <Field Name="InterestClosingBalFormat">
-          <DataField>InterestClosingBalFormat</DataField>
-        </Field>
-        <Field Name="HasPrincipalRow">
-          <DataField>HasPrincipalRow</DataField>
-        </Field>
-        <Field Name="HasInterestRow">
-          <DataField>HasInterestRow</DataField>
-        </Field>
-      </Fields>
-      <Query>
-        <DataSourceName>DataSource</DataSourceName>
-        <CommandText />
-      </Query>
-    </DataSet>
-  </DataSets>
 </Report>
