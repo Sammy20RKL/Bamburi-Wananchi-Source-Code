@@ -17,13 +17,13 @@ Codeunit 51022 SwizzKashMobile
         // FnUpdateWallets();
         // CreateMWallets();
         // CreateMWallet('2128');
-        EnquireAccountBalanceBOSA(
-    '001',
-    '0112159679',
-    'po00',
-    '100-BWS1974',
-    CreateDateTime(DMY2Date(24, 2, 2026), 170500T)
-);
+        //     EnquireAccountBalanceBOSA(
+        // '001',
+        // '0112159679',
+        // 'po00',
+        // '100-BWS1974',
+        // CreateDateTime(DMY2Date(24, 2, 2026), 170500T));
+        GetOutstandingLoans('0112159679');
     end;
 
     var
@@ -3002,15 +3002,15 @@ Codeunit 51022 SwizzKashMobile
 
                     REPEAT
 
-                        amount := MemberLedgerEntry.Amount;
+                        amount := MemberLedgerEntry."Amount Posted";
                         IF amount < 1 THEN amount := amount * -1;
 
                         IF transactionsList = '' THEN BEGIN
-                            transactionsList := '{"PostingDate":"' + FORMAT(MemberLedgerEntry."Posting Date") + '","Description":"' + MemberLedgerEntry.Description + '","Amount":"' + FORMAT(amount, 0, '<Precision,2:2><Integer><Decimals>') + '" }';
-                            localMessage := FORMAT(MemberLedgerEntry."Posting Date") + ' ' + MemberLedgerEntry.Description + ' ' + FORMAT(amount, 0, '<Precision,2:2><Integer><Decimals>') + '\n';
+                            transactionsList := '{"PostingDate":"' + FORMAT(MemberLedgerEntry."Posting Date") + '","Description":"' + MemberLedgerEntry.Description + '","Amount":"' + FORMAT(amount, 0, '<Precision,2:2><Integer Thousand><Decimals>') + '" }';
+                            localMessage := FORMAT(MemberLedgerEntry."Posting Date") + ' ' + MemberLedgerEntry.Description + ' ' + FORMAT(amount, 0, '<Precision,2:2><Integer Thousand><Decimals>') + '\n';//'\n'
                         END ELSE BEGIN
-                            transactionsList += ',{"PostingDate":"' + FORMAT(MemberLedgerEntry."Posting Date") + '","Description":"' + MemberLedgerEntry.Description + '","Amount":"' + FORMAT(amount, 0, '<Precision,2:2><Integer><Decimals>') + '" }';
-                            localMessage += FORMAT(MemberLedgerEntry."Posting Date") + ' ' + MemberLedgerEntry.Description + ' ' + FORMAT(amount, 0, '<Precision,2:2><Integer><Decimals>') + '\n';
+                            transactionsList += ',{"PostingDate":"' + FORMAT(MemberLedgerEntry."Posting Date") + '","Description":"' + MemberLedgerEntry.Description + '","Amount":"' + FORMAT(amount, 0, '<Precision,2:2><Integer Thousand><Decimals>') + '" }';
+                            localMessage += FORMAT(MemberLedgerEntry."Posting Date") + ' ' + MemberLedgerEntry.Description + ' ' + FORMAT(amount, 0, '<Precision,2:2><Integer Thousand><Decimals>') + '\n';
                         END;
 
                         minimunCount := minimunCount + 1;
@@ -3195,7 +3195,7 @@ Codeunit 51022 SwizzKashMobile
 
                     REPEAT
 
-                        amount := MemberLedgerEntry.Amount;
+                        amount := MemberLedgerEntry."Amount Posted";
                         IF amount < 1 THEN amount := amount * -1;
 
                         IF transactionsList = '' THEN BEGIN
