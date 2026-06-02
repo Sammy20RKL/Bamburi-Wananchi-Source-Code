@@ -7512,8 +7512,8 @@ Codeunit 51022 SwizzKashMobile
         END;
     END;
 
-    LOCAL PROCEDURE PostLoan(documentNo: Code[30]; AccountNo: Code[50]; amount: Decimal; Period: Decimal) result: Code[30];
-    VAR
+    local procedure PostLoan(documentNo: Code[30]; AccountNo: Code[50]; amount: Decimal; Period: Decimal) result: Code[30];
+    var
         swizzkasTransTable: Record "SwizzKash Transactions";
         membersTable: Record Customer;
         vendorTable: Record Vendor;
@@ -7556,7 +7556,7 @@ Codeunit 51022 SwizzKashMobile
             GenLedgerSetup.GET;
 
             // ** get loan and interest accounts **
-            LoanProductsSetup.RESET;
+            LoanProductsSetup.Reset();
             LoanProductsSetup.SETRANGE(LoanProductsSetup.Code, loanType);
             IF LoanProductsSetup.FINDFIRST() THEN BEGIN
                 LoanAcc := LoanProductsSetup."Loan Account";
@@ -7581,8 +7581,8 @@ Codeunit 51022 SwizzKashMobile
             //Calculate Interest
             // InterestAmount := ((LoanProductsSetup."Interest rate" / 12) / 100) * amount;
             InterestAmount := ((LoanProductsSetup."Interest rate") / 100) * amount * Period; //- per month
-            //2% Swizz Commission
-            vendorCommAmount := (2 / 100) * amount * Period;
+            //3% Swizz Commission
+            vendorCommAmount := (3 / 100) * amount * Period;
             //The rest posts to he Sacco
             InterestPaid := InterestAmount - vendorCommAmount;
 

@@ -412,7 +412,7 @@ page 50517 "Bulk SMS Header"
                     if BulkHeader.Find('-') then begin
                         BulkLines.Reset;
                         BulkLines.SetRange(BulkLines.No, BulkHeader.No);
-                        Xmlport.Run(51516016);
+                        Xmlport.Run(50107);
                     end;
                 end;
             }

@@ -80,6 +80,7 @@ Table 50020 "Payment Line New"//new one from Nav
                     "Account Type" := RecPayTypes."Account Type";
                     Validate("Account Type");
                     "Transaction Name" := RecPayTypes.Description;
+                    "Payment Description" := RecPayTypes.Description;
                     "Budgetary Control A/C" := RecPayTypes."Direct Expense";
                     if RecPayTypes."Account Type" = RecPayTypes."account type"::"G/L Account" then begin
                         //RecPayTypes.TESTFIELD(RecPayTypes."G/L Account");
