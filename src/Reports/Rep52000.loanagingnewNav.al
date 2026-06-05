@@ -255,10 +255,15 @@ Report 52000 "loan aging new Nav"
                 Over3Month := 0;
                 GrandTotal := 0;
 
+                // "Loans Register".CalcFields("Outstanding Balance");
+                // LBal := "Loans Register"."Outstanding Balance";
+                "Loans Register".SetFilter("Date filter", '..%1', AsAt);
                 "Loans Register".CalcFields("Outstanding Balance");
                 LBal := "Loans Register"."Outstanding Balance";
+                "Loans Register".SetRange("Date filter");
                 if "Loans Register"."Loans Category-SASRA" = "Loans Register"."loans category-sasra"::Perfoming then begin
                     Sorting := 1;
+                    "0Month" := LBal;
                     "0MonthC" := "0MonthC" + 1;
                 end;
                 if "Loans Register"."Loans Category-SASRA" = "Loans Register"."loans category-sasra"::Watch then begin
@@ -317,10 +322,13 @@ Report 52000 "loan aging new Nav"
 
             trigger OnPreDataItem()
             begin
+                Company.Get();
+                Company.CalcFields(Company.Picture);
+
                 CurrReport.CreateTotals("0Month", "1Month", "2Month", "3Month", Over3Month);
                 GrandTotal := 0;
 
-                if AsAt = 0D then
+                if AsAt <> 0D then
                     DFilter := '..' + Format(AsAt);
 
                 //Reset all loans within that period to performing...
@@ -475,7 +483,11 @@ Report 52000 "loan aging new Nav"
             end;
 
             //get the expected date of completion..
-            ExpectedDateofCompletion := CalcDate(Format(Loans.Installments) + 'M', Loans."Issued Date");
+            // ExpectedDateofCompletion := CalcDate(Format(Loans.Installments) + 'M', Loans."Issued Date");
+            if (Loans."Issued Date" <> 0D) and (Loans.Installments > 0) then
+                ExpectedDateofCompletion := CalcDate(Format(Loans.Installments) + 'M', Loans."Issued Date")
+            else
+                exit;
 
             //get the scheduled balance as per AsAt date...
             LSchedule.Reset;
@@ -512,6 +524,8 @@ Report 52000 "loan aging new Nav"
             end;
             //**************************************************************************************************************************************************************
             //Calculatee the Arrears in respect to loans issued within this month
+            // issueddate := CalcDate('1M', Loans."Issued Date");
+            if Loans."Issued Date" = 0D then exit;
             issueddate := CalcDate('1M', Loans."Issued Date");
             if issueddate > AsAt then begin
                 Arrears := 0;
@@ -671,7 +685,11 @@ Report 52000 "loan aging new Nav"
                 //      LastMonth:=CALCDATE('CM',LastMonth);
             end;
             //MESSAGE('Date issue is %1| Loan disb is %2',Loans."Issued Date",Loans."Loan Disbursement Date");
-            ExpectedDateofCompletion := CalcDate(Format(Loans.Installments) + 'M', Loans."Loan Disbursement Date");
+            // ExpectedDateofCompletion := CalcDate(Format(Loans.Installments) + 'M', Loans."Loan Disbursement Date");
+            if (Loans."Loan Disbursement Date" <> 0D) and (Loans.Installments > 0) then
+                ExpectedDateofCompletion := CalcDate(Format(Loans.Installments) + 'M', Loans."Loan Disbursement Date")
+            else
+                exit;
             //...........................................................................................................Get Scheduled Balance
 
             //DateFilter:='..'+FORMAT(LastMonth);
@@ -710,6 +728,8 @@ Report 52000 "loan aging new Nav"
             end;
 
             //
+            // issueddate := CalcDate('1M', Loans."Loan Disbursement Date");
+            if Loans."Loan Disbursement Date" = 0D then exit;
             issueddate := CalcDate('1M', Loans."Loan Disbursement Date");
             // MESSAGE('Here');
 

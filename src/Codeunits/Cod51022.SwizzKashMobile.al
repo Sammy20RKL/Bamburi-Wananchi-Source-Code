@@ -15,7 +15,7 @@ Codeunit 51022 SwizzKashMobile
         // AdvanceEligibility('0112159679');
         // PostMPESAWithdrawals();
         // FnUpdateWallets();
-        // CreateMWallets();
+        CreateMWallets();
         // CreateMWallet('2128');
         //     EnquireAccountBalanceBOSA(
         // '001',

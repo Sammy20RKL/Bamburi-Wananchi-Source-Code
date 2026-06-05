@@ -18,6 +18,7 @@ page 50643 "Applicant Picture"
                 ToolTip = 'Specifies the Passport Image of the member.';
                 ShowMandatory = false;
             }
+
         }
     }
 

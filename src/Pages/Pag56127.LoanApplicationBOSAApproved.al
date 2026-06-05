@@ -7,9 +7,9 @@ Page 56127 "Loan Application BOSA-Approved"
     SourceTable = "Loans Register";
     UsageCategory = Lists;
     DeleteAllowed = false;
-    Editable = false;
-    InsertAllowed = false;
-    ModifyAllowed = false;
+    Editable = true;
+    InsertAllowed = TRUE;
+    ModifyAllowed = true;
     SourceTableView = where(Posted = const(false),
                             Source = filter(BOSA), "Approval Status" = const(Approved));
 

@@ -931,6 +931,7 @@ page 50367 "Member Account Card"
                     ApplicationArea = Basic;
                     Caption = 'Detailed Active Statement';
                     Image = Report;
+                    Visible = false;
                     Promoted = true;
                     PromotedCategory = "Report";
 
@@ -948,6 +949,7 @@ page 50367 "Member Account Card"
                     ApplicationArea = Basic;
                     Caption = 'Detailed Statement(Active)';
                     Image = Report;
+                    visible = false;
                     Promoted = true;
                     PromotedCategory = "Report";
 

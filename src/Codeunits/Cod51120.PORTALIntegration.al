@@ -3826,4 +3826,154 @@ Codeunit 51120 PORTALIntegration
         end;
     end;
     #endregion
+
+    procedure FnPostJuniorApplication(
+    GuardianNo: Code[20];
+    JuniorFirstName: Text[50];
+    JuniorMiddleName: Text[50];
+    JuniorLastName: Text[50];
+    DateofBirth: Text[20];
+    BirthCertNo: Text[50];
+    SavingAmount: Decimal;
+    MobileNo: Text[20];
+    IDCopyBase64: Text;
+    CertBase64: Text;
+    Email: Text[80]) info: Text
+    var
+        objJuniorApp: Record "Membership Applications";
+        NoSeriesMgt: Codeunit "No. Series";
+        GenSetup: record "Sacco General Set-Up";
+        TempBlob: Codeunit "Temp Blob";
+        Base64Convert: Codeunit "Base64 Convert";
+        InS: InStream;
+        OutS: OutStream;
+        dob: Date;
+        JuniorNo: Code[20];
+    begin
+        GenSetup.Get();
+        SaccoSetup.Get();
+        SaccoSetup.TestField(saccoSetup."Member Application Nos");
+        JuniorNo := NoSeriesMgt.GetNextNo(SaccoSetup."Member Application Nos", Today, true);
+
+
+        Evaluate(dob, DateofBirth);
+
+        objJuniorApp.Init();
+        objJuniorApp."No." := JuniorNo;
+        objJuniorApp."Guardian No." := GuardianNo;
+        objJuniorApp."First Name" := JuniorFirstName;
+        objJuniorApp."Middle Name" := JuniorMiddleName;
+        objJuniorApp."Last Name" := JuniorLastName;
+        objJuniorApp.Name := JuniorFirstName + ' ' + JuniorMiddleName + ' ' + JuniorLastName;
+        objJuniorApp."Date of Birth2" := dob;
+        objJuniorApp."Birth Certficate No." := BirthCertNo;
+        objJuniorApp."Saving Amount" := SavingAmount;
+        objJuniorApp."Mobile No. 3" := MobileNo;
+        objJuniorApp."E-Mail (Personal2)" := Email;
+        objJuniorApp."Account Category" := objJuniorApp."Account Category"::"Junior Account";
+        objJuniorApp.Status := objJuniorApp.Status::Open;
+        objJuniorApp."Monthly Contribution" := Gensetup."Min. Junior Contribution";
+        objJuniorApp."Customer Posting Group" := 'Juniors';
+        objJuniorApp."Registration Date" := Today;
+        objJuniorApp."Created By" := UserId;
+
+        objJuniorApp.Insert(true);
+
+        // ID Copy
+        if IDCopyBase64 <> '' then begin
+            Clear(TempBlob);
+            TempBlob.CreateOutStream(OutS);
+            Base64Convert.FromBase64(IDCopyBase64, OutS);
+            TempBlob.CreateInStream(InS);
+            objJuniorApp."ID Copy".ImportStream(InS, 'IDCopy.pdf');
+        end;
+
+        // Certificate Copy
+        if CertBase64 <> '' then begin
+            Clear(TempBlob);
+            TempBlob.CreateOutStream(OutS);
+            Base64Convert.FromBase64(CertBase64, OutS);
+            TempBlob.CreateInStream(InS);
+            objJuniorApp."Birth Certificate Copy".ImportStream(InS, 'BirthCertificate.pdf');
+        end;
+
+        objJuniorApp.Modify(true);
+
+        info := '{"StatusCode":"000","JuniorNo":"' + objJuniorApp."No." + '"}';
+    end;
+
+    procedure FnPostJuniorNOK(
+    JuniorNo: Code[20];
+    KinName: Text[100];
+    Relationship: Text[50];
+       IDNo: Text[50];
+    Telephone: Text[20];
+    Address: Text[100]) info: Text
+    var
+        objNOK: Record "Member App Next Of kin";
+        dob: Date;
+    begin
+
+        objNOK.INIT();
+        objNOK."Account No" := JuniorNo;
+        objNOK.Name := KinName;
+        objNOK.Relationship := Relationship;
+        objNOK."ID No." := IDNo;
+        objNOK.Telephone := Telephone;
+        objNOK.Address := Address;
+
+        IF objNOK.INSERT(TRUE) THEN
+            info := '{"StatusCode":"000","StatusDescription":"NOK added successfully"}'
+        ELSE
+            info := '{"StatusCode":"98","StatusDescription":"Failed to insert NOK"}';
+    end;
+
+    procedure FnGetJunior(JuniorNo: Code[20]) info: Text
+    var
+        objJuniorApp: Record "Membership Applications";
+    begin
+        if objJuniorApp.Get(JuniorNo) then begin
+            if objJuniorApp."Account Category" <> objJuniorApp."Account Category"::"Junior Account" then begin
+                info := '{"StatusCode":"98","StatusDescription":"Not a Junior Account"}';
+                exit;
+            end;
+            info :=
+                '{' +
+                 '"JuniorNo":"' + objJuniorApp."No." + '",' +
+                '"GuardianNo":"' + objJuniorApp."Guardian No." + '",' +
+                '"FirstName":"' + objJuniorApp."First Name" + '",' +
+                '"MiddleName":"' + objJuniorApp."Middle Name" + '",' +
+                '"LastName":"' + objJuniorApp."Last Name" + '",' +
+                '"FullName":"' + objJuniorApp.Name + '",' +
+                '"DOB":"' + Format(objJuniorApp."Date of Birth2") + '",' +
+                '"BirthCertNo":"' + objJuniorApp."Birth Certficate No." + '",' +
+                '"SavingAmount":"' + Format(objJuniorApp."Saving Amount") + '",' +
+                '"MobileNo":"' + objJuniorApp."Mobile No. 3" + '",' +
+                             '"Status":"' + Format(objJuniorApp.Status) + '"' +
+                '}';
+        end else begin
+            info :=
+                '{"StatusCode":"98","StatusDescription":"Junior not found"}';
+        end;
+    end;
+
+    procedure FnDeleteJunior(JuniorNo: Code[20]) info: Text
+    var
+        objJuniorApp: Record "Membership Applications";
+    begin
+        if objJuniorApp.Get(JuniorNo) then begin
+
+            // Ensure it is a Junior Account
+            if objJuniorApp."Account Category" <> objJuniorApp."Account Category"::"Junior Account" then begin
+                info := '{"StatusCode":"98","StatusDescription  ":"Not a Junior Account"}';
+                exit;
+            end;
+
+            objJuniorApp.Delete(true);
+
+            info := '{"StatusCode":"000","StatusDescription":"Junior deleted successfully"}';
+        end else begin
+            info := '{"StatusCode":"98","StatusDescription":"Junior not found"}';
+        end;
+    end;
 }

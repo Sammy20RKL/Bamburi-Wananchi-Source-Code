@@ -5,7 +5,9 @@ page 57206 "Existing Loans Card"
     ApplicationArea = All;
     Caption = 'Existing Loans Card';
     PageType = Card;
+    InsertAllowed = false;
     SourceTable = "Loans Register";
+    SourceTableView = where("Disburesment Type" = const("Tranche/Multiple Disbursement"));
 
     layout
     {

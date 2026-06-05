@@ -71,6 +71,10 @@ Page 56030 "Loans Posted List"
                     Editable = false;
 
                 }
+                field("Disbursement Date"; rec."Loan Disbursement Date")
+                {
+                    applicationArea = all;
+                }
 
 
                 field(Repayment; Rec.Repayment)

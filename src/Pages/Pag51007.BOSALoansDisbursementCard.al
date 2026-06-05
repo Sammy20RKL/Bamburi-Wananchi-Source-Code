@@ -263,6 +263,7 @@ Page 51007 "BOSA Loans Disbursement Card"
                     ApplicationArea = Basic;
                     Editable = false;
                 }
+
             }
             part(Control1000000004; "Loans Guarantee Details")
             {
@@ -287,6 +288,7 @@ Page 51007 "BOSA Loans Disbursement Card"
                 Caption = 'Missing Contributions';
                 SubPageLink = "Loan Number" = field("Loan  No."), "Member Number" = field("Client Code");
             }
+
         }
         area(factboxes)
         {
@@ -1289,7 +1291,7 @@ Page 51007 "BOSA Loans Disbursement Card"
                     SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Rec."Loan  No.", LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"Bank Account", LoanApps."Paying Bank Account No", DirbursementDate, VarAmounttoDisburse * -1, 'BOSA', LoanApps."Loan  No.", Format(Rec."Loan  No.") + ' Loan disbursed for ' + LoanApps."Client Name", '');
                 end else
                     if LoanApps."Disburesment Type" = LoanApps."disburesment type"::"Tranche/Multiple Disbursement" then begin
-                        SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Rec."Loan  No.", LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"G/L Account", '201209', DirbursementDate, VarAmounttoDisburse * -1, 'BOSA', LoanApps."Loan  No.", Format(Rec."Loan  No.") + ' Loan disbursed for ' + LoanApps."Client Name", '');
+                        SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Rec."Loan  No.", LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"G/L Account", GenSetup."Partial Disbursement Account", DirbursementDate, VarAmounttoDisburse * -1, 'BOSA', LoanApps."Loan  No.", Format(Rec."Loan  No.") + ' Loan disbursed for ' + LoanApps."Client Name", '');
                     end;
             end;
         end;

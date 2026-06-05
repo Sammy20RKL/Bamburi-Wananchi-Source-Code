@@ -28,6 +28,11 @@ page 50411 "Sacco General Set-Up"
                     ApplicationArea = Basic;
                     Caption = 'Min. Deposit Contribution';
                 }
+                field("Min. Junior Contribution"; Rec."Min. Junior Contribution")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Min. Junior Deposit Contribution';
+                }
                 field("Memb.Withdrawl Maturity Period"; Rec."Memb.Withdrawl Maturity Period")
                 {
                     ApplicationArea = Basic;

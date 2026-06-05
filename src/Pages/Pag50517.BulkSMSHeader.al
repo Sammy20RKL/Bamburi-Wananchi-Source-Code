@@ -401,6 +401,8 @@ page 50517 "Bulk SMS Header"
                 PromotedCategory = Process;
 
                 trigger OnAction()
+                var
+                // BulkSms: Xmlport "Bulk SMS Phones";
                 begin
 
                     if Rec."SMS Type" <> Rec."sms type"::Telephone then begin
@@ -410,9 +412,9 @@ page 50517 "Bulk SMS Header"
                     BulkHeader.Reset;
                     BulkHeader.SetRange(BulkHeader.No, Rec.No);
                     if BulkHeader.Find('-') then begin
-                        BulkLines.Reset;
-                        BulkLines.SetRange(BulkLines.No, BulkHeader.No);
-                        Xmlport.Run(50107);
+                        // BulkSms.SetBatchNo(Rec.No);
+                        // BulkSms.Run();
+                        // CurrPage.Control1000000012.Page.Update();
                     end;
                 end;
             }

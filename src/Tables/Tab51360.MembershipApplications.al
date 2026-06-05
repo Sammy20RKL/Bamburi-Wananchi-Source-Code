@@ -622,6 +622,8 @@ Table 51360 "Membership Applications"
             // OptionCaption = 'Individual,Junior,Joint,Corporate,Business,Other';
             // OptionMembers = Individual,Junior,Joint,Corporate,Business,Other;
             OptionMembers = "Regular Account","Junior Account";
+
+
         }
         field(68071; "Copy of KRA Pin"; Boolean)
         {
@@ -691,12 +693,12 @@ Table 51360 "Membership Applications"
                     Error('Date of birth cannot be greater than today');
 
 
-                if "Date of Birth" <> 0D then begin
-                    if GenSetUp.Get() then begin
-                        if CalcDate(GenSetUp."Min. Member Age", "Date of Birth") > Today then
-                            Error('Applicant bellow the mininmum membership age of %1', GenSetUp."Min. Member Age");
-                    end;
-                end;
+                // if "Date of Birth" <> 0D then begin
+                //     if GenSetUp.Get() then begin
+                //         if CalcDate(GenSetUp."Min. Member Age", "Date of Birth") > Today then
+                //             Error('Applicant bellow the mininmum membership age of %1', GenSetUp."Min. Member Age");
+                //     end;
+                // end;
             end;
         }
         field(68085; "Marital Status2"; Option)
@@ -801,10 +803,14 @@ Table 51360 "Membership Applications"
                 GenSetUp.Get();
                 if "Monthly Contribution" = 0 then begin
                     "Monthly Contribution" := "Basic Pay" * (GenSetUp."Min Deposit Cont.(% of Basic)" / 100);
-                    if "Monthly Contribution" < GenSetUp."Min. Contribution" then begin
-                        "Monthly Contribution" := GenSetUp."Min. Contribution"
-                    end else
-                        "Monthly Contribution" := "Monthly Contribution";
+                    if "Account Type" = "Account Type"::"Junior Account" then begin
+                        if "Monthly Contribution" < GenSetUp."Min. Junior Contribution" then
+                            "Monthly Contribution" := GenSetUp."Min. Junior Contribution";
+                    end else begin
+                        if "Monthly Contribution" < GenSetUp."Min. Contribution" then begin
+                            "Monthly Contribution" := GenSetUp."Min. Contribution";
+                        end;
+                    end;
                 end;
             end;
         }
@@ -1529,7 +1535,14 @@ Table 51360 "Membership Applications"
         field(69141; "Post Code"; Code[20])
         {
         }
-
+        field(69142; "Organization"; text[50])
+        { }
+        field(69143; "Saving Amount"; Decimal)
+        {
+        }
+        field(69144; "ID Copy"; media)
+        { }
+        field(69145; "Birth Certificate Copy"; media) { }
     }
 
 

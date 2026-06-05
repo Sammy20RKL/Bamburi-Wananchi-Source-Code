@@ -289,7 +289,7 @@ report 50223 "Member Detailed Statement"
             {
                 DataItemLink = "Client Code" = field("No."), "Loan Product Type" = field("Loan Product Filter"), "Date filter" = field("Date Filter");
                 DataItemTableView = sorting("Loan  No.") where(Posted = const(true), "Loan  No." = filter(<> ''));//, "Outstanding Balance" = filter(> 0)
-                //column(PostingDate_loan; Loan."Posting Date") { }
+                                                                                                                  //column(PostingDate_loan; Loan."Posting Date") { }
 
                 column(LoanNumber; Loans."Loan  No.") { }//LoanNumber
                 column(LoanProductType; Loans."Loan Product Type Name") { }//LoanName
@@ -309,7 +309,9 @@ report 50223 "Member Detailed Statement"
                 {
                     //DataItemLink = "Customer No." = FIELD("No."), "Loan No" = FIELD("Loan No"), "Posting Date" = FIELD("Date Filter");
                     DataItemLink = "Customer No." = field("Client Code"), "Loan No" = field("Loan  No."), "Posting Date" = field("Date Filter");//
-                    DataItemTableView = sorting("Posting Date") where("Transaction Type" = FILTER(Loan | "Loan Repayment" | "Interest Due" | "Interest Paid"), Reversed = filter(false));
+                    DataItemTableView = sorting("Posting Date") where("Transaction Type" = filter(Loan | "Loan Repayment" | "Interest Due" | "Interest Paid"), Reversed = filter(false), "Loan No" = filter(<> ''));//, "Outstanding Balance" = filter(> 0)
+
+                    // DataItemTableView = sorting("Posting Date") where("Transaction Type" = FILTER(Loan | "Loan Repayment" | "Interest Due" | "Interest Paid"), Reversed = filter(false));
 
                     column(PostingDate_loan; Loan."Posting Date") { }
                     column(DocumentNo_loan; Loan."Document No.") { }
@@ -325,6 +327,14 @@ report 50223 "Member Detailed Statement"
                     column(LoanNo; Loan."Loan No") { }
                     column(PrincipleBF_loans; PrincipleBF) { }
                     column(User_ID; loan."User ID") { }
+                    column(PrincipalClosingBal; PrincipalClosingBal)
+                    {
+                    }
+                    column(InterestClosingBal; InterestClosingBal) { }
+                    column(HasPrincipalRow; HasPrincipalRow)
+                    {
+                    }
+                    column(HasInterestRow; HasInterestRow) { }
                     trigger OnPreDataItem()
                     begin
                         RecordCounter := 0;
@@ -344,6 +354,17 @@ report 50223 "Member Detailed Statement"
                         IF Loan."Loan No" = '' THEN BEGIN
                             // Handle empty Loan No. case if needed
                         END;
+                        if loan."Transaction Type" in [loan."transaction type"::Loan, loan."transaction type"::"Loan Repayment"] then
+                            PrincipalClosingBal := PrincipalClosingBal + loan."Amount Posted"
+
+                        else
+                            if loan."Transaction Type" in [loan."transaction type"::"Interest Paid", loan."transaction type"::"Interest Due"] then
+                                InterestClosingBal := InterestClosingBal + loan."Amount Posted";
+
+                        if loan."Transaction Type" in [loan."transaction type"::Loan, loan."transaction type"::"Loan Repayment"] then
+                            HasPrincipalRow := true;
+                        if loan."Transaction Type" in [loan."transaction type"::"Interest Paid", loan."transaction type"::"Interest Due"] then
+                            HasInterestRow := true;
 
                         // Track interest-related transactions
                         IF Loan."Transaction Type" = Loan."Transaction Type"::"Insurance Contribution" THEN BEGIN
@@ -362,7 +383,13 @@ report 50223 "Member Detailed Statement"
                 trigger OnPreDataItem()
                 begin
                     TotalRepayments := 0;
-                    OutstandingBalance := Loans."Loan Principle Repayment";
+                    // OutstandingBalance := Loans."Loan Principle Repayment";
+                    PrincipalClosingBal := PrincipleBF;
+                    InterestClosingBal := 0;
+                    HasPrincipalRow := false;
+                    HasInterestRow := false;
+
+                    Loans.SetFilter(Loans."Date filter", Customer.GetFilter(Customer."Date Filter"));
                 end;
 
                 trigger OnAfterGetRecord()
@@ -427,6 +454,10 @@ report 50223 "Member Detailed Statement"
     end;
 
     var
+        HasPrincipalRow: Boolean;
+        HasInterestRow: Boolean;
+        PrincipalClosingBal: Decimal;
+        InterestClosingBal: Decimal;
         UserId: Code[50];
         DepositsBF: Decimal;
         DateFilterBF: Text[150];

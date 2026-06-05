@@ -171,12 +171,7 @@ page 56110 "Member Application Card"
                     Editable = IDNoEditable;
                     ShowMandatory = true;
                 }
-                field("ID No."; Rec."ID No.")
-                {
-                    ApplicationArea = Basic;
-                    Editable = IDNoEditable;
-                    ShowMandatory = true;
-                }
+
                 field("Passport No."; Rec."Passport No.")
                 {
                     ApplicationArea = all;
@@ -360,6 +355,64 @@ page 56110 "Member Application Card"
                     Editable = NameEditable;
                 }
             }
+
+            group(MemberDetails)
+            {
+                Visible = junior;
+                Caption = 'Member Details';
+                field("Guardian No."; Rec."Guardian No.")
+                {
+                    ApplicationArea = all;
+                    Editable = FistnameEditable;
+                }
+                field("Guardian Name"; Rec."Guardian Name")
+                {
+                    ApplicationArea = all;
+                    Editable = false;
+                }
+
+                field("ID/Passport No"; Rec."ID NO/Passport 2")
+                {
+                    ApplicationArea = Basic;
+                    Editable = passpoetEditable;
+                    ShowMandatory = true;
+                }
+
+                field(Address3; Rec.Address3)
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Postal Address';
+                    Editable = address3Editable;
+                }
+                field(Organization; Rec.Organization)
+                {
+                    ApplicationArea = All;
+                }
+                field("E-Mail (Personal2)"; Rec."E-Mail (Personal2)")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'E-Mail Adress';
+                    Editable = emailaddresEditable;
+                }
+                field("Mobile No. 3"; Rec."Mobile No. 3")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Mobile No.';
+                    Editable = mobile3editable;
+                    ShowMandatory = true;
+                }
+                field("Mobile No. 2"; Rec."Mobile No. 2")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Mobile No. 2';
+                    Editable = mobile3editable;
+                }
+
+
+
+
+
+            }
             group(Junior)
             {
 
@@ -415,21 +468,30 @@ page 56110 "Member Application Card"
                     Editable = false;
                     ShowMandatory = true;
                 }
+                field("Junior Date of Birth"; Rec."Date of Birth2")
+                {
+                    ApplicationArea = Basic;
+                    Editable = gender2editable;
+                    ShowMandatory = true;
+                    Caption = 'Date of Birth';
+
+                    trigger OnValidate()
+                    begin
+                        // Rec.Age := Dates.DetermineAge(Rec."Date of Birth", Today);
+                        // if "Date of Birth" <> 0D then
+                        //     Age := Round((Today - "Date of Birth") / 365, 1);
+                    end;
+                }
                 field("Birth Certficate No."; Rec."Birth Certficate No.")
                 {
                     ApplicationArea = all;
                     Editable = FistnameEditable;
                 }
-                field("Guardian No."; Rec."Guardian No.")
+                field("Saving Amount"; Rec."Saving Amount")
                 {
                     ApplicationArea = all;
-                    Editable = FistnameEditable;
                 }
-                field("Guardian Name"; Rec."Guardian Name")
-                {
-                    ApplicationArea = all;
-                    Editable = false;
-                }
+
 
             }
             group(JointAccountOne)
@@ -491,19 +553,7 @@ page 56110 "Member Application Card"
                     Editable = gender2editable;
                     ShowMandatory = true;
                 }
-                field("JointDate of Birth"; Rec."Date of Birth")
-                {
-                    ApplicationArea = Basic;
-                    Editable = gender2editable;
-                    ShowMandatory = true;
 
-                    trigger OnValidate()
-                    begin
-                        Rec.Age := Dates.DetermineAge(Rec."Date of Birth", Today);
-                        // if "Date of Birth" <> 0D then
-                        //     Age := Round((Today - "Date of Birth") / 365, 1);
-                    end;
-                }
                 field(JointAge; Rec.Age)
                 {
                     ApplicationArea = Basic;
@@ -550,12 +600,7 @@ page 56110 "Member Application Card"
                     Editable = gender2editable;
                     ShowMandatory = true;
                 }
-                field("ID/Passport No"; Rec."ID NO/Passport 2")
-                {
-                    ApplicationArea = Basic;
-                    Editable = passpoetEditable;
-                    ShowMandatory = true;
-                }
+
                 field("Member Gender"; Rec.Gender2)
                 {
                     ApplicationArea = Basic;
@@ -570,6 +615,12 @@ page 56110 "Member Application Card"
                     Editable = MaritalstatusEditable;
                     ShowMandatory = true;
                 }
+                field("Home Postal Code2"; Rec."Home Postal Code2")
+                {
+                    ApplicationArea = Basic;
+                    Caption = ' Postal Code';
+                    Editable = HomePostalCode2Editable;
+                }
                 field("Date of Birth2"; Rec."Date of Birth2")
                 {
                     ApplicationArea = Basic;
@@ -577,31 +628,8 @@ page 56110 "Member Application Card"
                     Editable = gender2editable;
                     ShowMandatory = true;
                 }
-                field("Mobile No. 3"; Rec."Mobile No. 3")
-                {
-                    ApplicationArea = Basic;
-                    Caption = 'Mobile No.';
-                    Editable = mobile3editable;
-                    ShowMandatory = true;
-                }
-                field("E-Mail (Personal2)"; Rec."E-Mail (Personal2)")
-                {
-                    ApplicationArea = Basic;
-                    Caption = 'E-Mail Adress';
-                    Editable = emailaddresEditable;
-                }
-                field(Address3; Rec.Address3)
-                {
-                    ApplicationArea = Basic;
-                    Caption = 'Physical Address';
-                    Editable = address3Editable;
-                }
-                field("Home Postal Code2"; Rec."Home Postal Code2")
-                {
-                    ApplicationArea = Basic;
-                    Caption = ' Postal Code';
-                    Editable = HomePostalCode2Editable;
-                }
+
+
                 field("Home Town2"; Rec."Home Town2")
                 {
                     ApplicationArea = Basic;
@@ -1107,7 +1135,7 @@ page 56110 "Member Application Card"
 
                 ApplicationArea = all;
                 SubPageLink = "No." = FIELD("No.");
-                // Visible = Individual;
+                Visible = Individual;
                 Enabled = true;
 
             }
@@ -1119,12 +1147,28 @@ page 56110 "Member Application Card"
                 Visible = false;
                 Enabled = false;
             }
+
             part(Control151; "Applicant Signature")
             {
                 ApplicationArea = all;
                 SubPageLink = "No." = FIELD("No.");
                 //   Visible = (Individual) AND NOT (JuniourAccountType);
                 Enabled = true;
+                visible = Individual;
+            }
+            part(Control153; "Guardian ID Copy")
+            {
+                ApplicationArea = all;
+                SubPageLink = "No." = FIELD("No.");
+                Editable = true;
+                visible = Junior;
+            }
+            part(Control154; "Birth Certificate Copy")
+            {
+                ApplicationArea = all;
+                SubPageLink = "No." = FIELD("No.");
+                Editable = true;
+                visible = Junior;
             }
             // part(Control152; "Applicant Logo")
             // {
@@ -1257,6 +1301,8 @@ page 56110 "Member Application Card"
                                 Error('You must specify ID No for the applicant');
                         end;
                         if Rec."Account Category" = Rec."Account Category"::"Junior Account" then begin
+                            Rec.TestField("Birth Certficate No.");
+                            Rec.TestField("ID Copy");
                             if (Rec."Birth Certficate No." = '') then
                                 Error('You must enter the Birth Cert. No');
                         end;
@@ -1619,9 +1665,17 @@ page 56110 "Member Application Card"
     var
         RestrictInsert: ErrorInfo;
     begin
+        GenSetUp.Reset();
+        GenSetUp.Get();
         Rec."Responsibility Centre" := UserMgt.GetSalesFilter;
-        Rec."Monthly Contribution" := GenSetUp."Min. Contribution";
         Rec."User ID" := UserId;
+        GenSetUp.Get();
+        if Rec."Account Category" = Rec."Account Category"::"Junior Account" then
+            Rec."Monthly Contribution" := GenSetUp."Min. Junior Contribution"
+        else
+            Rec."Monthly Contribution" := GenSetUp."Min. Contribution";
+
+
         //rec.Reset();
         // Rec.SetRange(rec.Status, Rec.Status::Open);
         // Rec.SetRange(Rec."User ID", UserId);
@@ -1896,6 +1950,9 @@ page 56110 "Member Application Card"
             CopyofconstitutionEditable := false;
             commonDetails := true;
 
+            GenSetUp.Get();
+            Rec."Monthly Contribution" := GenSetUp."Min. Contribution";
+
         end
         else
             if Rec."Account Category" = Rec."account category"::"Junior Account" then begin
@@ -1904,7 +1961,17 @@ page 56110 "Member Application Card"
                 Individual := false;
                 Jooint := false;
                 FistnameEditable := true;
+                IDNoEditable := true;
+                EmailEdiatble := true;
+                PhoneEditable := true;
+                MonthlyContributionEdit := true;
+                AddressEditable := true;
+                address3Editable := true;
+                gender2editable := true;
                 commonDetails := true;
+
+                GenSetUp.Get();
+                Rec."Monthly Contribution" := GenSetUp."Min. Junior Contribution";
 
             end;
 
@@ -2107,6 +2174,7 @@ page 56110 "Member Application Card"
             CopyofconstitutionEditable := true;
 
         end;
+
 
     end;
 

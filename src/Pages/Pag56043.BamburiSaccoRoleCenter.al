@@ -1106,12 +1106,12 @@ Page 56043 "Bamburi SACCO Role Center"
                 ToolTip = 'Manage BOSA Loans Module';
                 group("Import Loans BC240")
                 {
-                    Visible = false;
+                    Visible = true;
                     Caption = 'Post Existing Loans';
                     action("Import Loans")
                     {
                         ApplicationArea = All;
-                        Caption = 'Import Loans Page';
+                        Caption = 'Post Partial disbursement loans';
                         RunObject = page "Existing Loans";
                     }
                 }
@@ -1150,7 +1150,7 @@ Page 56043 "Bamburi SACCO Role Center"
                         Caption = 'BOSA Posted Loans';
                         RunObject = Page "Loans Posted List";
                         ToolTip = 'Open the list of the Loans Posted.';
-                    }
+                    }//9410
                 }
 
                 group("Loans Appeals")
@@ -1991,6 +1991,7 @@ Page 56043 "Bamburi SACCO Role Center"
                     {
                         Caption = 'Bamburi Paybill Transactions';
                         Image = ReceiptLines;
+                        Visible = false;
                         RunObject = page "Bamburi Paybill Transactions";
                         ToolTip = 'This page contains C2B Transactions for paybill Number 751459';
                     }

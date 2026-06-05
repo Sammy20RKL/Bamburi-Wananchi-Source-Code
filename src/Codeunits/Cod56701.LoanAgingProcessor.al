@@ -178,6 +178,8 @@ codeunit 56701 LoanAgingProcessor
                         end;
                         //**************************************************************************************************************************************************************
                         //Calculatee the Arrears in respect to loans issued within this month
+                        // issueddate := CalcDate('1M', Loans."Loan Disbursement Date");// "Issued Date");
+                        if Loans."Loan Disbursement Date" = 0D then continue;
                         issueddate := CalcDate('1M', Loans."Loan Disbursement Date");// "Issued Date");
                         if issueddate > AsAt then begin
                             Arrears := 0;

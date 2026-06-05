@@ -14,6 +14,9 @@ Table 51398 "Sacco General Set-Up"
         field(3; "Min. Contribution"; Decimal)
         {
         }
+        field(300; "Min. Junior Contribution"; Decimal)
+        {
+        }
         field(4; "Min. Dividend Proc. Period"; Code[10])
         {
         }
@@ -923,6 +926,7 @@ Table 51398 "Sacco General Set-Up"
         {
             TableRelation = "G/L Account";
         }
+
     }
 
     keys
