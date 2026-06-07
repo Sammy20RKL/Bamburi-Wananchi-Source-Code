@@ -11,7 +11,7 @@
       <am:Name>PBIRB</am:Name>
       <am:Version>15.7.1813.16</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2026-06-05T06:42:39.9890333Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2026-06-07T04:12:55.3155890Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
@@ -262,7 +262,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>LOANS DEFAULTER AGING</Value>
+                    <Value>                                                                                                                                           LOANS DEFAULTER AGING</Value>
                     <Style>
                       <FontWeight>Bold</FontWeight>
                     </Style>
@@ -274,8 +274,9 @@
               </Paragraph>
             </Paragraphs>
             <Top>3.37814cm</Top>
+            <Left>0.05291cm</Left>
             <Height>0.6cm</Height>
-            <Width>35.58378cm</Width>
+            <Width>21.06697cm</Width>
             <ZIndex>7</ZIndex>
             <Style>
               <Border>
@@ -1804,7 +1805,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Loans_Loans__Outstanding_Balance_.Value</Value>
+                                  <Value>=Fields!CurrentBal.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <Format>#,0.00;(#,0.00)</Format>
@@ -2153,6 +2154,7 @@
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
+                                    <Format>#,0.00;(#,0.00)</Format>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2252,7 +2254,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!Loans_Loans__Outstanding_Balance_.Value)</Value>
+                                  <Value>=Sum(Fields!CurrentBal.Value)</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -2335,6 +2337,66 @@
               </Border>
             </Style>
           </Tablix>
+          <Textbox Name="Textbox16">
+            <rd:DefaultName>Textbox16</rd:DefaultName>
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>As at:</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>3.32176cm</Top>
+            <Left>21.99543cm</Left>
+            <Height>0.6cm</Height>
+            <Width>1.58278cm</Width>
+            <ZIndex>10</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox19">
+            <rd:DefaultName>Textbox19</rd:DefaultName>
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!AsAt.Value, "DataSet_Result")</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>3.28648cm</Top>
+            <Left>24.44251cm</Left>
+            <Height>0.6cm</Height>
+            <Width>9.61911cm</Width>
+            <ZIndex>11</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
         </ReportItems>
         <Height>6.29444cm</Height>
         <Style />
@@ -2342,9 +2404,9 @@
       <Width>40.1725cm</Width>
       <Page>
         <PageHeight>26.95cm</PageHeight>
-        <PageWidth>43.7cm</PageWidth>
+        <PageWidth>43cm</PageWidth>
         <InteractiveHeight>26.95cm</InteractiveHeight>
-        <InteractiveWidth>43.7cm</InteractiveWidth>
+        <InteractiveWidth>43cm</InteractiveWidth>
         <LeftMargin>1cm</LeftMargin>
         <RightMargin>1cm</RightMargin>
         <TopMargin>2cm</TopMargin>
@@ -2716,6 +2778,21 @@ End Function
         </Field>
         <Field Name="periodFormat">
           <DataField>periodFormat</DataField>
+        </Field>
+        <Field Name="AsAt">
+          <DataField>AsAt</DataField>
+        </Field>
+        <Field Name="LBal">
+          <DataField>LBal</DataField>
+        </Field>
+        <Field Name="LBalFormat">
+          <DataField>LBalFormat</DataField>
+        </Field>
+        <Field Name="CurrentBal">
+          <DataField>CurrentBal</DataField>
+        </Field>
+        <Field Name="CurrentBalFormat">
+          <DataField>CurrentBalFormat</DataField>
         </Field>
       </Fields>
       <Query>

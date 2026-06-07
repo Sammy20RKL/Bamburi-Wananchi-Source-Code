@@ -257,7 +257,7 @@ page 50411 "Sacco General Set-Up"
                     Caption = 'Auto Open M-Wallets Accounts';
                     ApplicationArea = Basic;
                 }
-                field("Package Retrieval Charge"; Rec."Package Retrieval Charge") { }
+                field("Package Retrieval C  harge"; Rec."Package Retrieval Charge") { }
                 field("Package Retrieval Charge Acc"; Rec."Package Retrieval Charge Acc") { }
             }
             group("Fees & Commissions")

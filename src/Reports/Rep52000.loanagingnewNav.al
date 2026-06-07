@@ -244,6 +244,9 @@ Report 52000 "loan aging new Nav"
             column(period; "Loans Register"."Days In Arrears")
             {
             }
+            column(AsAt; AsAt) { }
+            column(LBal; LBal) { }
+            column(CurrentBal; CurrentBal) { }
 
             trigger OnAfterGetRecord()
             begin
@@ -255,12 +258,18 @@ Report 52000 "loan aging new Nav"
                 Over3Month := 0;
                 GrandTotal := 0;
 
-                // "Loans Register".CalcFields("Outstanding Balance");
-                // LBal := "Loans Register"."Outstanding Balance";
-                "Loans Register".SetFilter("Date filter", '..%1', AsAt);
+                Loans.Reset();
+                Loans.SetRange(Loans."Loan  No.", "Loan  No.");
+                if Loans.Find('-') then begin
+                    Loans.CalcFields(Loans."Outstanding Balance");
+                    CurrentBal := Loans."Outstanding Balance";
+                end;
+
                 "Loans Register".CalcFields("Outstanding Balance");
                 LBal := "Loans Register"."Outstanding Balance";
-                "Loans Register".SetRange("Date filter");
+
+
+                // "Loans Register".SetRange("Date filter");
                 if "Loans Register"."Loans Category-SASRA" = "Loans Register"."loans category-sasra"::Perfoming then begin
                     Sorting := 1;
                     "0Month" := LBal;
@@ -334,17 +343,17 @@ Report 52000 "loan aging new Nav"
                 //Reset all loans within that period to performing...
                 "Loans Register".SetFilter("Loans Register"."Date filter", DFilter);
                 "Loans Register".SetFilter("Loans Register"."Issued Date", '<=%1', AsAt);
-                LoanApp.Reset;
-                if LoanApp.FindSet then begin
-                    repeat
-                        LoanApp.Performing := false;
-                        LoanApp.watch := false;
-                        LoanApp.Substandard := false;
-                        LoanApp.Doubtful := false;
-                        LoanApp.loss := false;
-                        LoanApp.Modify(true);
-                    until LoanApp.Next = 0;
-                end;
+                // LoanApp.Reset;
+                // if LoanApp.FindSet then begin
+                //     repeat
+                //         LoanApp.Performing := false;
+                //         LoanApp.watch := false;
+                //         LoanApp.Substandard := false;
+                //         LoanApp.Doubtful := false;
+                //         LoanApp.loss := false;
+                //         LoanApp.Modify(true);
+                //     until LoanApp.Next = 0;
+                // end;
 
                 LoanAgingProcessor.UpdateLoanArrears(AsAt);
             end;
@@ -375,6 +384,7 @@ Report 52000 "loan aging new Nav"
     }
 
     var
+        CurrentBal: Decimal;
         LoanAgingProcessor: Codeunit LoanAgingProcessor;
         LoansTotal: Integer;
         Reached: integer;

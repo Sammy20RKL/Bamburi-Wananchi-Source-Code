@@ -1111,7 +1111,14 @@ Page 56043 "Bamburi SACCO Role Center"
                     action("Import Loans")
                     {
                         ApplicationArea = All;
-                        Caption = 'Post Partial disbursement loans';
+                        Caption = 'Partial disbursement loans';
+                        RunObject = page "Existing Loans";
+                        // RunPageView = where 
+                    }
+                    action("Posted Partial")
+                    {
+                        ApplicationArea = all;
+                        Caption = 'Posted Partial Disbursement';
                         RunObject = page "Existing Loans";
                     }
                 }
@@ -1182,6 +1189,7 @@ Page 56043 "Bamburi SACCO Role Center"
                         ToolTip = 'Loan Aging New';
                         Visible = true;
                     }
+
                     action("Loan Aging 2")
                     {
                         ApplicationArea = All;

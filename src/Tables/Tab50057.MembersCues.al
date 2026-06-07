@@ -9,7 +9,7 @@ table 50057 "Members Cues"
         }
         field(2; "All Members"; Integer)
         {
-            CalcFormula = count(Customer where("Customer Posting Group" = filter('BOSA')));
+            CalcFormula = count(Customer where("Customer Posting Group" = filter('BOSA'| 'JUNIORS')));
             FieldClass = FlowField;
         }
 
@@ -18,6 +18,12 @@ table 50057 "Members Cues"
             CalcFormula = count(Customer where(Status = const("Active"), "Customer Posting Group" = filter('BOSA')));
             FieldClass = FlowField;
         }
+        field(45; "Active Juniors"; Integer)
+        {
+            CalcFormula = count(Customer where(Status = const("Active"), "Customer Posting Group" = filter('JUNIORS')));
+            FieldClass = FlowField;
+        }
+
         field(4; "NonActive Mbrs"; Integer)
         {
             CalcFormula = count(Customer where(Status = const(Dormant), "Customer Posting Group" = filter('BOSA')));

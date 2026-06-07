@@ -7,8 +7,11 @@ page 57205 "Existing Loans"
     CardPageId = "Existing Loans Card";
     PageType = List;
     SourceTable = "Loans Register";
-    UsageCategory = Administration;
-    Editable = false;
+    UsageCategory = Lists;
+    InsertAllowed = true;
+    ModifyAllowed = true;
+    Editable = true;
+    SourceTableView = where("Disburesment Type" = const("Tranche/Multiple Disbursement"));
 
     layout
     {

@@ -63,7 +63,7 @@ page 50428 "Member Statistics FactBox"
                 field("Junior Contribution"; Rec."Junior Contribution")
                 {
                     ApplicationArea = Basic;
-                    Caption = 'Junior Contribution';
+                    Caption = 'Junior Savings';
                 }
                 field("Holiday Savings"; Rec."Holiday Savings")
                 {
@@ -197,6 +197,7 @@ page 50428 "Member Statistics FactBox"
     end;
 
     var
+        IsJunior: Boolean;
         memberGuarantorshipAbility: Decimal;
         selfGuarantorshipAbility: Decimal;
         guarantorshipMngt: Codeunit "Guarantor Management";

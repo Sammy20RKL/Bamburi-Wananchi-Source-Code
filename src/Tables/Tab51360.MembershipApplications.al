@@ -1420,8 +1420,16 @@ Table 51360 "Membership Applications"
                 if Rec."Guardian No." <> '' then begin
                     Cust.Reset();
                     Cust.SetRange(Cust."No.", Rec."Guardian No.");
-                    if Cust.Find('-') then
-                        Rec."Guardian Name" := Cust.Name
+                    if Cust.Find('-') then begin
+                        Rec."Guardian Name" := Cust.Name;
+                        Rec."ID NO/Passport 2" := Cust."ID No.";
+                        Rec.Address3 := Cust.Address;
+                        Rec.Organization := Cust.Occupation;
+                        Rec."Mobile No. 2" := Cust."Mobile Phone No.";
+                        Rec."Mobile No. 3" := Cust."Phone No."
+                    end
+
+
                     else
                         exit;
 

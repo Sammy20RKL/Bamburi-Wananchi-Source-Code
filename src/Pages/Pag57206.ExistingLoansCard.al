@@ -5,7 +5,8 @@ page 57206 "Existing Loans Card"
     ApplicationArea = All;
     Caption = 'Existing Loans Card';
     PageType = Card;
-    InsertAllowed = false;
+    InsertAllowed = true;
+    ModifyAllowed = true;
     SourceTable = "Loans Register";
     SourceTableView = where("Disburesment Type" = const("Tranche/Multiple Disbursement"));
 
@@ -114,6 +115,7 @@ page 57206 "Existing Loans Card"
                     ApplicationArea = Basic;
                     ShowMandatory = true;
                     Style = Ambiguous;
+                    Visible = false;
                     // Editable = MNoEditable;
 
                     trigger OnValidate()
@@ -121,21 +123,22 @@ page 57206 "Existing Loans Card"
                         // Rec.TestField(Posted, false);
                     end;
                 }
-                field("Sub-Sector"; Rec."Sub-Sector")
-                {
-                    ApplicationArea = Basic;
-                    ShowMandatory = true;
-                    Style = Ambiguous;
-                    TableRelation = "Sub Sector".Code where(No = field("Main-Sector"));
-                    trigger OnValidate()
-                    begin
-                        // Rec.TestField(Posted, false);
-                    end;
-                }
+                // field("Sub-Sector"; Rec."Sub-Sector")
+                // {
+                //     ApplicationArea = Basic;
+                //     ShowMandatory = true;
+                //     Style = Ambiguous;
+                //     TableRelation = "Sub Sector".Code where(No = field("Main-Sector"));
+                //     trigger OnValidate()
+                //     begin
+                //         // Rec.TestField(Posted, false);
+                //     end;
+                // }
                 field("Specific Sector"; Rec."Specific-Sector")
                 {
                     ApplicationArea = Basic;
                     ShowMandatory = true;
+                    Visible = false;
                     Style = Ambiguous;
                     // Editable = MNoEditable;
                     TableRelation = "Specific Sector".Code where(No = field("Sub-Sector"));

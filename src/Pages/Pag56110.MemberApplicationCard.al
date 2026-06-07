@@ -2257,6 +2257,13 @@ page 56110 "Member Application Card"
             Cust."Birth Certficate No." := Rec."Birth Certficate No.";
             Cust."Guardian No." := Rec."Guardian No.";
             Cust."Guardian Name" := Rec."Guardian Name";
+            Cust."ID NO/Passport 2" := Rec."ID NO/Passport 2";
+            Cust.Address := Rec.Address3;
+            Cust.Occupation := Rec.Organization;
+            Cust."E-Mail" := Rec."E-Mail (Personal2)";
+            Cust."Date of Birth" := Rec."Date of Birth";
+            Cust."Phone No." := Rec."Mobile No. 3";
+            Cust."Mobile No. 2" := Rec."Mobile No. 2";
             Cust."Global Dimension 1 Code" := Rec."Global Dimension 1 Code";
             Cust."Global Dimension 2 Code" := Rec."Global Dimension 2 Code";
             Cust."Customer Posting Group" := Rec."Customer Posting Group";

@@ -1,4 +1,3 @@
-
 codeunit 56701 LoanAgingProcessor
 {
     trigger OnRun()
@@ -7,265 +6,207 @@ codeunit 56701 LoanAgingProcessor
     end;
 
     var
-        periodArrear: Decimal;
-        Rescheduledate: Date;
-        ExpectedBalance: Decimal;
-        // "1Month": Decimal;
-        // "2Month": Decimal;
-        // "3Month": Decimal;
-        // Over3Month: Decimal;
-        // "0MonthC": Decimal;
-        // "1MonthC": Decimal;
-        // "2MonthC": Decimal;
-        // "3MonthC": Decimal;
-        // Over3MonthC: Decimal;
-        NoLoans: Integer;
-        GrandTotal: Decimal;
-        // "0Month": Decimal;
         LSchedule: Record "Loan Repayment Schedule";
-        RepaymentPeriod: Date;
-        LastMonth: Date;
-        ScheduledLoanBal: Decimal;
-        DateFilter: Text;
-        LBal: Decimal;
-        Arrears: Decimal;
-        NoofMonthsinArrears: Decimal;
-        MonthlyRepayment: Decimal;
-        Last2Months: Date;
-        // Sorting: Integer;
-        ApprovedAmount: Decimal;
-        ExpectedDateofCompletion: Date;
-        DateDiff: Decimal;
-        OutstandBal: Decimal;
-        issueddate: Date;
-        daysinarr: Decimal;
         LoansRegister: Record "Loans Register";
         LoansTotal: Integer;
-        Reached: integer;
+        Reached: Integer;
         PercentageDone: Decimal;
         DialogBox: Dialog;
 
     procedure UpdateLoanArrears(AsAt: Date)
     var
         Loans: Record "Loans Register";
+        TempLoans: Record "Loans Register" temporary;
         loanNumber: Code[20];
+        LBal: Decimal;
+        Arrears: Decimal;
+        MonthlyRepayment: Decimal;
+        ScheduledLoanBal: Decimal;
+        NoofMonthsinArrears: Decimal;
+        ExpectedDateofCompletion: Date;
+        Rescheduledate: Date;
+        periodArrear: Decimal;
+        daysinarr: Decimal;
+        issueddate: Date;
+        LastMonth: Date;
+        DateFilter: Text;
     begin
-        //Assign variables
-        NoofMonthsinArrears := 0;
-        ApprovedAmount := 0;
-        DateDiff := 0;
-        MonthlyRepayment := 0;
-        ScheduledLoanBal := 0;
-        LBal := 0;
-        Arrears := 0;
-        OutstandBal := 0;
-        ExpectedDateofCompletion := 0D;
-        // Cat := '';
+        LastMonth := AsAt;
+        DateFilter := '..' + Format(AsAt);
 
-        NoofMonthsinArrears := 0;
-        ApprovedAmount := 0;
-        DateDiff := 0;
-        MonthlyRepayment := 0;
-        ScheduledLoanBal := 0;
-        LBal := 0;
-        Arrears := 0;
-        OutstandBal := 0;
-        ExpectedDateofCompletion := 0D;
-        RepaymentPeriod := AsAt;
-
-        //get the loan from the main LoansRegister table
+        // Load all posted loans issued on or before AsAt
         LoansRegister.Reset();
         LoansRegister.SetRange(LoansRegister.Posted, true);
-        LoansRegister.SetFilter(LoansRegister."Date filter", '..' + Format(AsAt));
-        LoansRegister.SetAutocalcFields(LoansRegister."Scheduled Principle Payments", LoansRegister."Schedule Loan Amount Issued", LoansRegister."Schedule Installments", LoansRegister."Outstanding Balance", LoansRegister."Oustanding Interest", LoansRegister."Scheduled Interest Payments", LoansRegister."Interest Paid", LoansRegister."Principal Paid");
-        if LoansRegister.Find('-') then begin
+        LoansRegister.SetFilter(LoansRegister."Issued Date", '<=%1', AsAt);
 
-            LoansTotal := 0;
-            LoansTotal := LoansRegister.Count();
-            Reached := 0;
-            PercentageDone := 0;
+        if not LoansRegister.Find('-') then
+            exit;
 
-            repeat
-                //re-assign values
-                NoofMonthsinArrears := 0;
-                ApprovedAmount := 0;
-                DateDiff := 0;
-                MonthlyRepayment := 0;
+        LoansTotal := LoansRegister.Count();
+        Reached := 0;
+
+        repeat
+            // Reset per loan
+            LBal := 0;
+            Arrears := 0;
+            MonthlyRepayment := 0;
+            ScheduledLoanBal := 0;
+            NoofMonthsinArrears := 0;
+            ExpectedDateofCompletion := 0D;
+            Rescheduledate := 0D;
+            periodArrear := 0;
+            daysinarr := 0;
+
+            Reached += 1;
+            if (Reached mod 10) = 0 then begin
+                PercentageDone := Round((Reached / LoansTotal) * 100, 1);
+                DialogBox.Open('Processing ' + Format(Reached) + ' of ' + Format(LoansTotal) + ': ' + Format(PercentageDone) + '%');
+            end;
+
+            loanNumber := LoansRegister."Loan  No.";
+
+            // Skip loans missing key data
+            if (LoansRegister."Loan Disbursement Date" = 0D) or (LoansRegister.Installments <= 0) then
+                continue;
+
+            // Get balance as at AsAt date using separate record
+            Loans.Reset();
+            Loans.SetRange(Loans."Loan  No.", loanNumber);
+            Loans.SetFilter(Loans."Date filter", DateFilter);
+            if Loans.Find('-') then begin
+                Loans.CalcFields(Loans."Outstanding Balance");
+                LBal := Round(Loans."Outstanding Balance", 1, '=');
+            end;
+
+            // Skip zero balance loans
+            if LBal <= 0 then
+                continue;
+
+            // Expected completion date
+            ExpectedDateofCompletion := CalcDate(Format(LoansRegister.Installments) + 'M', LoansRegister."Loan Disbursement Date");
+
+            // Get scheduled balance - last entry <= AsAt
+            LSchedule.Reset();
+            LSchedule.SetCurrentKey(LSchedule."Loan No.", LSchedule."Repayment Date");
+            LSchedule.SetRange(LSchedule."Loan No.", loanNumber);
+            LSchedule.SetFilter(LSchedule."Repayment Date", '<=%1', AsAt);
+            if LSchedule.FindLast() then begin
+                ScheduledLoanBal := Round(LSchedule."Loan Balance", 1, '=');
+                Rescheduledate := LSchedule."Repayment Date";
+            end;
+
+            // Get monthly repayment from first installment
+            LSchedule.SetRange(LSchedule."Repayment Date");
+            LSchedule.SetRange(LSchedule."Instalment No", 1);
+            if LSchedule.FindFirst() then begin
+                MonthlyRepayment := Round(LSchedule."Principal Repayment", 1, '=');
+                if (ScheduledLoanBal = 0) and (LSchedule."Repayment Date" > LastMonth) then
+                    ScheduledLoanBal := LBal;
+            end else
                 ScheduledLoanBal := 0;
-                LBal := 0;
+
+            // Calculate arrears
+            issueddate := CalcDate('1M', LoansRegister."Loan Disbursement Date");
+            if issueddate > AsAt then
+                Arrears := 0
+            else
+                Arrears := LBal - ScheduledLoanBal;
+
+            if Arrears < 0 then
                 Arrears := 0;
-                OutstandBal := 0;
-                ExpectedDateofCompletion := 0D;
-                // Cat := '';
 
-                NoofMonthsinArrears := 0;
-                ApprovedAmount := 0;
-                DateDiff := 0;
-                MonthlyRepayment := 0;
-                ScheduledLoanBal := 0;
-                LBal := 0;
-                Arrears := 0;
-                OutstandBal := 0;
-                ExpectedDateofCompletion := 0D;
-                RepaymentPeriod := AsAt;
+            // Days in arrears
+            if MonthlyRepayment <> 0 then
+                LoansRegister."Days In Arrears" := Round((Arrears / MonthlyRepayment) * 30, 1, '<');
 
-                daysinarr := 0;
-                periodArrear := 0;
+            // Months in arrears
+            if MonthlyRepayment <> 0 then
+                NoofMonthsinArrears := Round((Arrears / MonthlyRepayment), 1, '<')
+            else
+                if Arrears <> 0 then
+                    NoofMonthsinArrears := 13 * 30;
 
-                // //.............Update Armotised loan schedules
-                //............................................
-                Reached := Reached + 1;
-                PercentageDone := (Reached / LoansTotal) * 100;
-                DialogBox.Open('Processing ' + Format(Reached) + ' of ' + Format(LoansTotal) + ': Percentage= ' + Format(Round(PercentageDone)));
+            // Override days if loan past completion date
+            if ExpectedDateofCompletion < AsAt then
+                daysinarr := 361
+            else
+                daysinarr := LoansRegister."Days In Arrears";
 
-                loanNumber := LoansRegister."Loan  No.";
-                Loans.Reset;
-                Loans.SetRange(Loans."Loan  No.", LoansRegister."Loan  No.");
-                // Loans.SetRange(Loans.Rescheduled, false);
-                if Loans.Find('-') then begin
-                    Loans.CalcFields("Outstanding Balance");
-                    ApprovedAmount := Loans."Outstanding Balance";
+            // Set SASRA category
+            if (Arrears = 0) or (daysinarr < 1) then begin
+                LoansRegister."Loans Category" := LoansRegister."loans category"::Perfoming;
+                LoansRegister."Loans Category-SASRA" := LoansRegister."loans category-sasra"::Perfoming;
+                LoansRegister.Performing := true;
+                LoansRegister.watch := false;
+                LoansRegister.Substandard := false;
+                LoansRegister.Doubtful := false;
+                LoansRegister.loss := false;
+            end else if (daysinarr >= 1) and (daysinarr <= 30) then begin
+                LoansRegister."Loans Category" := LoansRegister."loans category"::Watch;
+                LoansRegister."Loans Category-SASRA" := LoansRegister."loans category-sasra"::Watch;
+                LoansRegister.Performing := false;
+                LoansRegister.watch := true;
+                LoansRegister.Substandard := false;
+                LoansRegister.Doubtful := false;
+                LoansRegister.loss := false;
+            end else if (daysinarr > 30) and (daysinarr <= 180) then begin
+                LoansRegister."Loans Category" := LoansRegister."loans category"::Substandard;
+                LoansRegister."Loans Category-SASRA" := LoansRegister."loans category-sasra"::Substandard;
+                LoansRegister.Performing := false;
+                LoansRegister.watch := false;
+                LoansRegister.Substandard := true;
+                LoansRegister.Doubtful := false;
+                LoansRegister.loss := false;
+            end else if (daysinarr > 180) and (daysinarr <= 360) then begin
+                LoansRegister."Loans Category" := LoansRegister."loans category"::Doubtful;
+                LoansRegister."Loans Category-SASRA" := LoansRegister."loans category-sasra"::Doubtful;
+                LoansRegister.Performing := false;
+                LoansRegister.watch := false;
+                LoansRegister.Substandard := false;
+                LoansRegister.Doubtful := true;
+                LoansRegister.loss := false;
+            end else if daysinarr > 360 then begin
+                LoansRegister."Loans Category" := LoansRegister."loans category"::Loss;
+                LoansRegister."Loans Category-SASRA" := LoansRegister."loans category-sasra"::Loss;
+                LoansRegister.Performing := false;
+                LoansRegister.watch := false;
+                LoansRegister.Substandard := false;
+                LoansRegister.Doubtful := false;
+                LoansRegister.loss := true;
+            end;
 
-                    //just work with loans with balances
-                    if ApprovedAmount > 0 then begin
+            if NoofMonthsinArrears > 1 then
+                periodArrear := AsAt - Rescheduledate;
 
-                        //*******************************************************************************************************************
-                        if LoansRegister."Repayment Frequency" = LoansRegister."repayment frequency"::Monthly then begin
-                            LastMonth := RepaymentPeriod;
-                            Last2Months := CalcDate('-1M', AsAt);
-                        end;
+            LoansRegister."Amount in Arrears" := Arrears;
+            LoansRegister."Days In Arrears" := periodArrear;
+            LoansRegister."No of Months in Arrears" := NoofMonthsinArrears;
 
-                        //get the expected date of completion..
-                        //ExpectedDateofCompletion := CalcDate(Format(Loans.Installments) + 'M', Loans."Loan Disbursement Date");// "Issued Date");
-                        // Check BOTH date and installments before calculating
-                        if (Loans."Loan Disbursement Date" <> 0D) and (Loans.Installments > 0) then
-                            ExpectedDateofCompletion := CalcDate(Format(Loans.Installments) + 'M', Loans."Loan Disbursement Date")
-                        else
-                            ExpectedDateofCompletion := 0D; // skip this loan safely
+            // Store in temp table for batch save
+            TempLoans := LoansRegister;
+            if not TempLoans.Insert() then
+                TempLoans.Modify();
 
-                        //get the scheduled balance as per AsAt date...
-                        LSchedule.Reset;
-                        LSchedule.SetRange(LSchedule."Loan No.", loanNumber);
-                        LSchedule.SetFilter(LSchedule."Repayment Date", '<=%1', AsAt);
-                        if LSchedule.FindLast then begin
-                            ScheduledLoanBal := ROUND(LSchedule."Loan Balance", 1, '=');
-                        end;
+        until LoansRegister.Next() = 0;
 
-                        //*********************************************************************************************************************************************88
-                        Rescheduledate := LSchedule."Repayment Date";
-
-                        //cross check the scheduled balance might be the loan amt(Outstanding Balance), for new loans
-                        LSchedule.Reset;
-                        LSchedule.SetRange(LSchedule."Loan No.", loanNumber);
-                        LSchedule.SetRange(LSchedule."Instalment No", 1);
-                        if LSchedule.FindFirst then begin
-                            MonthlyRepayment := ROUND(LSchedule."Principal Repayment", 1, '=');
-                            if (ScheduledLoanBal = 0) and (LSchedule."Repayment Date" > LastMonth) then
-                                ScheduledLoanBal := ApprovedAmount;
-                        end else begin
-                            ScheduledLoanBal := 0;
-                        end;
-
-                        //********************************************************************************************************************************************************
-                        //get the loan balance in regards to the Date filter given
-                        DateFilter := '..' + Format(AsAt);
-                        Loans.Reset;
-                        Loans.SetRange(Loans."Loan  No.", loanNumber);
-                        Loans.SetFilter(Loans."Date filter", DateFilter);
-                        if Loans.Find('-') then begin
-                            Loans.CalcFields(Loans."Outstanding Balance");
-                            LBal := ROUND(Loans."Outstanding Balance", 1, '=');
-                        end;
-                        //**************************************************************************************************************************************************************
-                        //Calculatee the Arrears in respect to loans issued within this month
-                        // issueddate := CalcDate('1M', Loans."Loan Disbursement Date");// "Issued Date");
-                        if Loans."Loan Disbursement Date" = 0D then continue;
-                        issueddate := CalcDate('1M', Loans."Loan Disbursement Date");// "Issued Date");
-                        if issueddate > AsAt then begin
-                            Arrears := 0;
-                        end else begin
-                            Arrears := LBal - ScheduledLoanBal;
-                        end;
-
-                        ///******************************************************************************************************************************************************
-                        if (Arrears < 0) or (Arrears = 0) then begin
-                            Arrears := 0
-                        end else
-                            Arrears := Arrears;
-                        LoansRegister."Amount in Arrears" := Arrears;
-
-                        //update the days in Arrears
-                        if MonthlyRepayment <> 0 then begin
-                            LoansRegister."Days In Arrears" := ROUND((Arrears / MonthlyRepayment) * 30, 1, '<');
-
-                        end;
-
-                        //***************************************************************************************************************************************************
-                        if Arrears <> 0 then begin
-                            if MonthlyRepayment = 0 then begin
-                                NoofMonthsinArrears := 13 * 30;
-                            end else begin
-                                DateDiff := (LastMonth - ExpectedDateofCompletion) / 30;
-                                if DateDiff >= 1 then begin
-                                    NoofMonthsinArrears := 13 * 30//13+;
-                                end else begin
-                                    NoofMonthsinArrears := ROUND((Arrears / MonthlyRepayment) * 29, 1, '>');
-                                end;
-                            end;
-                        end;
-                        //********************************************************************************************************************************
-                        if MonthlyRepayment <> 0 then begin
-                            NoofMonthsinArrears := ROUND((Arrears / MonthlyRepayment), 1, '<');
-                        end;
-                        if (ExpectedDateofCompletion < AsAt) then begin
-                            daysinarr := 361;
-                        end else begin
-                            daysinarr := LoansRegister."Days In Arrears";
-                        end;
-                        //...........................................................................................................loan category
-
-                        // update the SASRA Categorizations
-                        if (Arrears = 0) then begin
-                            LoansRegister."Loans Category" := Loans."loans category"::Perfoming;
-                            LoansRegister."Loans Category-SASRA" := Loans."loans category-sasra"::Perfoming;
-                            LoansRegister.Performing := true;
-                        end else
-                            if (daysinarr < 1) then begin
-                                LoansRegister."Loans Category" := Loans."loans category"::Perfoming;
-                                LoansRegister."Loans Category-SASRA" := Loans."loans category-sasra"::Perfoming;
-                                LoansRegister.Performing := true;
-                            end else
-                                if (daysinarr >= 1) and (daysinarr <= 30) then begin
-                                    LoansRegister."Loans Category" := Loans."loans category"::Watch;
-                                    LoansRegister."Loans Category-SASRA" := Loans."loans category-sasra"::Watch;
-                                    LoansRegister.watch := true;
-                                end else
-                                    if (daysinarr > 30) and (daysinarr <= 180) then begin
-                                        LoansRegister."Loans Category" := Loans."loans category"::Substandard;
-                                        LoansRegister."Loans Category-SASRA" := Loans."loans category-sasra"::Substandard;
-                                        LoansRegister.Substandard := true;
-                                    end else
-                                        if (daysinarr > 180) and (daysinarr <= 360) then begin
-                                            LoansRegister."Loans Category" := Loans."loans category"::Doubtful;
-                                            LoansRegister."Loans Category-SASRA" := Loans."loans category-sasra"::Doubtful;
-                                            LoansRegister.Doubtful := true;
-                                        end else
-                                            if (daysinarr > 360) then begin
-                                                LoansRegister."Loans Category" := Loans."loans category"::Loss;
-                                                LoansRegister."Loans Category-SASRA" := Loans."loans category-sasra"::Loss;
-                                                LoansRegister.loss := true;
-                                            end;
-                        if NoofMonthsinArrears > 1 then
-                            periodArrear := AsAt - Rescheduledate;
-
-                        LoansRegister."Days In Arrears" := periodArrear;
-                        LoansRegister."No of Months in Arrears" := NoofMonthsinArrears;
-                        LoansRegister.Modify(true);
-                    end;
-                end;
-            until LoansRegister.Next = 0;
-        end;
         DialogBox.Close();
-    end;
 
+        // BATCH SAVE - write all results to database at once
+        if TempLoans.Find('-') then
+            repeat
+                if LoansRegister.Get(TempLoans."Loan  No.") then begin
+                    LoansRegister."Amount in Arrears" := TempLoans."Amount in Arrears";
+                    LoansRegister."Days In Arrears" := TempLoans."Days In Arrears";
+                    LoansRegister."No of Months in Arrears" := TempLoans."No of Months in Arrears";
+                    LoansRegister."Loans Category" := TempLoans."Loans Category";
+                    LoansRegister."Loans Category-SASRA" := TempLoans."Loans Category-SASRA";
+                    LoansRegister.Performing := TempLoans.Performing;
+                    LoansRegister.watch := TempLoans.watch;
+                    LoansRegister.Substandard := TempLoans.Substandard;
+                    LoansRegister.Doubtful := TempLoans.Doubtful;
+                    LoansRegister.loss := TempLoans.loss;
+                    LoansRegister.Modify(true);
+                end;
+            until TempLoans.Next() = 0;
+    end;
 }

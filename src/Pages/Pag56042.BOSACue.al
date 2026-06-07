@@ -34,6 +34,15 @@ Page 56042 "BOSA Cue"
                     StyleExpr = true;
                     DrillDownPageId = "Member List";
                 }
+                field("Active Juniors"; Rec."Active Juniors")
+                {
+
+                    ApplicationArea = Basic;
+                    Image = none;
+                    Style = StandardAccent;
+                    StyleExpr = true;
+                    DrillDownPageId = "Member List";
+                }
 
                 field("NonActive Mbrs"; Rec."NonActive Mbrs")
                 {

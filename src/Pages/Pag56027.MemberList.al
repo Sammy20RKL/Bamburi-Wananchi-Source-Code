@@ -11,7 +11,7 @@ Page 56027 "Member List"
     SourceTableView = sorting("No.")
     order(ascending)
     //where("Customer Type" = filter(BOSA | STAFF),
-   where("Customer Posting Group" = filter('BOSA'));
+   where("Customer Posting Group" = filter('BOSA' | 'JUNIORS'));
     UsageCategory = Lists;
 
     layout
