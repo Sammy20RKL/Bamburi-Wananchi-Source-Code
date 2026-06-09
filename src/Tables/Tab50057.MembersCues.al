@@ -9,7 +9,7 @@ table 50057 "Members Cues"
         }
         field(2; "All Members"; Integer)
         {
-            CalcFormula = count(Customer where("Customer Posting Group" = filter('BOSA'| 'JUNIORS')));
+            CalcFormula = count(Customer where("Customer Posting Group" = filter('BOSA' | 'JUNIORS' | ' ')));
             FieldClass = FlowField;
         }
 
@@ -63,12 +63,12 @@ table 50057 "Members Cues"
         }
         field(13; Female; Integer)
         {
-            CalcFormula = count(Customer where(Gender = Const(Female), "Customer Posting Group" = filter('BOSA')));
+            CalcFormula = count(Customer where(Gender = Const(Female), Status = filter('Active'), "Customer Posting Group" = filter('BOSA')));
             FieldClass = FlowField;
         }
         field(14; Male; Integer)
         {
-            CalcFormula = count(Customer where(Gender = Const(Male), "Customer Posting Group" = filter('BOSA')));
+            CalcFormula = count(Customer where(Gender = Const(Male), Status = filter('Active'), "Customer Posting Group" = filter('BOSA')));
             FieldClass = FlowField;
         }
     }

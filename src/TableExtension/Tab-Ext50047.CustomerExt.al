@@ -214,8 +214,8 @@ tableextension 50047 "CustomerExt" extends Customer
         }
         field(68032; Gender; Option)
         {
-            OptionCaption = ' ,Male,Female';
-            OptionMembers = " ",Male,Female;
+            OptionCaption = 'Male,Female,''';
+            OptionMembers = "Male",Female," ";
 
             trigger OnValidate()
             begin

@@ -35,7 +35,9 @@ codeunit 50047 "Audit Log Codeunit"
                 //Insert Login log
                 AuditLog.Init();
                 AuditLog.LockTable(true);
-                AuditLog."Entry No" := LastEntryNo + 1;
+                // AuditLog."Entry No" := LastEntryNo + 1;
+                AuditLog."Entry No" := GetMaxEntryNo() + 1;
+
                 AuditLog."User ID" := UserId;
                 AuditLog."Session Type" := AuditLog."Session Type"::LogIn;
                 AuditLog."Log In Time" := CurrentDateTime;
@@ -69,7 +71,8 @@ codeunit 50047 "Audit Log Codeunit"
                 //Insert Logout log
                 AuditLog.Init();
                 AuditLog.LockTable(true);
-                AuditLog."Entry No" := LastEntryNo + 1;
+                // AuditLog."Entry No" := LastEntryNo + 1;
+                AuditLog."Entry No" := GetMaxEntryNo() + 1;
                 AuditLog."User ID" := UserId;
                 AuditLog."Session Type" := AuditLog."Session Type"::LogOut;
                 AuditLog."Log out Time" := CurrentDateTime;

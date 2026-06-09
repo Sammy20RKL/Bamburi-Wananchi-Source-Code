@@ -65,6 +65,9 @@ Report 50034 "Loan Balances Report"
             }
             trigger OnPreDataItem()
             begin
+                CompanyInfo.Get();
+                CompanyInfo.CalcFields(CompanyInfo.Picture);
+
                 MemberNo := '';
                 MemberName := '';
                 LoanProductType := '';

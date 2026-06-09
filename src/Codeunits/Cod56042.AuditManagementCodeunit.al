@@ -35,7 +35,8 @@ Codeunit 56042 "Audit Management Codeunit"
                 //Insert Login log
                 AuditLog.Init();
                 AuditLog.LockTable(true);
-                AuditLog."Entry No" := LastEntryNo + 1;
+                // AuditLog."Entry No" := LastEntryNo + 1;
+                AuditLog."Entry No" := GetMaxEntryNo() + 1;
                 AuditLog."User ID" := UserId;
                 AuditLog."Session Type" := AuditLog."Session Type"::LogIn;
                 AuditLog."Log In Time" := CurrentDateTime;
@@ -79,7 +80,7 @@ Codeunit 56042 "Audit Management Codeunit"
                 //Insert Logout log
                 AuditLog.Init();
                 AuditLog.LockTable(true);
-                AuditLog."Entry No" := LastEntryNo + 1;
+                AuditLog."Entry No" := GetMaxEntryNo() + 1;
                 AuditLog."User ID" := UserId;
                 AuditLog."Session Type" := AuditLog."Session Type"::LogOut;
                 AuditLog."Log out Time" := CurrentDateTime;
@@ -118,7 +119,7 @@ Codeunit 56042 "Audit Management Codeunit"
                                 //Insert Logout log
                                 AuditLog.Init();
                                 AuditLog.LockTable(true);
-                                AuditLog."Entry No" := LastEntryNo + 1;
+                                AuditLog."Entry No" := GetMaxEntryNo() + 1;
                                 AuditLog."User ID" := UserId;
                                 AuditLog."Session Type" := AuditLog."Session Type"::Insert;
                                 AuditLog."Event Date/Time" := CurrentDateTime;
@@ -158,7 +159,7 @@ Codeunit 56042 "Audit Management Codeunit"
                                 //Insert Logout log
                                 AuditLog.Init();
                                 AuditLog.LockTable(true);
-                                AuditLog."Entry No" := LastEntryNo + 1;
+                                AuditLog."Entry No" := GetMaxEntryNo() + 1;
                                 AuditLog."User ID" := UserId;
                                 AuditLog."Session Type" := AuditLog."Session Type"::Insert;
                                 AuditLog."Event Date/Time" := CurrentDateTime;
@@ -199,7 +200,7 @@ Codeunit 56042 "Audit Management Codeunit"
                                 //Insert Logout log
                                 AuditLog.Init();
                                 AuditLog.LockTable(true);
-                                AuditLog."Entry No" := LastEntryNo + 1;
+                                AuditLog."Entry No" := GetMaxEntryNo() + 1;
                                 AuditLog."User ID" := UserId;
                                 AuditLog."Session Type" := AuditLog."Session Type"::Insert;
                                 AuditLog."Event Date/Time" := CurrentDateTime;
@@ -240,7 +241,7 @@ Codeunit 56042 "Audit Management Codeunit"
                                 //Insert Logout log
                                 AuditLog.Init();
                                 AuditLog.LockTable(true);
-                                AuditLog."Entry No" := LastEntryNo + 1;
+                                AuditLog."Entry No" := GetMaxEntryNo() + 1;
                                 AuditLog."User ID" := UserId;
                                 AuditLog."Session Type" := AuditLog."Session Type"::Insert;
                                 AuditLog."Event Date/Time" := CurrentDateTime;
@@ -277,6 +278,16 @@ Codeunit 56042 "Audit Management Codeunit"
 
     end;
 
+    procedure GetMaxEntryNo(): Integer
+    var
+        AuditLog: Record "System Log Trails";
+        MaxEntryNo: Integer;
+    begin
+        if AuditLog.FindLast() then
+            MaxEntryNo := AuditLog."Entry No";
+        exit(MaxEntryNo);
+    end;
+
     //4).........................................Readings Made
     procedure FnReadingsMadeAudit(AccountLoggedIn: Code[50]; PageViewed: Text[2048]);
     var
@@ -293,7 +304,8 @@ Codeunit 56042 "Audit Management Codeunit"
                 //Insert Logout log
                 AuditLog.Init();
                 AuditLog.LockTable(true);
-                AuditLog."Entry No" := LastEntryNo + 1;
+                // AuditLog."Entry No" := LastEntryNo + 1;
+                AuditLog."Entry No" := GetMaxEntryNo() + 1;
                 AuditLog."User ID" := AccountLoggedIn;
                 AuditLog."Session Type" := AuditLog."Session Type"::Read;
                 AuditLog."Page Viewed" := CopyStr(PageViewed, 1, 2048);
@@ -330,7 +342,8 @@ Codeunit 56042 "Audit Management Codeunit"
                 //Insert Logout log
                 AuditLog.Init();
                 AuditLog.LockTable(true);
-                AuditLog."Entry No" := LastEntryNo + 1;
+                // AuditLog."Entry No" := LastEntryNo + 1;
+                AuditLog."Entry No" := GetMaxEntryNo() + 1;
                 AuditLog."User ID" := AccountLoggedIn;
                 AuditLog."Session Type" := AuditLog."Session Type"::Modify;
                 AuditLog."Page Viewed" := CopyStr(PageViewed, 1, 2048);

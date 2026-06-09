@@ -336,6 +336,9 @@ Report 52001 "Loans Defaulter Aging Nav"
 
             trigger OnPreDataItem()
             begin
+                Company.get();
+                Company.CalcFields(Company.Picture);
+
                 CurrReport.CreateTotals("0Month", "1Month", "2Month", "3Month", Over3Month);
                 GrandTotal := 0;
                 Company.Get();

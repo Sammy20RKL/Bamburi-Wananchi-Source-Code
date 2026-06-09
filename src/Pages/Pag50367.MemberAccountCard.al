@@ -58,7 +58,7 @@ page 50367 "Member Account Card"
                 field(Gender; Rec.Gender)
                 {
                     ApplicationArea = Basic;
-                    Editable = false;
+                    Editable = true;
                     Style = StrongAccent;
                 }
                 field(txtMarital; Rec."Marital Status")
@@ -931,7 +931,7 @@ page 50367 "Member Account Card"
                     ApplicationArea = Basic;
                     Caption = 'Detailed Active Statement';
                     Image = Report;
-                    Visible = false;
+                    Visible = true;
                     Promoted = true;
                     PromotedCategory = "Report";
 

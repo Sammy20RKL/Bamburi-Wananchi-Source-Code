@@ -2349,11 +2349,13 @@
                     <Style />
                   </TextRun>
                 </TextRuns>
-                <Style />
+                <Style>
+                  <TextAlign>Right</TextAlign>
+                </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>3.32176cm</Top>
-            <Left>21.99543cm</Left>
+            <Top>3.37814cm</Top>
+            <Left>22.06598cm</Left>
             <Height>0.6cm</Height>
             <Width>1.58278cm</Width>
             <ZIndex>10</ZIndex>
@@ -2379,11 +2381,13 @@
                     <Style />
                   </TextRun>
                 </TextRuns>
-                <Style />
+                <Style>
+                  <TextAlign>Left</TextAlign>
+                </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>3.28648cm</Top>
-            <Left>24.44251cm</Left>
+            <Top>3.37814cm</Top>
+            <Left>23.68404cm</Left>
             <Height>0.6cm</Height>
             <Width>9.61911cm</Width>
             <ZIndex>11</ZIndex>

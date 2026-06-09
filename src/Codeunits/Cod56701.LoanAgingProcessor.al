@@ -2,7 +2,7 @@ codeunit 56701 LoanAgingProcessor
 {
     trigger OnRun()
     begin
-        UpdateLoanArrears(Today);
+        // UpdateLoanArrears(Today,'');
     end;
 
     var
@@ -13,7 +13,7 @@ codeunit 56701 LoanAgingProcessor
         PercentageDone: Decimal;
         DialogBox: Dialog;
 
-    procedure UpdateLoanArrears(AsAt: Date)
+    procedure UpdateLoanArrears(AsAt: Date; loanNumberVar: Code[20])
     var
         Loans: Record "Loans Register";
         TempLoans: Record "Loans Register" temporary;
@@ -38,6 +38,8 @@ codeunit 56701 LoanAgingProcessor
         LoansRegister.Reset();
         LoansRegister.SetRange(LoansRegister.Posted, true);
         LoansRegister.SetFilter(LoansRegister."Issued Date", '<=%1', AsAt);
+        if loanNumberVar <> '' then
+            LoansRegister.SetRange("Loan  No.", loanNumberVar);
 
         if not LoansRegister.Find('-') then
             exit;
@@ -56,6 +58,7 @@ codeunit 56701 LoanAgingProcessor
             Rescheduledate := 0D;
             periodArrear := 0;
             daysinarr := 0;
+            LoansRegister."Days In Arrears" := 0;
 
             Reached += 1;
             if (Reached mod 10) = 0 then begin
@@ -119,6 +122,8 @@ codeunit 56701 LoanAgingProcessor
             if MonthlyRepayment <> 0 then
                 LoansRegister."Days In Arrears" := Round((Arrears / MonthlyRepayment) * 30, 1, '<');
 
+            IF MonthlyRepayment = 0 then LoansRegister."Days In Arrears" := 0;
+
             // Months in arrears
             if MonthlyRepayment <> 0 then
                 NoofMonthsinArrears := Round((Arrears / MonthlyRepayment), 1, '<')
@@ -127,10 +132,10 @@ codeunit 56701 LoanAgingProcessor
                     NoofMonthsinArrears := 13 * 30;
 
             // Override days if loan past completion date
-            if ExpectedDateofCompletion < AsAt then
-                daysinarr := 361
-            else
-                daysinarr := LoansRegister."Days In Arrears";
+            // if ExpectedDateofCompletion < AsAt then
+            //     daysinarr := 361
+            // else
+            daysinarr := LoansRegister."Days In Arrears";
 
             // Set SASRA category
             if (Arrears = 0) or (daysinarr < 1) then begin
@@ -175,15 +180,22 @@ codeunit 56701 LoanAgingProcessor
                 LoansRegister.loss := true;
             end;
 
-            if NoofMonthsinArrears > 1 then
-                periodArrear := AsAt - Rescheduledate;
+            // if NoofMonthsinArrears > 1 then
+            //     periodArrear := AsAt - Rescheduledate;
+
+            // LoansRegister."Amount in Arrears" := Arrears;
+            // LoansRegister."Days In Arrears" := periodArrear;
+            if (NoofMonthsinArrears > 1) and (Arrears > 0) then
+                periodArrear := AsAt - Rescheduledate
+            else
+                periodArrear := LoansRegister."Days In Arrears";
 
             LoansRegister."Amount in Arrears" := Arrears;
-            LoansRegister."Days In Arrears" := periodArrear;
+            LoansRegister."Days In Arrears" := daysinarr;
             LoansRegister."No of Months in Arrears" := NoofMonthsinArrears;
 
-            // Store in temp table for batch save
-            TempLoans := LoansRegister;
+
+            TempLoans.TransferFields(LoansRegister);
             if not TempLoans.Insert() then
                 TempLoans.Modify();
 

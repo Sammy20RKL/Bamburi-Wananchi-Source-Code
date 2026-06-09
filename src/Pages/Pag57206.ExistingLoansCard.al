@@ -85,6 +85,10 @@ page 57206 "Existing Loans Card"
                     Editable = false;
                     Caption = 'Interest Rate';
                 }
+                field("Tranche Amount"; Rec."Tranche Amount")
+                {
+                    ApplicationArea = all;
+                }
                 field("Requested Amount"; Rec."Requested Amount")
                 {
                     ApplicationArea = Basic;
@@ -174,6 +178,7 @@ page 57206 "Existing Loans Card"
                     ApplicationArea = Basic;
                     Editable = false;
                 }
+
                 field("Loan Status"; Rec."Loan Status")
                 {
                     ApplicationArea = Basic;
@@ -190,6 +195,11 @@ page 57206 "Existing Loans Card"
                     // Editable = false;
                 }
                 field(Posted; Rec.Posted) { ApplicationArea = Basic; }
+                field("Disburesment Type"; Rec."Disburesment Type")
+                {
+                    ApplicationArea = all;
+                    Editable = false;
+                }
                 field("Repayment Frequency"; Rec."Repayment Frequency")
                 {
                     ApplicationArea = Basic;
@@ -322,6 +332,7 @@ page 57206 "Existing Loans Card"
                     end;
                 }
 
+
                 action("POST")
                 {
                     Caption = 'POST LOAN';
@@ -336,14 +347,18 @@ page 57206 "Existing Loans Card"
                         FundsUserSetup: Record "Funds User Setup";
                         CustLed: Record "Cust. Ledger Entry";
                         MissingAmount: Decimal;
+                        UserSetup: Record "User Setup";
                     begin
                         If FnCanPostLoans(UserId) = false then begin
                             Error('Prohibited! You are not allowed to POST this Loan');
                         end;
-
-                        if UserId <> 'SwizzsoftAdmin' then begin
+                        if PostTranchesLoans(Userid) = false then begin
                             Error('You should not post this loan');
                         end;
+
+                        // if UserId <> 'SwizzsoftAdmin' then begin
+                        //     Error('You should not post this loan');
+                        // end;
 
                         // if "Mode of Disbursement" <> "Mode of Disbursement"::Cheque then begin
                         //     Error('Prohibited ! Mode of disbursement cannot be ' + Format("Mode of Disbursement"));
@@ -363,7 +378,7 @@ page 57206 "Existing Loans Card"
                             // BatchName := FundsUserSetup."Payment Journal Batch";
 
                             TemplateName := 'GENERAL';
-                            BatchName := 'LOANS';
+                            BatchName := 'TRANCHES';
 
 
                             //....................Ensure that If Batch doesnt exist then create
@@ -391,6 +406,7 @@ page 57206 "Existing Loans Card"
                                     // VarAmounttoDisburse := VarAmounttoDisburse - MissingAmount;
 
                                     FnInsertBOSALines(LoanApps, LoanApps."Loan  No.", VarAmounttoDisburse);
+
                                     //exit;
                                     GenJournalLine.RESET;
                                     GenJournalLine.SETRANGE("Journal Template Name", TemplateName);
@@ -796,6 +812,44 @@ page 57206 "Existing Loans Card"
         );
     end;
 
+    local procedure FnDisburseTranche(var LoanApps: Record "Loans Register"; TrancheAmount: Decimal)
+    var
+    //TrancheAmount: Decimal;
+    begin
+        TemplateName := 'GENERAL';
+        BatchName := 'TRANCHES';
+
+        IF NOT GenBatch.GET(TemplateName, BatchName) THEN BEGIN
+            GenBatch.INIT;
+            GenBatch."Journal Template Name" := TemplateName;
+            GenBatch.Name := BatchName;
+            GenBatch.Insert();
+        END;
+
+        GenJournalLine.RESET;
+        GenJournalLine.SETRANGE("Journal Template Name", TemplateName);
+        GenJournalLine.SETRANGE("Journal Batch Name", BatchName);
+        GenJournalLine.DELETEALL;
+
+        TrancheAmount := Rec."Tranche Amount"; // amount for this tranche
+
+        // Debit partial disbursement account (releases from holding)
+        LineNo := LineNo + 10000;
+        SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Rec."Loan  No.", LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"G/L Account", GenSetUp."Partial Disbursement Account", Today, TrancheAmount, 'BOSA', Rec."Loan  No.", 'Tranche Disbursement ' + Format(Rec."Loan  No."), '');
+
+        // Credit bank account (pays member)
+        LineNo := LineNo + 10000;
+        SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Rec."Loan  No.", LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"Bank Account", Rec."Paying Bank Account No", Today, TrancheAmount * -1, 'BOSA', Rec."Loan  No.", 'Tranche Disbursement ' + Format(Rec."Loan  No."), '');
+
+        GenJournalLine.RESET;
+        GenJournalLine.SETRANGE("Journal Template Name", TemplateName);
+        GenJournalLine.SETRANGE("Journal Batch Name", BatchName);
+        if GenJournalLine.Find('-') then
+            CODEUNIT.RUN(CODEUNIT::"Gen. Jnl.-Post Batch", GenJournalLine);
+
+        Message('Tranche disbursed successfully');
+    end;
+
 
     local procedure FnInsertBOSALines(var LoanApps: Record "Loans Register"; LoanNo: Code[30]; VarAmounttoDisburse: Decimal)
     var
@@ -912,12 +966,12 @@ page 57206 "Existing Loans Card"
         SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, LoanApps."Loan  No.", LineNo, GenJournalLine."Transaction Type"::"Deposit Contribution", GenJournalLine."Account Type"::Customer, LoanApps."Client Code", DirbursementDate, LoanApps."Deboost Amount" * -1, 'BOSA', Rec."Batch No.", 'Debosted shares ' + Format(LoanApps."Loan  No."), '');
         VarAmounttoDisburse := VarAmounttoDisburse - LoanApps."Deboost Amount";
         //..Legal Fees
-        LineNo := LineNo + 10000;
-        SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, LoanApps."Loan  No.", LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"G/L Account", GenSetUp."Legal Fees", DirbursementDate, LoanApps."Legal Cost" * -1, 'BOSA', Rec."Batch No.", 'Loan Principle Amount ' + Format(LoanApps."Loan  No."), '');
-        VarAmounttoDisburse := VarAmounttoDisburse - LoanApps."Legal Cost";
+        // LineNo := LineNo + 10000;
+        // SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, LoanApps."Loan  No.", LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"G/L Account", GenSetUp."Legal Fees", DirbursementDate, LoanApps."Legal Cost" * -1, 'BOSA', Rec."Batch No.", 'Loan Principle Amount ' + Format(LoanApps."Loan  No."), '');
+        // VarAmounttoDisburse := VarAmounttoDisburse - LoanApps."Legal Cost";
         //------------------------------------2. CREDIT MEMBER BANK A/C---------------------------------------------------------------------------------------------
         LineNo := LineNo + 10000;
-        // SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Rec."Loan  No.", LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"Bank Account", LoanApps."Paying Bank Account No", DirbursementDate, VarAmounttoDisburse * -1, 'BOSA', LoanApps."Loan  No.", 'Loan Principle Amount ' + Format(Rec."Loan  No."), '');
+        // SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Rec."Loan  No.", LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"Bank Account", LoanApps."Paying Bank Account No", DirbursementDate, VarAmounttoDisburse * -1, 'BOSA', LoanApps."Loan  No.", 'Tranche Disbursement ' + Format(Rec."Loan  No."), '');
 
 
         // Choose Account Based on Disbursement Type & Loan Product
@@ -932,10 +986,10 @@ page 57206 "Existing Loans Card"
                 end;
             else begin
                 if LoanApps."Disburesment Type" = LoanApps."disburesment type"::"Full/Single disbursement" then begin
-                    SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Rec."Loan  No.", LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"Bank Account", LoanApps."Paying Bank Account No", DirbursementDate, VarAmounttoDisburse * -1, 'BOSA', LoanApps."Loan  No.", Format(Rec."Loan  No.") + ' Loan disbursed for ' + LoanApps."Client Name", '');
+                    SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Rec."Loan  No.", LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"Bank Account", LoanApps."Paying Bank Account No", DirbursementDate, VarAmounttoDisburse * -1, 'BOSA', LoanApps."Loan  No.", Format(Rec."Loan  No.") + ' Tranche Disbursement ' + LoanApps."Client Name", '');//credit
                 end else
                     if LoanApps."Disburesment Type" = LoanApps."disburesment type"::"Tranche/Multiple Disbursement" then begin
-                        SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Rec."Loan  No.", LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"G/L Account", '201209', DirbursementDate, VarAmounttoDisburse * -1, 'BOSA', LoanApps."Loan  No.", Format(Rec."Loan  No.") + ' Loan disbursed for ' + LoanApps."Client Name", '');
+                        SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Rec."Loan  No.", LineNo, GenJournalLine."Transaction Type"::" ", GenJournalLine."Account Type"::"G/L Account", GenSetUp."Partial Disbursement Account", DirbursementDate, VarAmounttoDisburse, 'BOSA', LoanApps."Loan  No.", Format(Rec."Loan  No.") + 'Tranche Disbursement ' + LoanApps."Client Name", '');//debit 
                     end;
             end;
         end;
@@ -951,6 +1005,17 @@ page 57206 "Existing Loans Card"
             end;
         end;
         exit(false);
+    end;
+
+    local procedure PostTranchesLoans(Userid: Text): Boolean
+    var
+        usersetup: Record "User Setup";
+    begin
+        if usersetup.Get(Userid) then begin
+            if usersetup."Issue Trunch" = true then begin
+                exit(true);
+            end;
+        end;
     end;
 }
 

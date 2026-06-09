@@ -9,7 +9,7 @@ Report 52000 "loan aging new Nav"
         dataitem("Loans Register"; "Loans Register")
         {
             DataItemTableView = where(Posted = const(true), "Outstanding Balance" = filter(> 1));
-            RequestFilterFields = "Loan  No.", "Client Code", "Loan Product Type", "Outstanding Balance";
+            RequestFilterFields = "Client Code", "Loan Product Type", "Outstanding Balance";
             column(ReportForNavId_4645; 4645)
             {
             }
@@ -250,23 +250,43 @@ Report 52000 "loan aging new Nav"
 
             trigger OnAfterGetRecord()
             begin
+                // Sorting := 0;
+                // "0MonthC" := 0;
+                // "1Month" := 0;
+                // "2Month" := 0;
+                // "3Month" := 0;
+                // Over3Month := 0;
+                // GrandTotal := 0;
                 Sorting := 0;
-                "0MonthC" := 0;
+                "0Month" := 0;
                 "1Month" := 0;
                 "2Month" := 0;
                 "3Month" := 0;
                 Over3Month := 0;
+                "0MonthC" := 0;
+                "1MonthC" := 0;
+                "2MonthC" := 0;
+                "3MonthC" := 0;
+                Over3MonthC := 0;
+                NoLoans := 0;
                 GrandTotal := 0;
 
                 Loans.Reset();
                 Loans.SetRange(Loans."Loan  No.", "Loan  No.");
+                if loanNumber <> '' then
+                    Loans.SetRange("Loan  No.", loanNumber);
                 if Loans.Find('-') then begin
                     Loans.CalcFields(Loans."Outstanding Balance");
                     CurrentBal := Loans."Outstanding Balance";
                 end;
 
-                "Loans Register".CalcFields("Outstanding Balance");
-                LBal := "Loans Register"."Outstanding Balance";
+                // "Loans Register".CalcFields("Outstanding Balance");
+                // LBal := "Loans Register"."Outstanding Balance";
+                Loans.Reset();
+                Loans.SetRange(Loans."Loan  No.", "Loan  No.");
+                Loans.SetFilter(Loans."Date filter", DFilter);
+                Loans.CalcFields(Loans."Outstanding Balance");
+                LBal := Loans."Outstanding Balance";
 
 
                 // "Loans Register".SetRange("Date filter");
@@ -298,8 +318,9 @@ Report 52000 "loan aging new Nav"
 
                 GrandTotal := GrandTotal + "Loans Register"."Outstanding Balance";
 
+                NoLoans := 0;
                 if ("0Month" + "1Month" + "2Month" + "3Month" + Over3Month) > 0 then
-                    NoLoans := NoLoans + 1;
+                    NoLoans := 1;
                 // if
                 // NoofMonthsinArrears := 0;
                 // ApprovedAmount := 0;
@@ -334,7 +355,7 @@ Report 52000 "loan aging new Nav"
                 Company.Get();
                 Company.CalcFields(Company.Picture);
 
-                CurrReport.CreateTotals("0Month", "1Month", "2Month", "3Month", Over3Month);
+                // CurrReport.CreateTotals("0Month", "1Month", "2Month", "3Month", Over3Month);
                 GrandTotal := 0;
 
                 if AsAt <> 0D then
@@ -343,6 +364,8 @@ Report 52000 "loan aging new Nav"
                 //Reset all loans within that period to performing...
                 "Loans Register".SetFilter("Loans Register"."Date filter", DFilter);
                 "Loans Register".SetFilter("Loans Register"."Issued Date", '<=%1', AsAt);
+                if loanNumber <> '' then
+                    "Loans Register".SetRange("Loan  No.", loanNumber);
                 // LoanApp.Reset;
                 // if LoanApp.FindSet then begin
                 //     repeat
@@ -355,7 +378,7 @@ Report 52000 "loan aging new Nav"
                 //     until LoanApp.Next = 0;
                 // end;
 
-                LoanAgingProcessor.UpdateLoanArrears(AsAt);
+                LoanAgingProcessor.UpdateLoanArrears(AsAt, loanNumber);
             end;
         }
     }
@@ -371,6 +394,10 @@ Report 52000 "loan aging new Nav"
                 {
                     ApplicationArea = Basic;
                 }
+                field("loan Number"; loanNumber)
+                {
+                    TableRelation = "Loans Register"."Loan  No.";
+                }
             }
         }
 
@@ -385,6 +412,7 @@ Report 52000 "loan aging new Nav"
 
     var
         CurrentBal: Decimal;
+        loanNumber: Code[20];
         LoanAgingProcessor: Codeunit LoanAgingProcessor;
         LoansTotal: Integer;
         Reached: integer;
@@ -480,7 +508,7 @@ Report 52000 "loan aging new Nav"
         Cat := '';
 
         Loans.Reset;
-        Loans.SetRange(Loans."Loan  No.", LoanApp."Loan  No.");
+        Loans.SetRange(Loans."Loan  No.", LoanApp."Loan  No.");//
         Loans.SetRange(Loans.Rescheduled, false);
         if Loans.Find('-') then begin
             Loans.CalcFields("Outstanding Balance");

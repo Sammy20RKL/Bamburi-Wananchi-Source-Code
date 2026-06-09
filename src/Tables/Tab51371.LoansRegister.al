@@ -1208,7 +1208,8 @@ Table 51371 "Loans Register"
 
                 EndDate := Dmy2date(1, Month + 1, currYear) - 1;
 
-                if DAY <= 15 then begin
+                //updated to cater for Bamburi Advice....shared on date 2
+                if DAY <= 2 then begin
                     "Repayment Start Date" := CalcDate('CM', "Loan Disbursement Date");
                 end else begin
                     "Repayment Start Date" := CalcDate('CM', CalcDate('CM+1M', "Loan Disbursement Date"));
@@ -4778,6 +4779,8 @@ Table 51371 "Loans Register"
             Caption = 'Notify Member on Approval';
             DataClassification = CustomerContent;
         }
+        field(4677; "Tranche Amount"; Decimal)
+        { }
     }
 
     keys

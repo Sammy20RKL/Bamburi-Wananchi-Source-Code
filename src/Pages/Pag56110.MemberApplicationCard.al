@@ -1301,8 +1301,8 @@ page 56110 "Member Application Card"
                                 Error('You must specify ID No for the applicant');
                         end;
                         if Rec."Account Category" = Rec."Account Category"::"Junior Account" then begin
-                            Rec.TestField("Birth Certficate No.");
-                            Rec.TestField("ID Copy");
+                            // Rec.TestField("Birth Certficate No.");
+                            // Rec.TestField("ID Copy");
                             if (Rec."Birth Certficate No." = '') then
                                 Error('You must enter the Birth Cert. No');
                         end;

@@ -874,6 +874,7 @@ Page 56043 "Bamburi SACCO Role Center"
             //.................................START OF MEMBERSHIP MANAGEMENT..................................
             group(MembershipManagement)
             {
+
                 Caption = 'Membership Management';
 
                 action(MembersList)
@@ -1104,24 +1105,19 @@ Page 56043 "Bamburi SACCO Role Center"
             {
                 Caption = 'Credit Management';
                 ToolTip = 'Manage BOSA Loans Module';
-                group("Import Loans BC240")
-                {
-                    Visible = true;
-                    Caption = 'Post Existing Loans';
-                    action("Import Loans")
-                    {
-                        ApplicationArea = All;
-                        Caption = 'Partial disbursement loans';
-                        RunObject = page "Existing Loans";
-                        // RunPageView = where 
-                    }
-                    action("Posted Partial")
-                    {
-                        ApplicationArea = all;
-                        Caption = 'Posted Partial Disbursement';
-                        RunObject = page "Existing Loans";
-                    }
-                }
+                // group("Import Loans BC240")
+                // {
+                //     Visible = false;
+                //     Caption = 'Post Existing Loans';
+                //     action("Import Loans")
+                //     {
+                //         ApplicationArea = All;
+                //         Caption = 'Partial disbursement loans';
+                //         RunObject = page "Existing Loans";
+                //         // RunPageView = where 
+                //     }
+
+                // }
                 group("BOSA Loans Management")
                 {
                     Caption = 'New BOSA Loans Applications';
@@ -1150,6 +1146,14 @@ Page 56043 "Bamburi SACCO Role Center"
                         Caption = 'BOSA Loans Pending Disbursement.';
                         RunObject = Page "Loan Application BOSA-Approved";
                         ToolTip = 'Open the list of Approved Loans Pending Disbursement.';
+                    }
+                    action("Partial Disbursement")
+                    {
+                        ApplicationArea = All;
+                        Visible = false;
+                        Caption = 'Tranches Loans Disbursement';
+                        RunObject = page "Existing Loans";
+                        // RunPageView = where 
                     }
                     action("PostedLoansBosa")
                     {
@@ -2120,7 +2124,7 @@ Page 56043 "Bamburi SACCO Role Center"
 
                         RunObject = Report "Loan Repayment Schedules";
                         Image = RollUpCosts;
-                        Visible = false;
+                        Visible = true;
                     }
 
 

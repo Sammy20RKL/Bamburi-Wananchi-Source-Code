@@ -475,7 +475,7 @@ Codeunit 51120 PORTALIntegration
             TempBlob.CreateOutStream(Outstr);
             TempBlob.CreateInStream(Instr);
             // if Report.SaveAs(Report::"Member Account Statement(act1)", '', ReportFormat::Pdf, Outstr, RecRef) then begin
-            if Report.SaveAs(Report::"Detailed Active Statement", '', ReportFormat::Pdf, Outstr, RecRef) then begin
+            if Report.SaveAs(Report::"Member Detailed Statement", '', ReportFormat::Pdf, Outstr, RecRef) then begin
                 exitString := Base64Convert.ToBase64(Instr);
                 exit;
             end;
