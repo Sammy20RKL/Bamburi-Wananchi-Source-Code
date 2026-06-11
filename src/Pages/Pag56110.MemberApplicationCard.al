@@ -1306,7 +1306,7 @@ page 56110 "Member Application Card"
                             if (Rec."Birth Certficate No." = '') then
                                 Error('You must enter the Birth Cert. No');
                         end;
-                        //*******************Check ID no.******************************
+                        //*******************Check ID no.*******************************
 
 
                         if (Rec."Account Category" = Rec."account category"::"Regular Account") then begin

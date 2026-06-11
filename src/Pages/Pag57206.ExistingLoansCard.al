@@ -8,7 +8,7 @@ page 57206 "Existing Loans Card"
     InsertAllowed = true;
     ModifyAllowed = true;
     SourceTable = "Loans Register";
-    SourceTableView = where("Disburesment Type" = const("Tranche/Multiple Disbursement"));
+    // SourceTableView = where("Disburesment Type" = const("Tranche/Multiple Disbursement"));
 
     layout
     {

@@ -61,6 +61,7 @@ Page 56125 "Loan List-New Application BOSA"
                 }
             }
         }
+
         area(factboxes)
         {
             part(Control1000000000; "Member Statistics FactBox")

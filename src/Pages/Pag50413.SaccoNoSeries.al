@@ -48,6 +48,11 @@ page 50413 "Sacco No. Series"
                     ApplicationArea = Basic;
                     Caption = 'Rejoining Nos';
                 }
+                field("Advertisement No."; Rec."Advertisement No.")
+                {
+                    ApplicationArea = all;
+                    Caption = 'Advertisement No.';
+                }
             }
             group("Member Sub Accounts")
             {

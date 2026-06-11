@@ -691,6 +691,13 @@ Page 56043 "Bamburi SACCO Role Center"
                         RunObject = Page "Purchase Credit Memo";
                         Visible = true;
                     }
+                    action("Shares Advertisement")
+                    {
+                        ApplicationArea = all;
+                        Caption = 'Shares Advertisement';
+                        RunObject = page "Advertisements List";
+                        Visible = true;
+                    }
 
 
                 }

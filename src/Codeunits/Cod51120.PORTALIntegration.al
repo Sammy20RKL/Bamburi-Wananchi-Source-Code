@@ -3976,4 +3976,120 @@ Codeunit 51120 PORTALIntegration
             info := '{"StatusCode":"98","StatusDescription":"Junior not found"}';
         end;
     end;
+
+    procedure GetAdvertisements(RequestNo: Code[20]) ResponseText: Text
+    var
+        Advert: Record Advertisements;
+        TenantMedia: Record "Tenant Media";
+        Base64Convert: Codeunit "Base64 Convert";
+        JsonArray: JsonArray;
+        JsonObj: JsonObject;
+        InStream: InStream;
+        PictureBase64: Text;
+        ResponseJson: JsonObject;
+    begin
+        Advert.Reset();
+        Advert.SetRange(Advert.Active, true);
+
+        // If No passed — return single record, else return all
+        if RequestNo <> '' then
+            Advert.SetRange(Advert."No", RequestNo);
+
+        if not Advert.FindSet() then begin
+            ResponseJson.Add('success', false);
+            ResponseJson.Add('message', 'No advertisements found');
+            ResponseJson.WriteTo(ResponseText);
+            exit;
+        end;
+
+        repeat
+            Clear(JsonObj);
+            PictureBase64 := '';
+
+            // Convert picture to Base64
+            if not IsNullGuid(Advert.Picture.MediaId()) then begin
+                TenantMedia.Reset();
+                TenantMedia.SetRange(ID, Advert.Picture.MediaId());
+                if TenantMedia.FindFirst() then begin
+                    TenantMedia.CalcFields(Content);
+                    TenantMedia.Content.CreateInStream(InStream);
+                    PictureBase64 := Base64Convert.ToBase64(InStream);
+                end;
+            end;
+
+            JsonObj.Add('no', Advert."No");
+            JsonObj.Add('name', Advert.Name);
+            JsonObj.Add('description', Advert.Description);
+            JsonObj.Add('price', Advert.Price);
+            JsonObj.Add('category', Advert.Category);
+            JsonObj.Add('stockQty', Advert."Stock Qty");
+            JsonObj.Add('startDate', Format(Advert."Start Date", 0, '<Year4>-<Month,2>-<Day,2>'));
+            JsonObj.Add('endDate', Format(Advert."End Date", 0, '<Year4>-<Month,2>-<Day,2>'));
+            JsonObj.Add('pictureBase64', PictureBase64);
+
+            JsonArray.Add(JsonObj);
+
+        until Advert.Next() = 0;
+
+        // Wrap in success response
+        ResponseJson.Add('success', true);
+        ResponseJson.Add('count', Advert.Count());
+        ResponseJson.Add('data', JsonArray);
+        ResponseJson.WriteTo(ResponseText);
+    end;
+
+    procedure GetAllAdvertisements() ResponseText: Text
+    var
+        Advert: Record Advertisements;
+        TenantMedia: Record "Tenant Media";
+        Base64Convert: Codeunit "Base64 Convert";
+        JsonArray: JsonArray;
+        JsonObj: JsonObject;
+        InStream: InStream;
+        PictureBase64: Text;
+        ResponseJson: JsonObject;
+    begin
+        Advert.Reset();
+        Advert.SetRange(Active, true);
+
+        if not Advert.FindSet() then begin
+            ResponseJson.Add('success', false);
+            ResponseJson.Add('message', 'No active advertisements found');
+            ResponseJson.WriteTo(ResponseText);
+            exit;
+        end;
+
+        repeat
+            Clear(JsonObj);
+            PictureBase64 := '';
+
+            if not IsNullGuid(Advert.Picture.MediaId()) then begin
+                TenantMedia.Reset();
+                TenantMedia.SetRange(ID, Advert.Picture.MediaId());
+                if TenantMedia.FindFirst() then begin
+                    TenantMedia.CalcFields(Content);
+                    TenantMedia.Content.CreateInStream(InStream);
+                    PictureBase64 := Base64Convert.ToBase64(InStream);
+                end;
+            end;
+
+            JsonObj.Add('no', Advert."No");
+            JsonObj.Add('name', Advert.Name);
+            JsonObj.Add('description', Advert.Description);
+            JsonObj.Add('price', Advert.Price);
+            JsonObj.Add('category', Advert.Category);
+            JsonObj.Add('stockQty', Advert."Stock Qty");
+            JsonObj.Add('startDate', Format(Advert."Start Date", 0, '<Year4>-<Month,2>-<Day,2>'));
+            JsonObj.Add('endDate', Format(Advert."End Date", 0, '<Year4>-<Month,2>-<Day,2>'));
+            JsonObj.Add('pictureBase64', PictureBase64);
+
+            JsonArray.Add(JsonObj);
+
+        until Advert.Next() = 0;
+
+        ResponseJson.Add('success', true);
+        ResponseJson.Add('count', Advert.Count());
+        ResponseJson.Add('data', JsonArray);
+        ResponseJson.WriteTo(ResponseText);
+    end;
 }

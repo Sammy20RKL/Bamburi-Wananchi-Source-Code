@@ -366,17 +366,18 @@ Report 52000 "loan aging new Nav"
                 "Loans Register".SetFilter("Loans Register"."Issued Date", '<=%1', AsAt);
                 if loanNumber <> '' then
                     "Loans Register".SetRange("Loan  No.", loanNumber);
-                // LoanApp.Reset;
-                // if LoanApp.FindSet then begin
-                //     repeat
-                //         LoanApp.Performing := false;
-                //         LoanApp.watch := false;
-                //         LoanApp.Substandard := false;
-                //         LoanApp.Doubtful := false;
-                //         LoanApp.loss := false;
-                //         LoanApp.Modify(true);
-                //     until LoanApp.Next = 0;
-                // end;
+                LoanApp.Reset;
+                if LoanApp.FindSet then begin
+                    repeat
+                        LoanApp.Performing := false;
+                        LoanApp.watch := false;
+                        LoanApp.Substandard := false;
+                        LoanApp.Doubtful := false;
+                        LoanApp.loss := false;
+                        LoanApp."Days In Arrears" := 0;
+                        LoanApp.Modify(true);
+                    until LoanApp.Next = 0;
+                end;
 
                 LoanAgingProcessor.UpdateLoanArrears(AsAt, loanNumber);
             end;

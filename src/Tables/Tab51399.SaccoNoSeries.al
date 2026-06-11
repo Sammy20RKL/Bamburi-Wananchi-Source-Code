@@ -589,6 +589,10 @@ Table 51399 "Sacco No. Series"
         {
             TableRelation = "No. Series".Code;
         }
+        field(5670865; "Advertisement No."; Code[20])
+        {
+            TableRelation = "No. Series".Code;
+        }
 
     }
 

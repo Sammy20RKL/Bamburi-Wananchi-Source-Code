@@ -180,6 +180,10 @@ Page 56030 "Loans Posted List"
                 {
                     ApplicationArea = Basic;
                 }
+                field("Days In Arrears"; Rec."Days In Arrears")
+                {
+                    ApplicationArea = all;
+                }
                 field("Principal In Arrears"; Rec."Principal In Arrears")
                 {
                     ApplicationArea = Basic;

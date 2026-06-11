@@ -116,6 +116,49 @@ Codeunit 51022 SwizzKashMobile
         end;
     end;
 
+    procedure SendBirthdayNotifications()
+    var
+        Cust: Record Customer;
+        SMSMessages: Record "SMS Messages";
+        Message: Text;
+        EntryNo: Integer;
+    begin
+        Cust.Reset();
+        if not Cust.FindSet() then
+            exit;
+
+        repeat
+            // Match day and month only — ignore birth year
+            if (Date2DMY(Cust."Date of Birth", 1) = Date2DMY(Today, 1)) and
+               (Date2DMY(Cust."Date of Birth", 2) = Date2DMY(Today, 2)) then begin
+
+                if Cust."Phone No." = '' then
+                    continue;
+
+                Message := 'Happy birthday ' + Cust.Name + '!' +
+                           ' As you celebrate another year of growth and success, we wish you good health,' +
+                           ' happiness, prosperity, and greater financial achievements ahead.' +
+                           ' Thank you for being our valued member and for growing with us.' +
+                           ' This is the perfect time to increase your savings, access loans easily, repay wisely,' +
+                           ' and take advantage of our Loan Buy Off facility at competitive low interest rates' +
+                           ' designed to give you financial relief and stability.' +
+                           ' Kind regards, Bamburi Wananchi SACCO - Cementing Your Future.';
+
+                // Save to SMS Messages table exactly like the existing system
+                SMSMessages.Init();
+                SMSMessages."Telephone No" := Cust."Phone No.";
+                SMSMessages."SMS Message" := CopyStr(Message, 1, MaxStrLen(SMSMessages."SMS Message"));
+                SMSMessages."Date Entered" := Today;
+                SMSMessages."Time Entered" := Time;
+                SMSMessages.Source := 'BIRTHDAY';
+                SMSMessages."Account No" := Cust."No.";
+                SMSMessages."Sent To Server" := SMSMessages."sent to server"::No;
+                SMSMessages.Charged := false;
+                SMSMessages.Insert(true);
+            end;
+        until Cust.Next() = 0;
+    end;
+
     procedure SMSMessage(documentNo: Text[30]; accfrom: Text[30]; phone: Text[20]; message: Text)
     var
         smsmessagesTable: Record "SMS Messages";
