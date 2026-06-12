@@ -212,7 +212,7 @@ page 50865 "Loan 2nd  Demand Notices Card"
                             SMSMessage."Sent To Server" := SMSMessage."sent to server"::No;
                             SMSMessage."SMS Message" := 'Defaulter second Notice: Dear ,' + Rec."Member Name" + ' you defaulted  '
                             + Rec."Loan Product Name" + ' with Arrears of KSHs.' + Format(Rec."Amount In Arrears") +
-                                                      ' and your Guarantors will be notifly , Polytech SACCO LTD. ';
+                                                      ' and your Guarantors will be notifly , Bamburi Wananchi SACCO LTD. ';
                             SMSMessage."Telephone No" := cust."Phone No.";
                             cust.Reset;
                             if cust.Get(Rec."Member No") then
@@ -258,7 +258,7 @@ page 50865 "Loan 2nd  Demand Notices Card"
                                 SMSMessage."Sent To Server" := SMSMessage."sent to server"::No;
                                 SMSMessage."SMS Message" := 'Dear ' + LoanGuar.Name + '. This is to notify you that '
                                 + Rec."Member Name" + ' has defaulted a loan you had guaranteed of KSHs.' + Format(Rec."Loan Issued") +
-                                                          ' which you guaranteed Ksh.' + Format(LoanGuar."Original Amount") + ',of your Deposit at POLYTECH SACCO LTD. ';
+                                                          ' which you guaranteed Ksh.' + Format(LoanGuar."Original Amount") + ',of your Deposit at Bamburi Wananchi SACCO LTD. ';
                                 cust.Reset;
                                 cust.SetRange(cust."No.", LoanGuar."Member No");
                                 if cust.Find('-') then begin

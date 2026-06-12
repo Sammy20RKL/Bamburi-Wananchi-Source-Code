@@ -28,6 +28,8 @@ Table 51984 "Portal Logs"
         field(7; "Accessed Page"; Text[250])
         {
         }
+        field(8; "Terms and Conditions"; Boolean)
+        { }
     }
 
     keys

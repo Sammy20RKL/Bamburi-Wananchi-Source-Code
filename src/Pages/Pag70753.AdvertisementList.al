@@ -1,6 +1,7 @@
 page 70753 "Advertisements List"
 {
     PageType = List;
+    Editable = false;
     SourceTable = Advertisements;
     CardPageId = "Advertisements Card";
     Caption = 'Advertisements';
@@ -14,6 +15,7 @@ page 70753 "Advertisements List"
                 field(No; Rec.No) { ApplicationArea = All; }
                 field(Name; Rec.Name) { ApplicationArea = All; }
                 field(Price; Rec.Price) { ApplicationArea = All; }
+
                 field(Category; Rec.Category) { ApplicationArea = All; }
                 field(Active; Rec.Active) { ApplicationArea = All; }
                 field("Stock Qty"; Rec."Stock Qty") { ApplicationArea = All; }
@@ -29,6 +31,7 @@ page 70753 "Advertisements List"
                 ApplicationArea = all;
                 SubPageLink = "No" = FIELD("No");
                 Enabled = true;
+                Visible = true;
 
             }
         }

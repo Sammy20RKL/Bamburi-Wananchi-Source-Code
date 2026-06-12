@@ -194,6 +194,7 @@ Codeunit 51120 PORTALIntegration
             ObjLog.Date := Today;
             ObjLog.Time := Time;
             ObjLog."Login Status" := ObjLog."login status"::Successfull;
+            ObjLog."Terms and Conditions" := true;
             Online."Last Login" := CurrentDateTime;
             ObjMember.Reset;
             if ObjMember.Get(username) then begin
@@ -208,6 +209,7 @@ Codeunit 51120 PORTALIntegration
             ObjLog.Date := Today;
             ObjLog.Time := Time;
             ObjLog."Login Status" := ObjLog."login status"::Failed;
+            ObjLog."Terms and Conditions" := true;
             ObjMember.Reset;
             if ObjMember.Get(username) then begin
                 ObjLog."Member Name" := ObjMember.Name;

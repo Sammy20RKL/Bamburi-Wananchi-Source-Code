@@ -81,14 +81,20 @@ table 56066 Advertisements
             Editable = false;
             TableRelation = "No. Series";
         }
+        field(14; Picture1; Blob)
+        {
+            SubType = Bitmap;
+        }
     }
 
     keys
     {
-        key(PK; No)
+
+        key(PK; "No")
         {
             Clustered = true;
         }
+
     }
 
     trigger OnInsert()

@@ -36,6 +36,10 @@ Page 56915 "Portal Audit Trail"
                 {
                     ApplicationArea = Basic;
                 }
+                field("Terms and Conditions"; Rec."Terms and Conditions")
+                {
+                    ApplicationArea = all;
+                }
             }
         }
     }

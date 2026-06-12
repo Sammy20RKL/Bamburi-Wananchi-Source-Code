@@ -42,8 +42,8 @@ Table 51512 "Loan Collateral Register"
         }
         field(6; "Collateral Type"; Option)
         {
-            OptionCaption = 'Title Deed';
-            OptionMembers = "Title Deed";
+            OptionCaption = 'Title Deed, Motor Vehicle, Logbook';
+            OptionMembers = "Title Deed","Motor Vehicle","Logbook";
         }
         field(7; "Collateral Description"; Code[20])
         {

@@ -224,6 +224,7 @@ table 57200 "Guarantors Recovery Header"
         if "Document No" = '' then begin
             SalesSetup.Get;
             SalesSetup.TestField(SalesSetup."Loan PayOff Nos");
+            "Document No" := NoSeriesMgt.GetNextNo(SalesSetup."Loan PayOff Nos");
             //   NoSeriesMgt.InitSeries(SalesSetup."Loan PayOff Nos", xRec."No. Series", 0D, "Document No", "No. Series");
         end;
     end;

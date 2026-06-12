@@ -208,7 +208,7 @@ page 50869 "Loan 3rd Demand Notices Card"
 
                             SMSMessage."SMS Message" := 'Defaulter Final Notice: Dear ,' + Rec."Member Name" + ' you defaulted  '
                             + Rec."Loan Product Name" + ' with Outstanding balance of KSHs.' + Format(ROUND(Rec."Amount In Arrears", 1, '=')) +
-                                                      ' and outstanding Balance we will recoverly from your Guarantors , Polytech SACCO LTD. ';
+                                                      ' and outstanding Balance we will recoverly from your Guarantors , BAMBURI WANANCHI SACCO LTD. ';
 
 
                             SMSMessage."Telephone No" := cust."Phone No.";
@@ -256,7 +256,7 @@ page 50869 "Loan 3rd Demand Notices Card"
                                 SMSMessage."Sent To Server" := SMSMessage."sent to server"::No;
                                 SMSMessage."SMS Message" := 'Final Notice: Dear '
                             + LoanGuar.Name + ' We would like to inform you that We will recover ' + Rec."Member Name" + ' Loan dependent on what you had guaranteed from your deposits to pay off the outstanding of ksh' +
-                            Format(ROUND(Rec."Amount In Arrears", 1, '=')) + ' at POLYTECH SACCO LTD. ';
+                            Format(ROUND(Rec."Amount In Arrears", 1, '=')) + ' at BAMBURI WANANCHI SACCO LTD. ';
                                 cust.Reset;
 
                                 cust.Reset;

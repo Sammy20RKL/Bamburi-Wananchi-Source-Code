@@ -25,7 +25,7 @@ Table 51926 "Default Notices Register"
                     "Member Name" := ObjCust.Name;
                     //"frist name" :=CONVERTSTR(ObjCust.Name);
                     "Member ID No" := ObjCust."ID No.";
-                    "Member Mobile Phone No" := ObjCust."Mobile Phone No";
+                    "Member Mobile Phone No" := ObjCust."Phone No.";
                 end;
             end;
         }

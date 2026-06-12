@@ -339,12 +339,15 @@ report 50229 "Detailed Active Statement"
                         AssignCreditDebitAmounts(Loan."Amount Posted", Loan."Credit Amount", Loan."Debit Amount");
 
                         // Ensure ClosingBalanceLoan is updated correctly
-                        ClosingBalanceLoan := ClosingBalanceLoan + (Loan."Credit Amount" - Loan."Debit Amount");
+                        if Loan."Transaction Type" IN [Loan."Transaction Type"::Loan, Loan."Transaction Type"::"Loan Repayment"] then
+                            ClosingBalanceLoan := ClosingBalanceLoan + (Loan."Credit Amount" - Loan."Debit Amount");
 
                         // Ensure Loan No. is properly checked
                         IF Loan."Loan No" = '' THEN BEGIN
                             // Handle empty Loan No. case if needed
                         END;
+
+
 
                         // Track interest-related transactions
                         IF Loan."Transaction Type" = Loan."Transaction Type"::"Insurance Contribution" THEN BEGIN

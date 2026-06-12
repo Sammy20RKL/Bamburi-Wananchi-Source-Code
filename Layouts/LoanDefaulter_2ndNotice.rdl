@@ -1,13 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:am="http://schemas.microsoft.com/sqlserver/reporting/authoringmetadata">
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <am:AuthoringMetadata>
+    <am:CreatedBy>
+      <am:Name>PBIRB</am:Name>
+      <am:Version>15.7.1813.16</am:Version>
+    </am:CreatedBy>
+    <am:UpdatedBy>
+      <am:Name>PBIRB</am:Name>
+      <am:Version>15.7.1813.16</am:Version>
+    </am:UpdatedBy>
+    <am:LastModifiedTimestamp>2026-06-12T13:18:23.8294787Z</am:LastModifiedTimestamp>
+  </am:AuthoringMetadata>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="DataSource">
+      <rd:SecurityType>None</rd:SecurityType>
       <ConnectionProperties>
         <DataProvider>SQL</DataProvider>
         <ConnectString />
       </ConnectionProperties>
-      <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>d386c8d9-18af-48fe-8a43-5e77b0f9c63d</rd:DataSourceID>
     </DataSource>
   </DataSources>
@@ -16,6 +29,7 @@
       <Body>
         <ReportItems>
           <Textbox Name="Textbox2">
+            <rd:DefaultName>Textbox2</rd:DefaultName>
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
@@ -96,7 +110,6 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <rd:DefaultName>Textbox2</rd:DefaultName>
             <Top>0.78151in</Top>
             <Left>0.3228cm</Left>
             <Height>0.28834in</Height>
@@ -112,6 +125,7 @@
             </Style>
           </Textbox>
           <Textbox Name="Textbox12">
+            <rd:DefaultName>Textbox3</rd:DefaultName>
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
@@ -137,7 +151,6 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <rd:DefaultName>Textbox3</rd:DefaultName>
             <Top>1.35615in</Top>
             <Left>5.09583in</Left>
             <Height>0.20298in</Height>
@@ -154,6 +167,7 @@
             </Style>
           </Textbox>
           <Textbox Name="Textbox13">
+            <rd:DefaultName>Textbox3</rd:DefaultName>
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
@@ -185,7 +199,6 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <rd:DefaultName>Textbox3</rd:DefaultName>
             <Top>1.58691in</Top>
             <Left>5.09583in</Left>
             <Height>0.20298in</Height>
@@ -202,6 +215,7 @@
             </Style>
           </Textbox>
           <Textbox Name="Textbox14">
+            <rd:DefaultName>Textbox3</rd:DefaultName>
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
@@ -231,7 +245,6 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <rd:DefaultName>Textbox3</rd:DefaultName>
             <Top>1.80377in</Top>
             <Left>5.09583in</Left>
             <Height>0.20298in</Height>
@@ -248,6 +261,7 @@
             </Style>
           </Textbox>
           <Textbox Name="Textbox15">
+            <rd:DefaultName>Textbox3</rd:DefaultName>
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
@@ -273,7 +287,6 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <rd:DefaultName>Textbox3</rd:DefaultName>
             <Top>1.13929in</Top>
             <Left>0.3228cm</Left>
             <Height>0.20298in</Height>
@@ -290,6 +303,7 @@
             </Style>
           </Textbox>
           <Textbox Name="Textbox16">
+            <rd:DefaultName>Textbox3</rd:DefaultName>
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
@@ -308,7 +322,6 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <rd:DefaultName>Textbox3</rd:DefaultName>
             <Top>1.35615in</Top>
             <Left>0.3228cm</Left>
             <Height>0.20298in</Height>
@@ -325,6 +338,7 @@
             </Style>
           </Textbox>
           <Textbox Name="Textbox17">
+            <rd:DefaultName>Textbox3</rd:DefaultName>
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
@@ -343,7 +357,6 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <rd:DefaultName>Textbox3</rd:DefaultName>
             <Top>1.58691in</Top>
             <Left>0.3228cm</Left>
             <Height>0.20298in</Height>
@@ -360,6 +373,7 @@
             </Style>
           </Textbox>
           <Textbox Name="Textbox18">
+            <rd:DefaultName>Textbox3</rd:DefaultName>
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
@@ -383,7 +397,6 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <rd:DefaultName>Textbox3</rd:DefaultName>
             <Top>1.78989in</Top>
             <Left>0.3228cm</Left>
             <Height>0.20298in</Height>
@@ -424,6 +437,7 @@
             </Style>
           </Line>
           <Textbox Name="Textbox19">
+            <rd:DefaultName>Textbox3</rd:DefaultName>
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
@@ -441,7 +455,6 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <rd:DefaultName>Textbox3</rd:DefaultName>
             <Top>2.19514in</Top>
             <Left>0.68263cm</Left>
             <Height>0.20298in</Height>
@@ -458,6 +471,7 @@
             </Style>
           </Textbox>
           <Textbox Name="Textbox4">
+            <rd:DefaultName>Textbox4</rd:DefaultName>
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
@@ -476,7 +490,6 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <rd:DefaultName>Textbox4</rd:DefaultName>
             <Top>2.20903in</Top>
             <Left>1.01876in</Left>
             <Height>0.20298in</Height>
@@ -493,6 +506,7 @@
             </Style>
           </Textbox>
           <Textbox Name="Textbox3">
+            <rd:DefaultName>Textbox3</rd:DefaultName>
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
@@ -510,7 +524,6 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <rd:DefaultName>Textbox3</rd:DefaultName>
             <Top>2.97868in</Top>
             <Left>2.53829cm</Left>
             <Height>0.1875in</Height>
@@ -527,6 +540,7 @@
             </Style>
           </Textbox>
           <Textbox Name="Textbox8">
+            <rd:DefaultName>Textbox8</rd:DefaultName>
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
@@ -542,7 +556,6 @@
                 <Style />
               </Paragraph>
             </Paragraphs>
-            <rd:DefaultName>Textbox8</rd:DefaultName>
             <Top>3.29535in</Top>
             <Left>0.70381cm</Left>
             <Height>0.25in</Height>
@@ -576,6 +589,7 @@
             </Style>
           </Image>
           <Textbox Name="CName">
+            <rd:DefaultName>CName</rd:DefaultName>
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
@@ -595,7 +609,6 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <rd:DefaultName>CName</rd:DefaultName>
             <Top>0.41944in</Top>
             <Left>0.12708in</Left>
             <Height>0.25in</Height>
@@ -612,6 +625,7 @@
             </Style>
           </Textbox>
           <Textbox Name="Textbox5">
+            <rd:DefaultName>Textbox5</rd:DefaultName>
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
@@ -628,7 +642,6 @@
                 <Style />
               </Paragraph>
             </Paragraphs>
-            <rd:DefaultName>Textbox5</rd:DefaultName>
             <Top>2.58701in</Top>
             <Left>0.27709in</Left>
             <Height>0.18056in</Height>
@@ -661,6 +674,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="MemberNo_LoanGuarantors">
+                          <rd:DefaultName>MemberNo_LoanGuarantors</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -674,7 +688,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>MemberNo_LoanGuarantors</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -690,6 +703,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Name_LoanGuarantors">
+                          <rd:DefaultName>Name_LoanGuarantors</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -703,7 +717,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Name_LoanGuarantors</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -746,6 +759,7 @@
             </Style>
           </Tablix>
           <Textbox Name="Textbox6">
+            <rd:DefaultName>Textbox5</rd:DefaultName>
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
@@ -762,7 +776,6 @@
                 <Style />
               </Paragraph>
             </Paragraphs>
-            <rd:DefaultName>Textbox5</rd:DefaultName>
             <Top>2.97868in</Top>
             <Left>0.27709in</Left>
             <Height>0.18056in</Height>
@@ -792,6 +805,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox1">
+                          <rd:DefaultName>Textbox1</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -813,7 +827,7 @@
                                   </Style>
                                 </TextRun>
                                 <TextRun>
-                                  <Value> has not made any efforts to repay his/her loan with POLYTECH SACCO to date. </Value>
+                                  <Value> has not made any efforts to repay his/her loan with BAMBURI WANANCHI SACCO to date. </Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>12pt</FontSize>
@@ -857,7 +871,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox1</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -879,6 +892,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox27">
+                          <rd:DefaultName>Textbox27</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -1253,7 +1267,7 @@
                                   </Style>
                                 </TextRun>
                                 <TextRun>
-                                  <Value>due to POLYTECH SACCO.</Value>
+                                  <Value>due to BAMBURI WANANCHI SACCO.</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>12pt</FontSize>
@@ -1265,7 +1279,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox27</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1287,6 +1300,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox40">
+                          <rd:DefaultName>Textbox40</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -1360,7 +1374,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox40</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1381,7 +1394,9 @@
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
+                        <rd:Selected>true</rd:Selected>
                         <Textbox Name="Textbox46">
+                          <rd:DefaultName>Textbox46</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -1427,7 +1442,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>CEO Polytech Sacco Ltd.</Value>
+                                  <Value>CEO Bamburi Wananchi Sacco Ltd.</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>12pt</FontSize>
@@ -1438,7 +1453,6 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox46</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1481,6 +1495,7 @@
             </Style>
           </Tablix>
           <Textbox Name="Textbox9">
+            <rd:DefaultName>Textbox9</rd:DefaultName>
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
@@ -1527,7 +1542,6 @@
                 <Style />
               </Paragraph>
             </Paragraphs>
-            <rd:DefaultName>Textbox9</rd:DefaultName>
             <Top>3.61479in</Top>
             <Left>0.70381cm</Left>
             <Height>0.25in</Height>
@@ -1594,8 +1608,6 @@ End Function
 </Code>
   <Language>=User!Language</Language>
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
-  <rd:ReportUnitType>Inch</rd:ReportUnitType>
-  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
   <DataSets>
     <DataSet Name="DataSet_Result">
       <Fields>

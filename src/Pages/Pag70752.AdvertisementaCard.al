@@ -27,6 +27,7 @@ page 70752 "Advertisements Card"
             part(PicturePart; "Advertisement Picture")
             {
                 ApplicationArea = All;
+                visible = true;
                 SubPageLink = "No" = field("No");
             }
         }

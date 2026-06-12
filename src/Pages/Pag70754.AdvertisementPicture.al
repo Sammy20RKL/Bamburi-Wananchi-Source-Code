@@ -44,7 +44,7 @@ page 70754 "Advertisement Picture"
                 ApplicationArea = All;
                 Caption = 'Import';
                 Image = Import;
-                Enabled = RecordIsOpen;
+                // Enabled = RecordIsOpen;
                 ToolTip = 'Import a picture file.';
 
                 trigger OnAction()
