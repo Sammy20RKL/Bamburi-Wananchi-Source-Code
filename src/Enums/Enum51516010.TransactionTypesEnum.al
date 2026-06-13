@@ -193,7 +193,7 @@ enum 51516010 "TransactionTypesEnum"
     // }
     value(50; "Junior Contribution")
     {
-        Caption = 'Junior Contribution';
+        Caption = 'Junior Savings';
     }
     // value(53; Alpha_savings)
     // {

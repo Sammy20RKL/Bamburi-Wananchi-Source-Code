@@ -410,7 +410,7 @@ Page 56029 "Loan Application Card"
                 field("Captured By"; Rec."Captured By")
                 {
                     ApplicationArea = Basic;
-                    Editable = false;
+                    Editable = true;
                 }
             }
             part(Control1000000004; "Loans Guarantee Details")
