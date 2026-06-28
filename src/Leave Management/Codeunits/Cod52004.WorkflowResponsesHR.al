@@ -18,7 +18,7 @@ codeunit 52004 "Workflow Responses HR"
             LeaveRec.Status := LeaveRec.Status::Released;
             LeaveRec.Modify(true);
             //Recall
-            HRMgnt.LeaveRecall(LeaveRec."No.");
+            // HRMgnt.LeaveRecall(LeaveRec."No.");
         end;
     end;
 

@@ -91,6 +91,21 @@ table 59058 "Dividends Lines"
         {
             DecimalPlaces = 2 : 20;
         }
+        field(17; "Qualifying Shares"; Decimal) { }
+        field(18; "Gross Dividends"; Decimal) { }
+        field(19; "Interest on Deposits"; Decimal) { }
+        field(20; "Net After Deduction"; Decimal) { }
+        field(21; "Member Deposits"; Decimal) { }
+        field(22; "X-Mas Loan"; Decimal)
+
+        {
+
+        }
+        field(23; "To Others"; Decimal) { }
+        field(24; "Line No"; Integer) { }
+        field(25; "Dividends on Shares"; Decimal) { }
+        field(26; "X-Mas interest"; Decimal) { }
+
     }
 
     keys
@@ -108,6 +123,7 @@ table 59058 "Dividends Lines"
         key(Key4; "Status")
         {
         }
+        key(Key5; "Line No") { }
     }
 
     fieldgroups

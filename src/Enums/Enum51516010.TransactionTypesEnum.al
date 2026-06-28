@@ -78,7 +78,7 @@ enum 51516010 "TransactionTypesEnum"
     }
     value(24; "Holiday Savings")//24
     {
-        Caption = '';
+        Caption = 'Holiday Savings';
     }
     value(20; "Welfare Contribution")
     {

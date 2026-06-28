@@ -3,10 +3,10 @@ Page 56638 "Loans DrillDown List"
 {
     ApplicationArea = Basic;
     CardPageID = "Loans DrillDown Card";
-    DeleteAllowed = false;
-    Editable = false;
-    InsertAllowed = false;
-    ModifyAllowed = false;
+    DeleteAllowed = true;
+    Editable = true;
+    InsertAllowed = true;
+    ModifyAllowed = true;
     PageType = List;
     PromotedActionCategories = 'New,Process,Reports,Approval,Budgetary Control,Cancellation,Category7_caption,Category8_caption,Category9_caption,Category10_caption';
     SourceTable = "Loans Register";
@@ -146,6 +146,10 @@ Page 56638 "Loans DrillDown List"
                     ApplicationArea = Basic;
                 }
                 field("Total Amount In Arrears"; Rec."Amount in Arrears")
+                {
+                    ApplicationArea = Basic;
+                }
+                field("Days In Arrears"; Rec."Days In Arrears")
                 {
                     ApplicationArea = Basic;
                 }

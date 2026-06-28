@@ -11,7 +11,7 @@ Report 50228 "Loans Register"
         dataitem(Loans; "Loans Register")
         {
             DataItemTableView = sorting("Staff No") order(ascending) where(Posted = const(true));
-            RequestFilterFields = Source, "Loan Product Type", "Client Code", "Application Date", "Issued Date", "Batch No.", "Captured By", "Branch Code", "Outstanding Balance", "Loan  No.", "Top Up Amount";
+            RequestFilterFields = Source, "Loan Product Type", "Client Code", "Application Date", "Issued Date", "Captured By", "Branch Code", "Outstanding Balance", "Loan  No.", "Top Up Amount";
             column(ReportForNavId_4645; 4645)
             {
             }

@@ -8,7 +8,7 @@ Report 50257 "Loan Guard Report"
     {
         dataitem(Loans; "Loans Register")
         {
-            DataItemTableView = sorting("Staff No") order(ascending) where(Posted = const(true), "Outstanding Balance" = filter('>0'), "Loan Product Type" = filter('<>15&<>16&<>17&<>24'));          // RequestFilterFields = "Date filter", "Issued Date";
+            DataItemTableView = sorting("Staff No") order(ascending) where(Posted = const(true), "Outstanding Balance" = filter('>0'), "Loan Product Type" = filter('<>17&<>24'));          // RequestFilterFields = "Date filter", "Issued Date";
             column(ReportForNavId_4645; 4645)
             {
             }

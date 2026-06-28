@@ -33,6 +33,7 @@ codeunit 56701 LoanAgingProcessor
         // issueddate: Date;
         LastMonth: Date;
         DateFilter: Text;
+        DialogOpen: Boolean;
     begin
         LastMonth := AsAt;
         DateFilter := '..' + Format(AsAt);
@@ -48,8 +49,9 @@ codeunit 56701 LoanAgingProcessor
             exit;
 
         LoansTotal := LoansRegister.Count();
-        Reached := 0;
 
+        Reached := 0;
+        DialogOpen := false;
         repeat
             // Reset per loan
             LBal := 0;
@@ -60,6 +62,7 @@ codeunit 56701 LoanAgingProcessor
             // ExpectedDateofCompletion := 0D;
             // Rescheduledate := 0D;
             // periodArrear := 0;
+            ScheduledLoanBal := 0;
             daysinarr := 0;
             LoansRegister."Days In Arrears" := 0;
 
@@ -67,6 +70,8 @@ codeunit 56701 LoanAgingProcessor
             if (Reached mod 10) = 0 then begin
                 PercentageDone := Round((Reached / LoansTotal) * 100, 1);
                 DialogBox.Open('Processing ' + Format(Reached) + ' of ' + Format(LoansTotal) + ': ' + Format(PercentageDone) + '%');
+                DialogOpen := true;
+
             end;
 
             loanNumber := LoansRegister."Loan  No.";
@@ -114,6 +119,11 @@ codeunit 56701 LoanAgingProcessor
                 LastRepaymentDate := LoansRegister."Loan Disbursement Date";
 
             daysinarr := AsAt - LastRepaymentDate;
+
+            if loanNumber in ['LND118', 'LND618'] then
+                daysinarr := AsAt - DMY2Date(31, 12, 2013);
+            IF loanNumber = 'LN8067' then
+                daysinarr := AsAt - DMY2Date(30, 4, 2026);
             if daysinarr < 0 then
                 daysinarr := 0;
 
@@ -190,7 +200,8 @@ codeunit 56701 LoanAgingProcessor
             //     daysinarr := LoansRegister."Days In Arrears";
 
             // Set SASRA category
-            if (Arrears = 0) and (daysinarr <= 30) then begin
+            if (Arrears >= -200) and (daysinarr <= 30) then begin
+                // if daysinarr <= 30 then begin
                 LoansRegister."Loans Category" := LoansRegister."loans category"::Perfoming;
                 LoansRegister."Loans Category-SASRA" := LoansRegister."loans category-sasra"::Perfoming;
                 LoansRegister.Performing := true;
@@ -198,7 +209,7 @@ codeunit 56701 LoanAgingProcessor
                 LoansRegister.Substandard := false;
                 LoansRegister.Doubtful := false;
                 LoansRegister.loss := false;
-            end else if (daysinarr >= 30) and (daysinarr <= 90) then begin
+            end else if (daysinarr > 30) and (daysinarr <= 90) then begin
                 LoansRegister."Loans Category" := LoansRegister."loans category"::Watch;
                 LoansRegister."Loans Category-SASRA" := LoansRegister."loans category-sasra"::Watch;
                 LoansRegister.Performing := false;
@@ -251,8 +262,8 @@ codeunit 56701 LoanAgingProcessor
                 TempLoans.Modify();
 
         until LoansRegister.Next() = 0;
-
-        DialogBox.Close();
+        if DialogOpen then
+            DialogBox.Close();
 
         // BATCH SAVE - write all results to database at once
         if TempLoans.Find('-') then

@@ -2,7 +2,11 @@
 page 70741 "Dividend Lines List"
 {
 
-    PageType = List;
+    PageType = ListPart;
+    InsertAllowed = true;
+    DeleteAllowed = true;
+    RefreshOnActivate = true;
+    ApplicationArea = ALL;
     SourceTable = "Dividends Lines";
 
     layout
@@ -11,6 +15,7 @@ page 70741 "Dividend Lines List"
         {
             repeater(Group)
             {
+                field("Line No"; Rec."Line No") { ApplicationArea = all; }
                 field("No"; Rec."No")
                 {
                     ApplicationArea = All;
@@ -27,41 +32,41 @@ page 70741 "Dividend Lines List"
                 {
                     ApplicationArea = All;
                 }
-                field("Employer Code"; Rec."Employer Code")
-                {
-                    ApplicationArea = All;
-                }
-                field("Staff No"; Rec."Staff No")
-                {
-                    ApplicationArea = All;
-                }
-                field("Status"; Rec."Status")
-                {
-                    ApplicationArea = All;
-                }
+
+
+
                 field("Blocked"; Rec."Blocked")
                 {
                     ApplicationArea = All;
+                    // Visible = false;
                 }
-                field("Loan Recovered Deposits"; Rec."Loan Recovered Deposits")
+                field("Qualifying Shares"; Rec."Qualifying Shares")
+                {
+                    ApplicationArea = all;
+                }
+
+
+                field("Qualifying Amount"; Rec."Qualifying Amount")
                 {
                     ApplicationArea = All;
+                    Caption = 'Qualifying Deposits';
                 }
-                field("Loan Recovered Dividend"; Rec."Loan Recovered Dividend")
+                field("Gross Dividends"; Rec."Gross Dividends")
                 {
-                    ApplicationArea = All;
+                    ApplicationArea = all;
                 }
-                field("Member Status"; Rec."Member Status")
+                field("Dividends on Shares"; Rec."Dividends on Shares")
+                { }
+                field("Interest on Deposits"; Rec."Interest on Deposits")
                 {
-                    ApplicationArea = All;
+                    ApplicationArea = all;
+
                 }
-                field("Member Blocked"; Rec."Member Blocked")
-                {
-                    ApplicationArea = All;
-                }
+
                 field("Earned Amount"; Rec."Earned Amount")
                 {
                     ApplicationArea = All;
+                    Caption = 'Total Earnings';
                 }
                 field("Withholding Tax(Share&Depo)"; Rec."Withholding Tax(Share&Depo)")
                 {
@@ -71,11 +76,33 @@ page 70741 "Dividend Lines List"
                 field("Net Pay"; Rec."Net Pay")
                 {
                     ApplicationArea = All;
+                    // Editable = false;
+                    Caption = 'Net Before Deductions';
                 }
-                field("Qualifying Amount"; Rec."Qualifying Amount")
+                field("X-Mas Loan"; Rec."X-Mas Loan")
+                {
+                    ApplicationArea = all;
+                    // Editable = false;
+                }
+                field("Member Deposits"; Rec."Member Deposits")
+                {
+                    ApplicationArea = all;
+                    // Editable = false;
+                }
+                field("To Others"; Rec."To Others") { ApplicationArea = all; }
+                field("Net After Deduction"; Rec."Net After Deduction")
+                {
+                    ApplicationArea = all;
+                    // Editable = false;
+                }
+                field(Status; Rec.Status)
                 {
                     ApplicationArea = All;
+                    // Editable = false;
                 }
+
+
+
             }
         }
     }

@@ -24,7 +24,6 @@ Page 56188 "SwizzKash Paybill Trans"
                 field("Transaction Date"; Rec."Transaction Date")
                 {
 
-
                     ApplicationArea = Basic;
                 }
                 field(TransDate; Rec.TransDate)

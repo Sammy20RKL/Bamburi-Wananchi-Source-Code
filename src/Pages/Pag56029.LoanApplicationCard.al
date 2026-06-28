@@ -168,7 +168,7 @@ Page 56029 "Loan Application Card"
                                 Loanoffeset.SetRange(Loanoffeset."Loan No.", Rec."Loan  No.");
                                 if Loanoffeset.FindSet() then begin
                                     repeat
-                                        OffesetAmount := OffesetAmount + Loanoffeset."Principle Top Up"
+                                        OffesetAmount := OffesetAmount + Loanoffeset."Principle Top Up" + Loanoffeset."Interest Top Up2"
                                     Until Loanoffeset.Next = 0;
                                 end;
                                 if (Rec."Member Deposits" * Rec."Loan Deposit Multiplier") < ((rec."Requested Amount" + Rec."Existing Loan") - OffesetAmount) then begin
@@ -262,11 +262,27 @@ Page 56029 "Loan Application Card"
                 field("Is Top Up"; Rec."Is Top Up")
                 {
                     ApplicationArea = Basic;
+
+                    trigger OnValidate()
+                    begin
+                        if Rec."Is Top Up" then begin
+                            Rec.CalcFields("Top Up Principle", "Top Up Interest");
+                            Rec."Top Up Amount" := Rec."Top Up Interest" + Rec."Top Up Principle"
+                        end else begin
+                            Rec."Top Up Amount" := 0;
+                        end;
+                        Rec.Modify(true);
+                        CurrPage.Update(false);
+
+                    end;
+
                 }
-                field("Top Up Amount"; Rec."Top Up Amount")
+                field("Top Up Amount"; Rec."Top up Amount")
                 {
                     ApplicationArea = Basic;
                     Caption = 'Top Up Amount';
+
+
                 }
                 field("Total TopUp Commission"; Rec."Total TopUp Commission")
                 {
@@ -714,7 +730,12 @@ Page 56029 "Loan Application Card"
     trigger OnAfterGetRecord()
     begin
         UpdateControl();
+
+        Rec.CalcFields("Top Up Interest", "Top Up Principle");
+        Rec."Top Up Amount" := Rec."Top Up Principle" + Rec."Top Up Interest";
+
     end;
+
 
     trigger OnInsertRecord(BelowxRec: Boolean): Boolean
     begin
@@ -907,6 +928,8 @@ Page 56029 "Loan Application Card"
             offsetTable.SETFILTER(offsetTable."Total Top Up", '>0');//>0, 0);
             if offsetTable.find('-') then begin
                 Rec."Is Top Up" := true;
+                Rec.CalcFields("Top Up Interest", "Top Up Principle");
+                Rec."Top Up Amount" := Rec."Top Up Principle" + Rec."Top Up Interest";
             end else begin
                 Rec."Is Top Up" := false;
             end;

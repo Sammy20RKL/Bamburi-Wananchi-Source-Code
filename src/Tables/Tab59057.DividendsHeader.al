@@ -45,6 +45,8 @@ Table 59057 "Dividends Header"
         {
             DecimalPlaces = 2 : 20;
         }
+        field(10; "Posting Date"; Date) { }
+        field(11; "Document No"; Code[30]) { }
     }
 
     keys

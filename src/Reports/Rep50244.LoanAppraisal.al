@@ -700,9 +700,10 @@ Report 50244 "Loan Appraisal"
                 column(Loans_Top_up__Total_Top_Up_; "Total Top Up")// summation of principle and interest top up
                 {
                 }
-                column(Loans_Top_up__Interest_Top_Up_; "Interest Top Up")
+                column(Loans_Top_up__Interest_Top_Up_; "Interest Top Up2")
                 {
                 }
+
                 column(Loan_Type; "Loan Offset Details"."Loan Type")
                 {
                 }
@@ -800,7 +801,7 @@ Report 50244 "Loan Appraisal"
                 trigger OnAfterGetRecord()
                 begin
 
-                    TotalTopUp := ROUND((TotalTopUp + "Principle Top Up"), 0.05, '>');
+                    TotalTopUp := ROUND((TotalTopUp + "Principle Top Up" + "Interest Top Up2"), 0.05, '>');
                     TotalIntPayable := TotalIntPayable + "Monthly Repayment";
                     GTotals := GTotals + ("Principle Top Up" + "Monthly Repayment");
                     if "Loans Register".Get("Loan Offset Details"."Loan No.") then begin
@@ -808,7 +809,7 @@ Report 50244 "Loan Appraisal"
                         end;
                     end;
 
-                    TOTALBRIDGED := TOTALBRIDGED + "Loan Offset Details"."Principle Top Up";
+                    TOTALBRIDGED := TOTALBRIDGED + "Loan Offset Details"."Principle Top Up" + "Loan Offset Details"."Interest Top Up2";
 
                     if TOTALBRIDGED > Recomm then
                         WarnBridged := UpperCase('WARNING: Bridging Total is Higher than the Qualifing Amount.')
@@ -918,8 +919,8 @@ Report 50244 "Loan Appraisal"
                     LoanTopUp.SetRange(LoanTopUp."Client Code", "Loans Register"."Client Code");
                     if LoanTopUp.Find('-') then begin
                         repeat
-                            // BRIGEDAMOUNT := ROUND(BRIGEDAMOUNT + LoanTopUp."Principle Top Up" + LoanTopUp."Interest Top Up", 0.01, '>');
-                            BRIGEDAMOUNT := ROUND(BRIGEDAMOUNT + LoanTopUp."Principle Top Up", 0.01, '>');
+                            BRIGEDAMOUNT := ROUND(BRIGEDAMOUNT + LoanTopUp."Principle Top Up" + LoanTopUp."Interest Top Up2", 0.01, '>');
+                            // BRIGEDAMOUNT := ROUND(BRIGEDAMOUNT + LoanTopUp."Principle Top Up", 0.01, '>');
                             TotalBridgeAmount := ROUND(TotalBridgeAmount + LoanTopUp."Principle Top Up", 0.01, '>');
 
                             TopUpFee := ROUND(GenSetUp."Loan Top Up Commision(%)" * (BRIGEDAMOUNT) / 100, 1, '>');

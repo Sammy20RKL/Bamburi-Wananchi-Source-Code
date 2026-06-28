@@ -86,10 +86,10 @@ Report 50296 "Loan Monthly Expectation"
                                     InterestArrears := 0;
                                 end;
                             end ELSE begin
-                                if loansreg."Issued Date" < 20230807D then begin
+                                if loansreg."Issued Date" < 20250807D then begin
                                     InterestArrears := LoansReg."Oustanding Interest";
                                 end else
-                                    if loansreg."Issued Date" >= 20230807D then begin
+                                    if loansreg."Issued Date" >= 20250807D then begin
                                         InterestArrears := (LoansReg."Scheduled Interest Payments") - (LoansReg."Interest Paid");
                                     end;
                                 if InterestArrears < 0 then begin
@@ -99,10 +99,10 @@ Report 50296 "Loan Monthly Expectation"
                         end else
                             if LoansReg.Source = LoansReg.Source::MICRO then begin
                                 InterestArrears := 0;
-                                if loansreg."Issued Date" < 20230807D then begin
+                                if loansreg."Issued Date" < 20250807D then begin
                                     InterestArrears := LoansReg."Oustanding Interest";
                                 end else
-                                    if loansreg."Issued Date" >= 20230807D then begin
+                                    if loansreg."Issued Date" >= 20250807D then begin
                                         InterestArrears := (LoansReg."Scheduled Interest Payments") - (LoansReg."Interest Paid");
                                     end;
                                 if InterestArrears < 0 then begin

@@ -19,6 +19,7 @@ page 50516 "Bulk SMS Header List"
                 field(Message; Rec.Message)
                 {
                     ApplicationArea = Basic;
+                    Caption = 'Message';
                 }
                 field("SMS Type"; Rec."SMS Type")
                 {

@@ -2236,16 +2236,29 @@ Table 51371 "Loans Register"
         }
         field(68004; "Top Up Amount"; Decimal)
         {
-            CalcFormula = sum("Loan Offset Details"."Principle Top Up" where("Loan No." = field("Loan  No."),
-                                                                          "Client Code" = field("Client Code")));
+            FieldClass = Normal;
             Editable = false;
-            FieldClass = FlowField;
 
             trigger OnValidate()
             begin
                 "top fee" := ("Requested Amount" - "Top Up Amount") * 0.1;
             end;
         }
+        // field(68004; "Top Up Amount"; Decimal)
+        // {
+        //     CalcFormula = sum("Loan Offset Details"."Principle Top Up" where("Loan No." = field("Loan  No."),
+        //       "Client Code" = field("Client Code")));
+        //     Editable = false;
+        //     FieldClass = FlowField;
+
+        //     trigger OnValidate()
+        //     var
+        //         LoanOffset: Record "Loan Offset Details";
+        //     begin
+
+        //         "top fee" := ("Requested Amount" - "Top Up Amount") * 0.1;
+        //     end;
+        // }
         field(68005; "Loan Received"; Boolean)
         {
         }
@@ -4781,6 +4794,16 @@ Table 51371 "Loans Register"
         }
         field(4677; "Tranche Amount"; Decimal)
         { }
+        field(780876; "Top Up Principle"; Decimal)
+        {
+            CalcFormula = sum("Loan Offset Details"."Principle Top Up" where("Loan No." = field("Loan  No."), "Client Code" = field("Client Code")));
+            FieldClass = FlowField;
+        }
+        field(789760; "Top Up Interest"; Decimal)
+        {
+            CalcFormula = sum("Loan Offset Details"."Interest Top Up2" where("Loan No." = field("Loan  No."), "Client Code" = field("Client Code")));
+            FieldClass = FlowField;
+        }
     }
 
     keys
@@ -4874,6 +4897,8 @@ Table 51371 "Loans Register"
 
         TestField(Posted, false);
     end;
+
+
 
     trigger OnInsert()
     var

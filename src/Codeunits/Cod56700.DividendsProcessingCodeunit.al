@@ -4,7 +4,7 @@ Codeunit 56700 "Dividends Processing Codeunit"
 
     trigger OnRun()
     begin
-        FnGetTheDivTotalPayable('BWS1973');
+        FnGetTheDivTotalPayable('');
     end;
 
     var

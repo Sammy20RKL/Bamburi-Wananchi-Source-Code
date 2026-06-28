@@ -34,9 +34,10 @@ Table 51491 "Bulk SMS Header"
         field(9; "Status By"; Code[150])
         {
         }
-        field(10; Message; Text[160])
+        field(10; Message; Text[2000])
         {
         }
+        // field(15; Message2; Blob){}
         field(11; "No. Series"; Code[10])
         {
             Caption = 'No. Series';

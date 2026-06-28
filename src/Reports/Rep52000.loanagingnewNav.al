@@ -271,6 +271,8 @@ Report 52000 "loan aging new Nav"
                 NoLoans := 0;
                 GrandTotal := 0;
 
+                "Loans Register".Find('=');
+
                 Loans.Reset();
                 Loans.SetRange(Loans."Loan  No.", "Loan  No.");
                 if loanNumber <> '' then
@@ -360,6 +362,9 @@ Report 52000 "loan aging new Nav"
 
                 if AsAt <> 0D then
                     DFilter := '..' + Format(AsAt);
+
+                if AsAt = 0D then
+                    AsAt := Today;
 
                 //Reset all loans within that period to performing...
                 "Loans Register".SetFilter("Loans Register"."Date filter", DFilter);

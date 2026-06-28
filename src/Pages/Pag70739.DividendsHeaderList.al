@@ -38,6 +38,7 @@ page 70739 "Dividends Header List"
                 field("Earned Amount"; Rec."Earned Amount")
                 {
                     ApplicationArea = All;
+                    Caption = 'Total Earnings';
                 }
                 field("Withholding Tax(Share&Depo)"; Rec."Withholding Tax(Share&Depo)")
                 {

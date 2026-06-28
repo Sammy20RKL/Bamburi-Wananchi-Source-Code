@@ -424,6 +424,18 @@ Table 51398 "Sacco General Set-Up"
         field(109; "Comission On Cash Clearance(%)"; Decimal)
         {
         }
+        field(1090; "Interest Payable Account"; Code[20])
+        {
+            TableRelation = "G/L Account";
+        }
+        field(1091; "Interest Expense Account"; Code[20])
+        {
+            TableRelation = "G/L Account";
+        }
+        field(1092; "Dividend Expense Account"; Code[15])
+        {
+            TableRelation = "G/L Account";
+        }
         field(1061; "Send SMS Notifications"; Boolean)
         {
         }

@@ -732,11 +732,23 @@ page 50411 "Sacco General Set-Up"
                 {
                     ApplicationArea = Basic;
                 }
+                field("Interest Payable Account"; Rec."Interest Payable Account")
+                {
+                    ApplicationArea = all;
+                }
 
                 field("Dividend Payable Account"; Rec."Dividend Payable Account")
                 {
                     ApplicationArea = Basic;
 
+                }
+                field("Interest Expense Account"; Rec."Interest Expense Account")
+                {
+                    ApplicationArea = all;
+                }
+                field("Dividend Expense Account"; Rec."Dividend Expense Account")
+                {
+                    ApplicationArea = all;
                 }
                 field("HolidaySavings(%)"; Rec."HolidaySavings(%)")
                 {

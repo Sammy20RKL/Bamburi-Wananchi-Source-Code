@@ -46,6 +46,7 @@ Table 51376 "Loan Offset Details"
                     "Loan Type" := '';
                     "Principle Top Up" := 0;
                     "Interest Top Up" := 0;
+                    "Interest Top Up2" := 0;
                     "Total Top Up" := 0;
 
                     ObjRepaymentSchedule.Reset;
@@ -78,7 +79,7 @@ Table 51376 "Loan Offset Details"
 
                         // Festus -- Swizzsoft
                         //  Commision := calculateCommission("Loan Top Up", "Principle Top Up", "Interest Top Up");
-                        "Total Top Up" := "Principle Top Up";// + "Interest Top Up";
+                        "Total Top Up" := "Principle Top Up" + "Interest Top Up2";
                         //"Total Top Up" := "Principle Top Up" + "Interest Top Up" + Commision;
                         "Outstanding Balance" := Loans."Outstanding Balance";
                         "Monthly Repayment" := Loans.Repayment;
@@ -106,7 +107,7 @@ Table 51376 "Loan Offset Details"
 
                 // Festus -- Swizzsoft
                 //  Commision := calculateCommission("Loan Top Up", "Principle Top Up", "Interest Top Up");
-                "Total Top Up" := "Principle Top Up";// + "Interest Top Up";
+                "Total Top Up" := "Principle Top Up" + "Interest Top Up2";
                 //"Total Top Up" := "Principle Top Up" + "Interest Top Up" + Commision;
 
             end;
@@ -118,12 +119,17 @@ Table 51376 "Loan Offset Details"
             begin
                 // Festus -- Swizzsoft
                 // Commision := calculateCommission("Loan Top Up", "Principle Top Up", "Interest Top Up");
-                "Total Top Up" := "Principle Top Up";// + "Interest Top Up";
+                "Total Top Up" := "Principle Top Up" + "Interest Top Up2";
                 // "Total Top Up" := "Principle Top Up" + "Interest Top Up" + Commision;
             end;
         }
         field(7; "Total Top Up"; Decimal)
         {
+            trigger OnValidate()
+            begin
+                "Total Top Up" := "Principle Top Up" + "Interest Top Up2";
+            end;
+
         }
         field(8; "Monthly Repayment"; Decimal)
         {
@@ -251,6 +257,7 @@ Table 51376 "Loan Offset Details"
 
         }
         field(32; Refinance; Boolean) { }
+        field(33; "Interest Top Up2"; Decimal) { }
     }
 
     keys

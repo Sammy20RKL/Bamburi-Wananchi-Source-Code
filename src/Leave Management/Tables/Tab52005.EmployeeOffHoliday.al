@@ -289,6 +289,7 @@ table 52005 "Employee Off/Holiday"
         if "No." = '' then begin
             HRSetup.Get();
             HRSetup.TestField("Leave Recall Nos", HRSetup."Leave Recall Nos");
+            "No." := NoSeriesMgt.GetNextNo(HRSetup."Leave Recall Nos");
             //  NoSeriesMgt.InitSeries(HRSetup."Leave Recall Nos", xRec."No. Series", 0D, "No.", "No. Series");
         end;
 
@@ -306,7 +307,7 @@ table 52005 "Employee Off/Holiday"
         LeaveApplicationType: Record "Leave Application Type";
         LeaveTypes: Record "Leave Type";
         HRmgt: Codeunit "HR Management";
-        //  NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         d: Date;
         NonworkingDaysRecall: Decimal;
         SkipRecallDateValidation: Boolean; // Added flag to prevent recursive validation

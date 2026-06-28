@@ -11,7 +11,7 @@
       <am:Name>PBIRB</am:Name>
       <am:Version>15.7.1813.16</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2026-06-07T04:12:55.3155890Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2026-06-26T10:38:06.6781824Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
@@ -48,10 +48,10 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>0.06608in</Top>
-            <Left>7.21793in</Left>
+            <Top>0.09385in</Top>
+            <Left>7.89359in</Left>
             <Height>0.28125in</Height>
-            <Width>7.86112in</Width>
+            <Width>8.18033in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -82,10 +82,10 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>0.3751in</Top>
-            <Left>11.89563in</Left>
+            <Top>0.41677in</Top>
+            <Left>12.89744in</Left>
             <Height>0.15625in</Height>
-            <Width>3.18342in</Width>
+            <Width>3.17648in</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -117,10 +117,10 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>0.55914in</Top>
-            <Left>11.89563in</Left>
+            <Top>0.60081in</Top>
+            <Left>12.89744in</Left>
             <Height>0.15625in</Height>
-            <Width>3.18342in</Width>
+            <Width>3.17648in</Width>
             <ZIndex>2</ZIndex>
             <Style>
               <Border>
@@ -152,10 +152,10 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>0.74316in</Top>
-            <Left>11.89563in</Left>
+            <Top>0.78483in</Top>
+            <Left>12.89744in</Left>
             <Height>0.15625in</Height>
-            <Width>3.18342in</Width>
+            <Width>3.17648in</Width>
             <ZIndex>3</ZIndex>
             <Style>
               <Border>
@@ -187,10 +187,10 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>0.94108in</Top>
-            <Left>11.89563in</Left>
+            <Top>0.98275in</Top>
+            <Left>12.89744in</Left>
             <Height>0.15625in</Height>
-            <Width>3.18342in</Width>
+            <Width>3.17648in</Width>
             <ZIndex>4</ZIndex>
             <Style>
               <Border>
@@ -224,10 +224,10 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>1.09733in</Top>
-            <Left>11.89563in</Left>
+            <Top>1.139in</Top>
+            <Left>12.89744in</Left>
             <Height>0.19098in</Height>
-            <Width>3.18342in</Width>
+            <Width>3.17648in</Width>
             <ZIndex>5</ZIndex>
             <Style>
               <Border>
@@ -245,6 +245,7 @@
             <MIMEType>image/png</MIMEType>
             <Sizing>FitProportional</Sizing>
             <Top>0.1181cm</Top>
+            <Left>0.6273cm</Left>
             <Height>3.11893cm</Height>
             <Width>3.29848cm</Width>
             <ZIndex>6</ZIndex>
@@ -262,7 +263,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>                                                                                                                                           LOANS DEFAULTER AGING</Value>
+                    <Value>                                                                                         LOANS DEFAULTER AGING</Value>
                     <Style>
                       <FontWeight>Bold</FontWeight>
                     </Style>
@@ -274,7 +275,7 @@
               </Paragraph>
             </Paragraphs>
             <Top>3.37814cm</Top>
-            <Left>0.05291cm</Left>
+            <Left>0.68021cm</Left>
             <Height>0.6cm</Height>
             <Width>21.06697cm</Width>
             <ZIndex>7</ZIndex>
@@ -290,8 +291,9 @@
           </Textbox>
           <Line Name="Line2">
             <Top>4.27186cm</Top>
+            <Left>0.6273cm</Left>
             <Height>0cm</Height>
-            <Width>39.79476cm</Width>
+            <Width>40.20046cm</Width>
             <ZIndex>8</ZIndex>
             <Style>
               <Border>
@@ -339,10 +341,10 @@
                   <Width>2.68521cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.0943cm</Width>
+                  <Width>1.65333cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.65333cm</Width>
+                  <Width>2.5cm</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>3.77001cm</Width>
@@ -697,7 +699,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>(0 Days)</Value>
+                                  <Value>(0 - 30 Days)</Value>
                                   <Style>
                                     <FontFamily>SEGOE UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -768,7 +770,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>(1 - 30 Days)</Value>
+                                  <Value>(30 - 90 Days)</Value>
                                   <Style>
                                     <FontFamily>SEGOE UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -839,7 +841,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>(31 - 180 Days)</Value>
+                                  <Value>(90 - 180 Days)</Value>
                                   <Style>
                                     <FontFamily>SEGOE UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -910,7 +912,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>(181 - 360 Days)</Value>
+                                  <Value>(180 - 360 Days)</Value>
                                   <Style>
                                     <FontFamily>SEGOE UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1084,15 +1086,15 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox17">
-                          <rd:DefaultName>Textbox17</rd:DefaultName>
+                        <Textbox Name="Textbox7">
+                          <rd:DefaultName>Textbox7</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Arrears</Value>
+                                  <Value>Days in Arrears</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -1139,15 +1141,15 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox7">
-                          <rd:DefaultName>Textbox7</rd:DefaultName>
+                        <Textbox Name="Textbox22">
+                          <rd:DefaultName>Textbox22</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Days in Arrears</Value>
+                                  <Value>Arrears</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -1730,18 +1732,17 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox20">
-                          <rd:DefaultName>Textbox20</rd:DefaultName>
+                        <Textbox Name="period">
+                          <rd:DefaultName>period</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!AmountinArrears_LoansRegister.Value</Value>
+                                  <Value>=Fields!period.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
-                                    <Format>n2</Format>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1764,17 +1765,18 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="period">
-                          <rd:DefaultName>period</rd:DefaultName>
+                        <Textbox Name="Textbox23">
+                          <rd:DefaultName>Textbox23</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!period.Value</Value>
+                                  <Value>=Fields!AmountinArrears_LoansRegister.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
+                                    <Format>n2</Format>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2177,19 +2179,18 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox22">
-                          <rd:DefaultName>Textbox22</rd:DefaultName>
+                        <Textbox Name="Textbox15">
+                          <rd:DefaultName>Textbox15</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!AmountinArrears_LoansRegister.Value)</Value>
+                                  <Value />
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
-                                    <Format>n2</Format>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2212,8 +2213,8 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox15">
-                          <rd:DefaultName>Textbox15</rd:DefaultName>
+                        <Textbox Name="Textbox24">
+                          <rd:DefaultName>Textbox24</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -2327,9 +2328,9 @@
               </SortExpression>
             </SortExpressions>
             <Top>4.44825cm</Top>
-            <Left>0.02083in</Left>
+            <Left>0.2678in</Left>
             <Height>1.42961cm</Height>
-            <Width>39.74185cm</Width>
+            <Width>40.14755cm</Width>
             <ZIndex>9</ZIndex>
             <Style>
               <Border>
@@ -2355,7 +2356,7 @@
               </Paragraph>
             </Paragraphs>
             <Top>3.37814cm</Top>
-            <Left>22.06598cm</Left>
+            <Left>22.69328cm</Left>
             <Height>0.6cm</Height>
             <Width>1.58278cm</Width>
             <ZIndex>10</ZIndex>
@@ -2387,7 +2388,7 @@
               </Paragraph>
             </Paragraphs>
             <Top>3.37814cm</Top>
-            <Left>23.68404cm</Left>
+            <Left>24.31134cm</Left>
             <Height>0.6cm</Height>
             <Width>9.61911cm</Width>
             <ZIndex>11</ZIndex>
@@ -2405,7 +2406,7 @@
         <Height>6.29444cm</Height>
         <Style />
       </Body>
-      <Width>40.1725cm</Width>
+      <Width>40.82776cm</Width>
       <Page>
         <PageHeight>26.95cm</PageHeight>
         <PageWidth>43cm</PageWidth>

@@ -43,6 +43,7 @@ Report 50056 "Memberwithoutsignaturereport"
                 EntryNo := EntryNo + 1;
             end;
 
+
         }
     }
     requestpage

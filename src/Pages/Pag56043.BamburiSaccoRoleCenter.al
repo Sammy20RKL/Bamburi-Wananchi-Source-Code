@@ -2017,6 +2017,7 @@ Page 56043 "Bamburi SACCO Role Center"
                     action("Import Paybills")
                     {
                         Image = PostedReceipt;
+                        Visible = false;
                         RunObject = page "SwizzKash Paybill Buffer";
 
                     }

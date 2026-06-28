@@ -4,8 +4,8 @@ Page 56027 "Member List"
     ApplicationArea = Basic;
     Caption = 'Member List';
     CardPageID = "Member Account Card";
-    Editable = false;
-    DeleteAllowed = true;
+    Editable = true;
+    DeleteAllowed = false;
     PageType = List;
     SourceTable = Customer;
     SourceTableView = sorting("No.")
@@ -23,6 +23,7 @@ Page 56027 "Member List"
                 field("No."; Rec."No.")
                 {
                     ApplicationArea = Basic;
+                    Editable = false;
                 }
                 field(Name; Rec.Name)
                 {

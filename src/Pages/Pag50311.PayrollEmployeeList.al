@@ -45,7 +45,6 @@ page 50311 "Payroll Employee List."
                 }
 
 
-
                 field("Basic Pay"; Rec."Basic Pay")
                 {
                     ApplicationArea = Basic;

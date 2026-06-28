@@ -35,9 +35,11 @@ page 50389 "Loan Offset Detail List"
                 {
                     ApplicationArea = Basic;
                 }
-                field("Interest Top Up"; Rec."Interest Top Up")
+                field("Interest Top Up"; Rec."Interest Top Up2")
                 {
                     ApplicationArea = Basic;
+                    Caption = 'Interest Top Up';
+
                 }
                 field("Monthly Repayment"; Rec."Monthly Repayment")
                 {

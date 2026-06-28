@@ -11,7 +11,7 @@
       <am:Name>PBIRB</am:Name>
       <am:Version>15.7.1813.16</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2026-05-11T13:49:26.2276595Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2026-06-25T03:57:45.9964709Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
@@ -371,7 +371,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Fields!BRIGEDAMOUNT.Value</Value>
+                    <Value>=Sum(Fields!Loans_Top_up__Principle_Top_Up_.Value) + Sum(Fields!Loans_Top_up__Interest_Top_Up_.Value)</Value>
                     <Style>
                       <FontFamily>Segoe UI</FontFamily>
                       <FontSize>9pt</FontSize>
@@ -507,43 +507,6 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
-          <Textbox Name="Upfronts">
-            <rd:DefaultName>Upfronts</rd:DefaultName>
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>=Fields!TopUpFee.Value</Value>
-                    <Style>
-                      <FontFamily>Segoe UI</FontFamily>
-                      <FontSize>9pt</FontSize>
-                      <Format>#,0.00;(#,0.00)</Format>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style>
-                  <TextAlign>Left</TextAlign>
-                </Style>
-              </Paragraph>
-            </Paragraphs>
-            <Top>7.84041in</Top>
-            <Left>6.37263in</Left>
-            <Height>0.21576in</Height>
-            <Width>1.61063in</Width>
-            <ZIndex>13</ZIndex>
-            <Style>
-              <Border>
-                <Color>LightGrey</Color>
-                <Style>None</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
           <Textbox Name="Textbox37">
             <rd:DefaultName>Textbox37</rd:DefaultName>
             <CanGrow>true</CanGrow>
@@ -569,7 +532,7 @@
             <Left>0.06073in</Left>
             <Height>0.21574in</Height>
             <Width>2.08376in</Width>
-            <ZIndex>14</ZIndex>
+            <ZIndex>13</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -606,7 +569,7 @@
             <Left>2.26949in</Left>
             <Height>0.21429in</Height>
             <Width>1.43487in</Width>
-            <ZIndex>15</ZIndex>
+            <ZIndex>14</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -639,7 +602,7 @@
             <Left>3.93699in</Left>
             <Height>0.27488in</Height>
             <Width>2.4221in</Width>
-            <ZIndex>16</ZIndex>
+            <ZIndex>15</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -676,7 +639,7 @@
             <Left>6.36302in</Left>
             <Height>0.25629in</Height>
             <Width>1.62024in</Width>
-            <ZIndex>17</ZIndex>
+            <ZIndex>16</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -713,7 +676,7 @@
             <Left>0.07536in</Left>
             <Height>0.20497in</Height>
             <Width>1.62914in</Width>
-            <ZIndex>18</ZIndex>
+            <ZIndex>17</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -751,7 +714,7 @@
             <Left>1.76006in</Left>
             <Height>0.20497in</Height>
             <Width>1.9443in</Width>
-            <ZIndex>19</ZIndex>
+            <ZIndex>18</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -787,7 +750,7 @@
             <Left>3.93699in</Left>
             <Height>0.21922in</Height>
             <Width>2.45107in</Width>
-            <ZIndex>20</ZIndex>
+            <ZIndex>19</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -824,7 +787,7 @@
             <Left>6.39226in</Left>
             <Height>0.2257in</Height>
             <Width>1.58893in</Width>
-            <ZIndex>21</ZIndex>
+            <ZIndex>20</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -861,7 +824,7 @@
             <Left>0.07536in</Left>
             <Height>0.29883in</Height>
             <Width>1.62914in</Width>
-            <ZIndex>22</ZIndex>
+            <ZIndex>21</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -899,7 +862,7 @@
             <Left>1.74727in</Left>
             <Height>0.29883in</Height>
             <Width>1.9443in</Width>
-            <ZIndex>23</ZIndex>
+            <ZIndex>22</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -934,7 +897,7 @@
             <Left>3.95382in</Left>
             <Height>0.21922in</Height>
             <Width>2.4538in</Width>
-            <ZIndex>24</ZIndex>
+            <ZIndex>23</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -971,7 +934,7 @@
             <Left>6.43267in</Left>
             <Height>0.21922in</Height>
             <Width>1.55762in</Width>
-            <ZIndex>25</ZIndex>
+            <ZIndex>24</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -1007,7 +970,7 @@
             <Left>0.03275in</Left>
             <Height>0.2323in</Height>
             <Width>3.65882in</Width>
-            <ZIndex>26</ZIndex>
+            <ZIndex>25</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -1039,7 +1002,7 @@
             <Left>0.04161in</Left>
             <Height>0.19455in</Height>
             <Width>1.67175in</Width>
-            <ZIndex>27</ZIndex>
+            <ZIndex>26</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -1070,7 +1033,7 @@
             <Left>1.71336in</Left>
             <Height>0.19455in</Height>
             <Width>1.991in</Width>
-            <ZIndex>28</ZIndex>
+            <ZIndex>27</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -1102,7 +1065,7 @@
             <Left>3.85542in</Left>
             <Height>0.19455in</Height>
             <Width>2.32965in</Width>
-            <ZIndex>29</ZIndex>
+            <ZIndex>28</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Bottom</VerticalAlign>
@@ -1133,7 +1096,7 @@
             <Left>6.24063in</Left>
             <Height>0.18066in</Height>
             <Width>1.74263in</Width>
-            <ZIndex>30</ZIndex>
+            <ZIndex>29</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -1165,7 +1128,7 @@
             <Left>0.04161in</Left>
             <Height>0.19455in</Height>
             <Width>1.67175in</Width>
-            <ZIndex>31</ZIndex>
+            <ZIndex>30</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -1197,7 +1160,7 @@
             <Left>1.71336in</Left>
             <Height>0.19455in</Height>
             <Width>1.991in</Width>
-            <ZIndex>32</ZIndex>
+            <ZIndex>31</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -1229,7 +1192,7 @@
             <Left>3.85542in</Left>
             <Height>0.19455in</Height>
             <Width>2.31577in</Width>
-            <ZIndex>33</ZIndex>
+            <ZIndex>32</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -1260,7 +1223,7 @@
             <Left>6.24063in</Left>
             <Height>0.19455in</Height>
             <Width>1.74263in</Width>
-            <ZIndex>34</ZIndex>
+            <ZIndex>33</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -1292,7 +1255,7 @@
             <Left>0.04161in</Left>
             <Height>0.19455in</Height>
             <Width>1.67175in</Width>
-            <ZIndex>35</ZIndex>
+            <ZIndex>34</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -1323,7 +1286,7 @@
             <Left>1.71336in</Left>
             <Height>0.19455in</Height>
             <Width>1.991in</Width>
-            <ZIndex>36</ZIndex>
+            <ZIndex>35</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -1355,7 +1318,7 @@
             <Left>3.85542in</Left>
             <Height>0.19455in</Height>
             <Width>2.31577in</Width>
-            <ZIndex>37</ZIndex>
+            <ZIndex>36</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -1386,7 +1349,7 @@
             <Left>6.24063in</Left>
             <Height>0.19455in</Height>
             <Width>1.74263in</Width>
-            <ZIndex>38</ZIndex>
+            <ZIndex>37</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -1418,7 +1381,7 @@
             <Left>0.04161in</Left>
             <Height>0.17372in</Height>
             <Width>1.67175in</Width>
-            <ZIndex>39</ZIndex>
+            <ZIndex>38</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -1449,7 +1412,7 @@
             <Left>1.71336in</Left>
             <Height>0.17372in</Height>
             <Width>1.991in</Width>
-            <ZIndex>40</ZIndex>
+            <ZIndex>39</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -1481,7 +1444,7 @@
             <Left>3.85542in</Left>
             <Height>0.17372in</Height>
             <Width>2.31577in</Width>
-            <ZIndex>41</ZIndex>
+            <ZIndex>40</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -1513,7 +1476,7 @@
             <Left>6.24063in</Left>
             <Height>0.17372in</Height>
             <Width>1.74263in</Width>
-            <ZIndex>42</ZIndex>
+            <ZIndex>41</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -1547,7 +1510,7 @@
             <Left>0.03275in</Left>
             <Height>0.19455in</Height>
             <Width>1.62505in</Width>
-            <ZIndex>43</ZIndex>
+            <ZIndex>42</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -1580,7 +1543,7 @@
             <Left>1.71336in</Left>
             <Height>0.19455in</Height>
             <Width>1.991in</Width>
-            <ZIndex>44</ZIndex>
+            <ZIndex>43</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -1612,7 +1575,7 @@
             <Left>3.85542in</Left>
             <Height>0.19455in</Height>
             <Width>2.31577in</Width>
-            <ZIndex>45</ZIndex>
+            <ZIndex>44</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Bottom</VerticalAlign>
@@ -1643,7 +1606,7 @@
             <Left>6.24063in</Left>
             <Height>0.19455in</Height>
             <Width>1.74263in</Width>
-            <ZIndex>46</ZIndex>
+            <ZIndex>45</ZIndex>
             <Style>
               <VerticalAlign>Middle</VerticalAlign>
               <PaddingLeft>0.15cm</PaddingLeft>
@@ -1675,7 +1638,7 @@
             <Left>0.03275in</Left>
             <Height>0.19455in</Height>
             <Width>1.67175in</Width>
-            <ZIndex>47</ZIndex>
+            <ZIndex>46</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -1707,7 +1670,7 @@
             <Left>1.74617in</Left>
             <Height>0.19455in</Height>
             <Width>1.95819in</Width>
-            <ZIndex>48</ZIndex>
+            <ZIndex>47</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -1738,7 +1701,7 @@
             <Left>3.85542in</Left>
             <Height>0.19455in</Height>
             <Width>2.31577in</Width>
-            <ZIndex>49</ZIndex>
+            <ZIndex>48</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -1772,7 +1735,7 @@
             <Left>6.24063in</Left>
             <Height>0.19455in</Height>
             <Width>1.74056in</Width>
-            <ZIndex>50</ZIndex>
+            <ZIndex>49</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -1805,7 +1768,7 @@
             <Left>0.03275in</Left>
             <Height>0.23969in</Height>
             <Width>1.67175in</Width>
-            <ZIndex>51</ZIndex>
+            <ZIndex>50</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -1847,7 +1810,7 @@
             <Left>0.02302in</Left>
             <Height>0.20844in</Height>
             <Width>1.79079in</Width>
-            <ZIndex>52</ZIndex>
+            <ZIndex>51</ZIndex>
             <Style>
               <VerticalAlign>Middle</VerticalAlign>
               <PaddingLeft>2pt</PaddingLeft>
@@ -1879,7 +1842,7 @@
             <Left>1.94318in</Left>
             <Height>0.20844in</Height>
             <Width>1.76118in</Width>
-            <ZIndex>53</ZIndex>
+            <ZIndex>52</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -1912,7 +1875,7 @@
             <Left>3.83352in</Left>
             <Height>0.19455in</Height>
             <Width>2.36544in</Width>
-            <ZIndex>54</ZIndex>
+            <ZIndex>53</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -1946,7 +1909,7 @@
             <Left>0.03275in</Left>
             <Height>0.19803in</Height>
             <Width>1.77874in</Width>
-            <ZIndex>55</ZIndex>
+            <ZIndex>54</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -1980,7 +1943,7 @@
             <Left>1.95291in</Left>
             <Height>0.19803in</Height>
             <Width>1.73866in</Width>
-            <ZIndex>56</ZIndex>
+            <ZIndex>55</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -2012,7 +1975,7 @@
             <Left>0.03275in</Left>
             <Height>0.23622in</Height>
             <Width>1.78106in</Width>
-            <ZIndex>57</ZIndex>
+            <ZIndex>56</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -2044,7 +2007,7 @@
             <Left>1.95871in</Left>
             <Height>0.23622in</Height>
             <Width>1.73286in</Width>
-            <ZIndex>58</ZIndex>
+            <ZIndex>57</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -2076,7 +2039,7 @@
             <Left>3.83352in</Left>
             <Height>0.21192in</Height>
             <Width>2.36544in</Width>
-            <ZIndex>59</ZIndex>
+            <ZIndex>58</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -2108,7 +2071,7 @@
             <Left>6.24063in</Left>
             <Height>0.21192in</Height>
             <Width>1.72129in</Width>
-            <ZIndex>60</ZIndex>
+            <ZIndex>59</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -2713,7 +2676,7 @@
             <Left>0.09963cm</Left>
             <Height>2.76542cm</Height>
             <Width>20.17788cm</Width>
-            <ZIndex>61</ZIndex>
+            <ZIndex>60</ZIndex>
             <Visibility>
               <Hidden>=IIF(Sum(Fields!AmontGuaranteed_LoansGuaranteeDetails.Value) = 0, True, False)</Hidden>
             </Visibility>
@@ -2749,7 +2712,7 @@
             <Left>6.24063in</Left>
             <Height>0.19455in</Height>
             <Width>1.73083in</Width>
-            <ZIndex>62</ZIndex>
+            <ZIndex>61</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -2763,7 +2726,7 @@
             <Left>0.28087cm</Left>
             <Height>0cm</Height>
             <Width>20.09647cm</Width>
-            <ZIndex>63</ZIndex>
+            <ZIndex>62</ZIndex>
             <Style>
               <Border>
                 <Style>Dotted</Style>
@@ -2804,7 +2767,7 @@
             <Left>0.22437cm</Left>
             <Height>0.56825cm</Height>
             <Width>20.09834cm</Width>
-            <ZIndex>64</ZIndex>
+            <ZIndex>63</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2839,7 +2802,7 @@
             <Left>3.93699in</Left>
             <Height>0.2147in</Height>
             <Width>2.46017in</Width>
-            <ZIndex>65</ZIndex>
+            <ZIndex>64</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -2876,7 +2839,7 @@
             <Left>6.38806in</Left>
             <Height>0.2147in</Height>
             <Width>1.58893in</Width>
-            <ZIndex>66</ZIndex>
+            <ZIndex>65</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -3449,7 +3412,7 @@
             <Left>0.09963cm</Left>
             <Height>2.40986cm</Height>
             <Width>20.17788cm</Width>
-            <ZIndex>67</ZIndex>
+            <ZIndex>66</ZIndex>
             <Visibility>
               <Hidden>=IIF(Sum(Fields!Value_LoanCollateralDetails.Value) = 0, True, False)</Hidden>
             </Visibility>
@@ -3483,7 +3446,7 @@
             <Left>3.96292in</Left>
             <Height>0.21886in</Height>
             <Width>2.46017in</Width>
-            <ZIndex>68</ZIndex>
+            <ZIndex>67</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -3520,7 +3483,7 @@
             <Left>6.41889in</Left>
             <Height>0.21886in</Height>
             <Width>1.5812in</Width>
-            <ZIndex>69</ZIndex>
+            <ZIndex>68</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -3556,7 +3519,7 @@
             <Left>3.95382in</Left>
             <Height>0.2015in</Height>
             <Width>2.44275in</Width>
-            <ZIndex>70</ZIndex>
+            <ZIndex>69</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -3593,7 +3556,7 @@
             <Left>6.40909in</Left>
             <Height>0.21539in</Height>
             <Width>1.5812in</Width>
-            <ZIndex>71</ZIndex>
+            <ZIndex>70</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -3630,7 +3593,7 @@
             <Left>6.39657in</Left>
             <Height>0.23274in</Height>
             <Width>1.60145in</Width>
-            <ZIndex>72</ZIndex>
+            <ZIndex>71</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -3666,7 +3629,7 @@
             <Left>3.95382in</Left>
             <Height>0.23274in</Height>
             <Width>2.44138in</Width>
-            <ZIndex>73</ZIndex>
+            <ZIndex>72</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -3683,7 +3646,7 @@
             <Left>0.08318cm</Left>
             <Height>0cm</Height>
             <Width>20.19431cm</Width>
-            <ZIndex>74</ZIndex>
+            <ZIndex>73</ZIndex>
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -3695,7 +3658,7 @@
             <Top>5.0073cm</Top>
             <Height>0cm</Height>
             <Width>20.29534cm</Width>
-            <ZIndex>75</ZIndex>
+            <ZIndex>74</ZIndex>
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -3717,10 +3680,10 @@
           </Line>
           <Line Name="Line6">
             <Top>19.24718cm</Top>
-            <Left>0.179cm</Left>
+            <Left>0.22437cm</Left>
             <Height>0cm</Height>
             <Width>20.0736cm</Width>
-            <ZIndex>76</ZIndex>
+            <ZIndex>75</ZIndex>
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -4227,7 +4190,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>---</Value>
+                                  <Value>=Fields!Loans_Top_up__Interest_Top_Up_.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -4257,19 +4220,19 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="GuaranteeValue_LoanCollateralDetails2">
-                          <rd:DefaultName>GuaranteeValue_LoanCollateralDetails</rd:DefaultName>
+                        <Textbox Name="Upfronts">
+                          <rd:DefaultName>Upfronts</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Loans_Top_up__Principle_Top_Up_.Value</Value>
+                                  <Value>=Fields!Loans_Top_up__Principle_Top_Up_.Value + Fields!Loans_Top_up__Interest_Top_Up_.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>9pt</FontSize>
-                                    <Format>#,0.00;(#,0.00);'-'</Format>
+                                    <Format>#,0.00;(#,0.00)</Format>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -4278,13 +4241,12 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
+                          <ZIndex>13</ZIndex>
                           <Style>
                             <Border>
+                              <Color>LightGrey</Color>
                               <Style>None</Style>
                             </Border>
-                            <TopBorder>
-                              <Width>1pt</Width>
-                            </TopBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -4422,15 +4384,15 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox7">
-                          <rd:DefaultName>Textbox7</rd:DefaultName>
+                        <Textbox Name="Loans_Top_up__Interest_Top_Up_1">
+                          <rd:DefaultName>Loans_Top_up__Interest_Top_Up_1</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>--</Value>
+                                  <Value>=Sum(Fields!Loans_Top_up__Interest_Top_Up_.Value)</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -4472,7 +4434,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!Loans_Top_up__Principle_Top_Up_.Value)</Value>
+                                  <Value>=Sum(Fields!Loans_Top_up__Principle_Top_Up_.Value) + Sum(Fields!Loans_Top_up__Interest_Top_Up_.Value)</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -4545,7 +4507,7 @@
             <Left>0.13319cm</Left>
             <Height>2.5775cm</Height>
             <Width>20.14431cm</Width>
-            <ZIndex>77</ZIndex>
+            <ZIndex>76</ZIndex>
             <Visibility>
               <Hidden>=IIF(Sum(Fields!Loans_Top_up__Principle_Top_Up_.Value) = 0, True, False)</Hidden>
             </Visibility>
@@ -4585,7 +4547,7 @@
             <Left>0.22437cm</Left>
             <Height>0.56296cm</Height>
             <Width>20.09834cm</Width>
-            <ZIndex>78</ZIndex>
+            <ZIndex>77</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -4641,7 +4603,7 @@
             <Left>0.25793cm</Left>
             <Height>0.6053cm</Height>
             <Width>20.09834cm</Width>
-            <ZIndex>79</ZIndex>
+            <ZIndex>78</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -4697,7 +4659,7 @@
             <Left>0.279cm</Left>
             <Height>0.6053cm</Height>
             <Width>20.09834cm</Width>
-            <ZIndex>80</ZIndex>
+            <ZIndex>79</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -4753,7 +4715,7 @@
             <Left>0.25793cm</Left>
             <Height>0.6053cm</Height>
             <Width>20.09834cm</Width>
-            <ZIndex>81</ZIndex>
+            <ZIndex>80</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -4809,7 +4771,7 @@
             <Left>0.25793cm</Left>
             <Height>0.6053cm</Height>
             <Width>20.09834cm</Width>
-            <ZIndex>82</ZIndex>
+            <ZIndex>81</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -4846,7 +4808,7 @@
             <Left>0.22437cm</Left>
             <Height>0.5716cm</Height>
             <Width>7.20228cm</Width>
-            <ZIndex>83</ZIndex>
+            <ZIndex>82</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -4882,7 +4844,7 @@
             <Left>0.06073in</Left>
             <Height>0.21932in</Height>
             <Width>2.08376in</Width>
-            <ZIndex>84</ZIndex>
+            <ZIndex>83</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -4919,7 +4881,7 @@
             <Left>2.26949in</Left>
             <Height>0.18872in</Height>
             <Width>1.43487in</Width>
-            <ZIndex>85</ZIndex>
+            <ZIndex>84</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -4953,7 +4915,7 @@
             <Left>0.06073in</Left>
             <Height>0.20918in</Height>
             <Width>2.08376in</Width>
-            <ZIndex>86</ZIndex>
+            <ZIndex>85</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -4990,7 +4952,7 @@
             <Left>2.26949in</Left>
             <Height>0.17641in</Height>
             <Width>1.42601in</Width>
-            <ZIndex>87</ZIndex>
+            <ZIndex>86</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -5021,7 +4983,7 @@
             <Left>0.06712in</Left>
             <Height>0.19455in</Height>
             <Width>1.67175in</Width>
-            <ZIndex>88</ZIndex>
+            <ZIndex>87</ZIndex>
             <Style>
               <VerticalAlign>Middle</VerticalAlign>
               <PaddingLeft>2pt</PaddingLeft>
@@ -5053,7 +5015,7 @@
             <Left>1.75001in</Left>
             <Height>0.19455in</Height>
             <Width>1.50509in</Width>
-            <ZIndex>89</ZIndex>
+            <ZIndex>88</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -5085,7 +5047,7 @@
             <Left>0.07826in</Left>
             <Height>0.18414in</Height>
             <Width>1.66061in</Width>
-            <ZIndex>90</ZIndex>
+            <ZIndex>89</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -5117,7 +5079,7 @@
             <Left>1.7639in</Left>
             <Height>0.18414in</Height>
             <Width>1.4912in</Width>
-            <ZIndex>91</ZIndex>
+            <ZIndex>90</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -5149,7 +5111,7 @@
             <Left>0.07306in</Left>
             <Height>0.18414in</Height>
             <Width>1.67175in</Width>
-            <ZIndex>92</ZIndex>
+            <ZIndex>91</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -5182,7 +5144,7 @@
             <Left>1.7587in</Left>
             <Height>0.18414in</Height>
             <Width>1.4912in</Width>
-            <ZIndex>93</ZIndex>
+            <ZIndex>92</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -5214,7 +5176,7 @@
             <Left>3.8121in</Left>
             <Height>0.17014in</Height>
             <Width>1.67175in</Width>
-            <ZIndex>94</ZIndex>
+            <ZIndex>93</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -5247,7 +5209,7 @@
             <Left>5.49774in</Left>
             <Height>0.17014in</Height>
             <Width>1.4912in</Width>
-            <ZIndex>95</ZIndex>
+            <ZIndex>94</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -5279,7 +5241,7 @@
             <Left>0.06468in</Left>
             <Height>0.21058in</Height>
             <Width>1.67175in</Width>
-            <ZIndex>96</ZIndex>
+            <ZIndex>95</ZIndex>
             <Style>
               <VerticalAlign>Middle</VerticalAlign>
               <PaddingLeft>2pt</PaddingLeft>
@@ -5311,7 +5273,7 @@
             <Left>3.8069in</Left>
             <Height>0.21058in</Height>
             <Width>1.67175in</Width>
-            <ZIndex>97</ZIndex>
+            <ZIndex>96</ZIndex>
             <Style>
               <VerticalAlign>Middle</VerticalAlign>
               <PaddingLeft>2pt</PaddingLeft>
@@ -5342,7 +5304,7 @@
             <Left>3.81084in</Left>
             <Height>0.18414in</Height>
             <Width>1.67175in</Width>
-            <ZIndex>98</ZIndex>
+            <ZIndex>97</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -5374,7 +5336,7 @@
             <Left>5.49648in</Left>
             <Height>0.18414in</Height>
             <Width>1.4912in</Width>
-            <ZIndex>99</ZIndex>
+            <ZIndex>98</ZIndex>
             <Style>
               <Border />
               <VerticalAlign>Middle</VerticalAlign>
@@ -5387,7 +5349,7 @@
             <Top>7.78478cm</Top>
             <Height>0cm</Height>
             <Width>20.29534cm</Width>
-            <ZIndex>100</ZIndex>
+            <ZIndex>99</ZIndex>
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -5428,7 +5390,7 @@
             <Left>0.0186in</Left>
             <Height>0.23969in</Height>
             <Width>1.67175in</Width>
-            <ZIndex>101</ZIndex>
+            <ZIndex>100</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -5443,6 +5405,36 @@
               <VerticalAlign>Middle</VerticalAlign>
               <PaddingLeft>2pt</PaddingLeft>
               <PaddingRight>0.15cm</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox3">
+            <rd:DefaultName>Textbox3</rd:DefaultName>
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>---</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>7.8543in</Top>
+            <Left>6.50222in</Left>
+            <Height>0.22008in</Height>
+            <Width>1in</Width>
+            <ZIndex>101</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
               <PaddingTop>2pt</PaddingTop>
               <PaddingBottom>2pt</PaddingBottom>
             </Style>

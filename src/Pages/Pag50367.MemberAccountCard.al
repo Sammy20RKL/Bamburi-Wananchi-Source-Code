@@ -29,14 +29,14 @@ page 50367 "Member Account Card"
                 field(Name; Rec.Name)
                 {
                     ApplicationArea = Basic;
-                    Editable = false;
+                    Editable = true;
                     Style = StrongAccent;
                 }
                 field("ID No."; Rec."ID No.")
                 {
                     ApplicationArea = Basic;
                     Caption = 'ID Number';
-                    Editable = false;
+                    Editable = true;
                     Style = StrongAccent;
                 }
                 field("Phone No."; Rec."Phone No.")
@@ -65,19 +65,19 @@ page 50367 "Member Account Card"
                 {
                     ApplicationArea = Basic;
                     Caption = 'Marital Status';
-                    Editable = false;
+                    Editable = true;
                     Visible = txtMaritalVisible;
                 }
                 field("Date of Birth"; Rec."Date of Birth")
                 {
                     ApplicationArea = Basic;
                     Caption = 'Date of Birth';
-                    Editable = false;
+                    Editable = true;
                 }
                 field(Age; Rec.Age)
                 {
                     ApplicationArea = Basic;
-                    Editable = false;
+                    Editable = true;
                 }
                 field("E-Mail"; Rec."E-Mail")
                 {
@@ -88,7 +88,7 @@ page 50367 "Member Account Card"
                 field("Account Category"; Rec."Account Category")
                 {
                     ApplicationArea = Basic;
-                    Editable = false;
+                    Editable = true;
                 }
                 field("Payroll/Staff No"; Rec."Personal No")
                 {
@@ -100,24 +100,24 @@ page 50367 "Member Account Card"
                 {
                     ApplicationArea = Basic;
                     Caption = 'Employer';
-                    Editable = false;
+                    Editable = true;
                 }
 
                 field("Passport No."; Rec."Passport No.")
                 {
                     ApplicationArea = Basic;
-                    Editable = false;
+                    Editable = true;
                 }
                 field(Address; Rec.Address)
                 {
                     ApplicationArea = Basic;
-                    Editable = false;
+                    Editable = true;
                 }
                 field("Post Code"; Rec."Post Code")
                 {
                     ApplicationArea = Basic;
                     Caption = 'Location';
-                    Editable = false;
+                    Editable = true;
                 }
                 field("Village/Residence"; Rec."Village/Residence")
                 {
@@ -160,7 +160,7 @@ page 50367 "Member Account Card"
                 {
                     ApplicationArea = Basic;
                     Caption = 'KRA PIN';
-                    Editable = false;
+                    Editable = true;
                 }
                 field("Registration Date"; Rec."Registration Date")
                 {
@@ -632,7 +632,7 @@ page 50367 "Member Account Card"
             }
             group("Bank Details")
             {
-                Editable = false;
+                Editable = true;
 
                 field("Bank Account No."; Rec."Bank Account No.")
                 {
