@@ -20,7 +20,7 @@ Codeunit 50021 SwizzKashBulkSMS
         UserSetUp: Record "User Setup";
 
 
-    procedure PollPendingSMS() MessageDetails: Text[500]
+    procedure PollPendingSMS() MessageDetails: Text[2000]
     begin
         begin
             SMSMessages.Reset;

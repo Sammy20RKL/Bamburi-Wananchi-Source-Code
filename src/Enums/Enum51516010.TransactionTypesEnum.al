@@ -117,7 +117,11 @@ enum 51516010 "TransactionTypesEnum"
     {
         Caption = 'Loan Penalty';
     }
-    // value(28; "Loan Guard")
+    value(28; "Unclaimed Dividends")
+    {
+        Caption = 'Unclaimed Dividends';
+    }
+    // value(29; "Loan Guard")
     // {
     //     Caption = 'Loan Guard';
     // }
@@ -182,7 +186,8 @@ enum 51516010 "TransactionTypesEnum"
     {
         Caption = 'Loan Form Fee';
     }
-    // value(43; "Kuscco Shares")
+
+    // value(45; "KUSCCO Shares")
     // {
     //     Caption = 'Kuscco Shares';
     // }

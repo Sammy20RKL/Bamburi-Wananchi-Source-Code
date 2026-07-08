@@ -88,6 +88,7 @@ page 70740 "Dividends Header Card"
                 trigger OnAction()
                 var
                     DialoBox: Dialog;
+
                 begin
                     if Rec.Posted then
                         Error('This dividend batch has already been posted.');
@@ -126,6 +127,16 @@ page 70740 "Dividends Header Card"
                                 'Deposit Contribution - Dividends', DividendsLines."Member Deposits", GenJournalLine."Transaction Type"::"Deposit Contribution");
 
                             end;
+                            if DividendsLines."Holiday Savings" > 0 then begin
+                                FnInsertMemberContribution(BATCH_TEMPLATE, BATCH_NAME, DividendsLines."Member No", Rec."Document No",
+                                'Holiday Savings - Dividends', DividendsLines."Holiday Savings", GenJournalLine."Transaction Type"::"Holiday Savings");
+
+                            end;
+                            if DividendsLines."T-Shirts" > 0 then begin
+                                FnInsertMemberContribution(BATCH_TEMPLATE, BATCH_NAME, DividendsLines."Member No", Rec."Document No",
+                                'T-Shirts - Dividends', DividendsLines."T-Shirts", GenJournalLine."Transaction Type"::"Sales of T-Shirt");
+                            end;
+
 
                             //post loan lines
                             PostLoanBal();
@@ -172,7 +183,7 @@ page 70740 "Dividends Header Card"
     }
 
     local procedure FnInsertMemberContribution(Jtemplate: Code[30]; Jbatch: code[30]; memberNo: Code[15]; documentNo: code[30];
-    transDescription: Code[35]; transAmount: Decimal; TransactionType: Option " ","Registration Fee","Share Capital","Interest Paid","Loan Repayment","Deposit Contribution","Insurance Contribution","Benevolent Fund",Loan,"Unallocated Funds","Sales of T-Shirt","Other Products",Dividend,"FOSA Account"): Code[50]
+    transDescription: Code[35]; transAmount: Decimal; TransactionType: Option " ","Registration Fee","Share Capital","Interest Paid","Loan Repayment","Deposit Contribution","Insurance Contribution","Benevolent Fund",Loan,"Unallocated Funds","Holiday Savings","Sales of T-Shirt","Other Products",Dividend,"FOSA Account"): Code[50]
     begin
         LineNo := LineNo + 10000;
         GenJournalLine.Init;
@@ -212,12 +223,80 @@ page 70740 "Dividends Header Card"
     var
         loanNumber: Code[50];
     begin
-        if DividendsLines."X-Mas Loan" > 0 then begin
+        if (DividendsLines."X-Mas Loan" > 0) OR (DividendsLines."X-Mas Loan Interest" > 0) then begin
             loanNumber := fnGetLoanNumber(DividendsLines, DividendsLines."X-Mas Loan", Rec."Posting Date", 'X-MAS');
             if loanNumber <> '' then begin
-                FnPostDistributedLoan(DividendsLines, loanNumber, DividendsLines."X-Mas interest", DividendsLines."X-Mas Loan", 'X-MAS');
+                FnPostDistributedLoan(DividendsLines, loanNumber, DividendsLines."X-Mas Loan Interest", DividendsLines."X-Mas Loan", 'X-MAS');
             end else begin
                 FnTransferExcessToUnallocatedFunds(DividendsLines, DividendsLines."X-Mas Loan", 'Excess Payments for X-Mas Loan');
+            end;
+        end;
+
+        if (DividendsLines."Emer Loan Principle" > 0) OR (DividendsLines."Emer Loan Interest" > 0) then begin
+            loanNumber := fnGetLoanNumber(DividendsLines, DividendsLines."Emer Loan Principle", Rec."Posting Date", 'EMER');
+            if loanNumber <> '' then begin
+                FnPostDistributedLoan(DividendsLines, loanNumber, DividendsLines."Emer Loan Interest", DividendsLines."Emer Loan Principle", 'EMER');
+            end else begin
+                FnTransferExcessToUnallocatedFunds(DividendsLines, DividendsLines."Emer Loan Principle", 'Excess Payments for Emer Loan');
+            end;
+        end;
+
+        if (DividendsLines."Hallo Loan Principle" > 0) OR (DividendsLines."Hallo Loan Interest" > 0) then begin
+            loanNumber := fnGetLoanNumber(DividendsLines, DividendsLines."Hallo Loan Principle", Rec."Posting Date", 'HALL');
+            if loanNumber <> '' then begin
+                FnPostDistributedLoan(DividendsLines, loanNumber, DividendsLines."Hallo Loan Interest", DividendsLines."Hallo Loan Principle", 'Hall');
+            end else begin
+                FnTransferExcessToUnallocatedFunds(DividendsLines, DividendsLines."Hallo Loan Principle", 'Excess Payments for Hallo Loan');
+            end;
+        end;
+
+        if (DividendsLines."Norm2 Loan Principle" > 0) OR (DividendsLines."Norm2 Loan Interest" > 0) then begin
+            loanNumber := fnGetLoanNumber(DividendsLines, DividendsLines."Norm2 Loan Principle", Rec."Posting Date", 'NORM2');
+            if loanNumber <> '' then begin
+                FnPostDistributedLoan(DividendsLines, loanNumber, DividendsLines."Norm2 Loan Interest", DividendsLines."Norm2 Loan Principle", 'NORM2');
+            end else begin
+                FnTransferExcessToUnallocatedFunds(DividendsLines, DividendsLines."Norm2 Loan Principle", 'Excess Payments for Norm2 Loan');
+            end;
+        end;
+
+        if (DividendsLines."Norm1 Loan Principle" > 0) OR (DividendsLines."Norm1 Loan Interest" > 0) then begin
+            loanNumber := fnGetLoanNumber(DividendsLines, DividendsLines."Norm1 Loan Principle", Rec."Posting Date", 'NORM1');
+            if loanNumber <> '' then begin
+                FnPostDistributedLoan(DividendsLines, loanNumber, DividendsLines."Norm1 Loan Interest", DividendsLines."Norm1 Loan Principle", 'Norm1');
+            end else begin
+                FnTransferExcessToUnallocatedFunds(DividendsLines, DividendsLines."Norm1 Loan Principle", 'Excess Payments for Norm1 Loan');
+            end;
+        end;
+        if (DividendsLines."School Loan Principle" > 0) OR (DividendsLines."School Loan Interest" > 0) then begin
+            loanNumber := fnGetLoanNumber(DividendsLines, DividendsLines."School Loan Principle", Rec."Posting Date", 'SCHLOAN');
+            if loanNumber <> '' then begin
+                FnPostDistributedLoan(DividendsLines, loanNumber, DividendsLines."School Loan Interest", DividendsLines."School Loan Principle", 'SCHLOAN');
+            end else begin
+                FnTransferExcessToUnallocatedFunds(DividendsLines, DividendsLines."School Loan Principle", 'Excess Payments for School Loan');
+            end;
+        end;
+        if (DividendsLines."Mbuyu Loan Principle" > 0) OR (DividendsLines."Mbuyu Loan Interest" > 0) then begin
+            loanNumber := fnGetLoanNumber(DividendsLines, DividendsLines."Mbuyu Loan Principle", Rec."Posting Date", 'MBUY');
+            if loanNumber <> '' then begin
+                FnPostDistributedLoan(DividendsLines, loanNumber, DividendsLines."Mbuyu Loan Interest", DividendsLines."Mbuyu Loan Principle", 'MBUY');
+            end else begin
+                FnTransferExcessToUnallocatedFunds(DividendsLines, DividendsLines."Mbuyu Loan Principle", 'Excess Payments for Mbuyu Loan');
+            end;
+        end;
+        if (DividendsLines."Kivukio Loan Principle" > 0) OR (DividendsLines."Kivukio Loan Interest" > 0) then begin
+            loanNumber := fnGetLoanNumber(DividendsLines, DividendsLines."Kivukio Loan Principle", Rec."Posting Date", 'KIVUK');
+            if loanNumber <> '' then begin
+                FnPostDistributedLoan(DividendsLines, loanNumber, DividendsLines."Kivukio Loan Interest", DividendsLines."Kivukio Loan Principle", 'KIVUK');
+            end else begin
+                FnTransferExcessToUnallocatedFunds(DividendsLines, DividendsLines."Kivukio Loan Principle", 'Excess Payments for Kivukio Loan');
+            end;
+        end;
+        if (DividendsLines."Instant Loan Principle" > 0) OR (DividendsLines."Instant Loan Interest" > 0) then begin
+            loanNumber := fnGetLoanNumber(DividendsLines, DividendsLines."Instant Loan Principle", Rec."Posting Date", 'INST');
+            if loanNumber <> '' then begin
+                FnPostDistributedLoan(DividendsLines, loanNumber, DividendsLines."Instant Loan Interest", DividendsLines."Instant Loan Principle", 'INST');
+            end else begin
+                FnTransferExcessToUnallocatedFunds(DividendsLines, DividendsLines."Instant Loan Principle", 'Excess Payments for Instant Loan');
             end;
         end;
 
@@ -377,6 +456,12 @@ page 70740 "Dividends Header Card"
         YearEndDate: Date;
     begin
         GenSetUp.Get();
+        GenSetUp.TestField("Dividend Payable Account");
+        GenSetUp.TestField("WithHolding Tax Account");
+        GenSetUp.TestField("Dividends Paying Bank Account");
+        GenSetUp.TestField("Dividend Expense Account");
+        GenSetUp.TestField("Interest Expense Account");
+        GenSetUp.TestField("Unclaimed Dividends Account");
 
         YearEndDate := DMY2Date(31, 12, DividendYear);
 
@@ -418,8 +503,6 @@ page 70740 "Dividends Header Card"
                             GenSetUp."Dividend Payable Account", YearEndDate, DivLine."Net Pay" * -1, 'BOSA', DocumentNo, 'Dividend Payable - ' + DivLine."Member Name", '');
                     end;
 
-
-
                     // CREDIT: Withholding Tax GL (per member)
                     if DivLine."Withholding Tax(Share&Depo)" > 0 then begin
                         LineNo += 10000;
@@ -443,28 +526,22 @@ page 70740 "Dividends Header Card"
                     SFactory.FnCreateGnlJournalLine(BATCH_TEMPLATE, BATCH_NAME, DocumentNo, LineNo, GenJournalLine."transaction type"::" ", GenJournalLine."account type"::"G/L Account",
                         GenSetUp."Dividend Payable Account", SettlementDate, DivLine."Net Pay", 'BOSA', DocumentNo, 'Provision Div Payable - ' + DivLine."Member Name", '');
 
-
-
-                    // CREDIT: Others -- not specified 
-                    if DivLine."To Others" > 0 then begin
-                        LineNo += 10000;
-                        SFactory.FnCreateGnlJournalLine(BATCH_TEMPLATE, BATCH_NAME, DocumentNo, LineNo, GenJournalLine."transaction type"::" ", GenJournalLine."account type"::"G/L Account",
-                            GenSetUp."Interest Payable Account", SettlementDate, DivLine."To Others" * -1, 'BOSA', DocumentNo, 'Others - ' + DivLine."Member Name", '');
-                    end;
-
                     // CREDIT: Bank GL 
-                    if DividendsLines."Net After Deduction" > 0 then begin
+                    if DivLine."Net After Deduction" > 0 then begin
                         LineNo += 10000;
                         SFactory.FnCreateGnlJournalLine(BATCH_TEMPLATE, BATCH_NAME, DocumentNo, LineNo, GenJournalLine."transaction type"::" ", GenJournalLine."account type"::"Bank Account",
                             GenSetUp."Dividends Paying Bank Account", SettlementDate, DivLine."Net After Deduction" * -1, 'BOSA', DocumentNo, 'Net Pay to Bank - ' + DivLine."Member Name", '');
+                    end;
+                    //Credit: Unclaimed Dividends GL
+                    if DivLine."Unclaimed Dividends" > 0 then begin
+                        LineNo += 10000;
+                        SFactory.FnCreateGnlJournalLine(BATCH_TEMPLATE, BATCH_NAME, DocumentNo, LineNo, GenJournalLine."transaction type"::" ", GenJournalLine."account type"::"G/L Account",
+                            GenSetUp."Unclaimed Dividends Account", SettlementDate, DivLine."Unclaimed Dividends" * -1, 'BOSA', DocumentNo, 'Unclaimed Dividends - ' + DivLine."Member Name", '');
                     end;
 
                 end;
             until DivLine.Next() = 0;
         end;
-
-
-
 
     end;
 

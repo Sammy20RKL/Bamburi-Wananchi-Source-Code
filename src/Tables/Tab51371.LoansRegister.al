@@ -114,9 +114,9 @@ Table 51371 "Loans Register"
                     until LoanApp.Next = 0;
                 end;
 
-                LoansRec.Reset;
+                // LoansRec.Reset;
                 LoansRec.SetRange(LoansRec."Client Code", "Client Code");
-                //LoansRec.SETRANGE(LoansRec."Loan Product Type",'VISION');
+                //LoansRec.SETRANGE(LoansRec."Loan Product Type",'VISION');----------------
                 LoansRec.SetRange(LoansRec.Posted, true);
                 if LoansRec.Find('-') then begin
                     LoansRec.CalcFields("Outstanding Balance");

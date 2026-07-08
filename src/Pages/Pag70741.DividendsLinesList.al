@@ -82,14 +82,98 @@ page 70741 "Dividend Lines List"
                 field("X-Mas Loan"; Rec."X-Mas Loan")
                 {
                     ApplicationArea = all;
+                    Caption = 'X-Mas Loan Principle';
                     // Editable = false;
+                }
+                field("X-Mas Loan Interest"; Rec."X-Mas Loan Interest")
+                {
+                    ApplicationArea = all;
+                    Caption = 'X-Mas Loan Interest';
+                    // Editable = false;
+                }
+                field("Emer Loan Principle"; Rec."Emer Loan Principle")
+                {
+                    applicationArea = all;
+                }
+                field("Emer Loan Interest"; Rec."Emer Loan Interest")
+                {
+                    applicationArea = all;
+                }
+                field("Hallo Loan Principle"; Rec."Hallo Loan Principle")
+                {
+                    applicationArea = all;
+                }
+                field("Hallo Loan Interest"; Rec."Hallo Loan Interest")
+                {
+                    applicationArea = all;
+                }
+                field("Norm2 Loan Principle"; Rec."Norm2 Loan Principle")
+                {
+                    applicationArea = all;
+                }
+                field("Norm2 Loan Interest"; Rec."Norm2 Loan Interest")
+                {
+                    applicationArea = all;
+                }
+                field("Norm1 Loan Principle"; Rec."Norm1 Loan Principle")
+                {
+                    applicationArea = all;
+                }
+                field("Norm1 Loan Interest"; Rec."Norm1 Loan Interest")
+                {
+                    applicationArea = all;
+                }
+                field("School Loan Principle"; Rec."School Loan Principle")
+                {
+                    applicationArea = all;
+                }
+                field("School Loan Interest"; Rec."School Loan Interest")
+                {
+                    applicationArea = all;
+                }
+                field("Mbuyu Loan Principle"; Rec."Mbuyu Loan Principle")
+                {
+                    applicationArea = all;
+                }
+                field("Mbuyu Loan Interest"; Rec."Mbuyu Loan Interest")
+                {
+                    applicationArea = all;
+                }
+                field("Kivukio Loan Principle"; Rec."Kivukio Loan Principle")
+                {
+                    applicationArea = all;
+                }
+                field("Kivukio Loan Interest"; Rec."Kivukio Loan Interest")
+                {
+                    applicationArea = all;
+                }
+                field("Instant Loan Principle"; Rec."Instant Loan Principle")
+                {
+                    applicationArea = all;
+                }
+                field("Instant Loan Interest"; Rec."Instant Loan Interest")
+                {
+                    applicationArea = all;
                 }
                 field("Member Deposits"; Rec."Member Deposits")
                 {
                     ApplicationArea = all;
                     // Editable = false;
                 }
-                field("To Others"; Rec."To Others") { ApplicationArea = all; }
+                field("Holiday Savings"; Rec."Holiday Savings")
+                {
+                    ApplicationArea = all;
+                    // Editable = false;
+                }
+                field("Unclaimed Dividends"; Rec."Unclaimed Dividends")
+                {
+                    ApplicationArea = all;
+                }
+                field("T-Shirts"; Rec."T-Shirts")
+                {
+                    ApplicationArea = all;
+                    // Editable = false;
+                }
                 field("Net After Deduction"; Rec."Net After Deduction")
                 {
                     ApplicationArea = all;
@@ -98,7 +182,7 @@ page 70741 "Dividend Lines List"
                 field(Status; Rec.Status)
                 {
                     ApplicationArea = All;
-                    // Editable = false;
+                    Editable = false;
                 }
 
 

@@ -283,6 +283,10 @@ page 50411 "Sacco General Set-Up"
                 {
                     ApplicationArea = Basic;
                 }
+                field("Unclaimed Dividends Account"; Rec."Unclaimed Dividends Account")
+                {
+                    ApplicationArea = Basic;
+                }
                 field("Partial Disbursement Account"; Rec."Partial Disbursement Account")
                 {
                     ApplicationArea = Basic;

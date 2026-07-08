@@ -413,6 +413,7 @@ page 56120 "Membership Application List"
     end;
 
     var
+        tt: page 5601;
         StatusPermissions: Record "Status Change Permision";
         Cust: Record Customer;
         Accounts: Record Vendor;

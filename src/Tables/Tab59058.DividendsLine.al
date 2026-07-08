@@ -104,7 +104,30 @@ table 59058 "Dividends Lines"
         field(23; "To Others"; Decimal) { }
         field(24; "Line No"; Integer) { }
         field(25; "Dividends on Shares"; Decimal) { }
+
         field(26; "X-Mas interest"; Decimal) { }
+        Field(27; "X-Mas Loan Interest"; Decimal) { }
+        Field(28; "Emer Loan Principle"; Decimal) { }
+        Field(29; "Emer Loan Interest"; Decimal) { }
+        Field(30; "Hallo Loan Principle"; Decimal) { }
+        Field(31; "Hallo Loan Interest"; Decimal) { }
+        field(32; "Norm2 Loan Principle"; Decimal) { }
+        field(33; "Norm2 Loan Interest"; Decimal) { }
+        field(34; "Norm1 Loan Principle"; Decimal) { }
+        field(35; "Norm1 Loan Interest"; Decimal) { }
+        field(36; "Kivukio Loan Principle"; Decimal) { }
+        field(37; "Kivukio Loan Interest"; Decimal) { }
+        field(38; "Instant Loan Principle"; Decimal) { }
+        field(39; "Instant Loan Interest"; Decimal) { }
+        field(40; "School Loan Principle"; Decimal) { }
+        field(41; "School Loan Interest"; Decimal) { }
+
+        field(42; "Mbuyu Loan Principle"; Decimal) { }
+        field(43; "Mbuyu Loan Interest"; Decimal) { }
+        field(44; "Holiday Savings"; Decimal) { }
+        field(45; "T-Shirts"; Decimal) { }
+        field(46; "Unclaimed Dividends"; Decimal) { }
+
 
     }
 

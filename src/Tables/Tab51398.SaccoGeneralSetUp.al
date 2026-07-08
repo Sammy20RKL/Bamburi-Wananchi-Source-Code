@@ -938,6 +938,10 @@ Table 51398 "Sacco General Set-Up"
         {
             TableRelation = "G/L Account";
         }
+        field(1626; "Unclaimed Dividends Account"; Code[20])
+        {
+            TableRelation = "G/L Account";
+        }
 
     }
 

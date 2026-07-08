@@ -18,6 +18,8 @@ Codeunit 51120 PORTALIntegration
         objLoanRegister: Record "Loans Register";
         objRegMember: Record "Membership Applications";
         objNextKin: Record "Members Next Kin Details";
+        NextOfKin: Record "Member App Next Of kin";
+        MemberAppNominee: Record "Member App Nominee";
         GenSetup: Record "Sacco General Set-Up";
         FreeShares: Decimal;
         glamount: Decimal;
@@ -1996,16 +1998,37 @@ Codeunit 51120 PORTALIntegration
     begin
         begin
             objRegMember.Reset;
-            objNextKin.Reset;
-            objNextKin.Init();
+            NextOfKin.Reset;
+            NextOfKin.Init();
             objRegMember.SetRange("ID No.", Idnomemberapp);
             if objRegMember.Find('-') then begin
-                objNextKin."Account No" := objRegMember."No.";
-                objNextKin.Name := "Full Names";
-                objNextKin.Relationship := Relationship;
-                objNextKin."Id No." := "ID Number";
-                objNextKin.Telephone := "Phone Contact";
-                objNextKin.Insert(true);
+                NextOfKin."Account No" := objRegMember."No.";
+                NextOfKin.Name := "Full Names";
+                NextOfKin.Relationship := Relationship;
+                NextOfKin."Id No." := "ID Number";
+                NextOfKin.Telephone := "Phone Contact";
+                NextOfKin.Insert(true);
+            end;
+        end;
+    end;
+
+    procedure FnRegisterNominee("Full Names": Text; Relationship: Text; "ID Number": Code[10]; "Phone Contact": Code[10]; Address: Text; Idnomemberapp: Code[10]; Beneficiary: Boolean)
+    begin
+        begin
+            objRegMember.Reset;
+            MemberAppNominee.Reset;
+            MemberAppNominee.Init();
+            objRegMember.SetRange("ID No.", Idnomemberapp);
+            if objRegMember.Find('-') then begin
+                MemberAppNominee."Account No" := objRegMember."No.";
+                MemberAppNominee.Name := "Full Names";
+                MemberAppNominee.Relationship := Relationship;
+                MemberAppNominee."Id No." := "ID Number";
+                MemberAppNominee.Telephone := "Phone Contact";
+                MemberAppNominee.Beneficiary := Beneficiary;
+                MemberAppNominee."%Allocation" := 0;
+
+                MemberAppNominee.Insert(true);
             end;
         end;
     end;
@@ -2082,6 +2105,8 @@ Codeunit 51120 PORTALIntegration
     end;
 
     procedure FnMemberApply("First Name": Code[30]; "Mid Name": Code[30]; "Last Name": Code[30]; "PO Box": Text; Residence: Code[30]; "Postal Code": Text; Town: Code[30]; "Phone Number": Code[30]; Email: Text; "ID Number": Code[30]; "Branch Code": Code[30]; "Branch Name": Code[30]; "Account Number": Code[30]; Gender: Option; "Marital Status": Option; "Account Category": Option; "Application Category": Option; "Customer Group": Code[30]; "Employer Name": Code[30]; "Date of Birth": Date) num: Text
+    var
+        No: Code[20];
     begin
         begin
 
@@ -2092,6 +2117,7 @@ Codeunit 51120 PORTALIntegration
             end
             else begin
                 objRegMember.Init;
+                objRegMember."No." := NoSeriesMgmt.GetNextNo(SaccoSetup."Member Application Nos", 0D, true);
                 objRegMember.Name := "First Name" + ' ' + "Mid Name" + ' ' + "Last Name";
                 objRegMember.Address := "PO Box";
                 objRegMember."Address 2" := Residence;
@@ -2116,6 +2142,7 @@ Codeunit 51120 PORTALIntegration
                 objRegMember."Customer Posting Group" := "Customer Group";
                 objRegMember.Insert(true);
             end;
+
         end;
     end;
 

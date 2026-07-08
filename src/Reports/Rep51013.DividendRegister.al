@@ -787,6 +787,8 @@ Report 51013 "Dividend Register"
         Nov: Decimal;
         Dec: Decimal;
 
+        bank: page 379;
+
 
 
 

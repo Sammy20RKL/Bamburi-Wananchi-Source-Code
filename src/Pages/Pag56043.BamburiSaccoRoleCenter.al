@@ -2117,12 +2117,14 @@ Page 56043 "Bamburi SACCO Role Center"
                     {
                         Caption = 'Create M-Wallets';
                         Image = CreateDocuments;
+                        Visible = false;
                         RunObject = codeunit SwizzKashMobile;
                         ToolTip = 'Create Wallet Accounts';
                     }
                     action(Portal)
                     {
                         Caption = 'Debug Portal';
+                        Visible = false;
                         RunObject = codeunit "PORTALIntegration MFS";
                         // RunObject = codeunit "Dividends Processing Codeunit";
                         Image = RollUpCosts;
@@ -2132,7 +2134,7 @@ Page 56043 "Bamburi SACCO Role Center"
 
                         RunObject = Report "Loan Repayment Schedules";
                         Image = RollUpCosts;
-                        Visible = true;
+                        Visible = false;
                     }
 
 
@@ -2140,6 +2142,7 @@ Page 56043 "Bamburi SACCO Role Center"
                     {
                         Caption = 'Process Notifications';
                         Image = SendConfirmation;
+                        Visible = false;
                         RunObject = codeunit SwizzKashMobile;
                     }
                 }
@@ -2635,6 +2638,7 @@ Page 56043 "Bamburi SACCO Role Center"
                     {
                         RunObject = page "Payroll Period Transaction.";
                         ApplicationArea = All;
+                        Visible = false;
                     }
                     action("Payroll Transaction Codes")
                     {

@@ -10,7 +10,23 @@ table 59056 "Bamburi CheckoffLines"
         }
         field(3; "Entry No"; Code[20]) { Editable = false; }
         field(4; "Staff/Payroll No"; Code[20]) { }
-        field(5; "Member No"; Code[50]) { TableRelation = Customer."No." where("Customer Type" = filter(BOSA | STAFF)); }
+        field(5; "Member No"; Code[50])
+        {
+            TableRelation = Customer."No." where("Customer Type" = filter(BOSA | STAFF));
+            trigger OnValidate()
+            var
+                Customer: Record Customer;
+            begin
+                if "Member No" <> '' then begin
+                    Customer.Get("Member No");
+                    "Name" := Customer.Name;
+                    "Staff/Payroll No" := Customer."Personal No";
+                    "Member Found" := true;
+                    "ID No." := Customer."ID No.";
+
+                end;
+            end;
+        }
         field(6; "Member Found"; Boolean) { }
         field(7; "Name"; Code[50]) { Editable = false; }
         field(8; "ID No."; Code[20]) { Editable = false; }

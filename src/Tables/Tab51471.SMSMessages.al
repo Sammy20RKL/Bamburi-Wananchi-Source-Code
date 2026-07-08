@@ -24,7 +24,7 @@ Table 51471 "SMS Messages"
         field(6; "Entered By"; Code[50])
         {
         }
-        field(7; "SMS Message"; Text[550])
+        field(7; "SMS Message"; Text[2000])
         {
         }
         field(8; "Sent To Server"; Option)

@@ -178,6 +178,10 @@ page 56110 "Member Application Card"
 
                     Editable = IDNoEditable;
                 }
+                field("ID No."; Rec."ID No.")
+                {
+                    ApplicationArea = all;
+                }
                 field("Date of Birth"; Rec."Date of Birth")
                 {
                     ApplicationArea = Basic;
@@ -1296,10 +1300,10 @@ page 56110 "Member Application Card"
                         end;
 
                         //*******************Check ID no.******************************
-                        if Rec."Account Category" = Rec."Account Category"::"Regular Account" then begin
-                            if (Rec."ID No." = '') then
-                                Error('You must specify ID No for the applicant');
-                        end;
+                        // if Rec."Account Category" = Rec."Account Category"::"Regular Account" then begin
+                        //     if (Rec."ID No." = '') then
+                        //         Error('You must specify ID No for the applicant');
+                        // end;
                         if Rec."Account Category" = Rec."Account Category"::"Junior Account" then begin
                             // Rec.TestField("Birth Certficate No.");
                             // Rec.TestField("ID Copy");
@@ -2258,6 +2262,7 @@ page 56110 "Member Application Card"
             Cust."Guardian No." := Rec."Guardian No.";
             Cust."Guardian Name" := Rec."Guardian Name";
             Cust."ID NO/Passport 2" := Rec."ID NO/Passport 2";
+            Cust."ID No." := Rec."ID No.";
             Cust.Address := Rec.Address3;
             Cust.Occupation := Rec.Organization;
             Cust."E-Mail" := Rec."E-Mail (Personal2)";
