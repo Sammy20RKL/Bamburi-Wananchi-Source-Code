@@ -461,7 +461,6 @@ Codeunit 50000 "Funds Management"
 
     end;
 
-
     procedure PostBoardPayment("Payment Header": Record "Payments Header"; "Journal Template": Code[20]; "Journal Batch": Code[20])
     var
         GenJnlLine: Record "Gen. Journal Line";

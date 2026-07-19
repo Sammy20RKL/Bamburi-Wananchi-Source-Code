@@ -1433,6 +1433,7 @@ page 56110 "Member Application Card"
                         DialogBox: Dialog;
                         BOSAAccountNo: Code[50];
                         NewFOSAAccount: Code[50];
+                        Error2: Label 'Branch Code is Mandatory';
 
                     begin
                         if Rec.Status <> Rec.Status::Approved then
@@ -1499,7 +1500,6 @@ page 56110 "Member Application Card"
                                         FnPostJuniorRegistrationFees(BOSAAccountNo, GenSetUp."Junior BOSA Registration Fee Amount");
                                     end;
                                 end;
-
 
                             if (Rec."Account Category" = Rec."Account Category"::"Regular Account") and
                            GenSetUp."Auto Open FOSA Savings Acc." = true then begin

@@ -1994,42 +1994,33 @@ Codeunit 51120 PORTALIntegration
         END;
     end;
 
-    procedure FnRegisterKin("Full Names": Text; Relationship: Text; "ID Number": Code[10]; "Phone Contact": Code[10]; Address: Text; Idnomemberapp: Code[10])
+    procedure FnRegisterKin("Full Names": Text; Relationship: Text; "ID Number": Code[10]; "Phone Contact": Code[10]; Address: Text; MemberNoapp: Code[10])
     begin
-        begin
-            objRegMember.Reset;
-            NextOfKin.Reset;
-            NextOfKin.Init();
-            objRegMember.SetRange("ID No.", Idnomemberapp);
-            if objRegMember.Find('-') then begin
-                NextOfKin."Account No" := objRegMember."No.";
-                NextOfKin.Name := "Full Names";
-                NextOfKin.Relationship := Relationship;
-                NextOfKin."Id No." := "ID Number";
-                NextOfKin.Telephone := "Phone Contact";
-                NextOfKin.Insert(true);
-            end;
+        NextOfKin.Reset;
+        NextOfKin.Init();
+        if objRegMember.Get(MemberNoapp) then begin
+            NextOfKin."Account No" := objRegMember."No.";
+            NextOfKin.Name := "Full Names";
+            NextOfKin.Relationship := Relationship;
+            NextOfKin."Id No." := "ID Number";
+            NextOfKin.Telephone := "Phone Contact";
+            NextOfKin.Insert(true);
         end;
     end;
 
-    procedure FnRegisterNominee("Full Names": Text; Relationship: Text; "ID Number": Code[10]; "Phone Contact": Code[10]; Address: Text; Idnomemberapp: Code[10]; Beneficiary: Boolean)
+    procedure FnRegisterNominee("Full Names": Text; Relationship: Text; "ID Number": Code[10]; "Phone Contact": Code[10]; Address: Text; MemberNoapp: Code[10]; Beneficiary: Boolean; "%Allocation": Decimal)
     begin
-        begin
-            objRegMember.Reset;
-            MemberAppNominee.Reset;
-            MemberAppNominee.Init();
-            objRegMember.SetRange("ID No.", Idnomemberapp);
-            if objRegMember.Find('-') then begin
-                MemberAppNominee."Account No" := objRegMember."No.";
-                MemberAppNominee.Name := "Full Names";
-                MemberAppNominee.Relationship := Relationship;
-                MemberAppNominee."Id No." := "ID Number";
-                MemberAppNominee.Telephone := "Phone Contact";
-                MemberAppNominee.Beneficiary := Beneficiary;
-                MemberAppNominee."%Allocation" := 0;
-
-                MemberAppNominee.Insert(true);
-            end;
+        MemberAppNominee.Reset;
+        MemberAppNominee.Init();
+        if objRegMember.Get(MemberNoapp) then begin
+            MemberAppNominee."Account No" := objRegMember."No.";
+            MemberAppNominee.Name := "Full Names";
+            MemberAppNominee.Relationship := Relationship;
+            MemberAppNominee."Id No." := "ID Number";
+            MemberAppNominee.Telephone := "Phone Contact";
+            MemberAppNominee.Beneficiary := Beneficiary;
+            MemberAppNominee."%Allocation" := "%Allocation";
+            MemberAppNominee.Insert(true);
         end;
     end;
 
@@ -2118,12 +2109,15 @@ Codeunit 51120 PORTALIntegration
             else begin
                 objRegMember.Init;
                 objRegMember."No." := NoSeriesMgmt.GetNextNo(SaccoSetup."Member Application Nos", 0D, true);
+                objRegMember."First Name" := "First Name";
+                objRegMember."Middle Name" := "Mid Name";
+                objRegMember."Last Name" := "Last Name";
                 objRegMember.Name := "First Name" + ' ' + "Mid Name" + ' ' + "Last Name";
                 objRegMember.Address := "PO Box";
                 objRegMember."Address 2" := Residence;
                 objRegMember."Postal Code" := "Postal Code";
                 objRegMember.Town := Town;
-                objRegMember."Phone No." := "Phone Number";
+                objRegMember."Mobile Phone No" := "Phone Number";
                 objRegMember."E-Mail (Personal)" := Email;
                 objRegMember."Date of Birth" := "Date of Birth";
                 objRegMember."ID No." := "ID Number";
@@ -2141,6 +2135,7 @@ Codeunit 51120 PORTALIntegration
                 objRegMember."Employer Name" := "Employer Name";
                 objRegMember."Customer Posting Group" := "Customer Group";
                 objRegMember.Insert(true);
+                num := objRegMember."No.";
             end;
 
         end;

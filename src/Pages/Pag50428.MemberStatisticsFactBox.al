@@ -70,6 +70,11 @@ page 50428 "Member Statistics FactBox"
                     ApplicationArea = Basic;
                     Caption = 'Holiday Savings';
                 }
+                field("Unclaimed Dividends"; Rec."Unclaimed Dividends")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Unclaimed Dividends';
+                }
                 field("Welfare Contribution"; Rec."Welfare Contribution")
                 {
                     ApplicationArea = Basic;
@@ -115,6 +120,7 @@ page 50428 "Member Statistics FactBox"
                 field("Dividend Amount"; Rec."Dividend Amount")
                 {
                     ApplicationArea = Basic;
+                    // Visible = false;
                 }
                 // field(VarMemberLiability; VarMemberLiability)
                 // {

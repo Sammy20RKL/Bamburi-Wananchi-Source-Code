@@ -1055,7 +1055,7 @@ Report 50244 "Loan Appraisal"
                 //----- Update the Loans Register with the calculated recommendation... Festus Clean
                 "Loans Register"."Recommended Amount" := Recomm;
                 "Loans Register"."Approved Amount" := "Loans Register"."Recommended Amount";
-                "Loans Register".Modify;
+                "Loans Register".Modify(true);
 
                 // Display the recommendation
                 if Recomm > 0 then begin

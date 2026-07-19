@@ -713,7 +713,7 @@ Table 51371 "Loans Register"
                 LoanBal: Decimal;
                 Amtt: Decimal;
             begin
-                //check qualifying deposists *3
+                //check qualifying deposists *3 ---------------------------------
                 if "Requested Amount" > ("Member Deposits" * 3) then Error('Amount Requested exceeds member Eligibility');
 
                 if LoanType.Get("Loan Product Type") then begin
@@ -749,12 +749,16 @@ Table 51371 "Loans Register"
                         Error('The amount requested cannot be less than the minimum amount of %1', LoanType."Min. Loan Amount");
                     end;
                 end;
+                if not Appraised then begin
+                    "Approved Amount" := 0;
+                    "Net Payment to FOSA" := "Requested Amount";
+                    Validate("Approved Amount");
+                end;
 
+                // "Approved Amount" := 0;
+                // "Net Payment to FOSA" := "Requested Amount";
 
-                "Approved Amount" := 0;
-                "Net Payment to FOSA" := "Requested Amount";
-
-                Validate("Approved Amount");
+                // Validate("Approved Amount");
 
                 CalcFields("Total Loans Outstanding");
                 TotalOutstanding := "Total Loans Outstanding" + "Requested Amount";

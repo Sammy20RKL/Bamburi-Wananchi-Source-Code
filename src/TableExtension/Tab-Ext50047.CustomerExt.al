@@ -64,6 +64,14 @@ tableextension 50047 "CustomerExt" extends Customer
             Editable = false;
             FieldClass = FlowField;
         }
+        field(76484; "Unclaimed Dividends"; Decimal)
+        {
+            CalcFormula = - sum("Cust. Ledger Entry"."Amount Posted" where("Customer No." = field("No."),
+                                                                   "Transaction Type" = filter("Unclaimed Dividends"),
+                                                                   "Posting Date" = field("Date Filter"), Reversed = const(false)));
+            Editable = false;
+            FieldClass = FlowField;
+        }
         field(68909; "Junior Contribution"; Decimal)
         {
             CalcFormula = - sum("Cust. Ledger Entry"."Amount Posted" where("Customer No." = field("No."),

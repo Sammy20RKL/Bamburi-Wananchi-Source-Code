@@ -11,9 +11,9 @@ codeunit 52010 "Loan Products Chart Mgt."
         BusChartBuf.Initialize();
         BusChartBuf.SetXAxis('Loan Product', BusChartBuf."Data Type"::String);
         BusChartBuf.AddDecimalMeasure(
-            'Outstanding Balance', 0, Enum::"Business Chart Type"::Column);
+            'Outstanding Balance', 0, Enum::"Business Chart Type"::Funnel);
         BusChartBuf.AddIntegerMeasure(
-            'Active Loans', 0, Enum::"Business Chart Type"::Column);
+            'Active Loans', 0, Enum::"Business Chart Type"::Funnel);
 
         ColIndex := 0;
         LoanProduct.Reset();
