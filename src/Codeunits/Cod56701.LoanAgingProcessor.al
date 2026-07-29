@@ -93,7 +93,7 @@ codeunit 56701 LoanAgingProcessor
             if LBal <= 0 then
                 continue;
 
-            // Get scheduled balance to calculate arrears
+            // Get scheduled balance to calculate arrears 
             LSchedule.Reset();
             LSchedule.SetCurrentKey(LSchedule."Loan No.", LSchedule."Repayment Date");
             LSchedule.SetRange(LSchedule."Loan No.", loanNumber);

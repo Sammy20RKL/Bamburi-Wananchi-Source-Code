@@ -1207,7 +1207,7 @@ Page 56043 "Bamburi SACCO Role Center"
                         RunObject = report "Loans Defaulter Aging Nav";
                         Caption = 'Loans Defaulter Aging SASRA';
                         ToolTip = 'Loans Defaulter Aging SASRA';
-                        Visible = true;
+                        Visible = false;
                     }
                     action("Loans Balances Report")
                     {
@@ -2014,6 +2014,12 @@ Page 56043 "Bamburi SACCO Role Center"
                         RunObject = page "Bamburi Paybill Transactions";
                         ToolTip = 'This page contains C2B Transactions for paybill Number 751459';
                     }
+                    action("Sales Form Fee")
+                    {
+                        Image = PostedDeposit;
+                        Caption = 'Sales Form Fee';
+                        RunObject = page "Sales Form Fee";
+                    }
                     action("Import Paybills")
                     {
                         Image = PostedReceipt;
@@ -2124,8 +2130,8 @@ Page 56043 "Bamburi SACCO Role Center"
                     action(Portal)
                     {
                         Caption = 'Debug Portal';
-                        Visible = false;
-                        RunObject = codeunit "PORTALIntegration MFS";
+                        Visible = true;
+                        RunObject = codeunit PORTALIntegration;
                         // RunObject = codeunit "Dividends Processing Codeunit";
                         Image = RollUpCosts;
                     }

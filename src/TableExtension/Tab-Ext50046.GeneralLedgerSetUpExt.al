@@ -132,6 +132,10 @@ tableextension 50046 "General Ledger SetUpExt" extends "General Ledger Setup"
         {
             TableRelation = "Bank Account";
         }
+        field(5689; "Membership Form Fee"; Code[20])
+        {
+            TableRelation = "G/L Account";
+        }
         field(50016; AirTimeSettlAcc; Code[30])
         {
             TableRelation = "Bank Account";

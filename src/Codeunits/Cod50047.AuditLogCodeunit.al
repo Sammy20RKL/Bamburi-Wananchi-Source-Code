@@ -7,18 +7,18 @@ codeunit 50047 "Audit Log Codeunit"
         //3)Financial Postings Made
     end;
     //.......OnLogInEndOnAfterGetUserSetupRegisterTime
-    // [EventSubscriber(ObjectType::Codeunit, 150, 'OnAfterLogin', '', false, false)]
-    // local procedure RegisterUserAsLoggedIn()
-    // var
-    //     LastEntryNo: Integer;
-    //     cdm: Codeunit 4030;
-    // begin
+    [EventSubscriber(ObjectType::Codeunit, 150, 'OnAfterLogin', '', false, false)]
+    local procedure RegisterUserAsLoggedIn()
+    var
+        LastEntryNo: Integer;
+        cdm: Codeunit 4030;
+    begin
 
-    //     Message('Logged In machine is %1', cdm.GetCurrentClientType());
-    // end;
-    //.......
+        // Message('Logged In machine is %1', cdm.GetCurrentClientType());
+    end;
+    // .......
 
-    //1).........................................Log In Trails
+    // 1).........................................Log In Trails
     [EventSubscriber(ObjectType::Codeunit, 150, 'OnAfterLogin', '', false, false)]
     local procedure RegisterUserLoginLogout()
     var

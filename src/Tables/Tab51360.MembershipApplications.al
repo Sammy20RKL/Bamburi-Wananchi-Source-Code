@@ -1551,6 +1551,7 @@ Table 51360 "Membership Applications"
         field(69144; "ID Copy"; media)
         { }
         field(69145; "Birth Certificate Copy"; media) { }
+        field(79150; "Mpesa Code"; Code[20]) { }
     }
 
 

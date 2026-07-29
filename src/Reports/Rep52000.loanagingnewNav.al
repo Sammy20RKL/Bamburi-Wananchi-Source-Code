@@ -8,7 +8,7 @@ Report 52000 "loan aging new Nav"
     {
         dataitem("Loans Register"; "Loans Register")
         {
-            DataItemTableView = where(Posted = const(true), "Outstanding Balance" = filter(> 1));
+            DataItemTableView = where(Posted = const(true), "Outstanding Balance" = filter(> 0));
             RequestFilterFields = "Client Code", "Loan Product Type", "Outstanding Balance";
             column(ReportForNavId_4645; 4645)
             {

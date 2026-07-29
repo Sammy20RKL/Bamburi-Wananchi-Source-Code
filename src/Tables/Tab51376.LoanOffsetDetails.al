@@ -257,7 +257,13 @@ Table 51376 "Loan Offset Details"
 
         }
         field(32; Refinance; Boolean) { }
-        field(33; "Interest Top Up2"; Decimal) { }
+        field(33; "Interest Top Up2"; Decimal)
+        {
+            trigger OnValidate()
+            begin
+                "Total Top Up" := "Principle Top Up" + "Interest Top Up2";
+            end;
+        }
     }
 
     keys

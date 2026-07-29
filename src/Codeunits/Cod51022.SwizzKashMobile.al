@@ -72,6 +72,7 @@ Codeunit 51022 SwizzKashMobile
         MpesaDisbus: Record "Mobile Loans";
         PaybillTrans: Record "SwizzKash MPESA Trans";
         PaybillRecon: Code[30];
+        salesGLAccount: Code[20];
         fosaConst: label '101';
         accountsFOSA: Text[1023];
         interestRate: Integer;
@@ -6055,6 +6056,8 @@ Codeunit 51022 SwizzKashMobile
             end;
 
             CASE UPPERCASE(PaybillTrans."Key Word") OF
+                'FOR':
+                    Result := PaybillToFormFee('PAYBILL', PaybillTrans);
                 '100':
                     Result := PayBillToFOSA('PAYBILL', thisDocNum, thisAccNum, thisAmount, 'M-WALLET');
                 // Result := PayBillToAcc('PAYBILL', thisDocNum, thisAccNum, thisMemberNum, thisAmount, 'M-WALLET');
@@ -7262,6 +7265,117 @@ Codeunit 51022 SwizzKashMobile
 
         END;
     END;
+
+    local procedure PaybillToFormFee(batch: Code[20]; paybillTable: Record "SwizzKash MPESA Trans") res: Code[10];
+    var
+        salesformFee: Record "Sales Loan Form";
+    begin
+        // 1... SENT TO FORM FEE TABLE
+
+        salesformFee.Reset();
+        salesformFee.SETRANGE(salesformFee."Document No", paybillTable."Document No");
+        IF salesformFee.FIND('-') THEN BEGIN
+            res := 'Transaction Exists';
+        END ELSE BEGIN
+            salesformFee.Init();
+            salesformFee."Document No" := paybillTable."Document No";
+            salesformFee."Account No" := paybillTable."Account No";
+            salesformFee."Account Name" := paybillTable."Account Name";
+            salesformFee."Transaction Date" := (paybillTable."Transaction Date");
+            salesformFee."Transaction Time" := (paybillTable."Transaction Time");
+            // salesformFee.TransDate := paybillTable."Transaction Date";
+            salesformFee."Document Date" := TODAY;
+            salesformFee.Description := paybillTable.Description;
+            salesformFee.Telephone := paybillTable.Telephone;
+            // salesformFee."Transaction Type" := transactionType;
+            salesformFee.Amount := paybillTable.Amount;
+            salesformFee.Posted := FALSE;
+            // salesformFee.TraceId := traceid;
+            salesformFee."Used" := false;
+            salesformFee."Member Application No." := '';
+
+            salesformFee.Insert();
+
+
+
+            // 2... POST TO G/L ACC 
+            GenLedgerSetup.Reset();
+            GenLedgerSetup.Get();
+            GenLedgerSetup.TESTFIELD(GenLedgerSetup.PayBillAcc);
+            GenLedgerSetup.TestField(GenLedgerSetup."Membership Form Fee");
+
+            PaybillRecon := GenLedgerSetup.PayBillAcc;
+            salesGLAccount := GenLedgerSetup."Membership Form Fee";
+
+
+            // 2.1 - Debit Bank - Paybill Acc
+
+            GenJournalLine.RESET;
+            GenJournalLine.SETRANGE("Journal Template Name", 'GENERAL');
+            GenJournalLine.SETRANGE("Journal Batch Name", batch);
+            GenJournalLine.DELETEALL;
+            //Dr MPESA PAybill ACC
+            LineNo := LineNo + 10000;
+            GenJournalLine.INIT;
+            GenJournalLine."Journal Template Name" := 'GENERAL';
+            GenJournalLine."Journal Batch Name" := batch;
+            GenJournalLine."Line No." := LineNo;
+            GenJournalLine."Account Type" := GenJournalLine."Account Type"::"Bank Account";
+            GenJournalLine."Account No." := PaybillRecon;
+            GenJournalLine.VALIDATE(GenJournalLine."Account No.");
+            GenJournalLine."Document No." := paybillTable."Document No";
+            GenJournalLine."External Document No." := paybillTable."Document No";
+            GenJournalLine."Posting Date" := TODAY;
+            GenJournalLine.Description := 'Member Form Fee Paid ';
+            GenJournalLine.Amount := paybillTable.Amount;
+            GenJournalLine.VALIDATE(GenJournalLine.Amount);
+            IF GenJournalLine.Amount <> 0 THEN
+                GenJournalLine.INSERT;
+
+
+            // 2.2 - Credit G/L ya Sale of Forms
+            LineNo := LineNo + 10000;
+            GenJournalLine.INIT;
+            GenJournalLine."Journal Template Name" := 'GENERAL';
+            GenJournalLine."Journal Batch Name" := batch;
+            GenJournalLine."Line No." := LineNo;
+            GenJournalLine."Account Type" := GenJournalLine."Account Type"::"G/L Account";
+            GenJournalLine."Account No." := salesGLAccount;
+            GenJournalLine.VALIDATE(GenJournalLine."Account No.");
+            GenJournalLine."Document No." := paybillTable."Document No";
+            GenJournalLine."External Document No." := paybillTable."Document No";
+            GenJournalLine."Posting Date" := TODAY;
+            GenJournalLine.Description := 'Form Fee Paid - Paybill';
+            GenJournalLine.Amount := (paybillTable.Amount) * -1;
+            GenJournalLine.VALIDATE(GenJournalLine.Amount);
+            IF GenJournalLine.Amount <> 0 THEN
+                GenJournalLine.INSERT;
+
+            // 2.3 - Post the Transaction
+            GenJournalLine.Reset();
+            GenJournalLine.SETRANGE("Journal Template Name", 'GENERAL');
+            GenJournalLine.SETRANGE("Journal Batch Name", batch);
+            IF GenJournalLine.FIND('-') THEN BEGIN
+                REPEAT
+                    GLPosting.RUN(GenJournalLine);
+                UNTIL GenJournalLine.NEXT = 0;
+                // 2.4 - Mark as Posted - PaybillTable
+                paybillTable.Posted := TRUE;
+                paybillTable."Date Posted" := TODAY;
+                paybillTable.Remarks := 'Posted';
+                paybillTable.Modify();
+            end else begin
+                paybillTable."Date Posted" := TODAY;
+                paybillTable."Needs Manual Posting" := TRUE;
+                paybillTable.Remarks := 'MEMBERNOTFOUND';
+                paybillTable.Modify();
+            end;
+
+            res := 'true';
+        END;
+
+
+    end;
 
     LOCAL PROCEDURE GetExciseDutyAccount() response: Code[20];
     VAR

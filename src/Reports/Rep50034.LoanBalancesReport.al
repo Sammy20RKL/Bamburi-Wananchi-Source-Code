@@ -9,7 +9,7 @@ Report 50034 "Loan Balances Report"
         dataitem(LoansRegister; "Loans Register")
         {
             DataItemTableView = sorting("Loan  No.") order(ascending) where(Posted = const(true));
-            RequestFilterFields = Source, "Loan Product Type", "Client Code", "Branch Code", "Outstanding Balance", "Issued Date", "Date filter";
+            RequestFilterFields = Source, "Loan Product Type", "Client Code", "Branch Code", "Outstanding Balance", "Date filter";
 
             column(EntryNo; EntryNo)
             {
@@ -63,6 +63,8 @@ Report 50034 "Loan Balances Report"
             column(Oustanding_Interest; OutstandingInterest)
             {
             }
+            column(Issued_Date; Issued_Date) { }
+            column(Completion_Date; Completion_Date) { }
             trigger OnPreDataItem()
             begin
                 CompanyInfo.Get();
@@ -91,6 +93,11 @@ Report 50034 "Loan Balances Report"
                     LoanNo := LoansTable."Loan  No.";
                     Installements := LoansTable.Installments;
                     IssuedAmount := LoansTable."Approved Amount";
+                    Issued_Date := LoansTable."Issued Date";
+                    Completion_Date := LoansTable."Expected Date of Completion";
+                    OutstandingBalance := LoansTable."Outstanding Balance";
+                    if LoansTable.Get(LoansRegister."Loan  No.") then
+                        LoansTable.SetAutoCalcFields(LoansTable."Outstanding Balance", LoansTable."Oustanding Interest");
                     OutstandingBalance := LoansTable."Outstanding Balance";
                     OutstandingInterest := LoansTable."Oustanding Interest";
                     EntryNo := EntryNo + 1;
@@ -126,7 +133,7 @@ Report 50034 "Loan Balances Report"
     begin
         CompanyInfo.Get();
         DateFilterUsed := LoansRegister.GetFilter(LoansRegister."Date filter");
-        LoansRegister.SetFilter(LoansRegister."Loan Disbursement Date", DateFilterUsed);
+        LoansRegister.SetFilter(LoansRegister."Issued Date", DateFilterUsed);
     end;
 
     var
@@ -146,5 +153,7 @@ Report 50034 "Loan Balances Report"
         IssuedAmount: Decimal;
         OutstandingBalance: Decimal;
         OutstandingInterest: Decimal;
+        Issued_Date: Date;
+        Completion_Date: Date;
 
 }

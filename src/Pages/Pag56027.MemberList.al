@@ -44,10 +44,10 @@ Page 56027 "Member List"
                     ApplicationArea = Basic;
                     Caption = 'Mobile Phone';
                 }
-                // field("Email"; Rec."E-Mail")
-                // {
-                //     ApplicationArea = Basic;
-                // }
+                field("Email"; Rec."E-Mail")
+                {
+                    ApplicationArea = Basic;
+                }
                 field(Status; Rec.Status)
                 {
                     ApplicationArea = basic;

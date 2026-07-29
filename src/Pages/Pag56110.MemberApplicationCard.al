@@ -1351,7 +1351,6 @@ page 56110 "Member Application Card"
                         end;
 
 
-
                         if Rec.Status <> Rec.Status::Open then
                             Error(Text001);
 

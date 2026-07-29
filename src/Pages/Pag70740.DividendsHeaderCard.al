@@ -106,6 +106,8 @@ page 70740 "Dividends Header Card"
                     if not Confirm('Are you sure you want to Post dividends?', true, Rec."No") then
                         exit;
 
+
+
                     BATCH_TEMPLATE := 'PAYMENTS';
                     BATCH_NAME := 'DIVIDEND';
 

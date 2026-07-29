@@ -24,8 +24,6 @@ page 56193 "Bamburi Paybill Transactions"
                 }
                 field("Transaction Date"; Rec."Transaction Date")
                 {
-
-
                     ApplicationArea = Basic;
                 }
                 field(TransDate; Rec.TransDate)

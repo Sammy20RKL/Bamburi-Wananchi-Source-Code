@@ -19,6 +19,10 @@ page 50413 "Sacco No. Series"
                     ApplicationArea = Basic;
                     //  Editable = false;
                 }
+                field("Sacco No."; Rec."Sacco No.")
+                {
+                    ApplicationArea = Basic;
+                }
                 field("SMS Request Series"; Rec."SMS Request Series")
                 {
                     ApplicationArea = Basic;

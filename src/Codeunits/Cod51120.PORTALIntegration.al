@@ -3,7 +3,9 @@ Codeunit 51120 PORTALIntegration
 {
     trigger OnRun()
     begin
-        SubmitLoan('BWS1163', 'PLN24');
+        // OnlineLoanApplication('BWS1973', 'NORM2', 10000, 'TESTING', 4, 'WXEFFF1234')
+        // FnMemberApply('Festus', 'Kilaka', 'Mutinda', '101010', 'Residence', '101010', 'Kenya', '0743901110', 'fesmutinda@g', '38960145', 'Nairobi', 'Nairobi', '19101010', 2, 1, 1, 1, 'BOSA', 'Swizsoft', Today, 'WXEFFF123');
+        // SubmitLoan('BWS1163', 'PLN24');
     end;
 
     var
@@ -1994,7 +1996,7 @@ Codeunit 51120 PORTALIntegration
         END;
     end;
 
-    procedure FnRegisterKin("Full Names": Text; Relationship: Text; "ID Number": Code[10]; "Phone Contact": Code[10]; Address: Text; MemberNoapp: Code[10])
+    procedure FnRegisterKin("Full Names": Text; Relationship: Text; "ID Number": Code[20]; "Phone Contact": Code[20]; Address: Text; MemberNoapp: Code[10])
     begin
         NextOfKin.Reset;
         NextOfKin.Init();
@@ -2008,7 +2010,7 @@ Codeunit 51120 PORTALIntegration
         end;
     end;
 
-    procedure FnRegisterNominee("Full Names": Text; Relationship: Text; "ID Number": Code[10]; "Phone Contact": Code[10]; Address: Text; MemberNoapp: Code[10]; Beneficiary: Boolean; "%Allocation": Decimal)
+    procedure FnRegisterNominee("Full Names": Text; Relationship: Text; "ID Number": Code[20]; "Phone Contact": Code[20]; Address: Text; MemberNoapp: Code[10]; Beneficiary: Boolean; "%Allocation": Decimal)
     begin
         MemberAppNominee.Reset;
         MemberAppNominee.Init();
@@ -2095,18 +2097,37 @@ Codeunit 51120 PORTALIntegration
         END;
     end;
 
-    procedure FnMemberApply("First Name": Code[30]; "Mid Name": Code[30]; "Last Name": Code[30]; "PO Box": Text; Residence: Code[30]; "Postal Code": Text; Town: Code[30]; "Phone Number": Code[30]; Email: Text; "ID Number": Code[30]; "Branch Code": Code[30]; "Branch Name": Code[30]; "Account Number": Code[30]; Gender: Option; "Marital Status": Option; "Account Category": Option; "Application Category": Option; "Customer Group": Code[30]; "Employer Name": Code[30]; "Date of Birth": Date) num: Text
+    procedure FnMemberApply("First Name": Code[30]; "Mid Name": Code[30]; "Last Name": Code[30]; "PO Box": Text; Residence: Code[30]; "Postal Code": Text; Town: Code[30]; "KRA Pin": Code[20]; "Phone Number": Code[30]; Email: Text; "ID Number": Code[30]; "Branch Code": Code[30]; "Branch Name": Code[30]; "Account Number": Code[30]; Gender: Option; "Marital Status": Option; "Date of Birth": Date; MpesaCode: Code[30]) num: Text
     var
         No: Code[20];
+        salesFormFee: Record "Sales Loan Form";
+        SaccoSetup: Record "Sacco No. Series";
+        SMS: Text[250];
+        TelephoneNo: Code[20];
     begin
         begin
+            if MpesaCode = '' then begin
+                num := 'Please input Mpesa Code';
+                exit;
+            end;
 
+            // 1. validate MpesaCode
+            salesFormFee.Reset();
+            salesFormFee.SetRange("Document No", MpesaCode);
+            salesFormFee.SetRange(Used, false);
+            salesFormFee.SetRange("Member Application No.", '');
+            if not salesFormFee.Find('-') then begin
+                num := 'Alredy used M-pesa code';
+                exit;
+            end;
+
+
+            // 2. Register Member Details
             objRegMember.Reset;
             objRegMember.SetRange("ID No.", "ID Number");
             if objRegMember.Find('-') then begin
-                Message('already registered');
-            end
-            else begin
+                num := 'Member with this ID number is already registered';
+            end else begin
                 objRegMember.Init;
                 objRegMember."No." := NoSeriesMgmt.GetNextNo(SaccoSetup."Member Application Nos", 0D, true);
                 objRegMember."First Name" := "First Name";
@@ -2117,6 +2138,7 @@ Codeunit 51120 PORTALIntegration
                 objRegMember."Address 2" := Residence;
                 objRegMember."Postal Code" := "Postal Code";
                 objRegMember.Town := Town;
+                objRegMember.Location := Town;
                 objRegMember."Mobile Phone No" := "Phone Number";
                 objRegMember."E-Mail (Personal)" := Email;
                 objRegMember."Date of Birth" := "Date of Birth";
@@ -2125,17 +2147,36 @@ Codeunit 51120 PORTALIntegration
                 objRegMember."Bank Name" := "Branch Name";
                 objRegMember."Bank Account No" := "Account Number";
                 objRegMember.Gender := Gender;
+                objRegMember."KRA PIN" := "KRA Pin";
                 objRegMember."Created By" := UserId;
                 objRegMember."Global Dimension 1 Code" := 'BOSA';
+                objRegMember."Mpesa Code" := MpesaCode;
+                objRegMember."Customer Posting Group" := 'BOSA';
                 objRegMember."Date of Registration" := Today;
                 objRegMember.Status := objRegMember.Status::Open;
-                objRegMember."Application Category" := "Application Category";
-                objRegMember."Account Category" := "Account Category";
+                objRegMember."Application Category" := objRegMember."Application Category"::"New Application";
+                objRegMember."Account Category" := objRegMember."Account Category"::"Regular Account";
                 objRegMember."Marital Status" := "Marital Status";
-                objRegMember."Employer Name" := "Employer Name";
-                objRegMember."Customer Posting Group" := "Customer Group";
+                objRegMember."Employer Name" := '';
+
                 objRegMember.Insert(true);
-                num := objRegMember."No.";
+                num := 'Successfully registered. Membership aplication is ' + objRegMember."No.";
+                //Update the staff for new application
+                SaccoSetup.Get();
+                TelephoneNo := SaccoSetup."Sacco No.";
+                SMS := 'New membership application received via website from ' + objRegMember.Name +
+                       ' (App No: ' + objRegMember."No." + '). Please log in to the system to review. Thank you.';
+                FnSMSMessage(objRegMember."No.", TelephoneNo, SMS);
+
+                // 3. Attach the code to the member
+                salesFormFee.Reset();
+                salesFormFee.SetRange("Document No", MpesaCode);
+                if salesFormFee.Find('-') then begin
+                    // salesFormFee."Member Application No." := objRegMember."No.";
+                    salesFormFee.Rename(salesFormFee."Document No", objRegMember."No.");
+                    salesFormFee.Used := true;
+                    salesFormFee.Modify();
+                end;
             end;
 
         end;
@@ -3220,10 +3261,27 @@ Codeunit 51120 PORTALIntegration
     end;
 
 
-    procedure OnlineLoanApplication(BosaNo: Code[30]; LoanType: Code[100]; LoanAmount: Decimal; loanpurpose: Text; repaymentPeriod: Integer) GeneratedApplicationNo: Code[100]
+    procedure OnlineLoanApplication(BosaNo: Code[30]; LoanType: Code[100]; LoanAmount: Decimal; loanpurpose: Text; repaymentPeriod: Integer; MpesaCode: Code[20]) GeneratedApplicationNo: Code[100];
     var
         ObjLoanApplications: Record "Online Loan Application";
+        salesFormFee: Record "Sales Loan Form";
     begin
+
+        if MpesaCode = '' then begin
+            GeneratedApplicationNo := 'Please input Mpesa Code';
+            exit;
+        end;
+
+        // 1. validate MpesaCode
+        salesFormFee.Reset();
+        salesFormFee.SetRange("Document No", MpesaCode);
+        salesFormFee.SetRange(Used, false);
+        salesFormFee.SetRange("Member Application No.", '');
+        if not salesFormFee.Find('-') then begin
+            GeneratedApplicationNo := 'Already used M-pesa code';
+            exit;
+        end;
+
         ObjLoanApplications.Reset;
 
         //LoanProductType.Get(LoanType);
@@ -3382,6 +3440,7 @@ Codeunit 51120 PORTALIntegration
                         repeat
                             submitGuarantors(OnlineLoanGuarantors."Member No", loanNumber, ObjLoansregister."Loan  No.");
                         until OnlineLoanGuarantors.Next = 0;
+
                     end;
                     localsms := 'Dear Member, you have submitted Loan ' +
                                 Format(ObjLoanApplications."Application No") +
