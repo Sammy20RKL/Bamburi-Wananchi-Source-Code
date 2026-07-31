@@ -463,8 +463,9 @@ page 70740 "Dividends Header Card"
         GenSetUp.TestField("WithHolding Tax Account");
         GenSetUp.TestField("Dividends Paying Bank Account");
         GenSetUp.TestField("Dividend Expense Account");
+        GenSetUp.TestField("Interest Payable Account");
         GenSetUp.TestField("Interest Expense Account");
-        GenSetUp.TestField("Unclaimed Dividends Account");
+        // GenSetUp.TestField("Unclaimed Dividends Account");
 
         YearEndDate := DMY2Date(31, 12, DividendYear);
 
@@ -497,19 +498,14 @@ page 70740 "Dividends Header Card"
         DivLine.SetRange("No", HeaderNo);
         if DivLine.FindSet() then begin
             repeat
+                // CREDIT: Dividend Pay
                 if DivLine."Net Pay" > 0 then begin
                     if DivLine."Net Pay" > 0 then begin
                         FnInsertMemberContributionLastYear(BATCH_TEMPLATE, BATCH_NAME, DivLine."Member No", Rec."Document No",
-                        'Dividend Payable ' + DivLine."Member Name", DivLine."Net Pay", GenJournalLine."Transaction Type"::Dividend, YearEndDate);
+                        'Dividend Payable ' + DivLine."Member No", DivLine."Net Pay", GenJournalLine."Transaction Type"::Dividend, YearEndDate);
                     end;
 
 
-                    // CREDIT: Dividend Pay
-                    // if DivLine."Net Pay" > 0 then begin
-                    //     LineNo += 10000;
-                    //     SFactory.FnCreateGnlJournalLine(BATCH_TEMPLATE, BATCH_NAME, DocumentNo, LineNo, GenJournalLine."transaction type"::" ", GenJournalLine."account type"::"G/L Account",
-                    //         GenSetUp."Dividend Payable Account", YearEndDate, DivLine."Net Pay" * -1, 'BOSA', DocumentNo, 'Dividend Payable - ' + DivLine."Member Name", '');
-                    // end;
 
                     // CREDIT: Withholding Tax GL (per member)
                     if DivLine."Withholding Tax(Share&Depo)" > 0 then begin
@@ -540,16 +536,16 @@ page 70740 "Dividends Header Card"
                             GenSetUp."Dividends Paying Bank Account", SettlementDate, DivLine."Net After Deduction" * -1, 'BOSA', DocumentNo, 'Net Pay to Bank - ' + DivLine."Member Name", '');
                     end;
                     // Credit: Unclaimed Dividends GL
-                    // if DivLine."Unclaimed Dividends" > 0 then begin
-                    //     LineNo += 10000;
-                    //     SFactory.FnCreateGnlJournalLine(BATCH_TEMPLATE, BATCH_NAME, DocumentNo, LineNo, GenJournalLine."transaction type"::" ", GenJournalLine."account type"::"G/L Account",
-                    //         GenSetUp."Unclaimed Dividends Account", SettlementDate, DivLine."Unclaimed Dividends" * -1, 'BOSA', DocumentNo, 'Unclaimed Dividends - ' + DivLine."Member Name", '');
-                    // end;
                     if DivLine."Unclaimed Dividends" > 0 then begin
                         LineNo += 10000;
-                        FnInsertMemberContribution(BATCH_TEMPLATE, BATCH_NAME, DivLine."Member No", Rec."Document No", 'Unclaimed Dividends ' + DivLine."Member Name", DivLine."Unclaimed Dividends",
-                      GenJournalLine."Transaction Type"::"Unclaimed Dividends")
+                        SFactory.FnCreateGnlJournalLine(BATCH_TEMPLATE, BATCH_NAME, DocumentNo, LineNo, GenJournalLine."transaction type"::" ", GenJournalLine."account type"::"G/L Account",
+                            GenSetUp."Interest Payable Account", SettlementDate, DivLine."Unclaimed Dividends" * -1, 'BOSA', DocumentNo, 'Unpaid dividend for- ' + DivLine."Member Name", '');
                     end;
+                    // if DivLine."Unclaimed Dividends" > 0 then begin
+                    //     LineNo += 10000;
+                    //     FnInsertMemberContribution(BATCH_TEMPLATE, BATCH_NAME, DivLine."Member No", Rec."Document No", 'Unclaimed Dividends ' + DivLine."Member Name", DivLine."Unclaimed Dividends",
+                    //   GenJournalLine."Transaction Type"::"Unclaimed Dividends")
+                    // end;
 
 
                 end;
@@ -559,7 +555,7 @@ page 70740 "Dividends Header Card"
     end;
 
     local procedure FnInsertMemberContributionLastYear(Jtemplate: Code[30]; Jbatch: code[30]; memberNo: Code[15]; documentNo: code[30];
-transDescription: Code[35]; transAmount: Decimal; TransactionType: Option " ","Registration Fee","Share Capital","Interest Paid","Loan Repayment","Deposit Contribution","Insurance Contribution","Unclaimed Dividends","Benevolent Fund",Loan,"Unallocated Funds","Holiday Savings","Sales of T-Shirt","Other Products",Dividend,"FOSA Account"; PostingDate: Date): Code[50]
+transDescription: Code[50]; transAmount: Decimal; TransactionType: Option " ","Registration Fee","Share Capital","Interest Paid","Loan Repayment","Deposit Contribution","Insurance Contribution","Unclaimed Dividends","Benevolent Fund",Loan,"Unallocated Funds","Holiday Savings","Sales of T-Shirt","Other Products",Dividend,"FOSA Account"; PostingDate: Date): Code[50]
     begin
         LineNo := LineNo + 10000;
         GenJournalLine.Init;

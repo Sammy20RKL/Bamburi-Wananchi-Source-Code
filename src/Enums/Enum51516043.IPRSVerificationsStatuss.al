@@ -1,4 +1,4 @@
-namespace PolyTech.PolyTech;
+namespace Bamburi.Bamburi;
 
 enum 51516043 "IPRS Verifications Status's"
 {

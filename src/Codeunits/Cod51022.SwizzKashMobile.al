@@ -7752,7 +7752,7 @@ Codeunit 51022 SwizzKashMobile
             IF NOT vendorTable.FIND('-') THEN BEGIN
                 result := 'ACCNOTFOUND';
                 swizzkasTransTable.Status := swizzkasTransTable.Status::Failed;
-                swizzkasTransTable.Posted := TRUE;
+                swizzkasTransTable.Posted := false;
                 swizzkasTransTable."Posting Date" := TODAY;
                 swizzkasTransTable."Date Posted" := CurrentDateTime;
                 swizzkasTransTable.Comments := 'Failed.Account Not Found';
@@ -7840,7 +7840,7 @@ Codeunit 51022 SwizzKashMobile
                     GenBatches.INIT;
                     GenBatches."Journal Template Name" := 'GENERAL';
                     GenBatches.Name := 'MOBILELOAN';
-                    GenBatches.Description := 'Normal Loan';
+                    GenBatches.Description := 'Instant Loan';
                     GenBatches.VALIDATE(GenBatches."Journal Template Name");
                     GenBatches.VALIDATE(GenBatches.Name);
                     GenBatches.Insert(true);
@@ -8023,7 +8023,7 @@ Codeunit 51022 SwizzKashMobile
                             MpesaDisbus."Entered By" := USERID;
                             MpesaDisbus."Member No" := membersTable."No.";
                             MpesaDisbus."Telephone No" := membersTable."Phone No.";
-                            MpesaDisbus.Comments := 'Successfly Posted';
+                            MpesaDisbus.Comments := 'Successfully Posted';
                             //MpesaDisbus."Corporate No":='597676';
                             MpesaDisbus."Delivery Center" := 'M-WALLET';
                             MpesaDisbus."Customer Name" := membersTable.Name;
@@ -8052,7 +8052,7 @@ Codeunit 51022 SwizzKashMobile
             END ELSE BEGIN
                 result := 'ACCINEXISTENT';
                 swizzkasTransTable.Status := swizzkasTransTable.Status::Failed;
-                swizzkasTransTable.Posted := TRUE;
+                swizzkasTransTable.Posted := false;
                 swizzkasTransTable."Posting Date" := TODAY;
                 swizzkasTransTable."Date Posted" := CurrentDateTime;
                 swizzkasTransTable.Comments := 'Failed.Invalid Account';

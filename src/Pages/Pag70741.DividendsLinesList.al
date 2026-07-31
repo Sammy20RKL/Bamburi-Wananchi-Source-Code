@@ -168,6 +168,7 @@ page 70741 "Dividend Lines List"
                 field("Unclaimed Dividends"; Rec."Unclaimed Dividends")
                 {
                     ApplicationArea = all;
+                    Caption = 'Dividend Payable';
                 }
                 field("T-Shirts"; Rec."T-Shirts")
                 {

@@ -2164,8 +2164,8 @@ Codeunit 51120 PORTALIntegration
                 //Update the staff for new application
                 SaccoSetup.Get();
                 TelephoneNo := SaccoSetup."Sacco No.";
-                SMS := 'New membership application received via website from ' + objRegMember.Name +
-                       ' (App No: ' + objRegMember."No." + '). Please log in to the system to review. Thank you.';
+                SMS := 'Dear Staff, new membership application received via website from ' + objRegMember.Name +
+                       ', App No: ' + objRegMember."No." + '. Please login to the system to review and proceed with the application. Thank you.';
                 FnSMSMessage(objRegMember."No.", TelephoneNo, SMS);
 
                 // 3. Attach the code to the member
@@ -3338,7 +3338,16 @@ Codeunit 51120 PORTALIntegration
             //objLoanApplications."Payment Mode" :=disbursementMode;
             ObjLoanApplications.Insert(true);
 
+
+
             GeneratedApplicationNo := ObjLoanApplications."Application No";
+            salesFormFee.Reset();
+            salesFormFee.SetRange("Document No", MpesaCode);
+            if salesFormFee.Find('-') then begin
+                salesFormFee.Rename(salesFormFee."Document No", ObjLoanApplications."Application No");
+                salesFormFee.Used := true;
+                salesFormFee.Modify();
+            end;
         end;
     end;
 
@@ -3389,6 +3398,8 @@ Codeunit 51120 PORTALIntegration
     procedure SubmitLoan(memberNumber: Code[20]; loanNumber: Code[20]) response: Text;
     var
         localsms: Text;
+        staffsms: Text;
+        Telephone: Code[20];
     begin
         response := 'Failed, Please try again Later';
         if objMember.Get(memberNumber) then begin
@@ -3443,11 +3454,21 @@ Codeunit 51120 PORTALIntegration
 
                     end;
                     localsms := 'Dear Member, you have submitted Loan ' +
-                                Format(ObjLoanApplications."Application No") +
-                                ' for loan type ' + ObjLoanApplications."Loan Type" +
-                                '. Your loan application has been submitted for appraisal.';
+                                 Format(ObjLoanApplications."Application No") +
+                                 ' for loan type ' + ObjLoanApplications."Loan Type" +
+                                 '. Your loan application has been submitted for appraisal.';
                     if (objMember."Phone No." <> '') then
                         FnSMSMessage(ClientName, objMember."Phone No.", localsms);
+
+                    staffsms := 'Dear Staff, the member ' + ObjLoanApplications."Member Names" +
+                           ' has applied for a loan, Loan No. ' + Format(ObjLoansregister."Loan  No.") +
+                          ', Loan Type ' + ObjLoanApplications."Loan Type" +
+                                '. Login the system to proceed with the loan appraisal.';
+
+                    SaccoSetup.Get();
+                    Telephone := SaccoSetup."Sacco No.";
+                    if (SaccoSetup."Sacco No." <> '') then
+                        FnSMSMessage(ClientName, Telephone, staffsms);
                     response := 'Success, your loan has been submitted to Credit for Appraisal';
                 end else begin
                     response := 'Failed, Please contact the office for assistance';
