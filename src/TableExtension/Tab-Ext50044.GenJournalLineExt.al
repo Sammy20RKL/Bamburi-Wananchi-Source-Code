@@ -147,8 +147,8 @@ tableextension 50044 "GenJournalLineExt" extends "Gen. Journal Line"
                     Description := 'Bank Charges';
                 // if "Transaction Type" = "transaction type"::"Application Fee" then
                 //     Description := 'Application Fee';
-                // if "Transaction Type" = "transaction type"::"Unallocated Funds" then
-                //     Description := 'Unallocated Funds';
+                if "Transaction Type" = "transaction type"::"Unallocated Funds" then
+                    Description := 'Unallocated Funds';
                 if "Transaction Type" = "Transaction Type"::"Holiday Savings" then
                     Description := 'Holiday Savings';
                 if "Transaction Type" = "transaction type"::"Insurance Contribution" then

@@ -38,6 +38,8 @@ Report 50034 "Loan Balances Report"
             column(LoanProductTypeName; LoanProductType)
             {
             }
+            column(RepaymentMethod; RepaymentMethod) { }
+
             column(Loan__No_; LoanNo)
             {
             }
@@ -48,9 +50,11 @@ Report 50034 "Loan Balances Report"
             column(IssuedDate; "Issued Date")
             {
             }
+            column(RepaymentFrequency; RepaymentFrequency) { }
             column(ApprovedAmount; IssuedAmount)
             {
             }
+            column(InterestRate; InterestRate) { }
             column(PrincipalPaid; "Principal Paid")
             {
             }
@@ -93,6 +97,9 @@ Report 50034 "Loan Balances Report"
                     LoanNo := LoansTable."Loan  No.";
                     Installements := LoansTable.Installments;
                     IssuedAmount := LoansTable."Approved Amount";
+                    InterestRate := LoansTable.Interest;
+                    RepaymentFrequency := LoansTable."Repayment Frequency";
+                    RepaymentMethod := LoansTable."Repayment Method";
                     Issued_Date := LoansTable."Issued Date";
                     Completion_Date := LoansTable."Expected Date of Completion";
                     OutstandingBalance := LoansTable."Outstanding Balance";
@@ -148,6 +155,9 @@ Report 50034 "Loan Balances Report"
         MemberNo: code[100];
         MemberName: text;
         LoanProductType: Code[100];
+        RepaymentMethod: Option "",Amortised,"Reducing Balance","Straight Line",Constants,"One-Time";
+        InterestRate: Decimal;
+        RepaymentFrequency: Option "Daily","Weekly","Monthly","Quaterly";
         LoanNo: code[100];
         Installements: Integer;
         IssuedAmount: Decimal;
@@ -155,5 +165,6 @@ Report 50034 "Loan Balances Report"
         OutstandingInterest: Decimal;
         Issued_Date: Date;
         Completion_Date: Date;
+        userpage: Page 9800;
 
 }

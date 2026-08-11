@@ -5,9 +5,8 @@ page 50042 "SwizzKash PIN Reset Card"
     PageType = Card;
     ModifyAllowed = true;
     SourceTable = "SwizzKash Applications";
-
     DeleteAllowed = false;
-    InsertAllowed = false;
+    InsertAllowed = true;
     PromotedActionCategories = 'New,Process,Reports,Approval,Budgetary Control,Cancellation,Category7_caption,Category8_caption,Category9_caption,Category10_caption';
 
     layout
@@ -34,7 +33,7 @@ page 50042 "SwizzKash PIN Reset Card"
                 field(Telephone; Rec.Telephone)
                 {
                     ApplicationArea = Basic;
-                    Editable = false;
+                    Editable = true;
                 }
                 field("ID No"; Rec."ID No")
                 {

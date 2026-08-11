@@ -942,6 +942,11 @@ Table 51398 "Sacco General Set-Up"
         {
             TableRelation = "G/L Account";
         }
+        field(1627; "Sacco Email"; Code[50])
+        {
+
+        }
+        field(1628; "Bamburi Email"; Text[150]) { }
 
     }
 

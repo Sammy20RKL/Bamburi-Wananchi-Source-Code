@@ -5,7 +5,7 @@ Codeunit 51120 PORTALIntegration
     begin
         // OnlineLoanApplication('BWS1973', 'NORM2', 10000, 'TESTING', 4, 'WXEFFF1234')
         // FnMemberApply('Festus', 'Kilaka', 'Mutinda', '101010', 'Residence', '101010', 'Kenya', '0743901110', 'fesmutinda@g', '38960145', 'Nairobi', 'Nairobi', '19101010', 2, 1, 1, 1, 'BOSA', 'Swizsoft', Today, 'WXEFFF123');
-        // SubmitLoan('BWS1163', 'PLN24');
+        // SubmitLoan('BWS1973', 'PLN0003');
     end;
 
     var
@@ -141,7 +141,7 @@ Codeunit 51120 PORTALIntegration
     begin
         objMember.Reset;
         objMember.SetFilter(Status, '%1', objMember.Status::Active);
-        if objMember.Find('-') then begin
+        if objMember.FindSet() then begin
             repeat
                 memberList := Format(objMember."No.") + ':' +
                              objMember.Name + ':::' +
@@ -149,7 +149,7 @@ Codeunit 51120 PORTALIntegration
                              //  objMember."E-Mail" + ':' +
                              //  objMember."ID No." + ':::' +
                              memberList;
-            until objMember.Next = 0;
+            until objMember.Next() = 0;
         end;
     end;
 
@@ -2117,7 +2117,7 @@ Codeunit 51120 PORTALIntegration
             salesFormFee.SetRange(Used, false);
             salesFormFee.SetRange("Member Application No.", '');
             if not salesFormFee.Find('-') then begin
-                num := 'Alredy used M-pesa code';
+                num := 'Invalid M-pesa code. Please check your code and try again.';
                 exit;
             end;
 
@@ -2160,13 +2160,16 @@ Codeunit 51120 PORTALIntegration
                 objRegMember."Employer Name" := '';
 
                 objRegMember.Insert(true);
-                num := 'Successfully registered. Membership aplication is ' + objRegMember."No.";
                 //Update the staff for new application
                 SaccoSetup.Get();
                 TelephoneNo := SaccoSetup."Sacco No.";
                 SMS := 'Dear Staff, new membership application received via website from ' + objRegMember.Name +
                        ', App No: ' + objRegMember."No." + '. Please login to the system to review and proceed with the application. Thank you.';
                 FnSMSMessage(objRegMember."No.", TelephoneNo, SMS);
+
+                NotifyStaffEmail('Membership Application Notification', SMS);
+
+                num := 'Successfully registered. Membership aplication is ' + objRegMember."No.";
 
                 // 3. Attach the code to the member
                 salesFormFee.Reset();
@@ -3400,16 +3403,20 @@ Codeunit 51120 PORTALIntegration
         localsms: Text;
         staffsms: Text;
         Telephone: Code[20];
+        Email: Text[150];
+        SentEmail: Text;
+        EmailCodeunit: Codeunit Emailcodeunit;
+        EmailSubject: Text[100];
     begin
         response := 'Failed, Please try again Later';
         if objMember.Get(memberNumber) then begin
-            objMember.CalcFields("Total Arrears");
-            if objMember."Total Arrears" > 0 then begin
-                response := 'Failed, You cannot apply for a loan because you have arrears of ' +
-                            Format(objMember."Total Arrears") +
-                            '. Please contact the office for assistance.';
-                exit;
-            end;
+            // objMember.CalcFields("Total Arrears");
+            // if objMember."Total Arrears" > 0 then begin
+            //     response := 'Failed, You cannot apply for a loan because you have arrears of ' +
+            //                 Format(objMember."Total Arrears") +
+            //                 '. Please contact the office for assistance.';
+            //     exit;
+            // end;
             ObjLoanApplications.Reset;
             ObjLoanApplications.SetRange(ObjLoanApplications."Application No", loanNumber);
             ObjLoanApplications.SetRange("BOSA No", memberNumber);
@@ -3469,11 +3476,30 @@ Codeunit 51120 PORTALIntegration
                     Telephone := SaccoSetup."Sacco No.";
                     if (SaccoSetup."Sacco No." <> '') then
                         FnSMSMessage(ClientName, Telephone, staffsms);
+
+                    NotifyStaffEmail('Loan Application Notification', staffsms);
+
                     response := 'Success, your loan has been submitted to Credit for Appraisal';
+
                 end else begin
                     response := 'Failed, Please contact the office for assistance';
                 end;
             end;
+        end;
+    end;
+
+    local procedure NotifyStaffEmail(EmailSubject: Text[100]; EmailBody: Text[2000])
+    var
+        GenSetup: Record "Sacco General Set-Up";
+        EmailMessage: Codeunit "Email Message";
+        Email: Codeunit Email;
+        SaccoEmail: Text[100];
+    begin
+        GenSetup.Get();
+        SaccoEmail := GenSetup."Bamburi Email";
+        if SaccoEmail <> '' then begin
+            EmailMessage.Create(SaccoEmail, EmailSubject, EmailBody, true);
+            Email.Send(EmailMessage);
         end;
     end;
 

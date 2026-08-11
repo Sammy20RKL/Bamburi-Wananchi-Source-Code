@@ -1042,7 +1042,7 @@ Page 57104 "Product Card"
                         end;
                     end;
                 }
-                action("ACtivate USSD")
+                action("Activate USSD")
                 {
                     ApplicationArea = Basic;
                     PromotedCategory = Process;

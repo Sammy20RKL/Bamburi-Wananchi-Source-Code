@@ -65,7 +65,7 @@ Page 56188 "SwizzKash Paybill Trans"
                 field("Transaction Time"; Rec."Transaction Time")
                 {
                     ApplicationArea = Basic;
-                    // Visible = false;
+                    // Visible = false;-----------
                 }
                 field("Account Name"; Rec."Account Name")
                 {

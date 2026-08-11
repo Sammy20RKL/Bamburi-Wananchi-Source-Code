@@ -15,6 +15,7 @@ Report 50882 "System Transaction Log"
             column(ProductID; "Session Event"."Transaction ID")
             {
             }
+
             column(EntryNo; EntryNo)
             {
             }
@@ -76,23 +77,37 @@ Report 50882 "System Transaction Log"
             column(Company_Picture; Company.Picture)
             {
             }
+            column(Company_Phone; Company."Phone No.") { }
             column(Company_Email; Company."E-Mail")
             {
             }
             column(USERID; UserId)
             {
             }
+            column(User_Name; User_Name) { }
 
             trigger OnPreDataItem()
             begin
                 Company.Get();
                 Company.CalcFields(Picture);
                 EntryNo := 0;
+
             end;
 
             trigger OnAfterGetRecord()
             begin
+                user.Reset();
+                user.SetRange(user."User Name", "User ID");
+                if user.Find('-') then begin
+                    User_Name := user."User Name";
+                    if user."User Name" = 'SWIZZSOFT' then
+                        CurrReport.Skip();
+
+                end;
+
                 EntryNo := EntryNo + 1;
+
+
             end;
         }
     }
@@ -116,5 +131,7 @@ Report 50882 "System Transaction Log"
     var
         Company: Record "Company Information";
         EntryNo: Integer;
+        user: Record User;
+        User_Name: Code[20];
 }
 

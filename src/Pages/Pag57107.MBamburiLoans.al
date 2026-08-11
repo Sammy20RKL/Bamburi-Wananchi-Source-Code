@@ -17,6 +17,10 @@ page 57107 "M Bamburi Loans"
         {
             repeater(General)
             {
+                field(Entry; Rec.Entry)
+                {
+                    ToolTip = 'Specifies the value of the Entry field.', Comment = '%';
+                }
                 field("Loan No"; Rec."Loan No")
                 {
                     ToolTip = 'Specifies the value of the Loan No field.', Comment = '%';
@@ -43,6 +47,10 @@ page 57107 "M Bamburi Loans"
                 field(Posted; Rec.Posted)
                 {
                     ToolTip = 'Specifies the value of the Posted field.', Comment = '%';
+                }
+                field("Loan Type"; Rec."Loan Type")
+                {
+                    ApplicationArea = Basic;
                 }
                 field("APP Type"; Rec."APP Type")
                 {
@@ -76,10 +84,7 @@ page 57107 "M Bamburi Loans"
                 {
                     ToolTip = 'Specifies the value of the Description field.', Comment = '%';
                 }
-                field(Entry; Rec.Entry)
-                {
-                    ToolTip = 'Specifies the value of the Entry field.', Comment = '%';
-                }
+
                 field("Posting Date"; Rec."Posting Date")
                 {
                     ToolTip = 'Specifies the value of the Posting Date field.', Comment = '%';

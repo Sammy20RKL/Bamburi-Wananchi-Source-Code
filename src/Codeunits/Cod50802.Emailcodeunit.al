@@ -15,7 +15,7 @@ Codeunit 50802 Emailcodeunit
         ReportUsageEnum := "Report Selection Usage".FromInteger(ReportUsage);
         if ReportUsageEnum <> ReportUsageEnum::"S.Order" then
             exit;
-        EmailSubject := 'Polytech Subject ' + PostedDocNo;
+        EmailSubject := 'Bamburi Subject ' + PostedDocNo;
         IsHandled := true;
     end;
 

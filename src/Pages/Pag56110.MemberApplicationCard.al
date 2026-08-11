@@ -1413,7 +1413,7 @@ page 56110 "Member Application Card"
                 }
                 separator(Action2)
                 {
-                    Caption = '       -';
+                    Caption = '      -';
                 }
 
                 action("Create Account")

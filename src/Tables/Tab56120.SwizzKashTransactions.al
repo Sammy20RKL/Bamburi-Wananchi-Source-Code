@@ -105,6 +105,7 @@ Table 56120 "SwizzKash Transactions"
             FieldClass = FlowField;
         }
         field(33; "Loan Period"; Integer) { }
+        field(34; "Loan Type"; Code[20]) { }
     }
 
     keys

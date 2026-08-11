@@ -1,7 +1,7 @@
 Report 50046 "MemberwithoutMinshapitalreport"
 {
     ApplicationArea = All;
-    Caption = 'Members without minimum share capital report.';
+    Caption = 'Shares capital report.';
     RDLCLayout = './Layout/MemberwithoutMinshapitalreport.rdlc';
     UsageCategory = ReportsAndAnalysis;
     dataset
@@ -32,6 +32,7 @@ Report 50046 "MemberwithoutMinshapitalreport"
             column(Phone_No_; "Phone No.") { }
 
             column(Sharecapital; Sharecapital) { }
+            column(SharesNumber; SharesNumber) { }
             trigger OnPreDataItem()
             var
                 myInt: Integer;
@@ -53,12 +54,15 @@ Report 50046 "MemberwithoutMinshapitalreport"
                     repeat
                         Cust.CalcFields("Share Capital"); // Calculate FlowField for each record
                         ShareCapital := Cust."Share Capital";
+                        SharesNumber := Sharecapital / 50;
                     until Cust.Next() = 0; // Loop through records
 
                 Gensetup.Get();
                 // SetAutoCalcFields("Share Capital");
                 // Sharecapital := "Current Shares";
-                If Sharecapital >= Gensetup."Retained Shares" then
+                // If Sharecapital >= Gensetup."Retained Shares" then
+                //     CurrReport.Skip();
+                if Sharecapital <= 0 then
                     CurrReport.Skip();
 
                 EntryNo := EntryNo + 1;
@@ -95,6 +99,7 @@ Report 50046 "MemberwithoutMinshapitalreport"
         CompanyInfo: Record "Company Information";
         EntryNo: Integer;
         Sharecapital: Decimal;
+        SharesNumber: Decimal;
         Datefilter: Text[100];
         Cust: Record Customer;
         Gensetup: Record "Sacco General Set-Up";

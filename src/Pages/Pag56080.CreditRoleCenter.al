@@ -1,4 +1,4 @@
-// namespace PolyTechERPSourceCode.PolyTechERPSourceCode;
+// namespace BamburiERPSourceCode.BamburiERPSourceCode;
 
 page 56080 "Credit Role Center"
 {

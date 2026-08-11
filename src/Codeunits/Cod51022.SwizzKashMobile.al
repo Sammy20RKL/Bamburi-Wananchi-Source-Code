@@ -4177,7 +4177,84 @@ Codeunit 51022 SwizzKashMobile
             SwizzKashTransactionsTable.SETRANGE(Status, SwizzKashTransactionsTable.Status::Pending);
             SwizzKashTransactionsTable.SETRANGE("Transaction Type", SwizzKashTransactionsTable."Transaction Type"::"Loan Application");
             IF SwizzKashTransactionsTable.FIND('-') THEN BEGIN
-                response := '{ "StatusCode":"503","StatusDescription":"Request failed, you have another Instant Loan in application.", "DocumentNo":"' + SwizzKashTransactionsTable."Document No" + '" }';
+                response := '{ "StatusCode":"503","StatusDescription":"Request failed, you have another Loan in application.", "DocumentNo":"' + SwizzKashTransactionsTable."Document No" + '" }';
+            END ELSE BEGIN
+
+                VendorTable.RESET;
+                VendorTable.SETRANGE("Mobile Phone No", phonenumber);
+                //VendorTable.SETRANGE(VendorTable."Vendor Posting Group", 'M_WALLET');
+                IF VendorTable.FIND('-') THEN BEGIN
+                    Evaluate(intNumber, traceid);
+
+                    SwizzKashTransactionsTable.INIT;
+                    //SwizzKashTransactionsTable.Entry := intNumber;
+                    SwizzKashTransactionsTable."Document No" := DocumentNo;
+                    SwizzKashTransactionsTable.Description := 'E-Loan Application';
+                    SwizzKashTransactionsTable."Document Date" := DT2DATE(TransactionDate);// TODAY;
+                    SwizzKashTransactionsTable."Transaction Time" := DT2TIME(TransactionDate);// TIME;
+                    SwizzKashTransactionsTable."Telephone Number" := phonenumber;
+                    SwizzKashTransactionsTable."Account No" := AccountNo;//Members."No.";
+                    SwizzKashTransactionsTable."Account Name" := VendorTable.Name;
+                    SwizzKashTransactionsTable."Account No2" := '';
+                    // SwizzKashTransactionsTable."Loan No" := loanNo;
+                    SwizzKashTransactionsTable."Loan Type" := loancode;
+                    SwizzKashTransactionsTable.Amount := amountapplied;
+                    SwizzKashTransactionsTable.Status := SwizzKashTransactionsTable.Status::Pending;
+                    SwizzKashTransactionsTable.Posted := FALSE;
+                    SwizzKashTransactionsTable.Comments := 'PENDING';
+                    SwizzKashTransactionsTable.Client := Members."No.";
+                    SwizzKashTransactionsTable."Loan Period" := repaymentperiod;
+                    SwizzKashTransactionsTable."Transaction Type" := SwizzKashTransactionsTable."Transaction Type"::"Loan Application";
+                    SwizzKashTransactionsTable.INSERT;
+
+                    response := '{ "StatusCode":"200","StatusDescription":"Your Instant request has been received and is being processed, Please wait for sms confirmation.", "DocumentNo":"' + DocumentNo + '" }';
+                END ELSE BEGIN
+                    response := '{ "StatusCode":"502","StatusDescription":"Request failed, Please contact the office for assistance.", "DocumentNo":"' + DocumentNo + '" }';
+                END;
+
+            END;
+        END;
+
+        EXIT(response);
+    END;
+
+    PROCEDURE ApplyHalloHallo(traceid: Code[70]; documentno: Code[50]; phonenumber: Code[100]; accountno: Code[50]; loancode: Code[20]; amountapplied: Decimal; repaymentperiod: Decimal; transactiondate: DateTime; narration: Text) response: Text;
+    VAR
+        LoanProdChargesTable: Record "Loan Product Charges";
+        Sacco_No_SeriesTable: Record "Sacco No. Series";
+        LoanRepaymentScheduleTable: Record "Loan Repayment Schedule";
+        SwizzKashTransactionsTable: Record "SwizzKash Transactions";
+        LoanPurposeTable: Record "Loans Purpose";
+        VendorTable: Record Vendor;
+        NoSeriesMgt: Codeunit "No. Series";
+        LoanAcc: Code[30];
+        InterestAcc: Code[30];
+        InterestAmount: Decimal;
+        AmountToCredit: Decimal;
+        loanNo: Text[20];
+        loanType: Code[50];
+        InsuranceAcc: Code[10];
+        AmountDispursed: Decimal;
+        intNumber: Integer;
+    BEGIN
+
+        /*this function should appraise the loan, post it, record it in the transactions table and return the loan details and statusp*/
+
+        response := '{ "StatusCode":"502","StatusDescription":"An error occured, Kindly try again later.", "DocumentNo":"' + DocumentNo + '" }';
+
+        SwizzKashTransactionsTable.RESET;
+        SwizzKashTransactionsTable.SETRANGE(SwizzKashTransactionsTable."Document No", DocumentNo);
+        IF SwizzKashTransactionsTable.FIND('-') THEN BEGIN
+            response := '{ "StatusCode":"501","StatusDescription":"Your request has already been processed, please wait for sms confirmation", "DocumentNo":"' + DocumentNo + '" }';
+        END ELSE BEGIN
+            // -- check if there is a pending e-loan application from the member
+            SwizzKashTransactionsTable.RESET;
+            SwizzKashTransactionsTable.SETRANGE(SwizzKashTransactionsTable."Telephone Number", phonenumber);
+            //SwizzKashTransactionsTable.SETRANGE(Posted,FALSE);
+            SwizzKashTransactionsTable.SETRANGE(Status, SwizzKashTransactionsTable.Status::Pending);
+            SwizzKashTransactionsTable.SETRANGE("Transaction Type", SwizzKashTransactionsTable."Transaction Type"::"Loan Application");
+            IF SwizzKashTransactionsTable.FIND('-') THEN BEGIN
+                response := '{ "StatusCode":"503","StatusDescription":"Request failed, you have another Hallo Hallo Loan in application.", "DocumentNo":"' + SwizzKashTransactionsTable."Document No" + '" }';
             END ELSE BEGIN
 
                 VendorTable.RESET;
@@ -4206,7 +4283,7 @@ Codeunit 51022 SwizzKashMobile
                     SwizzKashTransactionsTable."Transaction Type" := SwizzKashTransactionsTable."Transaction Type"::"Loan Application";
                     SwizzKashTransactionsTable.INSERT;
 
-                    response := '{ "StatusCode":"200","StatusDescription":"Your Instant request has been received and is being processed, Please wait for sms confirmation.", "DocumentNo":"' + DocumentNo + '" }';
+                    response := '{ "StatusCode":"200","StatusDescription":"Your Hallo Hallo request has been received and is being processed, Please wait for sms confirmation.", "DocumentNo":"' + DocumentNo + '" }';
                 END ELSE BEGIN
                     response := '{ "StatusCode":"502","StatusDescription":"Request failed, Please contact the office for assistance.", "DocumentNo":"' + DocumentNo + '" }';
                 END;
@@ -5556,7 +5633,11 @@ Codeunit 51022 SwizzKashMobile
         SwizzKASHTrans.SETFILTER("Document Date", '>=%1', 20250325D);
         IF SwizzKASHTrans.FIND('-') THEN BEGIN
             REPEAT
-                result := PostLoan(SwizzKASHTrans."Document No", SwizzKASHTrans."Account No", SwizzKASHTrans.Amount, SwizzKASHTrans."Loan Period");
+                if SwizzKASHTrans."Loan Type" = 'HALL' then begin
+                    result := PostHalloHalloLoan(SwizzKASHTrans."Document No", SwizzKASHTrans."Account No", SwizzKASHTrans.Amount, SwizzKASHTrans."Loan Period");
+                end else begin
+                    result := PostLoan(SwizzKASHTrans."Document No", SwizzKASHTrans."Account No", SwizzKASHTrans.Amount, SwizzKASHTrans."Loan Period");
+                end;
             UNTIL SwizzKASHTrans.NEXT = 0;
         END;
     END;
@@ -7724,7 +7805,7 @@ Codeunit 51022 SwizzKashMobile
             SaccoGenSetup.GET;
             //SaccoGenSetup.TESTFIELD("Mpesa Cash Withdrawal fee ac");
 
-
+            // commented by sam
             // -- get balance enquiry charges
             chargesTable.RESET;
             chargesTable.SETRANGE(Code, 'LNA');
@@ -7736,11 +7817,10 @@ Codeunit 51022 SwizzKashMobile
             END;
 
             //Calculate Interest
-            // InterestAmount := ((LoanProductsSetup."Interest rate" / 12) / 100) * amount;
-            InterestAmount := ((LoanProductsSetup."Interest rate") / 100) * amount * Period; //- per month
-            //3% Swizz Commission
-            vendorCommAmount := (1.5 / 100) * amount * Period;
-            //The rest posts to he Sacco
+            InterestAmount := ((LoanProductsSetup."Interest rate") / 100) * amount * Period; //- For 2 month
+            // //3% Swizz Commission
+            vendorCommAmount := (1.5 / 100) * amount;
+            // //The rest posts to he Sacco
             InterestPaid := InterestAmount - vendorCommAmount;
 
             AmountToCredit := amount;
@@ -7874,7 +7954,7 @@ Codeunit 51022 SwizzKashMobile
                         GenJournalLine.INSERT;
 
 
-                    //-------INTEREST CHARGED BEFORE INTEREST PAID - 7.5%.... FESTUS SWIZZ
+                    //-------INTEREST DUE - 15%.... 
                     LineNo := LineNo + 10000;
                     GenJournalLine.Init;
                     GenJournalLine."Journal Template Name" := 'GENERAL';
@@ -7890,10 +7970,10 @@ Codeunit 51022 SwizzKashMobile
                     if LoanTypeTable.Get(loansRegisterTable."Loan Product Type") then begin
                         GenJournalLine.Amount := InterestAmount;
                         GenJournalLine.Validate(GenJournalLine.Amount);
-                        GenJournalLine."Bal. Account Type" := GenJournalLine."bal. account type"::"G/L Account";
-                        GenJournalLine."Bal. Account No." := LoanTypeTable."Loan Interest Account";
-                        GenJournalLine."Loan Product Type" := LoanTypeTable.Code;
-                        GenJournalLine.Validate(GenJournalLine."Bal. Account No.");
+                        // GenJournalLine."Bal. Account Type" := GenJournalLine."bal. account type"::"G/L Account";
+                        // GenJournalLine."Bal. Account No." := LoanTypeTable."Loan Interest Account";
+                        // GenJournalLine."Loan Product Type" := LoanTypeTable.Code;
+                        // GenJournalLine.Validate(GenJournalLine."Bal. Account No.");
                     end;
                     if loansRegisterTable.Source = loansRegisterTable.Source::BOSA then begin
                         GenJournalLine."Shortcut Dimension 1 Code" := membersTable."Global Dimension 1 Code";
@@ -7927,46 +8007,49 @@ Codeunit 51022 SwizzKashMobile
 
 
                     //Dr M-Wallet Acc - 7.5% InterestAmount
+                    // LineNo := LineNo + 10000;
+                    // GenJournalLine.INIT;
+                    // GenJournalLine."Journal Template Name" := 'GENERAL';
+                    // GenJournalLine."Journal Batch Name" := 'MOBILELOAN';
+                    // GenJournalLine."Line No." := LineNo;
+                    // GenJournalLine."Document No." := CopyStr(documentNo, 1, 20);
+                    // GenJournalLine."Account Type" := GenJournalLine."Account Type"::Vendor;
+                    // GenJournalLine."Account No." := vendorTable."No.";
+                    // GenJournalLine.VALIDATE(GenJournalLine."Account No.");
+                    // GenJournalLine."Loan No" := loansRegisterTable."Loan  No.";
+                    // GenJournalLine."Posting Date" := TODAY;
+                    // GenJournalLine.Description := 'Hall Interest Charged';
+                    // GenJournalLine.Amount := InterestAmount;
+                    // GenJournalLine.VALIDATE(GenJournalLine.Amount);
+                    // IF GenJournalLine.Amount <> 0 THEN
+                    //     GenJournalLine.INSERT;
+
+
+                    // Cr Interest Eloan - 5.5%
+                    LoanTypeTable.Get(loansRegisterTable."Loan Product Type");
+
+
                     LineNo := LineNo + 10000;
                     GenJournalLine.INIT;
                     GenJournalLine."Journal Template Name" := 'GENERAL';
                     GenJournalLine."Journal Batch Name" := 'MOBILELOAN';
                     GenJournalLine."Line No." := LineNo;
                     GenJournalLine."Document No." := CopyStr(documentNo, 1, 20);
-                    GenJournalLine."Account Type" := GenJournalLine."Account Type"::Vendor;
-                    GenJournalLine."Account No." := vendorTable."No.";
-                    GenJournalLine.VALIDATE(GenJournalLine."Account No.");
-                    GenJournalLine."Loan No" := loansRegisterTable."Loan  No.";
-                    GenJournalLine."Posting Date" := TODAY;
-                    GenJournalLine.Description := 'Instant Interest Charged';
-                    GenJournalLine.Amount := InterestAmount;
-                    GenJournalLine.VALIDATE(GenJournalLine.Amount);
-                    IF GenJournalLine.Amount <> 0 THEN
-                        GenJournalLine.INSERT;
-
-
-                    //Cr Interest Eloan - 5.5%
-                    //.....updated to pay the full interest Amount, then Charge Swizz Commision from the Interest Account .....7.5% InterestAmount
-                    LineNo := LineNo + 10000;
-                    GenJournalLine.INIT;
-                    GenJournalLine."Journal Template Name" := 'GENERAL';
-                    GenJournalLine."Journal Batch Name" := 'MOBILELOAN';
-                    GenJournalLine."Line No." := LineNo;
-                    GenJournalLine."Document No." := CopyStr(documentNo, 1, 20);
-                    GenJournalLine."Account Type" := GenJournalLine."Account Type"::Customer;
-                    GenJournalLine."Account No." := membersTable."No.";
+                    GenJournalLine."Account Type" := GenJournalLine."Account Type"::"G/L Account";
+                    GenJournalLine."Account No." := LoanTypeTable."Receivable Interest Account";
                     GenJournalLine."Transaction Type" := GenJournalLine."Transaction Type"::"Interest Paid";//:"Interest Due";
                     GenJournalLine."Loan No" := loansRegisterTable."Loan  No.";
                     GenJournalLine.VALIDATE(GenJournalLine."Account No.");
                     GenJournalLine."Posting Date" := TODAY;
                     GenJournalLine."External Document No." := membersTable."No.";
-                    GenJournalLine.Description := documentNo + ' Interest Paid';
-                    GenJournalLine.Amount := -InterestAmount;
+                    GenJournalLine.Description := documentNo + ' Interest Charges';
+                    GenJournalLine.Amount := -InterestPaid;
+                    GenJournalLine."Loan Product Type" := LoanTypeTable.Code;
                     GenJournalLine.VALIDATE(GenJournalLine.Amount);
                     IF GenJournalLine.Amount <> 0 THEN
                         GenJournalLine.INSERT;
 
-                    //Cr SwizzKash commission
+                    // Cr SwizzKash commission
                     LineNo := LineNo + 10000;
                     GenJournalLine.INIT;
                     GenJournalLine."Journal Template Name" := 'GENERAL';
@@ -7982,12 +8065,12 @@ Codeunit 51022 SwizzKashMobile
                     GenJournalLine.Amount := vendorCommAmount * -1;
                     GenJournalLine.VALIDATE(GenJournalLine.Amount);
                     //Updated here to get the Interest from The Loan Interest Account
-                    if LoanTypeTable.Get(loansRegisterTable."Loan Product Type") then begin
-                        GenJournalLine."Bal. Account Type" := GenJournalLine."bal. account type"::"G/L Account";
-                        GenJournalLine."Bal. Account No." := LoanTypeTable."Receivable Interest Account";
-                        GenJournalLine."Loan Product Type" := LoanTypeTable.Code;
-                        GenJournalLine.Validate(GenJournalLine."Bal. Account No.");
-                    end;
+                    // if LoanTypeTable.Get(loansRegisterTable."Loan Product Type") then begin
+                    //     GenJournalLine."Bal. Account Type" := GenJournalLine."bal. account type"::"G/L Account";
+                    //     GenJournalLine."Bal. Account No." := LoanTypeTable."Receivable Interest Account";
+                    //     GenJournalLine."Loan Product Type" := LoanTypeTable.Code;
+                    //     GenJournalLine.Validate(GenJournalLine."Bal. Account No.");
+                    // end;
                     IF GenJournalLine.Amount <> 0 THEN
                         GenJournalLine.INSERT;
                     // exit;
@@ -8041,9 +8124,407 @@ Codeunit 51022 SwizzKashMobile
                     swizzkasTransTable.Comments := 'POSTED';
                     swizzkasTransTable.MODIFY;
                     result := 'TRUE';
-                    msg := 'Dear ' + SplitString(membersTable.Name, ' ') + ', Your Instant LOAN No ' + loanNo
-                      + ' of Ksh ' + FORMAT((AmountToDisburse)) + ' has been disbursed to your M-WALLET Account, '
-                      + ' Your loan of KShs ' + FORMAT(amount) + ' is due on ' + FORMAT(CALCDATE('+1M', TODAY));
+                    msg := 'Dear ' + SplitString(membersTable.Name, ' ') + ', Your Instant LOAN No. ' + loanNo
+                      + ' of Ksh ' + FORMAT((amount)) + ' has been disbursed to your M-WALLET Account, '
+                      + ' Your loan of KShs ' + FORMAT(amount + InterestAmount) + ' is due on ' + FORMAT(CALCDATE('+1M', TODAY)) +
+                      '. Thank you for choosing our services.';
+
+                    SMSMessage(documentNo, membersTable."No.", membersTable."Phone No.", msg);
+
+                END;//Loans Register
+
+            END ELSE BEGIN
+                result := 'ACCINEXISTENT';
+                swizzkasTransTable.Status := swizzkasTransTable.Status::Failed;
+                swizzkasTransTable.Posted := false;
+                swizzkasTransTable."Posting Date" := TODAY;
+                swizzkasTransTable."Date Posted" := CurrentDateTime;
+                swizzkasTransTable.Comments := 'Failed.Invalid Account';
+                swizzkasTransTable.MODIFY;
+            END;
+
+        END;
+    END;
+
+
+    local procedure PostHalloHalloLoan(documentNo: Code[30]; AccountNo: Code[50]; amount: Decimal; Period: Decimal) result: Code[30];
+    var
+        swizzkasTransTable: Record "SwizzKash Transactions";
+        membersTable: Record Customer;
+        vendorTable: Record Vendor;
+        loansRegisterTable: Record "Loans Register";
+        chargesTable: Record Charges;
+        LoanProdCharges: Record "Loan Product Charges";
+        SaccoNoSeries: Record "Sacco No. Series";
+        NoSeriesMgt: Codeunit "No. Series";
+        LoanRepSchedule: Record "Loan Repayment Schedule";
+        ObjLoanPurpose: Record "Loans Purpose";
+        SaccoNo: Record "Sacco No. Series";
+        GenSetUp: Record "Sacco General Set-Up";
+        SaccoGenSetup: Record "Sacco General Set-Up";
+        vendorCommAcc: Code[30];
+        vendorCommAmount: Decimal;
+        LoanAcc: Code[30];
+        InterestAcc: Code[30];
+        InterestAmount: Decimal;
+        AmountToCredit: Decimal;
+        AmountToDisburse: Decimal;
+        loanNo: Text[20];
+        loanType: Code[50];
+        InsuranceAcc: Code[10];
+        AmountDispursed: Decimal;
+        InterestPaid: Decimal;
+        LoanTypeTable: Record "Loan Products Setup";
+    BEGIN
+        loanType := 'HALL';
+
+        swizzkasTransTable.RESET;
+        swizzkasTransTable.SETRANGE(swizzkasTransTable."Document No", documentNo);
+        swizzkasTransTable.SETRANGE(swizzkasTransTable.Posted, FALSE);
+        swizzkasTransTable.SETRANGE(swizzkasTransTable."Transaction Type", swizzkasTransTable."Transaction Type"::"Loan Application");
+        swizzkasTransTable.SETRANGE(swizzkasTransTable.Status, swizzkasTransTable.Status::Pending);
+        IF swizzkasTransTable.FIND('-') THEN BEGIN
+
+            GenSetUp.RESET;
+            GenSetUp.GET();
+            GenLedgerSetup.RESET;
+            GenLedgerSetup.GET;
+
+            // ** get loan and interest accounts **
+            LoanProductsSetup.Reset();
+            LoanProductsSetup.SETRANGE(LoanProductsSetup.Code, loanType);
+            IF LoanProductsSetup.FINDFIRST() THEN BEGIN
+                LoanAcc := LoanProductsSetup."Loan Account";
+                InterestAcc := LoanProductsSetup."Loan Interest Account";
+            END;
+
+            SaccoGenSetup.RESET;
+            SaccoGenSetup.GET;
+            //SaccoGenSetup.TESTFIELD("Mpesa Cash Withdrawal fee ac");
+
+            // commented by sam
+            // -- get balance enquiry charges
+            chargesTable.RESET;
+            chargesTable.SETRANGE(Code, 'LNA');
+            IF chargesTable.FIND('-') THEN BEGIN
+                vendorCommAcc := chargesTable."GL Account";
+                // vendorCommAmount := chargesTable."Charge Amount";
+                //saccoCommAmount:=chargesTable."Sacco Amount";
+                //saccoCommAcc:='3000407';     // -- sacco commission account
+            END;
+
+            //Calculate Interest
+            InterestAmount := ((LoanProductsSetup."Interest rate") / 100) * amount; //- For 2 month
+            // //3% Swizz Commission
+            vendorCommAmount := (3 / 100) * amount;
+            // //The rest posts to he Sacco
+            InterestPaid := InterestAmount - vendorCommAmount;
+
+            AmountToCredit := amount;
+            // ** interest charged upfront , disburse amount less (interest+vendor commision)
+            AmountToDisburse := amount - InterestAmount;// (InterestAmount + vendorCommAmount);
+
+            vendorTable.RESET;
+            vendorTable.SETRANGE("No.", AccountNo);
+            IF NOT vendorTable.FIND('-') THEN BEGIN
+                result := 'ACCNOTFOUND';
+                swizzkasTransTable.Status := swizzkasTransTable.Status::Failed;
+                swizzkasTransTable.Posted := false;
+                swizzkasTransTable."Posting Date" := TODAY;
+                swizzkasTransTable."Date Posted" := CurrentDateTime;
+                swizzkasTransTable.Comments := 'Failed.Account Not Found';
+                swizzkasTransTable.MODIFY;
+                EXIT;
+            END;
+
+            membersTable.RESET;
+            membersTable.SETRANGE(membersTable."No.", vendorTable."BOSA Account No");
+            IF membersTable.FIND('-') THEN BEGIN
+
+                //******* Create Loan *********//
+                SaccoNoSeries.RESET;
+                SaccoNoSeries.GET;
+                SaccoNoSeries.TESTFIELD(SaccoNoSeries."BOSA Loans Nos");
+                loanNo := NoSeriesMgt.GetNextNo(SaccoNoSeries."BOSA Loans Nos", Today, true);
+                // loanNo := loansRegisterTable."Loan  No.";
+
+                loansRegisterTable.INIT;
+                loansRegisterTable."Approved Amount" := amount;
+                loansRegisterTable.Interest := LoanProductsSetup."Interest rate";
+                loansRegisterTable."Instalment Period" := LoanProductsSetup."Instalment Period";
+                loansRegisterTable.Repayment := amount + InterestAmount + MPESACharge;
+                loansRegisterTable."Expected Date of Completion" := CALCDATE(Format(Period) + 'M', TODAY);
+                loansRegisterTable."Shares Balance" := membersTable."Current Shares";
+                loansRegisterTable."Amount Disbursed" := amount;
+                loansRegisterTable.Savings := membersTable."Current Shares";
+                loansRegisterTable."Interest Paid" := 0;
+                loansRegisterTable."Issued Date" := TODAY;
+                loansRegisterTable.Source := LoanProductsSetup.Source;
+                loansRegisterTable."Loan Disbursed Amount" := amount;
+                loansRegisterTable."Scheduled Principal to Date" := AmountToDisburse;
+                loansRegisterTable."Current Interest Paid" := 0;
+                loansRegisterTable."Loan Disbursement Date" := TODAY;
+                loansRegisterTable."Client Code" := membersTable."No.";
+                loansRegisterTable."Client Name" := membersTable.Name;
+                loansRegisterTable."Outstanding Balance to Date" := AmountToDisburse;
+                loansRegisterTable."Existing Loan" := membersTable."Outstanding Balance";
+                //loansRegisterTable."Staff No":=membersTable."Payroll/Staff No";
+                loansRegisterTable.Gender := membersTable.Gender;
+                loansRegisterTable."BOSA No" := membersTable."No.";
+                // loansRegisterTable."Branch Code":=Vendor."Global Dimension 2 Code";
+                loansRegisterTable."Requested Amount" := amount;
+                loansRegisterTable."ID NO" := membersTable."ID No.";
+                IF loansRegisterTable."Branch Code" = '' THEN loansRegisterTable."Branch Code" := membersTable."Global Dimension 2 Code";
+                loansRegisterTable."Loan  No." := loanNo;
+                loansRegisterTable."No. Series" := SaccoNoSeries."BOSA Loans Nos";
+                loansRegisterTable."Doc No Used" := documentNo;
+                loansRegisterTable."Loan Interest Repayment" := InterestAmount;
+                loansRegisterTable."Loan Principle Repayment" := amount;
+                loansRegisterTable."Loan Repayment" := amount;
+                loansRegisterTable."Employer Code" := membersTable."Employer Code";
+                loansRegisterTable."Approval Status" := loansRegisterTable."Approval Status"::Approved;
+                loansRegisterTable."Account No" := membersTable."No.";
+                loansRegisterTable."Application Date" := TODAY;
+                loansRegisterTable."Loan Product Type" := LoanProductsSetup.Code;
+                loansRegisterTable."Loan Product Type Name" := LoanProductsSetup."Product Description";
+                loansRegisterTable."Loan Disbursement Date" := TODAY;
+                loansRegisterTable."Repayment Start Date" := TODAY;
+                loansRegisterTable."Recovery Mode" := loansRegisterTable."Recovery Mode"::Checkoff;
+                loansRegisterTable."Mode of Disbursement" := loansRegisterTable."Mode of Disbursement"::" ";
+                loansRegisterTable."Requested Amount" := amount;
+                loansRegisterTable."Approved Amount" := amount;
+                loansRegisterTable.Installments := Period;
+                loansRegisterTable."Loan Amount" := amount;
+                loansRegisterTable."Issued Date" := TODAY;
+                loansRegisterTable."Outstanding Balance" := 0;//Update
+                loansRegisterTable."Repayment Frequency" := loansRegisterTable."Repayment Frequency"::Monthly;
+                loansRegisterTable.INSERT(TRUE);
+
+                // InterestAmount:=0;
+
+                //**********Process Loan*******************//
+
+                GenJournalLine.RESET;
+                GenJournalLine.SETRANGE("Journal Template Name", 'GENERAL');
+                GenJournalLine.SETRANGE("Journal Batch Name", 'MOBILELOAN');
+                GenJournalLine.DELETEALL;
+                //end of deletion
+
+                GenBatches.RESET;
+                GenBatches.SETRANGE(GenBatches."Journal Template Name", 'GENERAL');
+                GenBatches.SETRANGE(GenBatches.Name, 'MOBILELOAN');
+                IF GenBatches.FIND('-') = FALSE THEN BEGIN
+                    GenBatches.INIT;
+                    GenBatches."Journal Template Name" := 'GENERAL';
+                    GenBatches.Name := 'MOBILELOAN';
+                    GenBatches.Description := 'Hallo Hallo Loan';
+                    GenBatches.VALIDATE(GenBatches."Journal Template Name");
+                    GenBatches.VALIDATE(GenBatches.Name);
+                    GenBatches.Insert(true);
+                END;
+
+
+
+                //Post Loan
+                loansRegisterTable.RESET;
+                loansRegisterTable.SETRANGE(loansRegisterTable."Loan  No.", loanNo);
+                IF loansRegisterTable.FIND('-') THEN BEGIN
+
+                    //Dr loan Acc - 100%Amount
+                    LineNo := LineNo + 10000;
+                    GenJournalLine.INIT;
+                    GenJournalLine."Journal Template Name" := 'GENERAL';
+                    GenJournalLine."Journal Batch Name" := 'MOBILELOAN';
+                    GenJournalLine."Line No." := LineNo;
+                    GenJournalLine."Account Type" := GenJournalLine."Account Type"::Customer;
+                    GenJournalLine."Transaction Type" := GenJournalLine."Transaction Type"::Loan;
+                    GenJournalLine."Loan No" := loansRegisterTable."Loan  No.";
+                    GenJournalLine."Account No." := membersTable."No.";
+                    GenJournalLine.VALIDATE(GenJournalLine."Account No.");
+                    GenJournalLine."Document No." := CopyStr(documentNo, 1, 20);
+                    GenJournalLine."External Document No." := membersTable."No.";
+                    GenJournalLine."Posting Date" := TODAY;
+                    GenJournalLine.Description := 'Hallo Hallo Loan Disbursment-' + loansRegisterTable."Loan  No.";
+                    GenJournalLine.Amount := amount;// AmountToDisburse;
+                    GenJournalLine.VALIDATE(GenJournalLine.Amount);
+                    IF GenJournalLine.Amount <> 0 THEN
+                        GenJournalLine.INSERT;
+
+
+                    //-------INTEREST DUE - 15%.... 
+                    LineNo := LineNo + 10000;
+                    GenJournalLine.Init;
+                    GenJournalLine."Journal Template Name" := 'GENERAL';
+                    GenJournalLine."Journal Batch Name" := 'MOBILELOAN';
+                    GenJournalLine."Line No." := LineNo;
+                    GenJournalLine."Account Type" := GenJournalLine."account type"::Customer;
+                    GenJournalLine."Account No." := loansRegisterTable."Client Code";
+                    GenJournalLine."Transaction Type" := GenJournalLine."transaction type"::"Interest Due";
+                    GenJournalLine.Validate(GenJournalLine."Account No.");
+                    GenJournalLine."Document No." := CopyStr(documentNo, 1, 20);
+                    GenJournalLine."Posting Date" := Today;
+                    GenJournalLine.Description := 'INT Charged' + ' ' + Format(Today);
+                    if LoanTypeTable.Get(loansRegisterTable."Loan Product Type") then begin
+                        GenJournalLine.Amount := InterestAmount;
+                        GenJournalLine.Validate(GenJournalLine.Amount);
+                        // GenJournalLine."Bal. Account Type" := GenJournalLine."bal. account type"::"G/L Account";
+                        // GenJournalLine."Bal. Account No." := LoanTypeTable."Loan Interest Account";
+                        // GenJournalLine."Loan Product Type" := LoanTypeTable.Code;
+                        // GenJournalLine.Validate(GenJournalLine."Bal. Account No.");
+                    end;
+                    if loansRegisterTable.Source = loansRegisterTable.Source::BOSA then begin
+                        GenJournalLine."Shortcut Dimension 1 Code" := membersTable."Global Dimension 1 Code";
+                        GenJournalLine."Shortcut Dimension 2 Code" := membersTable."Global Dimension 2 Code";
+                    end;
+                    GenJournalLine.Validate(GenJournalLine."Shortcut Dimension 1 Code");
+                    GenJournalLine.Validate(GenJournalLine."Shortcut Dimension 2 Code");
+                    GenJournalLine."Loan No" := loansRegisterTable."Loan  No.";
+
+                    if GenJournalLine.Amount <> 0 then
+                        GenJournalLine.Insert;
+                    ///----END INTEREST CHARGFED
+
+                    //Cr M-Wallet Acc - 100% amount
+                    LineNo := LineNo + 10000;
+                    GenJournalLine.INIT;
+                    GenJournalLine."Journal Template Name" := 'GENERAL';
+                    GenJournalLine."Journal Batch Name" := 'MOBILELOAN';
+                    GenJournalLine."Line No." := LineNo;
+                    GenJournalLine."Document No." := CopyStr(documentNo, 1, 20);
+                    GenJournalLine."Account Type" := GenJournalLine."Account Type"::Vendor;
+                    GenJournalLine."Account No." := vendorTable."No.";
+                    GenJournalLine.VALIDATE(GenJournalLine."Account No.");
+                    GenJournalLine."Loan No" := loansRegisterTable."Loan  No.";
+                    GenJournalLine."Posting Date" := TODAY;
+                    GenJournalLine.Description := 'Hall Disbursment';
+                    GenJournalLine.Amount := -amount;
+                    GenJournalLine.VALIDATE(GenJournalLine.Amount);
+                    IF GenJournalLine.Amount <> 0 THEN
+                        GenJournalLine.INSERT;
+
+
+                    //Dr M-Wallet Acc - 7.5% InterestAmount
+                    // LineNo := LineNo + 10000;
+                    // GenJournalLine.INIT;
+                    // GenJournalLine."Journal Template Name" := 'GENERAL';
+                    // GenJournalLine."Journal Batch Name" := 'MOBILELOAN';
+                    // GenJournalLine."Line No." := LineNo;
+                    // GenJournalLine."Document No." := CopyStr(documentNo, 1, 20);
+                    // GenJournalLine."Account Type" := GenJournalLine."Account Type"::Vendor;
+                    // GenJournalLine."Account No." := vendorTable."No.";
+                    // GenJournalLine.VALIDATE(GenJournalLine."Account No.");
+                    // GenJournalLine."Loan No" := loansRegisterTable."Loan  No.";
+                    // GenJournalLine."Posting Date" := TODAY;
+                    // GenJournalLine.Description := 'Hall Interest Charged';
+                    // GenJournalLine.Amount := InterestAmount;
+                    // GenJournalLine.VALIDATE(GenJournalLine.Amount);
+                    // IF GenJournalLine.Amount <> 0 THEN
+                    //     GenJournalLine.INSERT;
+
+
+                    // Cr Interest Eloan - 5.5%
+                    LoanTypeTable.Get(loansRegisterTable."Loan Product Type");
+
+
+                    LineNo := LineNo + 10000;
+                    GenJournalLine.INIT;
+                    GenJournalLine."Journal Template Name" := 'GENERAL';
+                    GenJournalLine."Journal Batch Name" := 'MOBILELOAN';
+                    GenJournalLine."Line No." := LineNo;
+                    GenJournalLine."Document No." := CopyStr(documentNo, 1, 20);
+                    GenJournalLine."Account Type" := GenJournalLine."Account Type"::"G/L Account";
+                    GenJournalLine."Account No." := LoanTypeTable."Receivable Interest Account";
+                    GenJournalLine."Transaction Type" := GenJournalLine."Transaction Type"::"Interest Paid";//:"Interest Due";
+                    GenJournalLine."Loan No" := loansRegisterTable."Loan  No.";
+                    GenJournalLine.VALIDATE(GenJournalLine."Account No.");
+                    GenJournalLine."Posting Date" := TODAY;
+                    GenJournalLine."External Document No." := membersTable."No.";
+                    GenJournalLine.Description := documentNo + ' Interest Charges';
+                    GenJournalLine.Amount := -InterestPaid;
+                    GenJournalLine."Loan Product Type" := LoanTypeTable.Code;
+                    GenJournalLine.VALIDATE(GenJournalLine.Amount);
+                    IF GenJournalLine.Amount <> 0 THEN
+                        GenJournalLine.INSERT;
+
+                    // Cr SwizzKash commission
+                    LineNo := LineNo + 10000;
+                    GenJournalLine.INIT;
+                    GenJournalLine."Journal Template Name" := 'GENERAL';
+                    GenJournalLine."Journal Batch Name" := 'MOBILELOAN';
+                    GenJournalLine."Line No." := LineNo;
+                    GenJournalLine."Document No." := CopyStr(documentNo, 1, 20);
+                    GenJournalLine."Account Type" := GenJournalLine."Account Type"::"G/L Account";
+                    GenJournalLine."Account No." := vendorCommAcc;
+                    GenJournalLine.VALIDATE(GenJournalLine."Account No.");
+                    GenJournalLine."Loan No" := loansRegisterTable."Loan  No.";
+                    GenJournalLine."Posting Date" := TODAY;
+                    GenJournalLine.Description := 'Hall Vendor Comm';
+                    GenJournalLine.Amount := vendorCommAmount * -1;
+                    GenJournalLine.VALIDATE(GenJournalLine.Amount);
+                    //Updated here to get the Interest from The Loan Interest Account
+                    // if LoanTypeTable.Get(loansRegisterTable."Loan Product Type") then begin
+                    //     GenJournalLine."Bal. Account Type" := GenJournalLine."bal. account type"::"G/L Account";
+                    //     GenJournalLine."Bal. Account No." := LoanTypeTable."Receivable Interest Account";
+                    //     GenJournalLine."Loan Product Type" := LoanTypeTable.Code;
+                    //     GenJournalLine.Validate(GenJournalLine."Bal. Account No.");
+                    // end;
+                    IF GenJournalLine.Amount <> 0 THEN
+                        GenJournalLine.INSERT;
+                    // exit;
+                    //Post
+                    GenJournalLine.RESET;
+                    GenJournalLine.SETRANGE("Journal Template Name", 'GENERAL');
+                    GenJournalLine.SETRANGE("Journal Batch Name", 'MOBILELOAN');
+                    IF GenJournalLine.FIND('-') THEN BEGIN
+                        REPEAT
+                            GLPosting.RUN(GenJournalLine);
+                        UNTIL GenJournalLine.NEXT = 0;
+
+                        //***************Update Loan Status************//
+                        loansRegisterTable."Loan Status" := loansRegisterTable."Loan Status"::Issued;
+                        loansRegisterTable."Amount Disbursed" := AmountToCredit;
+                        loansRegisterTable.Posted := TRUE;
+                        loansRegisterTable."Interest Upfront Amount" := InterestAmount;
+                        loansRegisterTable."Outstanding Balance" := amount;
+                        loansRegisterTable.MODIFY;
+
+                        //=====================insert to Mpesa mobile disbursment
+                        MpesaDisbus.RESET;
+                        MpesaDisbus.SETRANGE(MpesaDisbus."Document No", CopyStr(documentNo, 1, 20));
+                        IF MpesaDisbus.FIND('-') = FALSE THEN BEGIN
+                            MpesaDisbus."Account No" := membersTable."No.";
+                            MpesaDisbus."Document Date" := TODAY;
+                            MpesaDisbus."Loan Amount" := amount;
+                            MpesaDisbus."Loan No" := loansRegisterTable."Loan  No.";
+                            MpesaDisbus."Document No" := CopyStr(documentNo, 1, 20);
+                            MpesaDisbus."Batch No" := 'MOBILE';
+                            MpesaDisbus."Date Entered" := TODAY;
+                            MpesaDisbus."Time Entered" := TIME;
+                            MpesaDisbus."Entered By" := USERID;
+                            MpesaDisbus."Member No" := membersTable."No.";
+                            MpesaDisbus."Telephone No" := membersTable."Phone No.";
+                            MpesaDisbus.Comments := 'Successfully Posted';
+                            //MpesaDisbus."Corporate No":='597676';
+                            MpesaDisbus."Delivery Center" := 'M-WALLET';
+                            MpesaDisbus."Customer Name" := membersTable.Name;
+                            MpesaDisbus.Status := MpesaDisbus.Status::Completed;// Closed;
+                            MpesaDisbus.Purpose := 'HALL';
+                            MpesaDisbus.INSERT;
+                        END;
+                    END;
+
+                    swizzkasTransTable.Status := swizzkasTransTable.Status::Completed;
+                    swizzkasTransTable."Loan No" := loansRegisterTable."Loan  No.";
+                    swizzkasTransTable.Posted := TRUE;
+                    swizzkasTransTable."Posting Date" := TODAY;
+                    swizzkasTransTable."Date Posted" := CurrentDateTime;
+                    swizzkasTransTable.Comments := 'POSTED';
+                    swizzkasTransTable.MODIFY;
+                    result := 'TRUE';
+                    msg := 'Dear ' + SplitString(membersTable.Name, ' ') + ', Your Hallo Hallo LOAN No. ' + loanNo
+                      + ' of Ksh ' + FORMAT((amount)) + ' has been disbursed to your M-WALLET Account, '
+                      + ' Your loan of KShs ' + FORMAT(amount + InterestAmount) + ' is due on ' + FORMAT(CALCDATE('+2M', TODAY)) +
+                      '. Thank you for choosing our services.';
 
                     SMSMessage(documentNo, membersTable."No.", membersTable."Phone No.", msg);
 
@@ -8356,9 +8837,16 @@ Codeunit 51022 SwizzKashMobile
 
         //get Loan from M-Loans, balance >0, recovered = false
         loansRegisterTable.Reset();
-        loansRegisterTable.SetRange("Loan Product Type", 'INST');
+        loansRegisterTable.SetFilter("Loan Product Type", 'INST');
         loansRegisterTable.SetRange(Posted, true);
         loansRegisterTable.SetFilter("Outstanding Balance", '>0');
+
+        if not loansRegisterTable.FindSet() then begin
+            loansRegisterTable.Reset();
+            loansRegisterTable.SetFilter("Loan Product Type", 'HALL');
+            loansRegisterTable.SetRange(Posted, true);
+            loansRegisterTable.SetFilter("Outstanding Balance", '>0');
+        end;
 
         if loansRegisterTable.Find('-') then begin
             repeat
@@ -8390,7 +8878,7 @@ Codeunit 51022 SwizzKashMobile
                                 // send 1st Notification: 15 days remaining
                                 if mobileLoans."Ist Notification" = false then begin
                                     smsMessage := 'Dear ' + SplitString(membersTable.Name, ' ') + ', Your ' + loansRegisterTable."Loan Product Type Name" + ' of amount Ksh. ' + FORMAT(loansRegisterTable."Outstanding Balance" + loansRegisterTable."Oustanding Interest") + ' is due on '
-                                                + FORMAT(loansRegisterTable."Expected Date of Completion", 0, '<Closing><Day> <Month Text> <Year4>') + '. Use Paybill 751459 or dial *250# to pay';
+                                                + FORMAT(loansRegisterTable."Expected Date of Completion", 0, '<Closing><Day> <Month Text> <Year4>') + '. Use Paybill 400222 and Account No. 321906#Yourname or dial *250# to pay';
 
                                     SMSMessage(loansRegisterTable."Doc No Used", loansRegisterTable."Client Code", membersTable."Mobile Phone No", smsMessage);
                                     mobileLoans."Ist Notification" := true;
@@ -8402,7 +8890,7 @@ Codeunit 51022 SwizzKashMobile
                                 // send 2nd Notification: 7 days remaining
                                 if mobileLoans."2nd Notification" = false then begin
                                     smsMessage := 'Dear ' + SplitString(membersTable.Name, ' ') + ', Your ' + loansRegisterTable."Loan Product Type Name" + ' of amount Ksh. ' + FORMAT(loansRegisterTable."Outstanding Balance" + loansRegisterTable."Oustanding Interest") + ' is due on '
-                                                                                            + FORMAT(loansRegisterTable."Expected Date of Completion", 0, '<Closing><Day> <Month Text> <Year4>') + '. Use Paybill 751459 or dial *250# to pay';
+                                                                                            + FORMAT(loansRegisterTable."Expected Date of Completion", 0, '<Closing><Day> <Month Text> <Year4>') + '. Use Paybill 400222 and Account No. 321906#Yourname or dial *250# to pay';
 
                                     SMSMessage(loansRegisterTable."Doc No Used", loansRegisterTable."Client Code", membersTable."Mobile Phone No", smsMessage);
                                     mobileLoans."2nd Notification" := TRUE;
@@ -8427,7 +8915,7 @@ Codeunit 51022 SwizzKashMobile
                                 // send 4th Notification: 1 day remaining
                                 if mobileLoans."4th Notification" = false then begin
                                     smsMessage := 'Dear ' + SplitString(membersTable.Name, ' ') + ', Your ' + loansRegisterTable."Loan Product Type Name" + ' of amount Ksh. ' + FORMAT(loansRegisterTable."Outstanding Balance" + loansRegisterTable."Oustanding Interest") + ' is due on '
-                                                                                            + FORMAT(loansRegisterTable."Expected Date of Completion", 0, '<Closing><Day> <Month Text> <Year4>') + '. Use Paybill 751459 or dial *250# to pay';
+                                                                                            + FORMAT(loansRegisterTable."Expected Date of Completion", 0, '<Closing><Day> <Month Text> <Year4>') + '. Use Paybill 400222 and Account No. 321906#Yourname or dial *250# to pay';
 
                                     SMSMessage(loansRegisterTable."Doc No Used", loansRegisterTable."Client Code", membersTable."Mobile Phone No", smsMessage);
                                     mobileLoans."4th Notification" := TRUE;
@@ -8439,7 +8927,7 @@ Codeunit 51022 SwizzKashMobile
                                 // send 5th Notification: Due date reached
                                 if mobileLoans."5th Notification" = false then begin
                                     smsMessage := 'Dear ' + SplitString(membersTable.Name, ' ') + ', Your ' + loansRegisterTable."Loan Product Type Name" + ' of amount Ksh. ' + FORMAT(loansRegisterTable."Outstanding Balance" + loansRegisterTable."Oustanding Interest") + ' is due on '
-                                                                                            + FORMAT(loansRegisterTable."Expected Date of Completion", 0, '<Closing><Day> <Month Text> <Year4>') + '. Use Paybill 751459 or dial *250# to pay and avoid being listed as a mobile defaulter';
+                                                                                            + FORMAT(loansRegisterTable."Expected Date of Completion", 0, '<Closing><Day> <Month Text> <Year4>') + '. Use Paybill 400222 and Account No. 321906#Yourname or dial *250# to pay and avoid being listed as a mobile defaulter';
 
                                     SMSMessage(loansRegisterTable."Doc No Used", loansRegisterTable."Client Code", membersTable."Mobile Phone No", smsMessage);
                                     mobileLoans."5th Notification" := TRUE;
@@ -8501,7 +8989,7 @@ Codeunit 51022 SwizzKashMobile
                                     GenJournalLine."Account No." := loansRegisterTable."Client Code";
                                     GenJournalLine."Transaction Type" := GenJournalLine."transaction type"::"Interest Due";
                                     GenJournalLine.Validate(GenJournalLine."Account No.");
-                                    GenJournalLine."Document No." := documentNo;
+                                    GenJournalLine."Document No." := documentNo + '1';
                                     GenJournalLine."Posting Date" := Today;
                                     GenJournalLine.Description := 'Instant ' + loansRegisterTable."Loan  No." + ' Interest roll over' + ' ' + Format(Today);
                                     if LoanTypeTable.Get(loansRegisterTable."Loan Product Type") then begin
@@ -8522,6 +9010,7 @@ Codeunit 51022 SwizzKashMobile
 
                                     if GenJournalLine.Amount <> 0 then
                                         GenJournalLine.Insert;
+                                    exit;
                                     ///----END INTEREST CHARGFED
 
                                     GenJournalLine.RESET;
@@ -9484,6 +9973,380 @@ Codeunit 51022 SwizzKashMobile
             END;
         END;//Vendor
     end;
+
+    procedure InstantEligibility(phonenumber: Text[50]) Res: Text
+    var
+        DateRegistered: Date;
+        MtodayYear: Decimal;
+        RegYear: Decimal;
+        MRegdate: Decimal;
+        MToday: Decimal;
+        MpesaDisbus: Record "Mobile Loans";
+        Saccogen: Record "Sacco General Set-Up";
+        MinContribution: Decimal;
+        contributionOk: Boolean;
+        interestAMT: Decimal;
+        MaxLoanAmt: Decimal;
+        VarMemberLiability: Decimal;
+        VarMemberSelfLiability: Decimal;
+        FreeSharesSelf: Decimal;
+        FreeShares: Decimal;
+        AdvaAmt: Decimal;
+        mcount: Decimal;
+        VendorTable: Record Vendor;
+        SwizzKashTransactionsTable: Record "SwizzKash Transactions";
+    begin
+        amount := 0;
+        VendorTable.RESET;
+        VendorTable.SETRANGE(vendorTable."Mobile Phone No", phonenumber);
+        IF VendorTable.FIND('-') THEN BEGIN
+            //=================================================must be member for 3 months
+            Members.RESET;
+            Members.SETRANGE(Members."No.", vendorTable."BOSA Account No");
+            IF Members.FIND('-') THEN BEGIN
+                DateRegistered := Members."Registration Date";
+            END;
+
+            IF Members.Status <> Members.Status::Active THEN BEGIN
+                Res := '0::::Your Account is not active::::False';
+                Res := '{ "StatusCode":"400","StatusDescription":"AccountNotActive","LimitAmount":0,"Message":"Your account is not active." } ';
+                EXIT;
+            END;
+
+            IF DateRegistered <> 0D THEN BEGIN
+                MtodayYear := DATE2DMY(TODAY, 3);
+                RegYear := DATE2DMY(DateRegistered, 3);
+                MRegdate := DATE2DMY(DateRegistered, 2);
+
+                MToday := DATE2DMY(TODAY, 2) + MRegdate;
+
+                IF CALCDATE('3M', DateRegistered) > TODAY THEN BEGIN
+                    amount := 1;
+                    Res := '1::::Your do not Qualify for this loan because you should be a member for last 3 Months::::False';
+                    Res := '{ "StatusCode":"401","StatusDescription":"3Months","LimitAmount":0,"Message":"You do not Qualify for this loan because you should be a member for last 3 Months." } ';
+                    exit;
+                END;
+            END;
+
+            SwizzKashTransactionsTable.RESET;
+            SwizzKashTransactionsTable.SETRANGE(SwizzKashTransactionsTable."Telephone Number", phonenumber);
+            //SwizzKashTransactionsTable.SETRANGE(Posted,FALSE);
+            SwizzKashTransactionsTable.SETRANGE(Status, SwizzKashTransactionsTable.Status::Pending);
+            SwizzKashTransactionsTable.SETRANGE("Transaction Type", SwizzKashTransactionsTable."Transaction Type"::"Loan Application");
+            IF SwizzKashTransactionsTable.FIND('-') THEN BEGIN
+                Res := '{ "StatusCode":"401","StatusDescription":"LoanApplicationPending","LimitAmount":0,"Message":"You have another mobile loan in applications." } ';
+                exit;
+            END;
+
+            IF amount <> 1 THEN BEGIN
+                LoansRegister.RESET;
+                LoansRegister.SETRANGE(LoansRegister."Client Code", Members."No.");
+                LoansRegister.SETRANGE(LoansRegister.Posted, TRUE);
+                IF LoansRegister.FIND('-') THEN BEGIN
+                    REPEAT
+                        LoansRegister.CALCFIELDS(LoansRegister."Outstanding Balance");
+                        IF (LoansRegister."Outstanding Balance" > 10) THEN BEGIN
+
+                            // =================================== Check if member has an outstanding ELOAN
+
+                            IF (LoansRegister."Loan Product Type" = 'INST') THEN BEGIN
+                                amount := 2;
+                                Res := '2::::You do not Qualify for this loan because You have an outstanding Instant Loan::::False';
+                                Res := '{ "StatusCode":"403","StatusDescription":"OutstandingInstantLoan","LimitAmount":0,"Message":"You do not Qualify for this loan because You have an outstanding Instant Loan." } ';
+                                EXIT;
+                            END;
+                            IF (LoansRegister."Loan Product Type" = 'HALL') THEN BEGIN
+                                amount := 2;
+                                Res := '2::::You do not Qualify for this loan because You have an outstanding Halli Hallo Loan::::False';
+                                Res := '{ "StatusCode":"403","StatusDescription":"OutstandingHalloLoan","LimitAmount":0,"Message":"You do not Qualify for this loan because You have an outstanding Hallo Hallo Loan." } ';
+                                EXIT;
+                            END;
+                        END;
+
+                    UNTIL LoansRegister.NEXT = 0;
+                END;
+
+                //=============================================Get penalty
+                MpesaDisbus.RESET;
+                MpesaDisbus.SETCURRENTKEY(MpesaDisbus."Entry No");
+                MpesaDisbus.ASCENDING(FALSE);
+                MpesaDisbus.SETRANGE(MpesaDisbus."Member No", vendorTable."BOSA Account No");
+                MpesaDisbus.SetRange(Penalized, true);
+                IF MpesaDisbus.FIND('-') THEN BEGIN
+                    IF MpesaDisbus."Penalty Date" <> 0D THEN BEGIN
+                        IF (TODAY <= CALCDATE('3M', MpesaDisbus."Penalty Date")) THEN BEGIN
+                            amount := 4;
+                            Res := '4::::You do not Qualify for this loan because You have an been penalized for late Repayment::::False';
+                            Res := '{ "StatusCode":"404","StatusDescription":"OutstandingInstantLoan","LimitAmount":0,"Message":"You do not Qualify for this loan because You have an been penalized for late Repayment." } ';
+                            EXIT;
+                        END;
+                    END;
+                END;
+
+                // ============================================Get Loan Defaulter status
+
+                LoansRegister.RESET;
+                LoansRegister.SETRANGE(LoansRegister."Client Code", Vendor."BOSA Account No");
+                IF LoansRegister.FIND('-') THEN BEGIN
+                    REPEAT
+                        LoansRegister.CALCFIELDS(LoansRegister."Outstanding Balance", LoansRegister."Oustanding Interest");
+                        IF LoansRegister."Outstanding Balance" > 0 THEN BEGIN
+                            IF (LoansRegister."Loans Category-SASRA" = LoansRegister."Loans Category-SASRA"::Substandard)
+                              OR (LoansRegister."Loans Category-SASRA" = LoansRegister."Loans Category-SASRA"::Loss)
+                              OR (LoansRegister."Loans Category-SASRA" = LoansRegister."Loans Category-SASRA"::Doubtful)
+                              OR (LoansRegister."Loans Category-SASRA" = LoansRegister."Loans Category-SASRA"::Watch)
+                            THEN BEGIN
+                                amount := 3;
+                                Res := '3::::Your do not Qualify for this loan because You have loan that is not performing.::::False';
+                                Res := '{ "StatusCode":"405","StatusDescription":"OutstandingM-BamburiLoan","LimitAmount":0,"Message":"Your do not Qualify for this loan because You have loan that is not performing." } ';
+                            END;
+                        END;
+                    UNTIL LoansRegister.NEXT = 0;
+                END;
+
+
+                //=========================================== last 3 months deposit contribution
+                Saccogen.RESET;
+                Saccogen.GET;
+                Saccogen.TESTFIELD("Min. Contribution");
+                MinContribution := Saccogen."Min. Contribution";
+                contributionOk := FALSE;
+                contributionOk := TRUE; // CheckMemberDepositConsistency( Members."No.");
+
+
+                IF contributionOk = FALSE THEN amount := 6;
+                IF amount = 6 THEN BEGIN
+                    Res := '6::::Your do not qualify for this loan because have not consistently saved for last 3 months::::False';
+                    Res := '{ "StatusCode":"406","StatusDescription":"OutstandingMbamburiLoan","LimitAmount":0,"Message":"You do not qualify for this loan because have not consistently saved for last 3 months." } ';
+                    EXIT;
+                END;
+
+                IF amount <> 2 THEN BEGIN
+                    IF amount <> 3 THEN BEGIN
+                        Members.CALCFIELDS(Members."Current Shares", Members."Outstanding Balance", Members."Outstanding Interest");
+
+
+                        amount := Members."Current Shares";
+                        //==================================================Get maximum loan amount
+                        LoanProductsSetup.RESET;
+                        LoanProductsSetup.SETRANGE(LoanProductsSetup.Code, 'INST');
+                        IF LoanProductsSetup.FIND('-') THEN BEGIN
+                            interestAMT := LoanProductsSetup."Interest rate";
+                            MaxLoanAmt := LoanProductsSetup."Max. Loan Amount";
+                        END;
+
+
+                        //Calculate Graduation here... Festus
+                        //10% of Deposits or 30,000
+                        AdvaAmt := Round((10 / 100) * amount, 1, '<');
+
+                        if AdvaAmt >= 30000 then AdvaAmt := 30000;
+                    END;
+
+                    IF AdvaAmt > 0 THEN BEGIN
+                        Res := '{ "StatusCode":"000","StatusDescription":"OK","LimitAmount":"' + Format(AdvaAmt, 0, '<Precision,2:2><Integer><Decimals>') + '","Message":"You qualify for a loan of up to Ksh.' + Format(AdvaAmt) + ' at 7.5% Interest" } ';
+                    END ELSE BEGIN
+                        Res := '{ "StatusCode":"407","StatusDescription":"NoFreeShares","LimitAmount":0,"Message":"You do not qualify for this loan because you do not have free shares." } ';
+                    END;
+                END;
+            END;
+        END;//Vendor
+    end;
+
+    procedure HalloHalloEligibility(phonenumber: Text[50]) Res: Text
+    var
+        DateRegistered: Date;
+        MtodayYear: Decimal;
+        RegYear: Decimal;
+        MRegdate: Decimal;
+        MToday: Decimal;
+        MpesaDisbus: Record "Mobile Loans";
+        Saccogen: Record "Sacco General Set-Up";
+        MinContribution: Decimal;
+        contributionOk: Boolean;
+        interestAMT: Decimal;
+        MaxLoanAmt: Decimal;
+        VarMemberLiability: Decimal;
+        VarMemberSelfLiability: Decimal;
+        FreeSharesSelf: Decimal;
+        FreeShares: Decimal;
+        AdvaAmt: Decimal;
+        SwizzKashTransactionsTable: Record "SwizzKash Transactions";
+        mcount: Decimal;
+        VendorTable: Record Vendor;
+    begin
+        amount := 0;
+        VendorTable.RESET;
+        VendorTable.SETRANGE(vendorTable."Mobile Phone No", phonenumber);
+        IF VendorTable.FIND('-') THEN BEGIN
+            //=================================================must be member for 3 months
+            Members.RESET;
+            Members.SETRANGE(Members."No.", vendorTable."BOSA Account No");
+            IF Members.FIND('-') THEN BEGIN
+                DateRegistered := Members."Registration Date";
+            END;
+
+            IF Members.Status <> Members.Status::Active THEN BEGIN
+                Res := '0::::Your Account is not active::::False';
+                Res := '{ "StatusCode":"400","StatusDescription":"AccountNotActive","LimitAmount":0,"Message":"Your account is not active." } ';
+                EXIT;
+            END;
+
+            IF DateRegistered <> 0D THEN BEGIN
+                MtodayYear := DATE2DMY(TODAY, 3);
+                RegYear := DATE2DMY(DateRegistered, 3);
+                MRegdate := DATE2DMY(DateRegistered, 2);
+
+                MToday := DATE2DMY(TODAY, 2) + MRegdate;
+
+                IF CALCDATE('3M', DateRegistered) > TODAY THEN BEGIN
+                    amount := 1;
+                    Res := '1::::Your do not Qualify for this loan because you should be a member for last 3 Months::::False';
+                    Res := '{ "StatusCode":"401","StatusDescription":"3Months","LimitAmount":0,"Message":"You do not Qualify for this loan because you should be a member for last 3 Months." } ';
+
+                    exit;
+                END;
+            END;
+
+            SwizzKashTransactionsTable.Reset();
+            SwizzKashTransactionsTable.SETRANGE(SwizzKashTransactionsTable."Telephone Number", phonenumber);
+            SwizzKashTransactionsTable.SETRANGE(Posted, FALSE);
+            // SwizzKashTransactionsTable.SETRANGE(Status, SwizzKashTransactionsTable.Status::Pending);
+            SwizzKashTransactionsTable.SETRANGE("Transaction Type", SwizzKashTransactionsTable."Transaction Type"::"Loan Application");
+            IF SwizzKashTransactionsTable.FIND('-') THEN BEGIN
+                Res := '{ "StatusCode":"401","StatusDescription":"LoanApplicationPending","LimitAmount":0,"Message":"You have another mobile loan in applications." } ';
+                exit;
+            END;
+
+            IF amount <> 1 THEN BEGIN
+                LoansRegister.RESET;
+                LoansRegister.SETRANGE(LoansRegister."Client Code", Members."No.");
+                LoansRegister.SETRANGE(LoansRegister.Posted, TRUE);
+                IF LoansRegister.FIND('-') THEN BEGIN
+                    REPEAT
+                        LoansRegister.CALCFIELDS(LoansRegister."Outstanding Balance");
+                        IF (LoansRegister."Outstanding Balance" > 10) THEN BEGIN
+
+                            // =================================== Check if member has an outstanding ELOAN
+
+                            IF (LoansRegister."Loan Product Type" = 'HALL') THEN BEGIN
+                                amount := 2;
+                                Res := '2::::You do not Qualify for this loan because You have an outstanding Hallo Hallo Loan::::False';
+                                Res := '{ "StatusCode":"403","StatusDescription":"OutstandingM-BamburiLoan","LimitAmount":0,"Message":"You do not Qualify for this loan because You have an outstanding Hallo Hallo Loan." } ';
+                                EXIT;
+                            END;
+
+                            IF (LoansRegister."Loan Product Type" = 'Inst') THEN BEGIN
+                                amount := 2;
+                                Res := '2::::You do not Qualify for this loan because You have an outstanding Instant Loan::::False';
+                                Res := '{ "StatusCode":"403","StatusDescription":"OutstandingInstantLoan","LimitAmount":0,"Message":"You do not Qualify for this loan because You have an outstanding Instant Loan." } ';
+                                EXIT;
+                            END;
+                        END;
+
+                    UNTIL LoansRegister.NEXT = 0;
+                END;
+
+                //=============================================Get penalty
+                MpesaDisbus.RESET;
+                MpesaDisbus.SETCURRENTKEY(MpesaDisbus."Entry No");
+                MpesaDisbus.ASCENDING(FALSE);
+                MpesaDisbus.SETRANGE(MpesaDisbus."Member No", vendorTable."BOSA Account No");
+                MpesaDisbus.SetRange(Penalized, true);
+                IF MpesaDisbus.FIND('-') THEN BEGIN
+                    IF MpesaDisbus."Penalty Date" <> 0D THEN BEGIN
+                        IF (TODAY <= CALCDATE('3M', MpesaDisbus."Penalty Date")) THEN BEGIN
+                            amount := 4;
+                            Res := '4::::You do not Qualify for this loan because You have an been penalized for late Repayment::::False';
+                            Res := '{ "StatusCode":"404","StatusDescription":"OutstandingInstantLoan","LimitAmount":0,"Message":"You do not Qualify for this loan because You have an been penalized for late Repayment." } ';
+                            EXIT;
+                        END;
+                    END;
+                END;
+
+                // ============================================Get Loan Defaulter status
+
+                LoansRegister.RESET;
+                LoansRegister.SETRANGE(LoansRegister."Client Code", Vendor."BOSA Account No");
+                IF LoansRegister.FIND('-') THEN BEGIN
+                    REPEAT
+                        LoansRegister.CALCFIELDS(LoansRegister."Outstanding Balance", LoansRegister."Oustanding Interest");
+                        IF LoansRegister."Outstanding Balance" > 0 THEN BEGIN
+                            IF (LoansRegister."Loans Category-SASRA" = LoansRegister."Loans Category-SASRA"::Substandard)
+                              OR (LoansRegister."Loans Category-SASRA" = LoansRegister."Loans Category-SASRA"::Loss)
+                              OR (LoansRegister."Loans Category-SASRA" = LoansRegister."Loans Category-SASRA"::Doubtful)
+                              OR (LoansRegister."Loans Category-SASRA" = LoansRegister."Loans Category-SASRA"::Watch)
+                            THEN BEGIN
+                                amount := 3;
+                                Res := '3::::Your do not Qualify for this loan because You have loan that is not performing.::::False';
+                                Res := '{ "StatusCode":"405","StatusDescription":"OutstandingM-BamburiLoan","LimitAmount":0,"Message":"Your do not Qualify for this loan because You have loan that is not performing." } ';
+                                exit;
+                            END;
+                        END;
+                    UNTIL LoansRegister.NEXT = 0;
+                END;
+
+
+                //=========================================== last 3 months deposit contribution
+                Saccogen.RESET;
+                Saccogen.GET;
+                Saccogen.TESTFIELD("Min. Contribution");
+                MinContribution := Saccogen."Min. Contribution";
+                contributionOk := FALSE;
+                contributionOk := TRUE; // CheckMemberDepositConsistency( Members."No.");
+
+
+                IF contributionOk = FALSE THEN amount := 6;
+                IF amount = 6 THEN BEGIN
+                    Res := '6::::Your do not qualify for this loan because have not consistently saved for last 3 months::::False';
+                    Res := '{ "StatusCode":"406","StatusDescription":"OutstandingMbamburiLoan","LimitAmount":0,"Message":"You do not qualify for this loan because have not consistently saved for last 3 months." } ';
+                    EXIT;
+                END;
+
+                IF amount <> 2 THEN BEGIN
+                    IF amount <> 3 THEN BEGIN
+                        Members.CALCFIELDS(Members."Current Shares", Members."Outstanding Balance", Members."Outstanding Interest");
+                        VarMemberLiability := SFactory.FnGetMemberLiability(Members."No.");
+                        VarMemberSelfLiability := SFactory.FnGetMemberSelfLiability(Members."No.");
+
+                        IF VarMemberSelfLiability > 0 THEN BEGIN
+                            FreeShares := Members."Current Shares" - VarMemberLiability;
+                            IF FreeShares < 0 THEN FreeShares := 0;
+                        END ELSE BEGIN
+                            FreeShares := (Members."Current Shares") * 3 - VarMemberLiability;
+                        END;
+
+                        FreeSharesSelf := Members."Current Shares" - VarMemberLiability;
+                        IF FreeSharesSelf < 0 THEN FreeSharesSelf := 0;
+
+                        FreeShares := FreeSharesSelf;
+
+                        amount := Members."Current Shares";
+                        //==================================================Get maximum loan amount
+                        LoanProductsSetup.RESET;
+                        LoanProductsSetup.SETRANGE(LoanProductsSetup.Code, 'HALL');
+                        IF LoanProductsSetup.FIND('-') THEN BEGIN
+                            interestAMT := LoanProductsSetup."Interest rate";
+                            MaxLoanAmt := LoanProductsSetup."Max. Loan Amount";
+                        END;
+
+                        //10% of Deposits or 30,000
+                        AdvaAmt := Round((10 / 100) * amount, 1, '<');
+
+                        if AdvaAmt >= 30000 then AdvaAmt := 30000;
+                    END;
+
+                    IF AdvaAmt > 0 THEN BEGIN
+                        Res := '{ "StatusCode":"000","StatusDescription":"OK","LimitAmount":"' + Format(AdvaAmt, 0, '<Precision,2:2><Integer><Decimals>') + '","Message":"You qualify for a loan of up to Ksh.' + Format(AdvaAmt) + ' at 15% Interest" } ';
+                    END ELSE BEGIN
+                        Res := '{ "StatusCode":"407","StatusDescription":"NoFreeShares","LimitAmount":0,"Message":"You do not qualify for this loan because you do not have free shares." } ';
+                    END;
+                END;
+            END;
+        END;//Vendor
+    end;
+
+
 
     local procedure ChargesGuarantorInfo(Phone: Text[20]; DocNumber: Text[20]) result: Text[250]
     begin

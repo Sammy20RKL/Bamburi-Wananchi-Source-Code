@@ -32,11 +32,11 @@ page 52028 "Loan Products Chart"
                     if Point.Get('Measures', Token) then begin
                         ValueArray := Token.AsArray();
                         ValueArray.Get(0, Token);
-                        MeasureName := CopyStr(Token.AsValue().AsText(), 1, 249);
+                        MeasureName := CopyStr(Token.AsValue().AsText(), 1, 500);//249
                     end;
 
                     if Point.Get('XValueString', Token) then
-                        XValueString := CopyStr(Token.AsValue().AsText(), 1, 249);
+                        XValueString := CopyStr(Token.AsValue().AsText(), 1, 500);
 
                     if Point.Get('YValues', Token) then begin
                         ValueArray := Token.AsArray();

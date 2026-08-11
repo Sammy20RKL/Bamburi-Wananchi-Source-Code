@@ -90,8 +90,26 @@ codeunit 56701 LoanAgingProcessor
             end;
 
             // Skip zero balance loans
-            if LBal <= 0 then
+            if LBal <= 0 then begin
+                LoansRegister."Amount in Arrears" := 0;
+                LoansRegister."Days In Arrears" := 0;
+                LoansRegister."No of Days in Arrears" := 0;
+                LoansRegister."No of Months in Arrears" := 0;
+                LoansRegister."Loans Category" := LoansRegister."Loans Category"::Perfoming;
+                LoansRegister."Loans Category-SASRA" := LoansRegister."Loans Category-SASRA"::Perfoming;
+                LoansRegister.Performing := true;
+                LoansRegister.watch := false;
+                LoansRegister.Substandard := false;
+                LoansRegister.Doubtful := false;
+                LoansRegister.loss := false;
+
+                TempLoans.TransferFields(LoansRegister);
+                if not TempLoans.Insert() then
+                    TempLoans.Modify();
                 continue;
+
+            end;
+
 
             // Get scheduled balance to calculate arrears 
             LSchedule.Reset();
@@ -120,10 +138,10 @@ codeunit 56701 LoanAgingProcessor
 
             daysinarr := AsAt - LastRepaymentDate;
 
-            if loanNumber in ['LND118', 'LND618'] then
-                daysinarr := AsAt - DMY2Date(31, 12, 2013);
-            IF loanNumber = 'LN8067' then
-                daysinarr := AsAt - DMY2Date(30, 4, 2026);
+            // if loanNumber in ['LND118', 'LND618'] then
+            //     daysinarr := AsAt - DMY2Date(31, 12, 2013);
+            // IF loanNumber = 'LN8067' then
+            //     daysinarr := AsAt - DMY2Date(30, 4, 2026);
             if daysinarr < 0 then
                 daysinarr := 0;
 

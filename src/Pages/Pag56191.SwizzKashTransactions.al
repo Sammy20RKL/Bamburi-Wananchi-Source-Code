@@ -83,6 +83,10 @@ Page 56191 "SwizzKash Transactions"
                 {
                     ApplicationArea = Basic;
                 }
+                field("Loan Type"; Rec."Loan Type")
+                {
+                    ApplicationArea = Basic;
+                }
                 field(Client; Rec.Client)
                 {
                     ApplicationArea = Basic;

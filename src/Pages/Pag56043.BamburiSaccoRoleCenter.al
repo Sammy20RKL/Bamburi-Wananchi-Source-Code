@@ -187,6 +187,15 @@ Page 56043 "Bamburi SACCO Role Center"
                 ToolTip = 'View Posted BOSA Receipts';
                 Visible = true;
             }
+            action("Loans Posted List")
+            {
+                ApplicationArea = Basic, Suite;
+                Caption = 'Loans Posted List';
+                Image = Loaners;
+                RunObject = page "Loans Posted List";
+                Visible = true;
+
+            }
         }
         area(sections)
         {
@@ -1012,9 +1021,18 @@ Page 56043 "Bamburi SACCO Role Center"
                         RunObject = report "Member savings report";
 
                     }
+                    action(MemberColletaralreport)
+                    {
+                        ApplicationArea = all;
+                        Visible = false;
+                        Caption = 'Member collateral report.';
+                        RunObject = report "Member collateral Report";
+
+                    }
                     action(MemberWelfareReport)
                     {
                         ApplicationArea = all;
+                        Visible = false;
                         Caption = 'Member Welfare Report.';
                         RunObject = report "Member Welfare Contributions";
 
@@ -1022,7 +1040,7 @@ Page 56043 "Bamburi SACCO Role Center"
                     action(memberwithoutsharecapitalReport)
                     {
                         ApplicationArea = all;
-                        Caption = 'Members without minimum share capital report.';
+                        Caption = 'Shares capital report.';
                         RunObject = report MemberwithoutMinshapitalreport;
 
                     }
@@ -2012,7 +2030,7 @@ Page 56043 "Bamburi SACCO Role Center"
                         Image = ReceiptLines;
                         Visible = false;
                         RunObject = page "Bamburi Paybill Transactions";
-                        ToolTip = 'This page contains C2B Transactions for paybill Number 751459';
+                        ToolTip = 'This page contains C2B Transactions for paybill Number ------';
                     }
                     action("Sales Form Fee")
                     {
@@ -3163,7 +3181,7 @@ Page 56043 "Bamburi SACCO Role Center"
                 {
                     ApplicationArea = Basic, Suite;
                     RunObject = report "User";
-                    Caption = 'User ID';
+                    Caption = 'Staff List';
                 }
 
                 action("Log Reg")

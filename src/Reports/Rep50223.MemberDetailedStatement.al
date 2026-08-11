@@ -309,7 +309,7 @@ report 50223 "Member Detailed Statement"
                 {
                     //DataItemLink = "Customer No." = FIELD("No."), "Loan No" = FIELD("Loan No"), "Posting Date" = FIELD("Date Filter");
                     DataItemLink = "Customer No." = field("Client Code"), "Loan No" = field("Loan  No."), "Posting Date" = field("Date Filter");//
-                    DataItemTableView = sorting("Posting Date") where("Transaction Type" = filter(Loan | "Loan Repayment" | "Interest Due" | "Interest Paid"), Reversed = filter(false), "Loan No" = filter(<> ''));//, "Outstanding Balance" = filter(> 0)
+                    DataItemTableView = sorting("Posting Date") where("Transaction Type" = filter(Loan | "Loan Repayment" | "Interest Paid"), Reversed = filter(false), "Loan No" = filter(<> ''));//, "Outstanding Balance" = filter(> 0)
 
                     // DataItemTableView = sorting("Posting Date") where("Transaction Type" = FILTER(Loan | "Loan Repayment" | "Interest Due" | "Interest Paid"), Reversed = filter(false));
 
@@ -335,6 +335,13 @@ report 50223 "Member Detailed Statement"
                     {
                     }
                     column(HasInterestRow; HasInterestRow) { }
+                    column(InterestPaidAmount; InterestPaidAmount)
+                    {
+
+                    }
+                    column(RepaymentAmount; RepaymentAmount) { }
+                    column(AmountDisbursed; AmountDisbursed) { }
+                    column(GroupKeySuffix; GroupKeySuffix) { }
                     trigger OnPreDataItem()
                     begin
                         RecordCounter := 0;
@@ -344,12 +351,29 @@ report 50223 "Member Detailed Statement"
 
                     trigger OnAfterGetRecord()
                     begin
+                        RecordCounter += 1;
+                        if Loan."Transaction Type" = Loan."Transaction Type"::Loan then
+                            GroupKeySuffix := Format(RecordCounter)
+                        else
+                            GroupKeySuffix := 'BAMBURI';
+
+                        RepaymentAmount := 0;
+                        InterestPaidAmount := 0;
+                        AmountDisbursed := 0;
                         // Assign Credit and Debit Amounts based on Amount Posted
                         AssignCreditDebitAmounts(Loan."Amount Posted", Loan."Credit Amount", Loan."Debit Amount");
 
                         // Ensure ClosingBalanceLoan is updated correctly
                         if Loan."Transaction Type" IN [Loan."Transaction Type"::Loan, Loan."Transaction Type"::"Loan Repayment"] then
                             ClosingBalanceLoan := ClosingBalanceLoan + (Loan."Credit Amount" - Loan."Debit Amount");
+
+                        if Loan."Transaction Type" IN [Loan."Transaction Type"::Loan] then
+                            AmountDisbursed := Loan."Amount Posted";
+                        if Loan."Transaction Type" IN [Loan."Transaction Type"::"Loan Repayment"] then
+                            RepaymentAmount := Loan."Amount Posted" * -1;
+                        if Loan."Transaction Type" IN [Loan."Transaction Type"::"Interest Paid"] then
+                            InterestPaidAmount := Loan."Amount Posted" * -1;
+
 
                         // Ensure Loan No. is properly checked
                         IF Loan."Loan No" = '' THEN BEGIN
@@ -455,6 +479,9 @@ report 50223 "Member Detailed Statement"
     end;
 
     var
+        AmountDisbursed: Decimal;
+        RepaymentAmount: Decimal;
+        InterestPaidAmount: Decimal;
         HasPrincipalRow: Boolean;
         HasInterestRow: Boolean;
         PrincipalClosingBal: Decimal;
@@ -519,4 +546,5 @@ report 50223 "Member Detailed Statement"
         SumInterestPaid: Decimal;
         LoanInterest: Decimal;
         StartOfYear: Date;
+        GroupKeySuffix: Code[20];
 }

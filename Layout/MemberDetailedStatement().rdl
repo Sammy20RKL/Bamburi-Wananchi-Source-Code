@@ -11,7 +11,7 @@
       <am:Name>PBIRB</am:Name>
       <am:Version>15.7.1813.16</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2026-06-12T05:08:49.9655648Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2026-08-06T10:09:28.0315757Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
@@ -49,8 +49,8 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>1.12152in</Top>
-            <Left>1.22613cm</Left>
+            <Top>1.17662in</Top>
+            <Left>2.30786cm</Left>
             <Height>0.45872cm</Height>
             <Width>19.7525cm</Width>
             <Style>
@@ -68,7 +68,7 @@
             <Top>6.05196cm</Top>
             <Left>0.43129in</Left>
             <Height>0cm</Height>
-            <Width>20.15222cm</Width>
+            <Width>22.69218cm</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -81,25 +81,25 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.86843in</Width>
+                  <Width>1.01129in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.1952in</Width>
+                  <Width>1.33806in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.93404in</Width>
+                  <Width>1.0769in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.85248in</Width>
+                  <Width>1.99534in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.94517in</Width>
+                  <Width>1.08803in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.93364in</Width>
+                  <Width>1.0765in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.20497in</Width>
+                  <Width>1.34783in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -395,7 +395,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Debit </Value>
+                                  <Value>Withdrawn</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -450,7 +450,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Credit </Value>
+                                  <Value>Paid In</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1106,7 +1106,7 @@
             <Top>2.42433in</Top>
             <Left>0.43129in</Left>
             <Height>0.81499in</Height>
-            <Width>7.93393in</Width>
+            <Width>8.93395in</Width>
             <ZIndex>2</ZIndex>
             <Style>
               <Border>
@@ -1138,25 +1138,25 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.86843in</Width>
+                  <Width>1.01129in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.1952in</Width>
+                  <Width>1.33806in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.93404in</Width>
+                  <Width>1.0769in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.85248in</Width>
+                  <Width>1.99534in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.94517in</Width>
+                  <Width>1.08803in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.93364in</Width>
+                  <Width>1.0765in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.20497in</Width>
+                  <Width>1.34783in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -1452,7 +1452,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Debit</Value>
+                                  <Value>Withdrawn</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1507,7 +1507,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Credit</Value>
+                                  <Value>Paid In</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -2159,7 +2159,7 @@
             <Top>4.40473in</Top>
             <Left>0.43129in</Left>
             <Height>0.81499in</Height>
-            <Width>7.93393in</Width>
+            <Width>8.93395in</Width>
             <ZIndex>3</ZIndex>
             <Style>
               <Border>
@@ -2191,25 +2191,25 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.86843in</Width>
+                  <Width>1.01129in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.1952in</Width>
+                  <Width>1.33806in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.93404in</Width>
+                  <Width>1.0769in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.85248in</Width>
+                  <Width>1.99534in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.94517in</Width>
+                  <Width>1.08803in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.93364in</Width>
+                  <Width>1.0765in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.20497in</Width>
+                  <Width>1.34783in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -3212,7 +3212,7 @@
             <Top>6.28449in</Top>
             <Left>0.43129in</Left>
             <Height>0.81499in</Height>
-            <Width>7.93393in</Width>
+            <Width>8.93395in</Width>
             <ZIndex>4</ZIndex>
             <Style>
               <Border>
@@ -3258,8 +3258,8 @@
                 <Style />
               </Paragraph>
             </Paragraphs>
-            <Top>1.32191in</Top>
-            <Left>0.48273in</Left>
+            <Top>1.37701in</Top>
+            <Left>0.90861in</Left>
             <Height>0.19054in</Height>
             <Width>1.88772in</Width>
             <ZIndex>5</ZIndex>
@@ -3292,8 +3292,8 @@
                 <Style />
               </Paragraph>
             </Paragraphs>
-            <Top>1.32191in</Top>
-            <Left>2.15444in</Left>
+            <Top>1.37701in</Top>
+            <Left>2.58032in</Left>
             <Height>0.19054in</Height>
             <Width>2.54811in</Width>
             <ZIndex>6</ZIndex>
@@ -3325,8 +3325,8 @@
                 <Style />
               </Paragraph>
             </Paragraphs>
-            <Top>1.51245in</Top>
-            <Left>0.48273in</Left>
+            <Top>1.56755in</Top>
+            <Left>0.90861in</Left>
             <Height>0.22179in</Height>
             <Width>1.88772in</Width>
             <ZIndex>7</ZIndex>
@@ -3360,8 +3360,8 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>1.51245in</Top>
-            <Left>2.15444in</Left>
+            <Top>1.56755in</Top>
+            <Left>2.58032in</Left>
             <Height>0.22179in</Height>
             <Width>2.54811in</Width>
             <ZIndex>8</ZIndex>
@@ -3393,8 +3393,8 @@
                 <Style />
               </Paragraph>
             </Paragraphs>
-            <Top>1.73423in</Top>
-            <Left>0.48273in</Left>
+            <Top>1.78933in</Top>
+            <Left>0.90861in</Left>
             <Height>0.17662in</Height>
             <Width>1.88772in</Width>
             <ZIndex>9</ZIndex>
@@ -3428,8 +3428,8 @@
                 <Style />
               </Paragraph>
             </Paragraphs>
-            <Top>1.73423in</Top>
-            <Left>2.176in</Left>
+            <Top>1.78933in</Top>
+            <Left>2.60188in</Left>
             <Height>0.17662in</Height>
             <Width>2.54811in</Width>
             <ZIndex>10</ZIndex>
@@ -3461,8 +3461,8 @@
                 <Style />
               </Paragraph>
             </Paragraphs>
-            <Top>1.91086in</Top>
-            <Left>0.48273in</Left>
+            <Top>1.96596in</Top>
+            <Left>0.90861in</Left>
             <Height>0.1389in</Height>
             <Width>1.88772in</Width>
             <ZIndex>11</ZIndex>
@@ -3496,8 +3496,8 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>1.91086in</Top>
-            <Left>2.15444in</Left>
+            <Top>1.96596in</Top>
+            <Left>2.58032in</Left>
             <Height>0.1389in</Height>
             <Width>2.54811in</Width>
             <ZIndex>12</ZIndex>
@@ -3529,8 +3529,8 @@
                 <Style />
               </Paragraph>
             </Paragraphs>
-            <Top>1.30802in</Top>
-            <Left>4.73359in</Left>
+            <Top>1.36312in</Top>
+            <Left>5.07286in</Left>
             <Height>0.19054in</Height>
             <Width>1.42824in</Width>
             <ZIndex>13</ZIndex>
@@ -3566,8 +3566,8 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>1.30802in</Top>
-            <Left>6.04269in</Left>
+            <Top>1.36312in</Top>
+            <Left>6.46857in</Left>
             <Height>0.19054in</Height>
             <Width>2.21661in</Width>
             <ZIndex>14</ZIndex>
@@ -3599,8 +3599,8 @@
                 <Style />
               </Paragraph>
             </Paragraphs>
-            <Top>1.56755in</Top>
-            <Left>4.7581in</Left>
+            <Top>1.62265in</Top>
+            <Left>5.07286in</Left>
             <Height>0.16274in</Height>
             <Width>1.88772in</Width>
             <ZIndex>15</ZIndex>
@@ -3632,8 +3632,8 @@
                 <Style />
               </Paragraph>
             </Paragraphs>
-            <Top>1.75806in</Top>
-            <Left>4.64698in</Left>
+            <Top>1.81316in</Top>
+            <Left>5.07286in</Left>
             <Height>0.19445in</Height>
             <Width>1.2052in</Width>
             <ZIndex>16</ZIndex>
@@ -3667,8 +3667,8 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>1.7303in</Top>
-            <Left>5.53596in</Left>
+            <Top>1.7854in</Top>
+            <Left>5.96184in</Left>
             <Height>0.19445in</Height>
             <Width>2.74786in</Width>
             <ZIndex>17</ZIndex>
@@ -3684,7 +3684,7 @@
           </Textbox>
           <Line Name="Line3">
             <Top>2.77811cm</Top>
-            <Left>0.48273in</Left>
+            <Left>0.9086in</Left>
             <Height>0cm</Height>
             <Width>19.75248cm</Width>
             <ZIndex>18</ZIndex>
@@ -3699,25 +3699,25 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.86843in</Width>
+                  <Width>1.01129in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.1952in</Width>
+                  <Width>1.33806in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.93404in</Width>
+                  <Width>1.0769in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.85248in</Width>
+                  <Width>1.99534in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.94517in</Width>
+                  <Width>1.08803in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.93364in</Width>
+                  <Width>1.0765in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.20497in</Width>
+                  <Width>1.34783in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -4013,7 +4013,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Debit</Value>
+                                  <Value>Withdrawn</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -4068,7 +4068,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Credit</Value>
+                                  <Value>Paid In</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -4720,7 +4720,7 @@
             <Top>3.41107in</Top>
             <Left>0.43129in</Left>
             <Height>0.81499in</Height>
-            <Width>7.93393in</Width>
+            <Width>8.93395in</Width>
             <ZIndex>19</ZIndex>
             <Style>
               <Border>
@@ -4752,25 +4752,25 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.86843in</Width>
+                  <Width>1.01129in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.1952in</Width>
+                  <Width>1.33806in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.93404in</Width>
+                  <Width>1.0769in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.85248in</Width>
+                  <Width>1.99534in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.94517in</Width>
+                  <Width>1.08803in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.93364in</Width>
+                  <Width>1.0765in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.20497in</Width>
+                  <Width>1.34783in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -5773,7 +5773,7 @@
             <Top>7.16018in</Top>
             <Left>0.43129in</Left>
             <Height>0.81499in</Height>
-            <Width>7.93393in</Width>
+            <Width>8.93395in</Width>
             <ZIndex>20</ZIndex>
             <Style>
               <Border>
@@ -5805,25 +5805,25 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.86843in</Width>
+                  <Width>1.01129in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.1952in</Width>
+                  <Width>1.33806in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.93404in</Width>
+                  <Width>1.0769in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.85248in</Width>
+                  <Width>1.99534in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.94517in</Width>
+                  <Width>1.08803in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.93364in</Width>
+                  <Width>1.0765in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.20497in</Width>
+                  <Width>1.34783in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -6826,7 +6826,7 @@
             <Top>8.03617in</Top>
             <Left>0.43129in</Left>
             <Height>0.81499in</Height>
-            <Width>7.93393in</Width>
+            <Width>8.93395in</Width>
             <ZIndex>21</ZIndex>
             <Style>
               <Border>
@@ -6858,25 +6858,25 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.86843in</Width>
+                  <Width>1.01129in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.1952in</Width>
+                  <Width>1.33806in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.93404in</Width>
+                  <Width>1.0769in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.85248in</Width>
+                  <Width>1.99534in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.94517in</Width>
+                  <Width>1.08803in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.93364in</Width>
+                  <Width>1.0765in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.20497in</Width>
+                  <Width>1.34783in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -7879,7 +7879,7 @@
             <Top>8.91018in</Top>
             <Left>0.43129in</Left>
             <Height>0.81499in</Height>
-            <Width>7.93393in</Width>
+            <Width>8.93395in</Width>
             <ZIndex>22</ZIndex>
             <Style>
               <Border>
@@ -7924,8 +7924,8 @@
                 <Style />
               </Paragraph>
             </Paragraphs>
-            <Top>2.04976in</Top>
-            <Left>0.48273in</Left>
+            <Top>2.10486in</Top>
+            <Left>0.90861in</Left>
             <Height>0.18706in</Height>
             <Width>1.86615in</Width>
             <ZIndex>23</ZIndex>
@@ -7954,8 +7954,8 @@
                 <Style />
               </Paragraph>
             </Paragraphs>
-            <Top>2.04976in</Top>
-            <Left>2.18221in</Left>
+            <Top>2.10486in</Top>
+            <Left>2.60809in</Left>
             <Height>0.18706in</Height>
             <Width>2.52033in</Width>
             <ZIndex>24</ZIndex>
@@ -7986,8 +7986,8 @@
                 <Style />
               </Paragraph>
             </Paragraphs>
-            <Top>1.98029in</Top>
-            <Left>4.64698in</Left>
+            <Top>2.03539in</Top>
+            <Left>5.07286in</Left>
             <Height>0.15928in</Height>
             <Width>1.42824in</Width>
             <ZIndex>25</ZIndex>
@@ -8018,8 +8018,8 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>1.95253in</Top>
-            <Left>6.08912in</Left>
+            <Top>2.00763in</Top>
+            <Left>6.515in</Left>
             <Height>0.15928in</Height>
             <Width>2.1947in</Width>
             <ZIndex>26</ZIndex>
@@ -8053,8 +8053,8 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>0.125in</Top>
-            <Left>1.9473in</Left>
+            <Top>0.15278in</Top>
+            <Left>2.0098in</Left>
             <Height>0.17708in</Height>
             <Width>5.47974in</Width>
             <ZIndex>27</ZIndex>
@@ -8101,8 +8101,8 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>0.30208in</Top>
-            <Left>1.9473in</Left>
+            <Top>0.32986in</Top>
+            <Left>2.0098in</Left>
             <Height>0.25in</Height>
             <Width>5.47974in</Width>
             <ZIndex>28</ZIndex>
@@ -8154,8 +8154,8 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>0.55208in</Top>
-            <Left>1.9473in</Left>
+            <Top>0.57986in</Top>
+            <Left>2.0098in</Left>
             <Height>0.25in</Height>
             <Width>5.47974in</Width>
             <ZIndex>29</ZIndex>
@@ -8201,8 +8201,8 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>0.80208in</Top>
-            <Left>1.9473in</Left>
+            <Top>0.82986in</Top>
+            <Left>2.0098in</Left>
             <Height>0.25in</Height>
             <Width>5.47974in</Width>
             <ZIndex>30</ZIndex>
@@ -8233,25 +8233,25 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.86843in</Width>
+                  <Width>1.01129in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.1952in</Width>
+                  <Width>1.33806in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.93404in</Width>
+                  <Width>1.0769in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.85248in</Width>
+                  <Width>1.99534in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.94517in</Width>
+                  <Width>1.08803in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.93364in</Width>
+                  <Width>1.0765in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.20497in</Width>
+                  <Width>1.34783in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -9254,7 +9254,7 @@
             <Top>5.41069in</Top>
             <Left>0.43129in</Left>
             <Height>0.81499in</Height>
-            <Width>7.93393in</Width>
+            <Width>8.93395in</Width>
             <ZIndex>31</ZIndex>
             <Style>
               <Border>
@@ -9299,8 +9299,8 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>1.56755in</Top>
-            <Left>6.50694in</Left>
+            <Top>1.62265in</Top>
+            <Left>6.93282in</Left>
             <Height>0.16274in</Height>
             <Width>1.77688in</Width>
             <ZIndex>32</ZIndex>
@@ -9334,6 +9334,9 @@
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.93364in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>1.20497in</Width>
@@ -9394,9 +9397,10 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <ColSpan>7</ColSpan>
+                        <ColSpan>8</ColSpan>
                       </CellContents>
                     </TablixCell>
+                    <TablixCell />
                     <TablixCell />
                     <TablixCell />
                     <TablixCell />
@@ -9517,6 +9521,40 @@
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox12">
+                          <rd:DefaultName>Textbox12</rd:DefaultName>
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="OutstandingBalance_Loans2">
@@ -9664,6 +9702,38 @@
                     <TablixCell />
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox13">
+                          <rd:DefaultName>Textbox13</rd:DefaultName>
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="OustandingInterest_Loans2">
                           <rd:DefaultName>OustandingInterest_Loans</rd:DefaultName>
                           <CanGrow>true</CanGrow>
@@ -9807,6 +9877,38 @@
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox14">
+                          <rd:DefaultName>Textbox14</rd:DefaultName>
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox22">
@@ -10075,7 +10177,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Debit</Value>
+                                  <Value>Loan</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -10131,7 +10233,63 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Credit</Value>
+                                  <Value>Repayment</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </RightBorder>
+                            <BackgroundColor>SeaGreen</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox15">
+                          <rd:DefaultName>Textbox15</rd:DefaultName>
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Interest Paid</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -10283,7 +10441,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!TransactionType_loan.Value</Value>
+                                  <Value>=IIF(Sum(Fields!RepaymentAmount.Value) &lt;&gt; 0 OR Sum(Fields!InterestPaidAmount.Value) &lt;&gt; 0, "Repayment", Fields!TransactionType_loan.Value)</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -10381,7 +10539,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!DebitAmount_Loan.Value</Value>
+                                  <Value>=Fields!AmountDisbursed.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -10416,7 +10574,42 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!CreditAmount_Loan.Value</Value>
+                                  <Value>=Sum(Fields!RepaymentAmount.Value)</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <Format>#,0.00;#,0.00-;''</Format>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="AmountPosted_ShareCapitalFormat">
+                          <rd:DefaultName>AmountPosted_ShareCapitalFormat</rd:DefaultName>
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Sum(Fields!InterestPaidAmount.Value)</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -10548,21 +10741,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(
-    IIF(
-        Fields!TransactionType_loan.Value = "Loan" 
-        OR 
-        Fields!TransactionType_loan.Value = "Repayment",
-        
-        IIF(
-            IsNothing(Fields!DebitAmount_Loan.Value),
-            0,
-            CDbl(Fields!DebitAmount_Loan.Value)
-        ),
-        
-        0
-    )
-)</Value>
+                                  <Value>=Sum(Fields!AmountDisbursed.Value)</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -10618,21 +10797,63 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(
-    IIF(
-        Fields!TransactionType_loan.Value = "Loan" 
-        OR 
-        Fields!TransactionType_loan.Value = "Repayment",
-        
-        IIF(
-            IsNothing(Fields!CreditAmount_Loan.Value),
-            0,
-            CDbl(Fields!CreditAmount_Loan.Value)
-        ),
-        
-        0
-    )
-)</Value>
+                                  <Value>=Sum(Fields!RepaymentAmount.Value)</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Format>#,0.00;#,0.00-;'-'</Format>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </RightBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Company_Picture">
+                          <rd:DefaultName>Company_Picture</rd:DefaultName>
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Sum(Fields!InterestPaidAmount.Value)</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -10692,7 +10913,7 @@
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
-                                    <Format>#,0.00;#,0.00-;''</Format>
+                                    <Format>#,0.00;#,0.00-;0.00</Format>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -10794,7 +11015,6 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <rd:Selected>true</rd:Selected>
                         <Textbox Name="Textbox6">
                           <rd:DefaultName>Textbox6</rd:DefaultName>
                           <CanGrow>true</CanGrow>
@@ -11069,6 +11289,62 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox18">
+                          <rd:DefaultName>Textbox18</rd:DefaultName>
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Color>White</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>White</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Color>White</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Color>White</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </RightBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="Textbox11">
                           <rd:DefaultName>Textbox11</rd:DefaultName>
                           <CanGrow>true</CanGrow>
@@ -11135,6 +11411,7 @@
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
+                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -11181,7 +11458,11 @@
                               <KeepWithGroup>After</KeepWithGroup>
                             </TablixMember>
                             <TablixMember>
-                              <Group Name="Details4" />
+                              <Group Name="Details4">
+                                <GroupExpressions>
+                                  <GroupExpression>=Fields!PostingDate_loan.Value &amp; "|" &amp; Fields!GroupKeySuffix.Value</GroupExpression>
+                                </GroupExpressions>
+                              </Group>
                               <TablixMembers>
                                 <TablixMember />
                               </TablixMembers>
@@ -11218,10 +11499,10 @@
                 <Value>=Fields!PostingDate_loan.Value</Value>
               </SortExpression>
             </SortExpressions>
-            <Top>9.82738in</Top>
-            <Left>0.43129in</Left>
+            <Top>9.78918in</Top>
+            <Left>0.48274in</Left>
             <Height>1.74078in</Height>
-            <Width>7.93393in</Width>
+            <Width>8.93393in</Width>
             <ZIndex>33</ZIndex>
             <Style>
               <Border>
@@ -11254,8 +11535,8 @@
             <Value>=First(Fields!Company_Picture.Value, "DataSet_Result")</Value>
             <MIMEType>image/png</MIMEType>
             <Sizing>FitProportional</Sizing>
-            <Top>0.16817cm</Top>
-            <Left>1.22615cm</Left>
+            <Top>0.23872cm</Top>
+            <Left>1.68828cm</Left>
             <Height>2.43356cm</Height>
             <Width>3.24023cm</Width>
             <ZIndex>34</ZIndex>
@@ -11266,13 +11547,13 @@
             </Style>
           </Image>
         </ReportItems>
-        <Height>12.05079in</Height>
+        <Height>11.5994in</Height>
         <Style />
       </Body>
-      <Width>8.74445in</Width>
+      <Width>9.41667in</Width>
       <Page>
         <PageFooter>
-          <Height>1in</Height>
+          <Height>0.33821in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -11291,8 +11572,8 @@
                   <Style />
                 </Paragraph>
               </Paragraphs>
-              <Top>0.20143in</Top>
-              <Left>4.06472in</Left>
+              <Top>0.05556in</Top>
+              <Left>3.72411in</Left>
               <Height>0.25in</Height>
               <Width>1in</Width>
               <Style>
@@ -11312,8 +11593,10 @@
             </Border>
           </Style>
         </PageFooter>
-        <PageHeight>12.5in</PageHeight>
-        <PageWidth>8.9in</PageWidth>
+        <PageHeight>12in</PageHeight>
+        <PageWidth>9.9in</PageWidth>
+        <InteractiveHeight>12in</InteractiveHeight>
+        <InteractiveWidth>9.9in</InteractiveWidth>
         <Style />
       </Page>
     </ReportSection>
@@ -11894,6 +12177,27 @@ End Function
         </Field>
         <Field Name="HasInterestRow">
           <DataField>HasInterestRow</DataField>
+        </Field>
+        <Field Name="InterestPaidAmount">
+          <DataField>InterestPaidAmount</DataField>
+        </Field>
+        <Field Name="InterestPaidAmountFormat">
+          <DataField>InterestPaidAmountFormat</DataField>
+        </Field>
+        <Field Name="RepaymentAmount">
+          <DataField>RepaymentAmount</DataField>
+        </Field>
+        <Field Name="RepaymentAmountFormat">
+          <DataField>RepaymentAmountFormat</DataField>
+        </Field>
+        <Field Name="AmountDisbursed">
+          <DataField>AmountDisbursed</DataField>
+        </Field>
+        <Field Name="AmountDisbursedFormat">
+          <DataField>AmountDisbursedFormat</DataField>
+        </Field>
+        <Field Name="GroupKeySuffix">
+          <DataField>GroupKeySuffix</DataField>
         </Field>
       </Fields>
       <Query>

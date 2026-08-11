@@ -50,6 +50,7 @@ page 57000 "Portal User Card"
                 }
                 field(Password; Rec.Password)
                 {
+                    Editable = false;
                 }
             }
         }

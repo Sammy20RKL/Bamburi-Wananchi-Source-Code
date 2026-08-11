@@ -642,6 +642,10 @@ page 50411 "Sacco General Set-Up"
                     ApplicationArea = Basic;
                     Caption = 'Send Cash Withdrawal SMS';
                 }
+                field("Bamburi Email"; Rec."Bamburi Email")
+                {
+                    ApplicationArea = Basic;
+                }
             }
             group("Email Notifications")
             {

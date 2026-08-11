@@ -4,7 +4,7 @@ page 50575 "Mobile PIN Reset"
     CardPageID = "SwizzKash PIN Reset Card";
     DelayedInsert = true;
     DeleteAllowed = true;
-    InsertAllowed = false;
+    InsertAllowed = true;
     PageType = List;
     SourceTable = "SwizzKash Applications";
 
@@ -28,7 +28,7 @@ page 50575 "Mobile PIN Reset"
                 field(Telephone; Rec.Telephone)
                 {
                     ApplicationArea = Basic;
-                    Editable = false;
+                    Editable = true;
                 }
                 field(SentToServer; Rec.SentToServer)
                 {

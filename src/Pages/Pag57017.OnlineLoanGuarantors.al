@@ -24,7 +24,7 @@ page 57017 "Online Loan Guarantors"
                 field(Names; Rec.Names)
                 {
                 }
-                field("Email Address"; Rec."Email Address")
+                field(Telephone; Rec.Telephone)
                 {
                 }
                 field("ID No"; Rec."ID No")
@@ -33,8 +33,9 @@ page 57017 "Online Loan Guarantors"
                 field(Amount; Rec.Amount)
                 {
                 }
-                field("Approval Status"; Rec."Approval Status")
+                field(Approved; Rec.Approved)
                 {
+                    Editable = false;
                 }
             }
         }
