@@ -559,7 +559,7 @@ Report 51008 "Other Disclosures"
                             GLEntry.CALCSUMS(Amount);
                             Allowanceforloanloss += GLEntry.Amount;
                         END;
-                    UNTIL GLAccount.NEXT = 0;
+                    UNTIL GLAccount.NEXT = 0;   
 
                 END;
                 Allowanceforloanloss := 0;

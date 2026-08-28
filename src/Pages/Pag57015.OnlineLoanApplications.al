@@ -21,6 +21,7 @@ page 57015 "Online Loan Applications"
                 field("BOSA No"; Rec."BOSA No")
                 {
                 }
+                field("Member Names"; Rec."Member Names") { }
                 field("Loan No"; Rec."Loan No")
                 {
                 }

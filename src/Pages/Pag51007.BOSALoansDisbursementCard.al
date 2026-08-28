@@ -1182,7 +1182,7 @@ Page 51007 "BOSA Loans Disbursement Card"
                     VarAmounttoDisburse := VarAmounttoDisburse - (LoanTopUp."Principle Top Up" + LoanTopUp."Interest Top Up2");
 
                     //**************Loan Principal Posting**********************************
-                    totalOffsetAmount := (LoanTopUp."Principle Top Up" + LoanTopUp."Interest Top Up2");
+                    totalOffsetAmount := (LoanTopUp."Principle Top Up" + LoanTopUp."Interest Top Up2" + LoanTopUp.Commision);
                     fullOfsetAmount := fullOfsetAmount + totalOffsetAmount;
                     LineNo := LineNo + 10000;
                     SFactory.FnCreateGnlJournalLine(TemplateName, BatchName, Rec."Loan  No.", LineNo, GenJournalLine."Transaction Type"::Loan, GenJournalLine."Account Type"::Customer, LoanApps."Client Code", DirbursementDate, LoanTopUp."Principle Top Up", 'BOSA', LoanApps."Loan  No.", 'Loan Offset - ' + LoanApps."Loan Product Type" + ' ' + LoanTopUp."Loan Top Up", LoanApps."Loan  No.");

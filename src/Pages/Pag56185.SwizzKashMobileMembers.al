@@ -4,8 +4,8 @@ Page 56185 "SwizzKash Mobile Members"
     ApplicationArea = Basic;
     PageType = List;
     Editable = false;
-    InsertAllowed = false;
-    deleteallowed = false;
+    InsertAllowed = true;
+    deleteallowed = true;
     SourceTable = "SwizzKash Applications";
     UsageCategory = Lists;
 

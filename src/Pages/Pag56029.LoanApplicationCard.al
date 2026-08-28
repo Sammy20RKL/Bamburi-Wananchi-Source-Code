@@ -217,7 +217,7 @@ Page 56029 "Loan Application Card"
                     ShowMandatory = false;
                     Style = Ambiguous;
                     Editable = MNoEditable;
-                    Visible = false;
+                    Visible = true;
 
 
                     trigger OnValidate()
@@ -229,7 +229,7 @@ Page 56029 "Loan Application Card"
                 {
                     ApplicationArea = Basic;
                     ShowMandatory = true;
-                    Visible = false;
+                    Visible = true;
                     TableRelation = "Sub Sector".Code where(No = field("Main-Sector"));
 
                     trigger OnValidate()
@@ -241,7 +241,7 @@ Page 56029 "Loan Application Card"
                 {
                     ApplicationArea = Basic;
                     ShowMandatory = true;
-                    Visible = false;
+                    Visible = true;
                     TableRelation = "Specific Sector".Code where(No = field("Sub-Sector"));
 
                     trigger OnValidate()
@@ -257,7 +257,7 @@ Page 56029 "Loan Application Card"
                 field("Witness Name"; Rec."Witness Name")
                 {
                     ApplicationArea = basic;
-                    Editable = false;
+                    Editable = true;
                 }
                 field("Is Top Up"; Rec."Is Top Up")
                 {

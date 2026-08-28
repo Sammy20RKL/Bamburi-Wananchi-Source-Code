@@ -484,8 +484,8 @@ End Function
         <Field Name="UserID_SessionEvent">
           <DataField>UserID_SessionEvent</DataField>
         </Field>
-        <Field Name="ClientComputerName_SessionEvent">
-          <DataField>ClientComputerName_SessionEvent</DataField>
+        <Field Name="ClientComputekrName_SessionEvent">
+          <DataField>ClientComputekrName_SessionEvent</DataField>
         </Field>
         <Field Name="DatabaseName_SessionEvent">
           <DataField>DatabaseName_SessionEvent</DataField>

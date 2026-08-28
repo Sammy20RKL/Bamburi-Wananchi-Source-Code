@@ -6,6 +6,7 @@ Codeunit 51120 PORTALIntegration
         // OnlineLoanApplication('BWS1973', 'NORM2', 10000, 'TESTING', 4, 'WXEFFF1234')
         // FnMemberApply('Festus', 'Kilaka', 'Mutinda', '101010', 'Residence', '101010', 'Kenya', '0743901110', 'fesmutinda@g', '38960145', 'Nairobi', 'Nairobi', '19101010', 2, 1, 1, 1, 'BOSA', 'Swizsoft', Today, 'WXEFFF123');
         // SubmitLoan('BWS1973', 'PLN0003');
+        // Message(SubmitLoan('BWS2009', 'PLN0023'));
     end;
 
     var
@@ -3035,15 +3036,15 @@ Codeunit 51120 PORTALIntegration
     procedure deleteLoanApplication(memberNumber: Code[20]; loanNumber: Code[20]) isDeleted: Boolean
     var
         onlineLoanTable: Record "Online Loan Application";
+        OnlineGuarantorDetails: Record "Online Loan Guarantors";
     begin
         isDeleted := false;
-        onlineLoanTable.Reset();
-        onlineLoanTable.SetRange("BOSA No", memberNumber);
-        onlineLoanTable.SetRange("Application No", loanNumber);
-        if onlineLoanTable.Find('-') then begin
-            onlineLoanTable."Application Status" := onlineLoanTable."Application Status"::Deleted;
-            onlineLoanTable.Modify();
+        OnlineGuarantorDetails.Reset();
+        OnlineGuarantorDetails.SetRange("Member No", memberNumber);
+        OnlineGuarantorDetails.SetRange("Loan Application No", loanNumber);
+        if OnlineGuarantorDetails.Find('-') then begin
 
+            OnlineGuarantorDetails.Delete();
             isDeleted := true;
             exit;
         end;
@@ -3281,7 +3282,7 @@ Codeunit 51120 PORTALIntegration
         salesFormFee.SetRange(Used, false);
         salesFormFee.SetRange("Member Application No.", '');
         if not salesFormFee.Find('-') then begin
-            GeneratedApplicationNo := 'Already used M-pesa code';
+            GeneratedApplicationNo := 'Invalid Mpesa code, Please Check your code and try again. ';
             exit;
         end;
 
@@ -3437,9 +3438,11 @@ Codeunit 51120 PORTALIntegration
                 end;
                 ObjLoansregister.Init();
                 ObjLoansregister."Client Code" := ObjLoanApplications."BOSA No";
+                ObjLoansregister.Validate("Client Code");
                 ObjLoansregister.Source := ObjLoansregister.Source::BOSA;
                 ObjLoansregister."Application Date" := ObjLoanApplications."Application Date";
                 ObjLoansregister."Loan Product Type" := ObjLoanApplications."Loan Type";
+                ObjLoansregister.Validate("Loan Product Type");
                 ObjLoansregister."Loan Status" := ObjLoansregister."Loan Status"::Application;
                 ObjLoansregister.Posted := false;
                 ObjLoansregister."Approval Status" := ObjLoansregister."Approval Status"::Open;
@@ -3451,6 +3454,7 @@ Codeunit 51120 PORTALIntegration
                     ObjLoanApplications."Application Status" := ObjLoanApplications."Application Status"::Submitted;
                     ObjLoanApplications.Posted := true;
                     ObjLoanApplications.Modify(true);
+
                     OnlineLoanGuarantors.Reset();
                     OnlineLoanGuarantors.SetRange(OnlineLoanGuarantors."Loan Application No", loanNumber);
                     OnlineLoanGuarantors.SetRange(OnlineLoanGuarantors.Approved, OnlineLoanGuarantors.Approved::Approved);
@@ -3506,20 +3510,22 @@ Codeunit 51120 PORTALIntegration
     procedure submitGuarantors(memberNumber: Code[20]; loanNumber: Code[20]; loanNo: Code[20])
     var
         loanGuarantors: Record "Loans Guarantee Details";
+        portalGuarantors: Record "Online Loan Guarantors";
     begin
-        OnlineLoanGuarantors.Reset();
-        OnlineLoanGuarantors.SetRange(OnlineLoanGuarantors."Loan Application No", loanNumber);
-        if OnlineLoanGuarantors.Find('-') then begin
+        portalGuarantors.Reset();
+        portalGuarantors.SetRange(portalGuarantors."Loan Application No", loanNumber);
+        portalGuarantors.SetRange(portalGuarantors."Member No", memberNumber);
+        if portalGuarantors.Find('-') then begin
             loanGuarantors.Init();
             loanGuarantors."Loan No" := loanNo;
-            loanGuarantors."Account No." := OnlineLoanGuarantors."Member No";
-            loanGuarantors."Member No" := OnlineLoanGuarantors."Member No";
-            loanGuarantors."Amont Guaranteed" := OnlineLoanGuarantors.Amount;
+            loanGuarantors."Account No." := portalGuarantors."Member No";
+            loanGuarantors."Member No" := portalGuarantors."Member No";
+            loanGuarantors."Amont Guaranteed" := portalGuarantors.Amount;
             loanGuarantors.Validate(loanGuarantors."Member No");
             loanGuarantors.Validate(loanGuarantors."Amont Guaranteed");
             loanGuarantors.Insert(true);
 
-            // OnlineLoanGuarantors
+            // portalGuarantors
         end;
 
     end;
@@ -3539,7 +3545,7 @@ Codeunit 51120 PORTALIntegration
             objMember.Reset;
             objMember.SetRange(objMember."No.", BosaNo);
             objMember.SetFilter(Status, '%1', objMember.Status::Active);
-            Message('test1');
+            // Message('test1');
             if objMember.Find('-') then begin
                 OnlineLoanGuarantors.Init;
                 OnlineLoanGuarantors."Entry No" := NewApplicationNumber;
@@ -3557,7 +3563,7 @@ Codeunit 51120 PORTALIntegration
                 OnlineLoanGuarantors."Approval Status" := false;
                 OnlineLoanGuarantors.Insert;
                 guaranteed := true;
-                Message('test3');
+                // Message('test3');
 
                 ObjLoanApplications.Get(LoanNumber);
                 //send sms to guarantor

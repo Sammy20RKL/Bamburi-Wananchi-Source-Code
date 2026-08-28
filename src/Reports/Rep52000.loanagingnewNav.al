@@ -360,19 +360,21 @@ Report 52000 "loan aging new Nav"
                 // CurrReport.CreateTotals("0Month", "1Month", "2Month", "3Month", Over3Month);
                 GrandTotal := 0;
 
-                if AsAt <> 0D then
-                    DFilter := '..' + Format(AsAt);
-
                 if AsAt = 0D then
                     AsAt := Today;
+
+                if AsAt <> 0D then
+                    DFilter := '..' + Format(AsAt);
 
                 //Reset all loans within that period to performing...
                 "Loans Register".SetFilter("Loans Register"."Date filter", DFilter);
                 "Loans Register".SetFilter("Loans Register"."Issued Date", '<=%1', AsAt);
+                "Loans Register".SetAutoCalcFields("Outstanding Balance");
                 if loanNumber <> '' then
                     "Loans Register".SetRange("Loan  No.", loanNumber);
-                LoanApp.Reset;
-                if LoanApp.FindSet then begin
+
+                LoanApp.Reset();
+                if LoanApp.FindSet() then begin
                     repeat
                         LoanApp.Performing := false;
                         LoanApp.watch := false;

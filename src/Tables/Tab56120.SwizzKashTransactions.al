@@ -106,6 +106,25 @@ Table 56120 "SwizzKash Transactions"
         }
         field(33; "Loan Period"; Integer) { }
         field(34; "Loan Type"; Code[20]) { }
+        field(35; "Reverse"; Boolean)
+        {
+            CalcFormula = exist("Cust. Ledger Entry" where("Loan No" = field("Loan No"),
+                                                     Reversed = const(true)));
+            FieldClass = FlowField;
+        }
+        field(36; "Days In Arrears"; Decimal)
+        {
+            CalcFormula = sum("Loans Register"."Days In Arrears" where("Loan  No." = field("Loan No")));
+            FieldClass = FlowField;
+        }
+        field(37; "Loan Category"; Option)
+        {
+            OptionCaption = ',Perfoming,Watch,Substandard,Doubtful,Loss';
+            OptionMembers = " ",Perfoming,Watch,Substandard,Doubtful,Loss;
+            CalcFormula = lookup("Loans Register"."Loans Category-SASRA" where("Loan  No." = field("Loan No")));
+            FieldClass = FlowField;
+        }
+
     }
 
     keys

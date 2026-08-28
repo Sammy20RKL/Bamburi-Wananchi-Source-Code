@@ -3,7 +3,7 @@ Table 57101 "Swizzkash Buffer"
 
     fields
     {
-        field(1; "Trace ID"; Code[20])
+        field(1; "Trace ID"; Code[100])
         {
 
             trigger OnValidate()

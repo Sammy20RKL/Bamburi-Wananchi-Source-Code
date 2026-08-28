@@ -84,7 +84,7 @@ Page 57104 "Product Card"
                 field("Mobile Phone No."; Rec."Mobile Phone No.")
                 {
                     ApplicationArea = Basic;
-                    Editable = false;
+                    Editable = true;
                     Visible = false;
                 }
 
@@ -101,7 +101,7 @@ Page 57104 "Product Card"
                 field("Phone No."; Rec."Phone No.")
                 {
                     ApplicationArea = Basic;
-                    Editable = false;
+                    Editable = true;
                 }
                 field("Date of Birth"; Rec."Date of Birth")
                 {
@@ -1053,42 +1053,39 @@ Page 57104 "Product Card"
                     var
                         applicationNumber: Code[20];
                     begin
-                        if Confirm('Are you sure to send the Mobile Application record for ' + Format(Rec."Name") + ' for activation ?', false) = false then begin
+                        if Confirm('Are you sure to send the Mobile Application record for ' + Format(Rec."Name") + ' for activation ?', false) = false then
                             exit;
-                        end else begin
-                            swizzKashApplications.Reset();
-                            swizzKashApplications.SetRange("Account No", Rec."No.");
-                            if swizzKashApplications.Find('-') then begin
-                                Error('This user is already Registered, Kindly consider PIN Reset');
-                            end else begin
-                                //send data to SwizzKash Applications (56119), status <>Approved
 
-                                SaccoNoSeries.Get;
-                                SaccoNoSeries.TestField(SaccoNoSeries."Swizzkash Reg No.");
+                        swizzKashApplications.Reset();
+                        swizzKashApplications.SetRange("Account No", Rec."No.");
+                        if swizzKashApplications.FindSet() then
+                            swizzKashApplications.DeleteAll();
 
-                                // ✅ Get next number from series
-                                applicationNumber := NoSeries.GetNextNo(SaccoNoSeries."Swizzkash Reg No.", Today, true);
+                        // send data to SwizzKash Applications (56119), status <> Approved
+                        SaccoNoSeries.Get;
+                        SaccoNoSeries.TestField(SaccoNoSeries."Swizzkash Reg No.");
 
-                                swizzKashApplications.Init();
-                                swizzKashApplications."No." := applicationNumber;
-                                swizzKashApplications."No. Series" := SaccoNoSeries."Swizzkash Reg No.";
-                                swizzKashApplications."Account No" := Rec."No.";
-                                swizzKashApplications."Account Name" := Rec.Name;
-                                swizzKashApplications.ActivationStatus := swizzKashApplications.ActivationStatus::SUBMITTED;
-                                swizzKashApplications."Created By" := UserId;
-                                swizzKashApplications."Date Applied" := Today;
-                                swizzKashApplications."Member No" := Rec."BOSA Account No";
-                                swizzKashApplications."ID No" := Rec."ID No.";
-                                swizzKashApplications.Status := swizzKashApplications.Status::Approved;
-                                swizzKashApplications.SentToServer := true;
-                                swizzKashApplications.Telephone := Rec."Mobile Phone No";
-                                swizzKashApplications.Gender := Rec.Gender;
-                                swizzKashApplications.Insert(true);
+                        // ✅ Get next number from series
+                        applicationNumber := NoSeries.GetNextNo(SaccoNoSeries."Swizzkash Reg No.", Today, true);
 
-                                Message('Record Marked for activation');
-                                CurrPage.Close();
-                            end;
-                        end;
+                        swizzKashApplications.Init();
+                        swizzKashApplications."No." := applicationNumber;
+                        swizzKashApplications."No. Series" := SaccoNoSeries."Swizzkash Reg No.";
+                        swizzKashApplications."Account No" := Rec."No.";
+                        swizzKashApplications."Account Name" := Rec.Name;
+                        swizzKashApplications.ActivationStatus := swizzKashApplications.ActivationStatus::PENDING;
+                        swizzKashApplications."Created By" := UserId;
+                        swizzKashApplications."Date Applied" := Today;
+                        swizzKashApplications."Member No" := Rec."BOSA Account No";
+                        swizzKashApplications."ID No" := Rec."ID No.";
+                        swizzKashApplications.Status := swizzKashApplications.Status::Approved;
+                        swizzKashApplications.SentToServer := false;
+                        swizzKashApplications.Telephone := Rec."Mobile Phone No";
+                        swizzKashApplications.Gender := Rec.Gender;
+                        swizzKashApplications.Insert(true);
+
+                        Message('Record Marked for activation');
+                        CurrPage.Close();
                     end;
                 }
                 action("Charge Fosa Replacement Card Fee")

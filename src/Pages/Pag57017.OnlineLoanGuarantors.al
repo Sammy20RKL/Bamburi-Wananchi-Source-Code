@@ -14,6 +14,7 @@ page 57017 "Online Loan Guarantors"
             {
                 field("Entry No"; Rec."Entry No")
                 {
+                    Editable = false;
                 }
                 field("Loan Application No"; Rec."Loan Application No")
                 {
@@ -32,6 +33,7 @@ page 57017 "Online Loan Guarantors"
                 }
                 field(Amount; Rec.Amount)
                 {
+                    Editable = false;
                 }
                 field(Approved; Rec.Approved)
                 {

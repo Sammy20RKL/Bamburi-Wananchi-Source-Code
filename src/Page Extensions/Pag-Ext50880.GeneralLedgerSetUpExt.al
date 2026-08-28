@@ -38,6 +38,10 @@ pageextension 50880 "GeneralLedgerSetUpExt" extends "General Ledger Setup"
                 {
                     ApplicationArea = Basic;
                 }
+                field("Registration Fee Account"; Rec."Registration Fee Account")
+                {
+                    ApplicationArea = Basic;
+                }
                 field(PaybillAcc; Rec.PaybillAcc)
                 {
                     ApplicationArea = Basic;

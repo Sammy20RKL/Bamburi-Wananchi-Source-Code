@@ -18,7 +18,7 @@ Report 50881 "Session Tracker"
             column(UserID_SessionEvent; "Session Event"."User ID")
             {
             }
-            column(ClientComputerName_SessionEvent; "Session Event"."Log In Computer Name")
+            column(ClientComputekrName_SessionEvent; "Session Event"."Log In Computer Name")
             {
             }
             column(DatabaseName_SessionEvent; "Session Event"."Database Name")
@@ -81,5 +81,6 @@ Report 50881 "Session Tracker"
 
     var
         Company: Record "Company Information";
+        JobQueue: Page 673;//VPS   
 }
 

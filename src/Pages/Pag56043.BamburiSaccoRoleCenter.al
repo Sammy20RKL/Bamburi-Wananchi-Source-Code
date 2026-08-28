@@ -373,31 +373,14 @@ Page 56043 "Bamburi SACCO Role Center"
                     {
                         ApplicationArea = Basic, Suite;
                         Caption = 'Capital Adequacy Return';
-                        RunObject = report "CAPITAL ADEQUACY RETURN";
+                        RunObject = report "CAPITAL ADEQUACY RETURN";//FORM 2A
                         ToolTip = 'View or Generate Deposit Return SASRA for a given period.';
-                    }
-
-                    action("Investiment Return")
-                    {
-                        ApplicationArea = Basic, Suite;
-                        Caption = 'Investiment Return';
-                        RunObject = report "RETURN ON INVESTMENT";
-                        ToolTip = 'View or Generate Deposit Return SASRA for a given period.';
-                        // Visible = false;
                     }
                     action("Liquidity Statement")
                     {
                         ApplicationArea = Basic, Suite;
                         Caption = 'Liquidity Statement';
-                        RunObject = report Liquidity;
-                        ToolTip = 'View or Generate Deposit Return SASRA for a given period.';
-                        // Visible = false;
-                    }
-                    action("Form2F Statement of CompIncome")
-                    {
-                        ApplicationArea = Basic, Suite;
-                        Caption = 'Statement of comprehensive Income';
-                        RunObject = report "Form2F Statement of CompIncome";
+                        RunObject = report Liquidity;  // FORM 2B
                         ToolTip = 'View or Generate Deposit Return SASRA for a given period.';
                         // Visible = false;
                     }
@@ -406,13 +389,38 @@ Page 56043 "Bamburi SACCO Role Center"
                         ApplicationArea = Basic, Suite;
                         Caption = 'Statement of Deposits Return';
                         Image = Report;
-                        RunObject = report "Deposit returnN";
+                        RunObject = report "Deposit returnN"; //FORM 2C
                     }
+                    action("Risk Class of Assets Nav")
+                    {
+                        ApplicationArea = Basic, Suite;
+                        Caption = 'Risk Classification and Loan Provisioning';
+                        RunObject = report "Risk Class Assets & Prov Nav";// FORM 2D
+                        // RunObject = report "Risk Class Of Assets & ProvNav";
+                    }
+                    action("Investiment Return")
+                    {
+                        ApplicationArea = Basic, Suite;
+                        Caption = 'Investiment Return';
+                        RunObject = report "RETURN ON INVESTMENT";//FORM 2E
+                        ToolTip = 'View or Generate Deposit Return SASRA for a given period.';
+                        // Visible = false;
+                    }
+
+                    action("Form2F Statement of CompIncome")
+                    {
+                        ApplicationArea = Basic, Suite;
+                        Caption = 'Statement of comprehensive Income';
+                        RunObject = report "Form2F Statement of CompIncome"; // FORM 2F
+                        ToolTip = 'View or Generate Deposit Return SASRA for a given period.';
+                        // Visible = false;
+                    }
+
                     action("Statement of Financial Position")
                     {
                         ApplicationArea = Basic, Suite;
                         Caption = 'Statement of Financial Position';
-                        RunObject = report "STATEMENT OF FINANCIAL P";
+                        RunObject = report "STATEMENT OF FINANCIAL P"; //FORM 2G
                         ToolTip = 'View or Generate Deposit Return SASRA for a given period.';
                         // Visible = false;
                     }
@@ -420,7 +428,7 @@ Page 56043 "Bamburi SACCO Role Center"
                     {
                         ApplicationArea = Basic, Suite;
                         Caption = 'Other Disclosures';
-                        RunObject = report "Other Disclosures";// "Other Disclosures..";//
+                        RunObject = report "Other Disclosures";// FROM 2H
                     }
                     // action("Other Disclosures 2")
                     // {
@@ -456,15 +464,9 @@ Page 56043 "Bamburi SACCO Role Center"
                         Visible = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Risk Classification and Loan Provisioning';
-                        RunObject = report "Risk Class Of Assets & Prov";
+                        RunObject = report "Risk Class Of Assets & Prov";//FROM 2D
                     }
-                    action("Risk Class of Assets Nav")
-                    {
-                        ApplicationArea = Basic, Suite;
-                        Caption = 'Risk Classification and Loan Provisioning';
-                        RunObject = report "Risk Class Assets & Prov Nav";// 
-                        // RunObject = report "Risk Class Of Assets & ProvNav";
-                    }
+
 
                     // action("Loans Provisioning Summary-SASRA")
                     // {
@@ -780,6 +782,8 @@ Page 56043 "Bamburi SACCO Role Center"
                 group("Mkopo Reports")
                 {
                     Caption = 'Mkopo Reports';
+                    Visible = false;
+
                     action(SaccoInformationReport)
                     {
                         ApplicationArea = All;
@@ -1881,6 +1885,12 @@ Page 56043 "Bamburi SACCO Role Center"
                 Caption = 'Bamburi Wananchi Banking Reports';
                 group("Membership/Product Management")
                 {
+                    action("Membership Listing")
+                    {
+                        ApplicationArea = All;
+                        RunObject = page "Member Listing";
+                        Caption = 'Membership Listing';
+                    }
                     action("Members Deposit Listing")
                     {
                         RunObject = report "ANNEX 3 - MEMBER Deposits";
@@ -2141,14 +2151,14 @@ Page 56043 "Bamburi SACCO Role Center"
                     {
                         Caption = 'Create M-Wallets';
                         Image = CreateDocuments;
-                        Visible = false;
+                        Visible = true;
                         RunObject = codeunit SwizzKashMobile;
                         ToolTip = 'Create Wallet Accounts';
                     }
                     action(Portal)
                     {
                         Caption = 'Debug Portal';
-                        Visible = true;
+                        Visible = false;
                         RunObject = codeunit PORTALIntegration;
                         // RunObject = codeunit "Dividends Processing Codeunit";
                         Image = RollUpCosts;

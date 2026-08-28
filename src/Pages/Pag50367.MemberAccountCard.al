@@ -2,9 +2,9 @@ page 50367 "Member Account Card"
 {
     ApplicationArea = Basic;
     Caption = 'Member Card';
-    DeleteAllowed = true;
+    DeleteAllowed = false;// true;
     Editable = true;
-    InsertAllowed = false;
+    InsertAllowed = true;
     PageType = Card;
     // PromotedActionCategories = 'Process,Reports,Budgetary Control,Cancellation,Category7_caption,Category8_caption,Category9_caption,Category10_caption';
     RefreshOnActivate = true;

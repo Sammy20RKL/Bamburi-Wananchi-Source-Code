@@ -1,4 +1,4 @@
-namespace PolyTech.PolyTech;
+namespace Bamburi.Bamburi;
 
 page 57107 "M Bamburi Loans"
 {
@@ -48,6 +48,10 @@ page 57107 "M Bamburi Loans"
                 {
                     ToolTip = 'Specifies the value of the Posted field.', Comment = '%';
                 }
+                field(Reverse; Rec.Reverse)
+                {
+                    ApplicationArea = All;
+                }
                 field("Loan Type"; Rec."Loan Type")
                 {
                     ApplicationArea = Basic;
@@ -64,17 +68,27 @@ page 57107 "M Bamburi Loans"
                 {
                     ToolTip = 'Specifies the value of the Account No field.', Comment = '%';
                 }
-                field("Account No2"; Rec."Account No2")
-                {
-                    ToolTip = 'Specifies the value of the Account No2 field.', Comment = '%';
-                }
+                // field("Account No2"; Rec."Account No2")
+                // {
+                //     ToolTip = 'Specifies the value of the Account No2 field.', Comment = '%';
+                // }
                 field(Charge; Rec.Charge)
                 {
                     ToolTip = 'Specifies the value of the Charge field.', Comment = '%';
                 }
-                field(Client; Rec.Client)
+                // field(Client; Rec.Client)
+                // {
+                //     ToolTip = 'Specifies the value of the Client field.', Comment = '%';
+                // }
+                field("Days In Arrears"; Rec."Days In Arrears")
                 {
-                    ToolTip = 'Specifies the value of the Client field.', Comment = '%';
+                    ApplicationArea = Basic;
+                    Editable = false;
+                }
+                field("Loan Category"; Rec."Loan Category")
+                {
+                    ApplicationArea = Basic;
+                    Editable = false;
                 }
                 field(Comments; Rec.Comments)
                 {
@@ -93,10 +107,10 @@ page 57107 "M Bamburi Loans"
                 {
                     ToolTip = 'Specifies the value of the Remarks field.', Comment = '%';
                 }
-                field("SMS Message"; Rec."SMS Message")
-                {
-                    ToolTip = 'Specifies the value of the SMS Message field.', Comment = '%';
-                }
+                // field("SMS Message"; Rec."SMS Message")
+                // {
+                //     ToolTip = 'Specifies the value of the SMS Message field.', Comment = '%';
+                // }
                 field(Status; Rec.Status)
                 {
                     ToolTip = 'Specifies the value of the Status field.', Comment = '%';
@@ -105,10 +119,10 @@ page 57107 "M Bamburi Loans"
                 {
                     ToolTip = 'Specifies the value of the Telephone Number field.', Comment = '%';
                 }
-                field(TraceId; Rec.TraceId)
-                {
-                    ToolTip = 'Specifies the value of the TraceId field.', Comment = '%';
-                }
+                // field(TraceId; Rec.TraceId)
+                // {
+                //     ToolTip = 'Specifies the value of the TraceId field.', Comment = '%';
+                // }
                 field(TransType; Rec.TransType)
                 {
                     ToolTip = 'Specifies the value of the TransType field.', Comment = '%';
@@ -125,10 +139,11 @@ page 57107 "M Bamburi Loans"
                 {
                     ToolTip = 'Specifies the value of the time field.', Comment = '%';
                 }
-                field(SystemCreatedBy; Rec.SystemCreatedBy)
-                {
-                    ToolTip = 'Specifies the value of the SystemCreatedBy field.', Comment = '%';
-                }
+
+                // field(SystemCreatedBy; Rec.SystemCreatedBy)
+                // {
+                //     ToolTip = 'Specifies the value of the SystemCreatedBy field.', Comment = '%';
+                // }
             }
         }
     }
