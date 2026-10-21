@@ -1,9 +1,12 @@
-namespace PolyTech.PolyTech;
+namespace Bamburi.Bamburi;
 page 57017 "Online Loan Guarantors"
 {
     ApplicationArea = All;
     Caption = 'Online Loan Guarantors';
     PageType = ListPart;
+    DeleteAllowed = true;
+    InsertAllowed = false;
+    Editable = true;
     SourceTable = "Online Loan Guarantors";
 
     layout
@@ -37,7 +40,7 @@ page 57017 "Online Loan Guarantors"
                 }
                 field(Approved; Rec.Approved)
                 {
-                    Editable = false;
+                    Editable = true;
                 }
             }
         }

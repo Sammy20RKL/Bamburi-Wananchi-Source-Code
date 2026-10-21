@@ -73,13 +73,10 @@ Report 50280 "Post Monthly Interest."
                 MaturityDate: Date;
                 InterestAlreadyPosted: Boolean;
             begin
-                PDate := "Loans Register".GetRangemax("Loans Register"."Date filter");
-                SDATE := '..' + Format(PDate);
                 DocNo := Format(PostDate);
 
                 loanapp.Reset;
                 loanapp.SetRange(loanapp."Loan  No.", "Loans Register"."Loan  No.");
-                loanapp.SetFilter(loanapp."Date filter", SDATE);
                 loanapp.SetCurrentKey("Client Code", "Application Date");
                 loanapp.Ascending(false);
 
@@ -88,65 +85,106 @@ Report 50280 "Post Monthly Interest."
                         loanapp.CalcFields(loanapp."Outstanding Balance", loanapp."Oustanding Interest");
 
                         if loanapp."Outstanding Balance" > 0 then begin
-                            if DisbFromDate <> 0D then
-                                if loanapp."Loan Disbursement Date" < DisbFromDate then
-                                    exit;
-                            Cust.Reset;
-                            Cust.SetRange(Cust."No.", "Loans Register"."Client Code");
-                            Cust.SetFilter(Cust."Don't Charge Interest", '%1', false);
 
-                            if Cust.FindSet then begin
-                                repeat
-                                    // MONTHLY INTEREST LOGIC (Reducing Balance / Straight Line)
+                            CustLedgEntry.Reset;
+                            CustLedgEntry.SetRange("Customer No.", loanapp."Client Code");
+                            CustLedgEntry.SetRange("Loan No", loanapp."Loan  No.");
+                            CustLedgEntry.SetRange("Transaction Type", CustLedgEntry."Transaction Type"::"Interest Due");
+                            CustLedgEntry.SetRange("Posting Date", PeriodStartDate, PeriodEndDate);
+                            AlreadyCharged := CustLedgEntry.FindFirst;
 
-                                    LineNo := LineNo + 10000;
-                                    GenJournalLine.Init;
-                                    GenJournalLine."Journal Template Name" := 'General';
-                                    GenJournalLine."Journal Batch Name" := 'INT DUE';
-                                    GenJournalLine."Line No." := LineNo;
-                                    GenJournalLine."Account Type" := GenJournalLine."account type"::Customer;
-                                    GenJournalLine."Account No." := loanapp."Client Code";
-                                    GenJournalLine."Transaction Type" := GenJournalLine."transaction type"::"Interest Due";
-                                    GenJournalLine.Validate(GenJournalLine."Account No.");
-                                    GenJournalLine."Document No." := DocNo;
-                                    GenJournalLine."Posting Date" := PostDate;
-                                    GenJournalLine.Description := 'INT Charged' + ' ' + Format(PostDate);
+                            if not AlreadyCharged then begin
 
-                                    if LoanType.Get(loanapp."Loan Product Type") then begin
-                                        if loanapp."Repayment Method" = loanapp."repayment method"::"Straight Line" then begin
-                                            if (loanapp."Disbursement Status" = loanapp."disbursement status"::Partial) and
-                                               ((loanapp."Initial Trunch") = Date2dmy(Today, 2)) and
-                                               ((loanapp."Amount To Disburse") = Date2dmy(Today, 3)) then begin
-                                                GenJournalLine.Amount := loanapp."Total Charges and Commissions";
-                                            end else
-                                                GenJournalLine.Amount := ROUND(loanapp."Approved Amount" * (loanapp.Interest / 1200), 1, '>');
-                                        end else begin
-                                            if (loanapp."Disbursement Status" = loanapp."disbursement status"::Partial) and
-                                               ((loanapp."Initial Trunch") = Date2dmy(Today, 2)) and
-                                               ((loanapp."Amount To Disburse") = Date2dmy(Today, 3)) then begin
-                                                GenJournalLine.Amount := loanapp."Total Charges and Commissions";
-                                            end else
-                                                GenJournalLine.Amount := ROUND(loanapp."Outstanding Balance" * (loanapp.Interest / 1200), 1, '>');
+                                Cust.Reset;
+                                Cust.SetRange(Cust."No.", "Loans Register"."Client Code");
+                                Cust.SetFilter(Cust."Don't Charge Interest", '%1', false);
+
+                                if Cust.FindSet then begin
+                                    repeat
+
+
+                                        RepaySchedule.Reset;
+                                        RepaySchedule.SetRange("Loan No.", loanapp."Loan  No.");
+                                        if not RepaySchedule.FindFirst then begin
+                                            SFactory.FnGenerateRepaymentSchedule(loanapp."Loan  No.");
+                                            RepaySchedule.Reset;
+                                            RepaySchedule.SetRange("Loan No.", loanapp."Loan  No.");
                                         end;
 
-                                        GenJournalLine.Validate(GenJournalLine.Amount);
-                                        GenJournalLine."Bal. Account Type" := GenJournalLine."bal. account type"::"G/L Account";
-                                        GenJournalLine."Bal. Account No." := LoanType."Loan Interest Account";
-                                        GenJournalLine."Loan Product Type" := LoanType.Code;
-                                        GenJournalLine.Validate(GenJournalLine."Bal. Account No.");
-                                    end;
+                                        ScheduleExists := RepaySchedule.FindFirst;
+                                        if ScheduleExists then begin
+                                            FirstScheduleDate := RepaySchedule."Repayment Date";
+                                            RepaySchedule.FindLast;
+                                            LastScheduleDate := RepaySchedule."Repayment Date";
+                                        end;
 
-                                    if loanapp.Source = loanapp.Source::BOSA then begin
-                                        GenJournalLine."Shortcut Dimension 1 Code" := Cust."Global Dimension 1 Code";
-                                        GenJournalLine."Shortcut Dimension 2 Code" := Cust."Global Dimension 2 Code";
-                                    end;
-                                    GenJournalLine.Validate(GenJournalLine."Shortcut Dimension 1 Code");
-                                    GenJournalLine.Validate(GenJournalLine."Shortcut Dimension 2 Code");
-                                    GenJournalLine."Loan No" := loanapp."Loan  No.";
 
-                                    if GenJournalLine.Amount <> 0 then
-                                        GenJournalLine.Insert;
-                                until cust.Next = 0;
+
+                                        ChargeThisLoan := true;
+                                        UseScheduleAmount := false;
+
+                                        if not ScheduleExists then begin
+                                            ChargeThisLoan := false;
+                                        end else if PeriodEndDate < FirstScheduleDate then begin
+                                            ChargeThisLoan := false;
+                                        end else if PeriodStartDate > LastScheduleDate then begin
+                                            UseScheduleAmount := false;
+                                        end else begin
+                                            RepaySchedule.Reset;
+                                            RepaySchedule.SetRange("Loan No.", loanapp."Loan  No.");
+                                            RepaySchedule.SetRange("Repayment Date", PeriodStartDate, PeriodEndDate);
+                                            if RepaySchedule.FindFirst then
+                                                UseScheduleAmount := true
+                                            else
+                                                ChargeThisLoan := false;
+                                        end;
+
+                                        if ChargeThisLoan then begin
+
+                                            LineNo := LineNo + 10000;
+                                            GenJournalLine.Init;
+                                            GenJournalLine."Journal Template Name" := 'General';
+                                            GenJournalLine."Journal Batch Name" := 'INT DUE';
+                                            GenJournalLine."Line No." := LineNo;
+                                            GenJournalLine."Account Type" := GenJournalLine."account type"::Customer;
+                                            GenJournalLine."Account No." := loanapp."Client Code";
+                                            GenJournalLine."Transaction Type" := GenJournalLine."transaction type"::"Interest Due";
+                                            GenJournalLine.Validate(GenJournalLine."Account No.");
+                                            GenJournalLine."Document No." := DocNo;
+                                            GenJournalLine."Posting Date" := PostDate;
+                                            GenJournalLine.Description := 'INT Charged' + ' ' + Format(PostDate);
+
+                                            if LoanType.Get(loanapp."Loan Product Type") then begin
+
+                                                if UseScheduleAmount then begin
+                                                    GenJournalLine.Amount := RepaySchedule."Monthly Interest";
+                                                end else begin
+                                                    if loanapp."Repayment Method" = loanapp."repayment method"::"Straight Line" then
+                                                        GenJournalLine.Amount := ROUND(loanapp."Approved Amount" * (loanapp.Interest / 1200), 1, '>')
+                                                    else
+                                                        GenJournalLine.Amount := ROUND(loanapp."Outstanding Balance" * (loanapp.Interest / 1200), 1, '>');
+                                                end;
+
+                                                GenJournalLine.Validate(GenJournalLine.Amount);
+                                                GenJournalLine."Bal. Account Type" := GenJournalLine."bal. account type"::"G/L Account";
+                                                GenJournalLine."Bal. Account No." := LoanType."Loan Interest Account";
+                                                GenJournalLine."Loan Product Type" := LoanType.Code;
+                                                GenJournalLine.Validate(GenJournalLine."Bal. Account No.");
+                                            end;
+
+                                            if loanapp.Source = loanapp.Source::BOSA then begin
+                                                GenJournalLine."Shortcut Dimension 1 Code" := Cust."Global Dimension 1 Code";
+                                                GenJournalLine."Shortcut Dimension 2 Code" := Cust."Global Dimension 2 Code";
+                                            end;
+                                            GenJournalLine.Validate(GenJournalLine."Shortcut Dimension 1 Code");
+                                            GenJournalLine.Validate(GenJournalLine."Shortcut Dimension 2 Code");
+                                            GenJournalLine."Loan No" := loanapp."Loan  No.";
+
+                                            if GenJournalLine.Amount <> 0 then
+                                                GenJournalLine.Insert;
+                                        end;
+                                    until cust.Next = 0;
+                                end;
                             end;
                         end;
                     until loanapp.Next = 0;
@@ -154,14 +192,22 @@ Report 50280 "Post Monthly Interest."
             end;
 
             trigger OnPostDataItem()
+            var
+                LinesCreated: Integer;
             begin
-                Message('Journals Created Successfully');
+
+                // -----------------------------------------------------
                 GenJournalLine.Reset;
                 GenJournalLine.SetRange("Journal Template Name", 'General');
                 GenJournalLine.SetRange("Journal Batch Name", 'INT DUE');
-                if GenJournalLine.Find('-') then
-                    page.Run(Page::"General Journal", GenJournalLine);
+                LinesCreated := GenJournalLine.Count;
 
+                if LinesCreated > 0 then begin
+                    Message('%1 journal line(s) created for the period %2 to %3.', LinesCreated, PeriodStartDate, PeriodEndDate);
+                    if GenJournalLine.Find('-') then
+                        page.Run(Page::"General Journal", GenJournalLine);
+                end else
+                    Message('No loans qualified for interest charging in the period %1 to %2. Check: already charged, outside schedule span, or schedule missing required dates.', PeriodStartDate, PeriodEndDate);
             end;
 
             trigger OnPreDataItem()
@@ -182,11 +228,15 @@ Report 50280 "Post Monthly Interest."
                     GenBatches."Journal Template Name" := 'General';
                     GenBatches.Name := 'INT DUE';
                     GenBatches.Description := 'Interest Due';
-                    //GenBatches.VALIDATE(GenBatches."Journal Template Name");
-                    //GenBatches.VALIDATE(GenBatches.Name);
                     GenBatches.Insert;
                 end;
 
+                // Only INST and HALL loan products
+                // "Loans Register".SetFilter("Loan Product Type", 'INST|HALL');
+
+                // Only loans disbursed on/after the entered cutoff (e.g. June onward, open-ended)
+                if DisbFromDate <> 0D then
+                    "Loans Register".SetFilter("Loan Disbursement Date", '>=%1', DisbFromDate);
 
                 if AsAtPDate = 0D then
                     AsAtPDate := Today;
@@ -202,6 +252,19 @@ Report 50280 "Post Monthly Interest."
 
                 if CUTOFFDATE = 0D then
                     Error('PLEASE INSERT THE CUT OFF DATE');
+
+
+                if ChargeFromDate = 0D then
+                    Error('PLEASE INSERT THE CHARGE FROM DATE');
+
+                if ChargeToDate = 0D then
+                    Error('PLEASE INSERT THE CHARGE TO DATE');
+
+                if ChargeFromDate > ChargeToDate then
+                    Error('CHARGE FROM DATE CANNOT BE AFTER CHARGE TO DATE');
+
+                PeriodStartDate := ChargeFromDate;
+                PeriodEndDate := ChargeToDate;
             end;
         }
     }
@@ -232,6 +295,16 @@ Report 50280 "Post Monthly Interest."
                 {
                     ApplicationArea = Basic;
                     Caption = 'Disbursement From Date (Optional)';
+                }
+                field(Charge_From_Date; ChargeFromDate)
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Charge Interest From';
+                }
+                field(Charge_To_Date; ChargeToDate)
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Charge Interest To';
                 }
 
             }
@@ -278,7 +351,6 @@ Report 50280 "Post Monthly Interest."
         IntRate: Decimal;
         MidMonthFactor: Decimal;
         StartDate: Date;
-        // PostDate: Date;
         LoansB: Record "Loans Register";
         AsAtPDate: Date;
         GenBatches: Record "Gen. Journal Batch";
@@ -304,5 +376,21 @@ Report 50280 "Post Monthly Interest."
         CurrReport_PAGENOCaptionLbl: label 'Page';
         loanapp: Record "Loans Register";
         SDATE: Text[30];
-}
 
+        CustLedgEntry: Record "Cust. Ledger Entry";
+        RepaySchedule: Record "Loan Repayment Schedule";
+        PeriodStartDate: Date;
+        PeriodEndDate: Date;
+        AlreadyCharged: Boolean;
+        ScheduleFound: Boolean;
+
+        SFactory: Codeunit "Swizzsoft Factory";
+        ScheduleExists: Boolean;
+        FirstScheduleDate: Date;
+        LastScheduleDate: Date;
+        ChargeThisLoan: Boolean;
+        UseScheduleAmount: Boolean;
+
+        ChargeFromDate: Date;
+        ChargeToDate: Date;
+}

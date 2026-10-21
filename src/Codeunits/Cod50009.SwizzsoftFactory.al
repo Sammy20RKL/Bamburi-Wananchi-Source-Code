@@ -75,6 +75,7 @@ Codeunit 50009 "Swizzsoft Factory"
         LPrincipal: Decimal;
         GrPrinciple: Integer;
         GrInterest: Integer;
+        LInterestPost: Decimal;
         RepayCode: Code[10];
         WhichDay: Integer;
         InterestVarianceOnlyNafaka: Decimal;
@@ -136,9 +137,10 @@ Codeunit 50009 "Swizzsoft Factory"
                     LoanproductSetup.Get(LoansRec."Loan Product Type");
                     if LoanproductSetup."Repayment Method" = LoanproductSetup."repayment method"::Amortised then begin
                         LoansRec.TestField(LoansRec.Installments);
-                        TotalMRepay := ROUND((InterestRate / 12 / 100) / (1 - Power((1 + (InterestRate / 12 / 100)), -(RepayPeriod))) * (LoanAmount), 0.0001, '>');
-                        LInterest := ROUND(LBalance / 100 / 12 * InterestRate, 0.0001, '>');
-                        LPrincipal := TotalMRepay - LInterest;
+                        TotalMRepay := ROUND((InterestRate / 12 / 100) / (1 - Power((1 + (InterestRate / 12 / 100)), -(RepayPeriod))) * (LoanAmount), 0.0001, '=');
+                        LInterestPost := ROUND(LBalance / 100 / 12 * InterestRate, 0.0001, '=');
+                        LPrincipal := TotalMRepay - LInterestPost;
+                        LInterest := ROUND(((TotalMRepay * RepayPeriod) - LoanAmount) / RepayPeriod, 0.01, '=');
 
                         // TotalMRepay := (InterestRate / 12 / 100) / (1 - Power((1 + (InterestRate / 12 / 100)), -RepayPeriod)) * LoanAmount;
                         // LInterest := ROUND(LBalance / 100 / 12 * InterestRate);
@@ -187,10 +189,14 @@ Codeunit 50009 "Swizzsoft Factory"
                     RSchedule."Repayment Date" := CalcDate('CM', RunDate);
                     RSchedule."Member No." := LoansRec."Client Code";
                     RSchedule."Loan Category" := LoansRec."Loan Product Type";
-                    RSchedule."Monthly Repayment" := LInterest + LPrincipal;
-                    RSchedule."Monthly Interest" := LInterest;
-                    RSchedule."Principal Repayment" := LPrincipal;
-                    RSchedule."Loan Balance" := LBalance;
+                    RSchedule."Monthly Repayment" := Round(LInterest + LPrincipal, 0.01, '=');
+                    RSchedule."Monthly Interest" := Round(LInterest, 0.01, '=');
+                    RSchedule."Principal Repayment" := Round(LPrincipal, 0.01, '=');
+                    RSchedule."Loan Balance" := Round(LBalance, 0.01, '=');
+                    // RSchedule."Monthly Repayment" := LInterest + LPrincipal;
+                    // RSchedule."Monthly Interest" := LInterest;
+                    // RSchedule."Principal Repayment" := LPrincipal;
+                    // RSchedule."Loan Balance" := LBalance;
                     RSchedule.Insert;
                     WhichDay := Date2dwy(RSchedule."Repayment Date", 1);
                 until LBalance < 1;

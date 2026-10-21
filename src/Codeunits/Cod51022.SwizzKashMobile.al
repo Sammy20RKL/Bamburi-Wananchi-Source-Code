@@ -10,12 +10,13 @@ Codeunit 51022 SwizzKashMobile
         // CleanMobileLoans();
         // TESTEnvironment();
         // ActivateUSSD();
-        // fnProcessMBAMBURINotifications();
+        fnProcessMBAMBURINotifications();
         // fnRePostLoan('LNM485495149', '100-2015', 10000, 'BLN_0004429');
         // AdvanceEligibility('0112159679');
         // PostMPESAWithdrawals();
         // FnUpdateWallets();
-        CreateMWallets();
+        // fnProcessMBAMBURINotifications()
+        // CreateMWallets();
         // CreateMWallet('2128');
         //     EnquireAccountBalanceBOSA(
         // '001',
@@ -1070,9 +1071,15 @@ Codeunit 51022 SwizzKashMobile
             IF LoansRegister.FIND('-') THEN BEGIN
                 loanbalanceList := '';
                 REPEAT
-                    LoansRegister.CALCFIELDS(LoansRegister."Outstanding Balance", LoansRegister."Oustanding Interest", LoansRegister."Interest to be paid", LoansRegister."Interest Paid");
-                    IF (LoansRegister."Outstanding Balance" > 0) THEN BEGIN
-                        loanbalanceamt := (LoansRegister."Outstanding Balance" + LoansRegister."Oustanding Interest");
+                    LoansRegister.CALCFIELDS("Outstanding Balance", "Oustanding Interest", "Interest to be paid", "Interest Paid");
+
+                    IF (LoansRegister."Outstanding Balance" > 0) OR (LoansRegister."Oustanding Interest" > 0) THEN BEGIN
+                        loanbalanceamt := 0;
+                        IF LoansRegister."Outstanding Balance" > 0 THEN
+                            loanbalanceamt += LoansRegister."Outstanding Balance";
+                        IF LoansRegister."Oustanding Interest" > 0 THEN
+                            loanbalanceamt += LoansRegister."Oustanding Interest";
+
                         IF loanbalanceList = '' THEN BEGIN
                             loanbalanceList := ' { "LoanNo":"' + LoansRegister."Loan  No." + '","ProductType":"' + GetLoanProductName(LoansRegister."Loan Product Type") + '","BalanceAmount":"' + FORMAT(loanbalanceamt) + '" } ';
                             localMessage := LoansRegister."Loan  No." + ' ' + GetLoanProductName(LoansRegister."Loan Product Type") + ' ' + FORMAT(loanbalanceamt) + ',';
@@ -1354,7 +1361,7 @@ Codeunit 51022 SwizzKashMobile
                     AccountTypes.RESET;
                     AccountTypes.SETRANGE(AccountTypes.Code, Vendor."Account Type");
                     IF AccountTypes.FIND('-') THEN BEGIN
-                        miniBalance := AccountTypes."Minimum Balance";
+                        miniBalance := AccountTypes."Minimum Balance";//bws1475
                     END;
                 END;
             END
@@ -4196,7 +4203,7 @@ Codeunit 51022 SwizzKashMobile
         SwizzKashTransactionsTable.Reset();
         SwizzKashTransactionsTable.SETRANGE(SwizzKashTransactionsTable."Document No", DocumentNo);
         IF SwizzKashTransactionsTable.FIND('-') THEN BEGIN
-            response := '{ "StatusCode":"501","StatusDescription":"Your request has already been processed, please wait for sms confirmation", "DocumentNo":"' + DocumentNo + '" }';
+            response := '{ "StatuswCode":"501","StatusDescription":"Your request has already been processed, please wait for sms confirmation", "DocumentNo":"' + DocumentNo + '" }';
         END ELSE BEGIN
             // -- check if there is a pending e-loan application from the member
             SwizzKashTransactionsTable.Reset();
@@ -4329,7 +4336,7 @@ Codeunit 51022 SwizzKashMobile
 
         EXIT(response);
     END;
-    //repay the Loan Festus
+    //repay the Loan
     PROCEDURE RepayLoan(traceid: code[30]; phonenumber: text[100]; loanno: Text[20]; documentno: Text[30]; repaymentamount: Decimal; transactiondate: DateTime) response: Text
     var
         sourceaccount: code[30];
@@ -6916,6 +6923,7 @@ Codeunit 51022 SwizzKashMobile
         isPosted: Boolean;
         runningBalance: Decimal;
         objMember: Record Customer;
+        invoice: page "Purchase Invoice";
     BEGIN
         GenLedgerSetup.RESET;
         GenLedgerSetup.GET;
@@ -8966,418 +8974,713 @@ Codeunit 51022 SwizzKashMobile
     end;
 
     //fnProcessMBAMBURINotifications======================
+
     procedure fnProcessMBAMBURINotifications()
     var
         loansRegisterTable: Record "Loans Register";
         mobileLoans: Record "Mobile Loans";
         membersTable: Record Customer;
-        LoanTypeTable: Record "Loan Products Setup";
-        daysRemaining: Integer;
-        todayDate: Date;
-        smsMessage: Text;
-        batch: Text;
-        documentNo: Code[20];
-        InterestAmount: decimal;
-        OriginalDeposits: Decimal;
-        loanBalanceFigure: Decimal;
-        loanInterestFigure: Decimal;
+        startDate: Date;
     begin
-        todayDate := Today;
-        InterestAmount := 0;
+        startDate := DMY2Date(01, 01, 2026); // from  8/10/2026
 
-        //get Loan from M-Loans, balance >0, recovered = false
+        ProcessLoanType(loansRegisterTable, mobileLoans, membersTable, 'INST', startDate);
+        ProcessLoanType(loansRegisterTable, mobileLoans, membersTable, 'HALL', startDate);
+    end;
+
+    local procedure ProcessLoanType(var loansRegisterTable: Record "Loans Register"; var mobileLoans: Record "Mobile Loans"; var membersTable: Record Customer; productType: Code[10]; startDate: Date)
+    begin
         loansRegisterTable.Reset();
-        loansRegisterTable.SetFilter("Loan Product Type", 'INST');
         loansRegisterTable.SetRange(Posted, true);
+        loansRegisterTable.SetFilter("Loan Product Type", productType);
         loansRegisterTable.SetFilter("Outstanding Balance", '>0');
+        loansRegisterTable.SetRange("Loan Disbursement Date", startDate, Today);
+        // loansRegisterTable.SetFilter("Client Code", 'BWS2001|BWS1442|BWS1973'); // test members only
 
-        if not loansRegisterTable.FindSet() then begin
-            loansRegisterTable.Reset();
-            loansRegisterTable.SetFilter("Loan Product Type", 'HALL');
-            loansRegisterTable.SetRange(Posted, true);
-            loansRegisterTable.SetFilter("Outstanding Balance", '>0');
-        end;
-
-        if loansRegisterTable.Find('-') then begin
+        if loansRegisterTable.FindSet() then
             repeat
-                smsMessage := '';
+                loansRegisterTable.CalcFields("Outstanding Balance");
+                loansRegisterTable.CalcFields("Oustanding Interest");
 
-                mobileLoans.Reset();
-                mobileLoans.SetRange(mobileLoans."Loan No", loansRegisterTable."Loan  No.");
-                // mobileLoans.SetFilter("Document Date", '%1..', DMY2DATE(1, 5, 2025));
-                mobileLoans.SetRange(mobileLoans.Penalized, false);
-                if mobileLoans.Find('-') then begin
+                if loansRegisterTable."Outstanding Balance" > 0 then begin
+                    if membersTable.Get(loansRegisterTable."Client Code") then begin
+                        mobileLoans.Reset();
+                        mobileLoans.SetRange("Loan No", loansRegisterTable."Loan  No.");
+                        mobileLoans.SetRange(Penalized, false);
 
-                    loansRegisterTable.CalcFields("Outstanding Balance", "Oustanding Interest");
-
-                    if loansRegisterTable."Outstanding Balance" > 0 then begin
-                        membersTable.Reset();
-                        membersTable.SetRange(membersTable."No.", loansRegisterTable."Client Code");
-                        if membersTable.Find('-') then begin
-
-                            //get member Deposits...
-                            membersTable.CalcFields("Current Shares");
-                            OriginalDeposits := membersTable."Current Shares";
-                            // calculate remaining days until Expected Completion Date
-                            daysRemaining := loansRegisterTable."Expected Date of Completion" - todayDate;
-
-                            // --- Notifications Logic ---
-
-                            // 1st Notification: due in 15 days or less, but not yet sent
-                            if (daysRemaining <= 15) and (daysRemaining > 7) and (not mobileLoans."Ist Notification") then begin
-                                // send 1st Notification: 15 days remaining
-                                if mobileLoans."Ist Notification" = false then begin
-                                    smsMessage := 'Dear ' + SplitString(membersTable.Name, ' ') + ', Your ' + loansRegisterTable."Loan Product Type Name" + ' of amount Ksh. ' + FORMAT(loansRegisterTable."Outstanding Balance" + loansRegisterTable."Oustanding Interest") + ' is due on '
-                                                + FORMAT(loansRegisterTable."Expected Date of Completion", 0, '<Closing><Day> <Month Text> <Year4>') + '. Use Paybill 400222 and Account No. 321906#Yourname or dial *250# to pay';
-
-                                    SMSMessage(loansRegisterTable."Doc No Used", loansRegisterTable."Client Code", membersTable."Mobile Phone No", smsMessage);
-                                    mobileLoans."Ist Notification" := true;
-                                    mobileLoans.Modify();
-                                end;
-                            end;
-                            // 2nd Notification: due in 7 days or less, but not yet sent
-                            if (daysRemaining <= 7) and (daysRemaining > 2) and (not mobileLoans."2nd Notification") then begin
-                                // send 2nd Notification: 7 days remaining
-                                if mobileLoans."2nd Notification" = false then begin
-                                    smsMessage := 'Dear ' + SplitString(membersTable.Name, ' ') + ', Your ' + loansRegisterTable."Loan Product Type Name" + ' of amount Ksh. ' + FORMAT(loansRegisterTable."Outstanding Balance" + loansRegisterTable."Oustanding Interest") + ' is due on '
-                                                                                            + FORMAT(loansRegisterTable."Expected Date of Completion", 0, '<Closing><Day> <Month Text> <Year4>') + '. Use Paybill 400222 and Account No. 321906#Yourname or dial *250# to pay';
-
-                                    SMSMessage(loansRegisterTable."Doc No Used", loansRegisterTable."Client Code", membersTable."Mobile Phone No", smsMessage);
-                                    mobileLoans."2nd Notification" := TRUE;
-                                    mobileLoans.MODIFY;
-                                end;
-                            end;
-                            // 3rd Notification: due in 2 days or less, but not yet sent
-                            if (daysRemaining <= 2) and (daysRemaining > 1) and (not mobileLoans."3rd Notification") then begin
-                                // send 3rd Notification: 2 days remaining
-                                // if mobileLoans."3rd Notification" = false then begin
-                                //     smsMessage := 'Dear ' + SplitString(Members.Name, ' ') + ', Your ' + loansRegisterTable."Loan Product Type Name" + ' of amount Ksh. ' + FORMAT(loansRegisterTable."Outstanding Balance" + loansRegisterTable."Oustanding Interest") + ' is due on '
-                                //                                                             + FORMAT(loansRegisterTable."Expected Date of Completion", 0, '<Closing><Day> <Month Text> <Year4>') + '. Use Paybill 751459 or dial *250# to pay';
-
-                                //     SMSMessage(loansRegisterTable."Doc No Used", loansRegisterTable."Client Code", Members."Mobile Phone No", smsMessage);
-                                //     mobileLoans."3rd Notification" := TRUE;
-                                //     mobileLoans.MODIFY;
-                                // end;
-                            end;
-
-                            // 4th Notification: due in 1 day or less, but not yet sent
-                            if (daysRemaining <= 1) and (daysRemaining > 0) and (not mobileLoans."4th Notification") then begin
-                                // send 4th Notification: 1 day remaining
-                                if mobileLoans."4th Notification" = false then begin
-                                    smsMessage := 'Dear ' + SplitString(membersTable.Name, ' ') + ', Your ' + loansRegisterTable."Loan Product Type Name" + ' of amount Ksh. ' + FORMAT(loansRegisterTable."Outstanding Balance" + loansRegisterTable."Oustanding Interest") + ' is due on '
-                                                                                            + FORMAT(loansRegisterTable."Expected Date of Completion", 0, '<Closing><Day> <Month Text> <Year4>') + '. Use Paybill 400222 and Account No. 321906#Yourname or dial *250# to pay';
-
-                                    SMSMessage(loansRegisterTable."Doc No Used", loansRegisterTable."Client Code", membersTable."Mobile Phone No", smsMessage);
-                                    mobileLoans."4th Notification" := TRUE;
-                                    mobileLoans.MODIFY;
-                                end;
-                            end;
-                            // 5th Notification: due date reached or passed
-                            if (daysRemaining <= 0) and (daysRemaining > -15) and (not mobileLoans."5th Notification") then begin
-                                // send 5th Notification: Due date reached
-                                if mobileLoans."5th Notification" = false then begin
-                                    smsMessage := 'Dear ' + SplitString(membersTable.Name, ' ') + ', Your ' + loansRegisterTable."Loan Product Type Name" + ' of amount Ksh. ' + FORMAT(loansRegisterTable."Outstanding Balance" + loansRegisterTable."Oustanding Interest") + ' is due on '
-                                                                                            + FORMAT(loansRegisterTable."Expected Date of Completion", 0, '<Closing><Day> <Month Text> <Year4>') + '. Use Paybill 400222 and Account No. 321906#Yourname or dial *250# to pay and avoid being listed as a mobile defaulter';
-
-                                    SMSMessage(loansRegisterTable."Doc No Used", loansRegisterTable."Client Code", membersTable."Mobile Phone No", smsMessage);
-                                    mobileLoans."5th Notification" := TRUE;
-                                    mobileLoans.MODIFY;
-                                end;
-                            end;
-                            // 6th Notification: 15 days overdue
-                            if (daysRemaining <= -15) and (daysRemaining > -30) and (not mobileLoans."6th Notification") then begin
-                                // send 6th Notification: 15 days after due date
-                                // if mobileLoans."6th Notification" = false then begin
-                                //     smsMessage := 'Dear ' + SplitString(Members.Name, ' ') + ', Your ' + loansRegisterTable."Loan Product Type Name" + ' of amount Ksh. ' + FORMAT(loansRegisterTable."Outstanding Balance" + loansRegisterTable."Oustanding Interest") + ' is due on '
-                                //                                                             + FORMAT(loansRegisterTable."Expected Date of Completion", 0, '<Closing><Day> <Month Text> <Year4>') + '. Use Paybill 751459 or dial *250# to pay';
-
-                                //     SMSMessage(loansRegisterTable."Doc No Used", loansRegisterTable."Client Code", Members."Mobile Phone No", smsMessage);
-                                //     mobileLoans."6th Notification" := TRUE;
-                                //     mobileLoans.MODIFY;
-                                // end;
-                            end;
-
-                            // 7th Notification: 30 days overdue
-                            // if (daysRemaining <= -30) and (daysRemaining > -60) and (not mobileLoans."7th Notification") then begin
-                            if (daysRemaining <= -30)
-                            // and (daysRemaining > -60) //Commented this to roll over for old loans
-                            and (not mobileLoans."7th Notification") then begin
-                                // send 7th Notification: 30 days after due date - Interest roll over
-                                if mobileLoans."7th Notification" = false then begin
-
-                                    batch := 'M-Recovery';
-                                    documentNo := loansRegisterTable."Doc No Used";
-
-                                    GenJournalLine.RESET;
-                                    GenJournalLine.SETRANGE("Journal Template Name", 'GENERAL');
-                                    GenJournalLine.SETRANGE("Journal Batch Name", batch);
-                                    GenJournalLine.DELETEALL;
-                                    //end of deletion
-
-                                    GenBatches.RESET;
-                                    GenBatches.SETRANGE(GenBatches."Journal Template Name", 'GENERAL');
-                                    GenBatches.SETRANGE(GenBatches.Name, batch);
-
-                                    IF GenBatches.FIND('-') = FALSE THEN BEGIN
-                                        GenBatches.INIT;
-                                        GenBatches."Journal Template Name" := 'GENERAL';
-                                        GenBatches.Name := batch;
-                                        GenBatches.Description := 'mobile recovery';
-                                        GenBatches.VALIDATE(GenBatches."Journal Template Name");
-                                        GenBatches.VALIDATE(GenBatches.Name);
-                                        GenBatches.INSERT;
-                                    END;//General Jnr Batches
-
-                                    //-------INTEREST CHARGED BEFORE INTEREST PAID - 7.5% of the balance
-                                    InterestAmount := 7.5 / 100 * (loansRegisterTable."Outstanding Balance" + loansRegisterTable."Oustanding Interest");
-                                    LineNo := LineNo + 10000;
-                                    GenJournalLine.Init;
-                                    GenJournalLine."Journal Template Name" := 'GENERAL';
-                                    GenJournalLine."Journal Batch Name" := batch;
-                                    GenJournalLine."Line No." := LineNo;
-                                    GenJournalLine."Account Type" := GenJournalLine."account type"::Customer;
-                                    GenJournalLine."Account No." := loansRegisterTable."Client Code";
-                                    GenJournalLine."Transaction Type" := GenJournalLine."transaction type"::"Interest Due";
-                                    GenJournalLine.Validate(GenJournalLine."Account No.");
-                                    GenJournalLine."Document No." := documentNo + '1';
-                                    GenJournalLine."Posting Date" := Today;
-                                    GenJournalLine.Description := 'Instant ' + loansRegisterTable."Loan  No." + ' Interest roll over' + ' ' + Format(Today);
-                                    if LoanTypeTable.Get(loansRegisterTable."Loan Product Type") then begin
-                                        GenJournalLine.Amount := InterestAmount;
-                                        GenJournalLine.Validate(GenJournalLine.Amount);
-                                        GenJournalLine."Bal. Account Type" := GenJournalLine."bal. account type"::"G/L Account";
-                                        GenJournalLine."Bal. Account No." := LoanTypeTable."Loan Interest Account";
-                                        GenJournalLine."Loan Product Type" := LoanTypeTable.Code;
-                                        GenJournalLine.Validate(GenJournalLine."Bal. Account No.");
-                                    end;
-                                    if loansRegisterTable.Source = loansRegisterTable.Source::BOSA then begin
-                                        GenJournalLine."Shortcut Dimension 1 Code" := membersTable."Global Dimension 1 Code";
-                                        GenJournalLine."Shortcut Dimension 2 Code" := membersTable."Global Dimension 2 Code";
-                                    end;
-                                    GenJournalLine.Validate(GenJournalLine."Shortcut Dimension 1 Code");
-                                    GenJournalLine.Validate(GenJournalLine."Shortcut Dimension 2 Code");
-                                    GenJournalLine."Loan No" := loansRegisterTable."Loan  No.";
-
-                                    if GenJournalLine.Amount <> 0 then
-                                        GenJournalLine.Insert;
-                                    exit;
-                                    ///----END INTEREST CHARGFED
-
-                                    GenJournalLine.RESET;
-                                    GenJournalLine.SETRANGE("Journal Template Name", 'GENERAL');
-                                    GenJournalLine.SETRANGE("Journal Batch Name", batch);
-                                    IF GenJournalLine.FIND('-') THEN BEGIN
-                                        REPEAT
-                                            GLPosting.RUN(GenJournalLine);
-                                        UNTIL GenJournalLine.NEXT = 0;
-
-                                        smsMessage := 'Dear ' + SplitString(membersTable.Name, ' ') + ', Your ' + loansRegisterTable."Loan Product Type Name" + ' of amount Ksh. ' + FORMAT(loansRegisterTable."Outstanding Balance" + loansRegisterTable."Oustanding Interest") + ' has been rolled over '
-                                        + 'with a 7.5% Interest Charged on the said balance, Kindly repay the loan within 30 days or it will be deducted from deposits.';
-                                        SMSMessage(loansRegisterTable."Doc No Used", loansRegisterTable."Client Code", membersTable."Mobile Phone No", smsMessage);
-
-                                        mobileLoans."7th Notification" := true;
-                                        mobileLoans.Comments := 'Interest rolled Over';
-                                        mobileLoans.Modify(true);
-                                    end;
-
-                                end;
-                            end;
-
-                            // 8th Notification: 60 days overdue
-                            if (daysRemaining <= -60) and (not mobileLoans."8th Notification") then begin
-                                // send 8th Notification: 60 days after due date - recover and list as a defaulter
-                                if mobileLoans."8th Notification" = false then begin
-                                    loansRegisterTable.CalcFields("Outstanding Balance", loansRegisterTable."Oustanding Interest");
-                                    if loansRegisterTable."Outstanding Balance" + loansRegisterTable."Oustanding Interest" > 0 then begin
-                                        // do rollover or recovery
-
-                                        loanBalanceFigure := loansRegisterTable."Outstanding Balance";
-                                        loanInterestFigure := loansRegisterTable."Oustanding Interest";
-
-
-                                        batch := 'M-Recovery';
-                                        documentNo := loansRegisterTable."Doc No Used";
-
-                                        GenJournalLine.RESET;
-                                        GenJournalLine.SETRANGE("Journal Template Name", 'GENERAL');
-                                        GenJournalLine.SETRANGE("Journal Batch Name", batch);
-                                        GenJournalLine.DELETEALL;
-                                        //end of deletion
-
-                                        GenBatches.RESET;
-                                        GenBatches.SETRANGE(GenBatches."Journal Template Name", 'GENERAL');
-                                        GenBatches.SETRANGE(GenBatches.Name, batch);
-
-                                        IF GenBatches.FIND('-') = FALSE THEN BEGIN
-                                            GenBatches.INIT;
-                                            GenBatches."Journal Template Name" := 'GENERAL';
-                                            GenBatches.Name := batch;
-                                            GenBatches.Description := 'mobile recovery';
-                                            GenBatches.VALIDATE(GenBatches."Journal Template Name");
-                                            GenBatches.VALIDATE(GenBatches.Name);
-                                            GenBatches.INSERT;
-                                        END;//General Jnr Batches
-
-                                        //DR member's deposits - Balance + Interest //+ Penalty
-                                        LineNo := LineNo + 10000;
-                                        GenJournalLine.INIT;
-                                        GenJournalLine."Journal Template Name" := 'GENERAL';
-                                        GenJournalLine."Journal Batch Name" := batch;
-                                        GenJournalLine."Line No." := LineNo;
-                                        GenJournalLine."Account Type" := GenJournalLine."Account Type"::Customer;
-                                        GenJournalLine."Account No." := membersTable."No.";
-                                        GenJournalLine.VALIDATE(GenJournalLine."Account No.");
-                                        GenJournalLine."Document No." := documentNo;
-                                        GenJournalLine."External Document No." := documentNo;
-                                        GenJournalLine."Posting Date" := TODAY;
-                                        GenJournalLine."Transaction Type" := GenJournalLine."Transaction Type"::"Deposit Contribution";
-                                        GenJournalLine."Shortcut Dimension 1 Code" := 'BOSA';
-                                        GenJournalLine.VALIDATE(GenJournalLine."Shortcut Dimension 1 Code");
-                                        GenJournalLine.Description := FORMAT(GenJournalLine."Transaction Type"::"Deposit Contribution") + ' Loan Recovery';
-                                        GenJournalLine.Amount := (loansRegisterTable."Outstanding Balance" + loansRegisterTable."Oustanding Interest");// + (0.05 * (LoansRegister."Outstanding Balance" + loansRegisterTable."Oustanding Interest")));
-                                        GenJournalLine.VALIDATE(GenJournalLine.Amount);
-                                        IF GenJournalLine.Amount <> 0 THEN
-                                            GenJournalLine.INSERT;
-
-                                        //CR Interest
-                                        LineNo := LineNo + 10000;
-                                        GenJournalLine.INIT;
-                                        GenJournalLine."Journal Template Name" := 'GENERAL';
-                                        GenJournalLine."Journal Batch Name" := batch;
-                                        GenJournalLine."Line No." := LineNo;
-                                        GenJournalLine."Account Type" := GenJournalLine."Account Type"::Customer;
-                                        GenJournalLine."Account No." := loansRegisterTable."Client Code";
-                                        GenJournalLine.VALIDATE(GenJournalLine."Account No.");
-                                        GenJournalLine."Document No." := documentNo;
-                                        GenJournalLine."External Document No." := documentNo;
-                                        GenJournalLine."Posting Date" := TODAY;
-                                        GenJournalLine.Description := 'Loan Interest Recovered from Deposits';
-                                        GenJournalLine.Amount := -loansRegisterTable."Oustanding Interest";
-                                        GenJournalLine.VALIDATE(GenJournalLine.Amount);
-                                        GenJournalLine."Transaction Type" := GenJournalLine."Transaction Type"::"Interest Paid";
-                                        IF GenJournalLine."Shortcut Dimension 1 Code" = '' THEN BEGIN
-                                            GenJournalLine."Shortcut Dimension 1 Code" := membersTable."Global Dimension 1 Code";
-                                            GenJournalLine.VALIDATE(GenJournalLine."Shortcut Dimension 1 Code");
-                                        END;
-                                        GenJournalLine."Loan No" := loansRegisterTable."Loan  No.";
-                                        IF GenJournalLine.Amount <> 0 THEN
-                                            GenJournalLine.INSERT;
-
-                                        //Cr Loan Balance
-                                        LineNo := LineNo + 10000;
-                                        GenJournalLine.INIT;
-                                        GenJournalLine."Journal Template Name" := 'GENERAL';
-                                        GenJournalLine."Journal Batch Name" := batch;
-                                        GenJournalLine."Line No." := LineNo;
-                                        GenJournalLine."Account Type" := GenJournalLine."Account Type"::Customer;
-                                        GenJournalLine."Account No." := loansRegisterTable."Client Code";
-                                        GenJournalLine.VALIDATE(GenJournalLine."Account No.");
-                                        GenJournalLine."Document No." := documentNo;
-                                        GenJournalLine."External Document No." := documentNo;
-                                        GenJournalLine."Posting Date" := TODAY;
-                                        GenJournalLine.Description := 'Loan Balance Recovered from Deposits';
-                                        GenJournalLine.Amount := -loansRegisterTable."Outstanding Balance";
-                                        GenJournalLine.VALIDATE(GenJournalLine.Amount);
-                                        GenJournalLine."Transaction Type" := GenJournalLine."Transaction Type"::"Loan Repayment";
-                                        IF GenJournalLine."Shortcut Dimension 1 Code" = '' THEN BEGIN
-                                            GenJournalLine."Shortcut Dimension 1 Code" := membersTable."Global Dimension 1 Code";
-                                            GenJournalLine.VALIDATE(GenJournalLine."Shortcut Dimension 1 Code");
-                                        END;
-                                        GenJournalLine."Loan No" := loansRegisterTable."Loan  No.";
-                                        IF GenJournalLine.Amount <> 0 THEN
-                                            GenJournalLine.INSERT;
-
-                                        // //Cr Penalty
-                                        // LineNo := LineNo + 10000;
-                                        // GenJournalLine.INIT;
-                                        // GenJournalLine."Journal Template Name" := 'GENERAL';
-                                        // GenJournalLine."Journal Batch Name" := batch;
-                                        // GenJournalLine."Line No." := LineNo;
-                                        // GenJournalLine."Account Type" := GenJournalLine."Account Type"::Customer;
-                                        // GenJournalLine."Account No." := loansRegisterTable."Client Code";
-                                        // GenJournalLine.VALIDATE(GenJournalLine."Account No.");
-                                        // GenJournalLine."Document No." := documentNo;
-                                        // GenJournalLine."External Document No." := documentNo;
-                                        // GenJournalLine."Posting Date" := TODAY;
-                                        // GenJournalLine.Description := 'Loan penalty';
-                                        // GenJournalLine.Amount := -(0.05 * (LoansRegister."Outstanding Balance" + loansRegisterTable."Oustanding Interest"));
-                                        // GenJournalLine.VALIDATE(GenJournalLine.Amount);
-                                        // GenJournalLine."Transaction Type" := GenJournalLine."Transaction Type"::"Penalty Paid";
-                                        // IF GenJournalLine."Shortcut Dimension 1 Code" = '' THEN BEGIN
-                                        //     GenJournalLine."Shortcut Dimension 1 Code" := membersTable."Global Dimension 1 Code";
-                                        //     GenJournalLine.VALIDATE(GenJournalLine."Shortcut Dimension 1 Code");
-                                        // END;
-                                        // GenJournalLine."Loan No" := loansRegisterTable."Loan  No.";
-                                        // IF GenJournalLine.Amount <> 0 THEN
-                                        //     GenJournalLine.INSERT;
-
-
-                                        GenJournalLine.RESET;
-                                        GenJournalLine.SETRANGE("Journal Template Name", 'GENERAL');
-                                        GenJournalLine.SETRANGE("Journal Batch Name", batch);
-                                        IF GenJournalLine.FIND('-') THEN BEGIN
-                                            REPEAT
-                                                GLPosting.RUN(GenJournalLine);
-                                            UNTIL GenJournalLine.NEXT = 0;
-
-                                            smsMessage := 'Dear ' + SplitString(membersTable.Name, ' ') + ', Your ' + loansRegisterTable."Loan Product Type Name" + ' of amount Ksh. ' + FORMAT(loansRegisterTable."Outstanding Balance")
-                                            + ' has been recovered from Deposits and you are now listed as a mobile defaulter';
-                                            SMSMessage(loansRegisterTable."Loan  No.", loansRegisterTable."Client Code", membersTable."Mobile Phone No", smsMessage);
-
-                                            mobileLoans."Penalty Date" := TODAY;
-                                            mobileLoans."8th Notification" := true;
-                                            mobileLoans.Penalized := TRUE;
-                                            mobileLoans.Comments := 'Loan Recoverd';
-                                            mobileLoans.Modify();
-
-                                            membersTable."Mobile Defaulter" := TRUE;
-                                            membersTable.MODIFY;
-
-                                        end;
-                                    END;
-                                END;
-
-                            end;
-                        end;
-                    end;
-                end else begin
-                    //insert into mobileLoans
-                    //=====================insert to Mpesa mobile disbursment
-                    MpesaDisbus.Reset();
-                    MpesaDisbus.SetRange("Document No", CopyStr(loansRegisterTable."Doc No Used", 1, 20));
-                    MpesaDisbus.SetRange("Loan No", loansRegisterTable."Loan  No.");
-                    if MpesaDisbus.Find('-') then begin
-
-                    end else begin
-
-                        MpesaDisbus.Init();
-
-                        MpesaDisbus."Account No" := membersTable."No.";
-                        MpesaDisbus."Document Date" := TODAY;
-                        MpesaDisbus."Loan Amount" := loansRegisterTable."Approved Amount";
-                        MpesaDisbus."Loan No" := loansRegisterTable."Loan  No.";
-                        MpesaDisbus."Document No" := CopyStr(loansRegisterTable."Doc No Used", 1, 20);//
-                        MpesaDisbus."Batch No" := 'MOBILE';
-                        MpesaDisbus."Date Entered" := loansRegisterTable."Issued Date";
-                        MpesaDisbus."Time Entered" := TIME;
-                        MpesaDisbus."Entered By" := USERID;
-                        MpesaDisbus."Member No" := membersTable."No.";
-                        MpesaDisbus."Telephone No" := membersTable."Phone No.";
-                        MpesaDisbus.Comments := 'Successfly Posted';
-                        //MpesaDisbus."Corporate No":='597676';
-                        MpesaDisbus."Delivery Center" := 'M-WALLET';
-                        MpesaDisbus."Customer Name" := membersTable.Name;
-                        MpesaDisbus.Status := MpesaDisbus.Status::Completed;// Closed;
-                        MpesaDisbus.Purpose := 'INST';
-                        MpesaDisbus.Insert();
-
+                        if mobileLoans.FindFirst() then
+                            ProcessLoanNotifications(loansRegisterTable, membersTable, mobileLoans)
+                        else
+                            CreateMissingDisbursement(loansRegisterTable, membersTable);
                     end;
                 end;
-
-            // end;
             until loansRegisterTable.Next() = 0;
+    end;
+
+    local procedure ProcessLoanNotifications(var loan: Record "Loans Register"; var member: Record Customer; var mobile: Record "Mobile Loans")
+    var
+        daysRemaining: Integer;
+        chargedThisRun: Boolean;
+        payInfo: Text;
+    begin
+        // Without a completion date we cannot tell whether the loan is due or overdue.
+        if loan."Expected Date of Completion" = 0D then
+            exit;
+
+        daysRemaining := loan."Expected Date of Completion" - Today;
+        payInfo := 'Use Paybill 400222 and Account No. 321906#Yourname or dial *250# to pay';
+
+        // ---------------- Reminders ----------------
+
+        // 1st: 8 to 15 days left
+        if (daysRemaining <= 15) and (daysRemaining > 7) and (not mobile."Ist Notification") then begin
+            SendReminder(loan, member, payInfo);
+            mobile."Ist Notification" := true;
+            mobile.Modify();
+        end;
+
+        // 2nd: 3 to 7 days left
+        if (daysRemaining <= 7) and (daysRemaining > 2) and (not mobile."2nd Notification") then begin
+            SendReminder(loan, member, payInfo);
+            mobile."2nd Notification" := true;
+            mobile.Modify();
+        end;
+
+        // 3rd: 2 days left
+        if (daysRemaining <= 2) and (daysRemaining > 1) and (not mobile."3rd Notification") then begin
+            SendReminder(loan, member, payInfo);
+            mobile."3rd Notification" := true;
+            mobile.Modify();
+
+        end;
+
+        // 4th: 1 day left 
+        if (daysRemaining <= 1) and (daysRemaining > 0) and (not mobile."4th Notification") then begin
+            SendReminder(loan, member, payInfo);
+            mobile."4th Notification" := true;
+            mobile.Modify();
+        end;
+
+        // 5th: due date reached, up to 14 days overdue
+        if (daysRemaining <= 0) and (daysRemaining > -15) and (not mobile."5th Notification") then begin
+            SendReminder(loan, member, payInfo + ' and avoid being listed as a mobile defaulter');
+            mobile."5th Notification" := true;
+            mobile.Modify();
+        end;
+
+        // 6th: 15 to 29 days overdue
+        if (daysRemaining <= -15) and (daysRemaining > -30) and (not mobile."6th Notification") then begin
+            SendReminder(loan, member, 'Use Paybill 751459 or dial *250# to pay');
+            mobile."6th Notification" := true;
+            mobile.Modify();
+        end;
+
+        // ---------------- Interest rollover ----------------
+
+        // 7th: 30+ days overdue, first interest charge (no upper limit so old loans get it too)
+        if (daysRemaining <= -30) and (not mobile."7th Notification") then begin
+            if ChargeRolloverInterest(loan, member, '1') then begin
+                mobile."7th Notification" := true;
+                mobile.Comments := 'Interest rolled Over';//979988
+                mobile.Modify(true);
+                chargedThisRun := true;
+            end;
+        end;
+
+        // 8th: 60+ days overdue, second interest charge + list as mobile defaulter.
+        // Only after the first charge was made in an earlier run, so nobody is charged twice in one run.
+        if (daysRemaining <= -60) and mobile."7th Notification" and (not mobile."8th Notification") and (not chargedThisRun) then begin
+            if ChargeRolloverInterest(loan, member, '2') then begin
+                mobile."8th Notification" := true;
+                mobile.Comments := 'Interest Roll over';
+                mobile.Modify(true);
+
+                member."Mobile Defaulter" := true;
+                member.Modify();
+            end;
         end;
     end;
+
+    local procedure SendReminder(var loan: Record "Loans Register"; var member: Record Customer; payInfo: Text)
+    var
+        smsMessage: Text;
+    begin
+        smsMessage := 'Dear ' + SplitString(member.Name, ' ') + ', Your ' + loan."Loan Product Type Name" +
+                      ' of amount Ksh. ' + Format(loan."Outstanding Balance" + loan."Oustanding Interest") +
+                      ' is due on ' + Format(loan."Expected Date of Completion", 0, '<Closing><Day> <Month Text> <Year4>') +
+                      '. ' + payInfo;
+
+        SMSMessage(loan."Doc No Used", loan."Client Code", member."Phone No.", smsMessage);
+    end;
+
+    local procedure CreateMissingDisbursement(var loan: Record "Loans Register"; var member: Record Customer)
+    var
+        docNo: Code[20];
+    begin
+        docNo := CopyStr(loan."Doc No Used", 1, MaxStrLen(MpesaDisbus."Document No"));
+        if docNo = '' then
+            exit;
+
+        MpesaDisbus.Reset();
+        if MpesaDisbus.Get(docNo) then
+            exit;
+
+        MpesaDisbus.Init();
+        MpesaDisbus."Account No" := member."No.";
+        MpesaDisbus."Document Date" := Today;
+        MpesaDisbus."Loan Amount" := loan."Approved Amount";
+        MpesaDisbus."Loan No" := loan."Loan  No.";
+        MpesaDisbus."Document No" := CopyStr(loan."Doc No Used", 1, 20);
+        MpesaDisbus."Batch No" := 'MOBILE';
+        MpesaDisbus."Date Entered" := loan."Issued Date";
+        MpesaDisbus."Time Entered" := Time;
+        MpesaDisbus."Entered By" := UserId;
+        MpesaDisbus."Member No" := member."No.";
+        MpesaDisbus."Telephone No" := member."Phone No.";
+        MpesaDisbus.Comments := 'Successfly Posted';
+        MpesaDisbus."Delivery Center" := 'M-WALLET';
+        MpesaDisbus."Customer Name" := member.Name;
+        MpesaDisbus.Status := MpesaDisbus.Status::Completed;
+        MpesaDisbus.Purpose := 'INST';
+        MpesaDisbus.Insert();
+    end;
+
+    // Charges the loan product's interest rate on the outstanding balance, posts it,
+    // and SMSes the member. Returns true only if the charge was posted.
+    local procedure ChargeRolloverInterest(var loan: Record "Loans Register"; var member: Record Customer; docSuffix: Text[1]): Boolean
+    var
+        LoanTypeTable: Record "Loan Products Setup";
+        interestAmount: Decimal;
+        journalLineNo: Integer;
+        jnlTemplate: Code[10];
+        jnlBatch: Code[10];
+        smsMessage: Text;
+    begin
+        // The product must be read BEFORE the rate is used.
+        if not LoanTypeTable.Get(loan."Loan Product Type") then
+            exit(false);
+
+        interestAmount := Round(LoanTypeTable."Interest rate" / 100 * loan."Outstanding Balance", 0.01);
+        if interestAmount <= 0 then
+            exit(false);
+
+        jnlTemplate := 'GENERAL';
+        jnlBatch := 'INT DUE';
+        journalLineNo := 10000;
+
+        // Clear anything left in the batch, then make sure the batch exists.
+        GenJournalLine.Reset();
+        GenJournalLine.SetRange("Journal Template Name", jnlTemplate);
+        GenJournalLine.SetRange("Journal Batch Name", jnlBatch);
+        GenJournalLine.DeleteAll();
+
+        if not GenBatches.Get(jnlTemplate, jnlBatch) then begin
+            GenBatches.Init();
+            GenBatches."Journal Template Name" := jnlTemplate;
+            GenBatches.Name := jnlBatch;
+            GenBatches.Description := 'INT DUE ' + Format(Today);
+            GenBatches.Validate("Journal Template Name");
+            GenBatches.Validate(Name);
+            GenBatches.Insert();
+        end;
+
+        // Journal line: debit member's loan account (Interest Due), credit the product's interest G/L account.
+        GenJournalLine.Init();
+        GenJournalLine."Journal Template Name" := jnlTemplate;
+        GenJournalLine."Journal Batch Name" := jnlBatch;
+        GenJournalLine."Line No." := journalLineNo;
+        GenJournalLine."Account Type" := GenJournalLine."Account Type"::Customer;
+        GenJournalLine."Account No." := loan."Client Code";
+        GenJournalLine."Transaction Type" := GenJournalLine."Transaction Type"::"Interest Due";
+        GenJournalLine.Validate("Account No.");
+        GenJournalLine."Document No." := CopyStr(loan."Loan  No.", 1, MaxStrLen(GenJournalLine."Document No.") - 3) + '-R' + docSuffix;
+        GenJournalLine."Posting Date" := Today;
+        GenJournalLine.Description := CopyStr(Format(loan."Loan Product Type") + ' ' + loan."Loan  No." + ' Interest Charged ' + Format(Today),
+                                              1, MaxStrLen(GenJournalLine.Description));
+        GenJournalLine.Amount := interestAmount;
+        GenJournalLine.Validate(Amount);
+        GenJournalLine."Bal. Account Type" := GenJournalLine."Bal. Account Type"::"G/L Account";
+        GenJournalLine."Bal. Account No." := LoanTypeTable."Loan Interest Account";
+        GenJournalLine."Loan Product Type" := LoanTypeTable.Code;
+        GenJournalLine.Validate("Bal. Account No.");
+
+
+        if loan.Source = loan.Source::BOSA then begin
+            GenJournalLine."Shortcut Dimension 1 Code" := member."Global Dimension 1 Code";
+            GenJournalLine."Shortcut Dimension 2 Code" := member."Global Dimension 2 Code";
+        end;
+        GenJournalLine.Validate("Shortcut Dimension 1 Code");
+        GenJournalLine.Validate("Shortcut Dimension 2 Code");
+        GenJournalLine."Loan No" := loan."Loan  No.";
+        GenJournalLine.Insert();
+
+        // Post the line(s), then empty the batch so nothing can be posted a second time by hand.
+        GenJournalLine.Reset();
+        GenJournalLine.SetRange("Journal Template Name", jnlTemplate);
+        GenJournalLine.SetRange("Journal Batch Name", jnlBatch);
+        if not GenJournalLine.FindSet() then
+            exit(false);
+
+        repeat
+            GLPosting.Run(GenJournalLine);
+        until GenJournalLine.Next() = 0;
+
+        GenJournalLine.DeleteAll();
+
+        smsMessage := 'Dear ' + SplitString(member.Name, ' ') + ', Your ' + loan."Loan Product Type Name" +
+                      ' of amount Ksh. ' + Format(loan."Outstanding Balance") +
+                      ' has been rolled over with a ' + Format(loan.Interest) + '% interest charged on the said balance, ' +
+                      'Kindly repay the loan within 30 days, failure to do so will result in another charge.';
+        SMSMessage(loan."Doc No Used", loan."Client Code", member."Phone No.", smsMessage);
+
+        exit(true);
+    end;
+    // procedure fnProcessMBAMBURINotifications()
+    // var
+    //     loansRegisterTable: Record "Loans Register";
+    //     mobileLoans: Record "Mobile Loans";
+    //     membersTable: Record Customer;
+    //     LoanTypeTable: Record "Loan Products Setup";
+    //     daysRemaining: Integer;
+    //     todayDate: Date;
+    //     smsMessage: Text;
+    //     batch: Text;
+    //     documentNo: Code[20];
+    //     InterestAmount: decimal;
+    //     OriginalDeposits: Decimal;
+    //     loanBalanceFigure: Decimal;
+    //     loanInterestFigure: Decimal;
+    // begin
+    //     todayDate := Today;
+    //     InterestAmount := 0;
+
+    //     //get Loan from M-Loans, balance >0, recovered = false
+    //     loansRegisterTable.Reset();
+    //     loansRegisterTable.SetFilter("Loan Product Type", 'INST');
+    //     loansRegisterTable.SetRange(Posted, true);
+    //     loansRegisterTable.SetFilter("Outstanding Balance", '>0');
+
+    //     if not loansRegisterTable.FindSet() then begin
+    //         loansRegisterTable.Reset();
+    //         loansRegisterTable.SetFilter("Loan Product Type", 'HALL');
+    //         loansRegisterTable.SetRange(Posted, true);
+    //         loansRegisterTable.SetFilter("Outstanding Balance", '>0');
+    //     end;
+
+    //     if loansRegisterTable.Find('-') then begin
+    //         repeat
+    //             smsMessage := '';
+
+    //             mobileLoans.Reset();
+    //             mobileLoans.SetRange(mobileLoans."Loan No", loansRegisterTable."Loan  No.");
+    //             // mobileLoans.SetFilter("Document Date", '%1..', DMY2DATE(1, 5, 2025));
+    //             mobileLoans.SetRange(mobileLoans.Penalized, false);
+    //             if mobileLoans.Find('-') then begin
+
+    //                 loansRegisterTable.CalcFields("Outstanding Balance", "Oustanding Interest");
+
+    //                 if loansRegisterTable."Outstanding Balance" > 0 then begin
+    //                     membersTable.Reset();
+    //                     membersTable.SetRange(membersTable."No.", loansRegisterTable."Client Code");
+    //                     if membersTable.Find('-') then begin
+
+    //                         //get member Deposits...
+    //                         membersTable.CalcFields("Current Shares");
+    //                         OriginalDeposits := membersTable."Current Shares";
+    //                         // calculate remaining days until Expected Completion Date
+    //                         daysRemaining := loansRegisterTable."Expected Date of Completion" - todayDate;
+
+    //                         // --- Notifications Logic ---
+
+    //                         // 1st Notification: due in 15 days or less, but not yet sent
+    //                         if (daysRemaining <= 15) and (daysRemaining > 7) and (not mobileLoans."Ist Notification") then begin
+    //                             // send 1st Notification: 15 days remaining
+    //                             if mobileLoans."Ist Notification" = false then begin
+    //                                 smsMessage := 'Dear ' + SplitString(membersTable.Name, ' ') + ', Your ' + loansRegisterTable."Loan Product Type Name" + ' of amount Ksh. ' + FORMAT(loansRegisterTable."Outstanding Balance" + loansRegisterTable."Oustanding Interest") + ' is due on '
+    //                                             + FORMAT(loansRegisterTable."Expected Date of Completion", 0, '<Closing><Day> <Month Text> <Year4>') + '. Use Paybill 400222 and Account No. 321906#Yourname or dial *250# to pay';
+
+    //                                 SMSMessage(loansRegisterTable."Doc No Used", loansRegisterTable."Client Code", membersTable."Phone No.", smsMessage);
+    //                                 mobileLoans."Ist Notification" := true;
+    //                                 mobileLoans.Modify();
+    //                             end;
+    //                         end;
+    //                         // 2nd Notification: due in 7 days or less, but not yet sent
+    //                         if (daysRemaining <= 7) and (daysRemaining > 2) and (not mobileLoans."2nd Notification") then begin
+    //                             // send 2nd Notification: 7 days remaining
+    //                             if mobileLoans."2nd Notification" = false then begin
+    //                                 smsMessage := 'Dear ' + SplitString(membersTable.Name, ' ') + ', Your ' + loansRegisterTable."Loan Product Type Name" + ' of amount Ksh. ' + FORMAT(loansRegisterTable."Outstanding Balance" + loansRegisterTable."Oustanding Interest") + ' is due on '
+    //                                                                                         + FORMAT(loansRegisterTable."Expected Date of Completion", 0, '<Closing><Day> <Month Text> <Year4>') + '. Use Paybill 400222 and Account No. 321906#Yourname or dial *250# to pay';
+
+    //                                 SMSMessage(loansRegisterTable."Doc No Used", loansRegisterTable."Client Code", membersTable."Phone No.", smsMessage);
+    //                                 mobileLoans."2nd Notification" := TRUE;
+    //                                 mobileLoans.MODIFY;
+    //                             end;
+    //                         end;
+    //                         // 3rd Notification: due in 2 days or less, but not yet sent
+    //                         if (daysRemaining <= 2) and (daysRemaining > 1) and (not mobileLoans."3rd Notification") then begin
+    //                             // send 3rd Notification: 2 days remaining
+    //                             if mobileLoans."3rd Notification" = false then begin
+    //                                 smsMessage := 'Dear ' + SplitString(Members.Name, ' ') + ', Your ' + loansRegisterTable."Loan Product Type Name" + ' of amount Ksh. ' + FORMAT(loansRegisterTable."Outstanding Balance" + loansRegisterTable."Oustanding Interest") + ' is due on '
+    //                                                                                         + FORMAT(loansRegisterTable."Expected Date of Completion", 0, '<Closing><Day> <Month Text> <Year4>') + '. Use Paybill 400222 and Account No. 321906#Yourname or dial *250# to pay';
+
+    //                                 SMSMessage(loansRegisterTable."Doc No Used", loansRegisterTable."Client Code", Members."Phone No.", smsMessage);
+    //                                 mobileLoans."3rd Notification" := TRUE;
+    //                                 mobileLoans.MODIFY;
+    //                             end;
+    //                         end;
+
+    //                         // 4th Notification: due in 1 day or less, but not yet sent
+    //                         if (daysRemaining <= 1) and (daysRemaining > 0) and (not mobileLoans."4th Notification") then begin
+    //                             // send 4th Notification: 1 day remaining
+    //                             if mobileLoans."4th Notification" = false then begin
+    //                                 smsMessage := 'Dear ' + SplitString(membersTable.Name, ' ') + ', Your ' + loansRegisterTable."Loan Product Type Name" + ' of amount Ksh. ' + FORMAT(loansRegisterTable."Outstanding Balance" + loansRegisterTable."Oustanding Interest") + ' is due on '
+    //                                                                                         + FORMAT(loansRegisterTable."Expected Date of Completion", 0, '<Closing><Day> <Month Text> <Year4>') + '. Use Paybill 400222 and Account No. 321906#Yourname or dial *250# to pay';
+
+    //                                 SMSMessage(loansRegisterTable."Doc No Used", loansRegisterTable."Client Code", membersTable."Mobile Phone No", smsMessage);
+    //                                 mobileLoans."4th Notification" := TRUE;
+    //                                 mobileLoans.MODIFY;
+    //                             end;
+    //                         end;
+    //                         // 5th Notification: due date reached or passed
+    //                         if (daysRemaining <= 0) and (daysRemaining > -15) and (not mobileLoans."5th Notification") then begin
+    //                             // send 5th Notification: Due date reached
+    //                             if mobileLoans."5th Notification" = false then begin
+    //                                 smsMessage := 'Dear ' + SplitString(membersTable.Name, ' ') + ', Your ' + loansRegisterTable."Loan Product Type Name" + ' of amount Ksh. ' + FORMAT(loansRegisterTable."Outstanding Balance" + loansRegisterTable."Oustanding Interest") + ' is due on '
+    //                                                                                         + FORMAT(loansRegisterTable."Expected Date of Completion", 0, '<Closing><Day> <Month Text> <Year4>') + '. Use Paybill 400222 and Account No. 321906#Yourname or dial *250# to pay and avoid being listed as a mobile defaulter';
+
+    //                                 SMSMessage(loansRegisterTable."Doc No Used", loansRegisterTable."Client Code", membersTable."Phone No.", smsMessage);
+    //                                 mobileLoans."5th Notification" := TRUE;
+    //                                 mobileLoans.MODIFY;
+    //                             end;
+    //                         end;
+    //                         // 6th Notification: 15 days overdue
+    //                         if (daysRemaining <= -15) and (daysRemaining > -30) and (not mobileLoans."6th Notification") then begin
+    //                             // send 6th Notification: 15 days after due date
+    //                             if mobileLoans."6th Notification" = false then begin
+    //                                 smsMessage := 'Dear ' + SplitString(Members.Name, ' ') + ', Your ' + loansRegisterTable."Loan Product Type Name" + ' of amount Ksh. ' + FORMAT(loansRegisterTable."Outstanding Balance" + loansRegisterTable."Oustanding Interest") + ' is due on '
+    //                                                                                         + FORMAT(loansRegisterTable."Expected Date of Completion", 0, '<Closing><Day> <Month Text> <Year4>') + '. Use Paybill 751459 or dial *250# to pay';
+
+    //                                 SMSMessage(loansRegisterTable."Doc No Used", loansRegisterTable."Client Code", Members."Phone No.", smsMessage);
+    //                                 mobileLoans."6th Notification" := TRUE;
+    //                                 mobileLoans.MODIFY;
+    //                             end;
+    //                         end;
+
+    //                         // 7th Notification: 30 days overdue
+    //                         // if (daysRemaining <= -30) and (daysRemaining > -60) and (not mobileLoans."7th Notification") then begin
+    //                         if (daysRemaining <= -30)
+    //                         // and (daysRemaining > -60) //Commented this to roll over for old loans
+    //                         and (not mobileLoans."7th Notification") then begin
+    //                             // send 7th Notification: 30 days after due date - Interest roll over
+    //                             if mobileLoans."7th Notification" = false then begin
+
+    //                                 batch := 'INT DUE';
+    //                                 documentNo := loansRegisterTable."Doc No Used";
+
+    //                                 GenJournalLine.RESET;
+    //                                 GenJournalLine.SETRANGE("Journal Template Name", 'GENERAL');
+    //                                 GenJournalLine.SETRANGE("Journal Batch Name", batch);
+    //                                 GenJournalLine.DELETEALL;
+    //                                 //end of deletion
+
+    //                                 GenBatches.RESET;
+    //                                 GenBatches.SETRANGE(GenBatches."Journal Template Name", 'GENERAL');
+    //                                 GenBatches.SETRANGE(GenBatches.Name, batch);
+
+    //                                 IF GenBatches.FIND('-') = FALSE THEN BEGIN
+    //                                     GenBatches.INIT;
+    //                                     GenBatches."Journal Template Name" := 'GENERAL';
+    //                                     GenBatches.Name := batch;
+    //                                     GenBatches.Description := 'INT DUE ' + Format(Today);
+    //                                     GenBatches.VALIDATE(GenBatches."Journal Template Name");
+    //                                     GenBatches.VALIDATE(GenBatches.Name);
+    //                                     GenBatches.INSERT;
+    //                                 END;//General Jnr Batches
+
+    //                                 //-------INTEREST CHARGED BEFORE INTEREST PAID - 7.5% of the balance
+    //                                 InterestAmount := LoanTypeTable."Interest rate" / 100 * (loansRegisterTable."Outstanding Balance" );
+    //                                 LineNo := LineNo + 10000;
+    //                                 GenJournalLine.Init;
+    //                                 GenJournalLine."Journal Template Name" := 'GENERAL';
+    //                                 GenJournalLine."Journal Batch Name" := batch;
+    //                                 GenJournalLine."Line No." := LineNo;
+    //                                 GenJournalLine."Account Type" := GenJournalLine."account type"::Customer;
+    //                                 GenJournalLine."Account No." := loansRegisterTable."Client Code";
+    //                                 GenJournalLine."Transaction Type" := GenJournalLine."transaction type"::"Interest Due";
+    //                                 GenJournalLine.Validate(GenJournalLine."Account No.");
+    //                                 GenJournalLine."Document No." := documentNo + '1';
+    //                                 GenJournalLine."Posting Date" := Today;
+    //                                 GenJournalLine.Description := LoansRegister."Loan Product Type" + loansRegisterTable."Loan  No." + ' Interest roll over' + ' ' + Format(Today);
+    //                                 if LoanTypeTable.Get(loansRegisterTable."Loan Product Type") then begin
+    //                                     GenJournalLine.Amount := InterestAmount;
+    //                                     GenJournalLine.Validate(GenJournalLine.Amount);
+    //                                     GenJournalLine."Bal. Account Type" := GenJournalLine."bal. account type"::"G/L Account";
+    //                                     GenJournalLine."Bal. Account No." := LoanTypeTable."Loan Interest Account";
+    //                                     GenJournalLine."Loan Product Type" := LoanTypeTable.Code;
+    //                                     GenJournalLine.Validate(GenJournalLine."Bal. Account No.");
+    //                                 end;
+    //                                 if loansRegisterTable.Source = loansRegisterTable.Source::BOSA then begin
+    //                                     GenJournalLine."Shortcut Dimension 1 Code" := membersTable."Global Dimension 1 Code";
+    //                                     GenJournalLine."Shortcut Dimension 2 Code" := membersTable."Global Dimension 2 Code";
+    //                                 end;
+    //                                 GenJournalLine.Validate(GenJournalLine."Shortcut Dimension 1 Code");
+    //                                 GenJournalLine.Validate(GenJournalLine."Shortcut Dimension 2 Code");
+    //                                 GenJournalLine."Loan No" := loansRegisterTable."Loan  No.";
+
+    //                                 if GenJournalLine.Amount <> 0 then
+    //                                     GenJournalLine.Insert;
+    //                                 exit;
+    //                                 ///----END INTEREST CHARGFED
+
+    //                                 GenJournalLine.RESET;
+    //                                 GenJournalLine.SETRANGE("Journal Template Name", 'GENERAL');
+    //                                 GenJournalLine.SETRANGE("Journal Batch Name", batch);
+    //                                 IF GenJournalLine.FIND('-') THEN BEGIN
+    //                                     REPEAT
+    //                                         GLPosting.RUN(GenJournalLine);
+    //                                     UNTIL GenJournalLine.NEXT = 0;
+
+    //                                     smsMessage := 'Dear ' + SplitString(membersTable.Name, ' ') + ', Your ' + loansRegisterTable."Loan Product Type Name" + ' of amount Ksh. ' + FORMAT(loansRegisterTable."Outstanding Balance" + loansRegisterTable."Oustanding Interest") + ' has been rolled over '
+    //                                     + ' with a ' + Format(LoanTypeTable."Interest rate") + ' Interest Charged on the said balance, Kindly repay the loan within 30 days, failure to do so will result in another charge.';
+    //                                     SMSMessage(loansRegisterTable."Doc No Used", loansRegisterTable."Client Code", membersTable."Phone No.", smsMessage);
+
+    //                                     mobileLoans."7th Notification" := true;
+    //                                     mobileLoans.Comments := 'Interest rolled Over';
+    //                                     mobileLoans.Modify(true);
+    //                                 end;
+
+    //                             end;
+    //                         end;
+
+    //                         // 8th Notification: 60 days overdue
+    //                         if (daysRemaining <= -60) and (not mobileLoans."8th Notification") then begin
+    //                             // send 8th Notification: 60 days after due date - recover and list as a defaulter
+    //                             if mobileLoans."8th Notification" = false then begin
+    //                                 loansRegisterTable.CalcFields("Outstanding Balance", loansRegisterTable."Oustanding Interest");
+    //                                 if loansRegisterTable."Outstanding Balance" + loansRegisterTable."Oustanding Interest" > 0 then begin
+    //                                     // do rollover or recovery
+
+    //                                     loanBalanceFigure := loansRegisterTable."Outstanding Balance";
+    //                                     loanInterestFigure := loansRegisterTable."Oustanding Interest";
+
+
+    //                                     batch := 'INT DUE';
+    //                                     documentNo := loansRegisterTable."Doc No Used";
+
+    //                                     GenJournalLine.RESET;
+    //                                     GenJournalLine.SETRANGE("Journal Template Name", 'GENERAL');
+    //                                     GenJournalLine.SETRANGE("Journal Batch Name", batch);
+    //                                     GenJournalLine.DELETEALL;
+    //                                     //end of deletion
+
+    //                                     GenBatches.RESET;
+    //                                     GenBatches.SETRANGE(GenBatches."Journal Template Name", 'GENERAL');
+    //                                     GenBatches.SETRANGE(GenBatches.Name, batch);
+
+    //                                     IF GenBatches.FIND('-') = FALSE THEN BEGIN
+    //                                         GenBatches.INIT;
+    //                                         GenBatches."Journal Template Name" := 'GENERAL';
+    //                                         GenBatches.Name := batch;
+    //                                         GenBatches.Description := 'INT DUE' + Format(Today);
+    //                                         GenBatches.VALIDATE(GenBatches."Journal Template Name");
+    //                                         GenBatches.VALIDATE(GenBatches.Name);
+    //                                         GenBatches.INSERT;
+    //                                     END;//General Jnr Batches
+    //                                     InterestAmount := 7.5 / 100 * (loansRegisterTable."Outstanding Balance" + loansRegisterTable."Oustanding Interest");
+    //                                     LineNo := LineNo + 10000;
+    //                                     GenJournalLine.Init;
+    //                                     GenJournalLine."Journal Template Name" := 'GENERAL';
+    //                                     GenJournalLine."Journal Batch Name" := batch;
+    //                                     GenJournalLine."Line No." := LineNo;
+    //                                     GenJournalLine."Account Type" := GenJournalLine."account type"::Customer;
+    //                                     GenJournalLine."Account No." := loansRegisterTable."Client Code";
+    //                                     GenJournalLine."Transaction Type" := GenJournalLine."transaction type"::"Interest Due";
+    //                                     GenJournalLine.Validate(GenJournalLine."Account No.");
+    //                                     GenJournalLine."Document No." := documentNo + '1';
+    //                                     GenJournalLine."Posting Date" := Today;
+    //                                     GenJournalLine.Description := loansRegisterTable."Loan Product Type" + loansRegisterTable."Loan  No." + ' Interest roll over' + ' ' + Format(Today);
+    //                                     if LoanTypeTable.Get(loansRegisterTable."Loan Product Type") then begin
+    //                                         GenJournalLine.Amount := InterestAmount;
+    //                                         GenJournalLine.Validate(GenJournalLine.Amount);
+    //                                         GenJournalLine."Bal. Account Type" := GenJournalLine."bal. account type"::"G/L Account";
+    //                                         GenJournalLine."Bal. Account No." := LoanTypeTable."Loan Interest Account";
+    //                                         GenJournalLine."Loan Product Type" := LoanTypeTable.Code;
+    //                                         GenJournalLine.Validate(GenJournalLine."Bal. Account No.");
+    //                                     end;
+    //                                     if loansRegisterTable.Source = loansRegisterTable.Source::BOSA then begin
+    //                                         GenJournalLine."Shortcut Dimension 1 Code" := membersTable."Global Dimension 1 Code";
+    //                                         GenJournalLine."Shortcut Dimension 2 Code" := membersTable."Global Dimension 2 Code";
+    //                                     end;
+    //                                     GenJournalLine.Validate(GenJournalLine."Shortcut Dimension 1 Code");
+    //                                     GenJournalLine.Validate(GenJournalLine."Shortcut Dimension 2 Code");
+    //                                     GenJournalLine."Loan No" := loansRegisterTable."Loan  No.";
+
+    //                                     if GenJournalLine.Amount <> 0 then
+    //                                         GenJournalLine.Insert;
+    //                                     exit;
+
+    //                                     //DR member's deposits - Balance + Interest //+ Penalty ---- commented samuel
+    //                                     // LineNo := LineNo + 10000;
+    //                                     // GenJournalLine.INIT;
+    //                                     // GenJournalLine."Journal Template Name" := 'GENERAL';
+    //                                     // GenJournalLine."Journal Batch Name" := batch;
+    //                                     // GenJournalLine."Line No." := LineNo;
+    //                                     // GenJournalLine."Account Type" := GenJournalLine."Account Type"::Customer;
+    //                                     // GenJournalLine."Account No." := membersTable."No.";
+    //                                     // GenJournalLine.VALIDATE(GenJournalLine."Account No.");
+    //                                     // GenJournalLine."Document No." := documentNo;
+    //                                     // GenJournalLine."External Document No." := documentNo;
+    //                                     // GenJournalLine."Posting Date" := TODAY;
+    //                                     // GenJournalLine."Transaction Type" := GenJournalLine."Transaction Type"::"Deposit Contribution";
+    //                                     // GenJournalLine."Shortcut Dimension 1 Code" := 'BOSA';
+    //                                     // GenJournalLine.VALIDATE(GenJournalLine."Shortcut Dimension 1 Code");
+    //                                     // GenJournalLine.Description := FORMAT(GenJournalLine."Transaction Type"::"Deposit Contribution") + ' Loan Recovery';
+    //                                     // GenJournalLine.Amount := (loansRegisterTable."Outstanding Balance" + loansRegisterTable."Oustanding Interest");// + (0.05 * (LoansRegister."Outstanding Balance" + loansRegisterTable."Oustanding Interest")));
+    //                                     // GenJournalLine.VALIDATE(GenJournalLine.Amount);
+    //                                     // IF GenJournalLine.Amount <> 0 THEN
+    //                                     //     GenJournalLine.INSERT;
+
+    //                                     //CR Interest   --commented sam
+    //                                     // LineNo := LineNo + 10000;
+    //                                     // GenJournalLine.INIT;
+    //                                     // GenJournalLine."Journal Template Name" := 'GENERAL';
+    //                                     // GenJournalLine."Journal Batch Name" := batch;
+    //                                     // GenJournalLine."Line No." := LineNo;
+    //                                     // GenJournalLine."Account Type" := GenJournalLine."Account Type"::Customer;
+    //                                     // GenJournalLine."Account No." := loansRegisterTable."Client Code";
+    //                                     // GenJournalLine.VALIDATE(GenJournalLine."Account No.");
+    //                                     // GenJournalLine."Document No." := documentNo;
+    //                                     // GenJournalLine."External Document No." := documentNo;
+    //                                     // GenJournalLine."Posting Date" := TODAY;
+    //                                     // GenJournalLine.Description := 'Loan Interest Recovered from Deposits';
+    //                                     // GenJournalLine.Amount := -loansRegisterTable."Oustanding Interest";
+    //                                     // GenJournalLine.VALIDATE(GenJournalLine.Amount);
+    //                                     // GenJournalLine."Transaction Type" := GenJournalLine."Transaction Type"::"Interest Paid";
+    //                                     // IF GenJournalLine."Shortcut Dimension 1 Code" = '' THEN BEGIN
+    //                                     //     GenJournalLine."Shortcut Dimension 1 Code" := membersTable."Global Dimension 1 Code";
+    //                                     //     GenJournalLine.VALIDATE(GenJournalLine."Shortcut Dimension 1 Code");
+    //                                     // END;
+    //                                     // GenJournalLine."Loan No" := loansRegisterTable."Loan  No.";
+    //                                     // IF GenJournalLine.Amount <> 0 THEN
+    //                                     //     GenJournalLine.INSERT;
+
+    //                                     //Cr Loan Balance  sam
+    //                                     // LineNo := LineNo + 10000;
+    //                                     // GenJournalLine.INIT;
+    //                                     // GenJournalLine."Journal Template Name" := 'GENERAL';
+    //                                     // GenJournalLine."Journal Batch Name" := batch;
+    //                                     // GenJournalLine."Line No." := LineNo;
+    //                                     // GenJournalLine."Account Type" := GenJournalLine."Account Type"::Customer;
+    //                                     // GenJournalLine."Account No." := loansRegisterTable."Client Code";
+    //                                     // GenJournalLine.VALIDATE(GenJournalLine."Account No.");
+    //                                     // GenJournalLine."Document No." := documentNo;
+    //                                     // GenJournalLine."External Document No." := documentNo;
+    //                                     // GenJournalLine."Posting Date" := TODAY;
+    //                                     // GenJournalLine.Description := 'Loan Balance Recovered from Deposits';
+    //                                     // GenJournalLine.Amount := -loansRegisterTable."Outstanding Balance";
+    //                                     // GenJournalLine.VALIDATE(GenJournalLine.Amount);
+    //                                     // GenJournalLine."Transaction Type" := GenJournalLine."Transaction Type"::"Loan Repayment";
+    //                                     // IF GenJournalLine."Shortcut Dimension 1 Code" = '' THEN BEGIN
+    //                                     //     GenJournalLine."Shortcut Dimension 1 Code" := membersTable."Global Dimension 1 Code";
+    //                                     //     GenJournalLine.VALIDATE(GenJournalLine."Shortcut Dimension 1 Code");
+    //                                     // END;
+    //                                     // GenJournalLine."Loan No" := loansRegisterTable."Loan  No.";
+    //                                     // IF GenJournalLine.Amount <> 0 THEN
+    //                                     //     GenJournalLine.INSERT;
+
+    //                                     // //Cr Penalty
+    //                                     // LineNo := LineNo + 10000;
+    //                                     // GenJournalLine.INIT;
+    //                                     // GenJournalLine."Journal Template Name" := 'GENERAL';
+    //                                     // GenJournalLine."Journal Batch Name" := batch;
+    //                                     // GenJournalLine."Line No." := LineNo;
+    //                                     // GenJournalLine."Account Type" := GenJournalLine."Account Type"::Customer;
+    //                                     // GenJournalLine."Account No." := loansRegisterTable."Client Code";
+    //                                     // GenJournalLine.VALIDATE(GenJournalLine."Account No.");
+    //                                     // GenJournalLine."Document No." := documentNo;
+    //                                     // GenJournalLine."External Document No." := documentNo;
+    //                                     // GenJournalLine."Posting Date" := TODAY;
+    //                                     // GenJournalLine.Description := 'Loan penalty';
+    //                                     // GenJournalLine.Amount := -(0.05 * (LoansRegister."Outstanding Balance" + loansRegisterTable."Oustanding Interest"));
+    //                                     // GenJournalLine.VALIDATE(GenJournalLine.Amount);
+    //                                     // GenJournalLine."Transaction Type" := GenJournalLine."Transaction Type"::"Penalty Paid";
+    //                                     // IF GenJournalLine."Shortcut Dimension 1 Code" = '' THEN BEGIN
+    //                                     //     GenJournalLine."Shortcut Dimension 1 Code" := membersTable."Global Dimension 1 Code";
+    //                                     //     GenJournalLine.VALIDATE(GenJournalLine."Shortcut Dimension 1 Code");
+    //                                     // END;
+    //                                     // GenJournalLine."Loan No" := loansRegisterTable."Loan  No.";
+    //                                     // IF GenJournalLine.Amount <> 0 THEN
+    //                                     //     GenJournalLine.INSERT;
+
+
+    //                                     GenJournalLine.RESET;
+    //                                     GenJournalLine.SETRANGE("Journal Template Name", 'GENERAL');
+    //                                     GenJournalLine.SETRANGE("Journal Batch Name", batch);
+    //                                     IF GenJournalLine.FIND('-') THEN BEGIN
+    //                                         REPEAT
+    //                                             GLPosting.RUN(GenJournalLine);
+    //                                         UNTIL GenJournalLine.NEXT = 0;
+
+    //                                         // smsMessage := 'Dear ' + SplitString(membersTable.Name, ' ') + ', Your ' + loansRegisterTable."Loan Product Type Name" + ' of amount Ksh. ' + FORMAT(loansRegisterTable."Outstanding Balance")
+    //                                         // + ' has been recovered from Deposits and you are now listed as a mobile defaulter';
+    //                                         smsMessage := 'Dear ' + SplitString(membersTable.Name, ' ') + ', Your ' + loansRegisterTable."Loan Product Type Name" + ' of amount Ksh. ' + FORMAT(loansRegisterTable."Outstanding Balance" + loansRegisterTable."Oustanding Interest") + ' has been rolled over '
+    //                                    + 'with a ' + Format(LoanTypeTable."Interest rate") + ' Interest Charged on the said balance, Kindly repay the loan within 30 days, failure to do so will result in another charge.';
+    //                                         SMSMessage(loansRegisterTable."Loan  No.", loansRegisterTable."Client Code", membersTable."Phone No.", smsMessage);
+
+    //                                         // mobileLoans."Penalty Date" := TODAY;
+    //                                         mobileLoans."8th Notification" := true;
+    //                                         // mobileLoans.Penalized := TRUE;
+    //                                         mobileLoans.Comments := 'Interest Roll over';
+    //                                         mobileLoans.Modify();
+
+    //                                         membersTable."Mobile Defaulter" := TRUE;
+    //                                         membersTable.MODIFY;
+
+    //                                     end;
+    //                                 END;
+    //                             END;
+
+    //                         end;
+    //                     end;
+    //                 end;
+    //             end else begin
+    //                 //insert into mobileLoans
+    //                 //=====================insert to Mpesa mobile disbursment
+    //                 MpesaDisbus.Reset();
+    //                 MpesaDisbus.SetRange("Document No", CopyStr(loansRegisterTable."Doc No Used", 1, 20));
+    //                 MpesaDisbus.SetRange("Loan No", loansRegisterTable."Loan  No.");
+    //                 if MpesaDisbus.Find('-') then begin
+
+    //                 end else begin
+
+    //                     MpesaDisbus.Init();
+
+    //                     MpesaDisbus."Account No" := membersTable."No.";
+    //                     MpesaDisbus."Document Date" := TODAY;
+    //                     MpesaDisbus."Loan Amount" := loansRegisterTable."Approved Amount";
+    //                     MpesaDisbus."Loan No" := loansRegisterTable."Loan  No.";
+    //                     MpesaDisbus."Document No" := CopyStr(loansRegisterTable."Doc No Used", 1, 20);//
+    //                     MpesaDisbus."Batch No" := 'MOBILE';
+    //                     MpesaDisbus."Date Entered" := loansRegisterTable."Issued Date";
+    //                     MpesaDisbus."Time Entered" := TIME;
+    //                     MpesaDisbus."Entered By" := USERID;
+    //                     MpesaDisbus."Member No" := membersTable."No.";
+    //                     MpesaDisbus."Telephone No" := membersTable."Phone No.";
+    //                     MpesaDisbus.Comments := 'Successfly Posted';
+    //                     //MpesaDisbus."Corporate No":='597676';
+    //                     MpesaDisbus."Delivery Center" := 'M-WALLET';
+    //                     MpesaDisbus."Customer Name" := membersTable.Name;
+    //                     MpesaDisbus.Status := MpesaDisbus.Status::Completed;// Closed;
+    //                     MpesaDisbus.Purpose := 'Interest Due';
+    //                     MpesaDisbus.Insert();
+
+    //                 end;
+    //             end;
+
+    //         // end;
+    //         until loansRegisterTable.Next() = 0;
+    //     end;
+    // end;
 
     PROCEDURE GetMemberInformation(phonenumber: Text[100]) response: Text;
     BEGIN

@@ -1,71 +1,40 @@
-var loanChart = null;
-var productCodes = [];
+function lpcEscapeHtml(value) {
+    var div = document.createElement('div');
+    div.textContent = value === null || value === undefined ? '' : String(value);
+    return div.innerHTML;
+}
 
 function LoadChart(dataJson) {
     var data = JSON.parse(dataJson);
-    productCodes = data.codes;
 
-    var canvas = document.getElementById('loanCanvas');
-    if (!canvas) return;
+    if (typeof lpcEnsureLayout === 'function') lpcEnsureLayout();
 
-    // Destroy existing chart before redraw
-    if (loanChart) {
-        loanChart.destroy();
-        loanChart = null;
+    var kpis = document.getElementById('lpc-kpis');
+    var bars = document.getElementById('lpc-bars');
+    if (!kpis || !bars) return;
+
+    kpis.innerHTML =
+        '<div class="lpc-kpi"><span class="lpc-kpi-label">Outstanding Balance</span>' +
+        '<span class="lpc-kpi-value">' + lpcEscapeHtml(data.totalBalanceLabel) + '</span></div>';
+
+    var items = data.items || [];
+    var rowsHtml = '';
+    for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        var selectedClass = i === 0 ? ' lpc-selected' : '';
+        rowsHtml +=
+            '<div class="lpc-bar-row' + selectedClass + '" data-label="' + lpcEscapeHtml(item.label) + '">' +
+                '<span class="lpc-bar-label">' + lpcEscapeHtml(item.label) + '</span>' +
+                '<div class="lpc-bar-track"><div class="lpc-bar-fill" style="width:' + item.pct + '%"></div></div>' +
+                '<span class="lpc-bar-value">' + lpcEscapeHtml(item.valueLabel) + '</span>' +
+            '</div>';
     }
+    bars.innerHTML = rowsHtml || '<div class="lpc-empty">No posted loans yet.</div>';
 
-    var ctx = canvas.getContext('2d');
-
-    loanChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: data.labels,
-            datasets: [
-                {
-                    label: 'Outstanding Balance',
-                    data: data.balances,
-                    backgroundColor: 'rgba(32, 178, 170, 0.85)',  // Sea Green
-                    borderColor: 'rgba(32, 178, 170, 1)',
-                    borderWidth: 1,
-                    borderRadius: 4
-                },
-                {
-                    label: 'Active Loans',
-                    data: data.counts,
-                    backgroundColor: 'rgba(32, 178, 120, 0.6)',   // Lighter Sea Green
-                    borderColor: 'rgba(32, 178, 120, 1)',
-                    borderWidth: 1,
-                    borderRadius: 4
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { position: 'top' },
-                tooltip: {
-                    callbacks: {
-                        label: function (context) {
-                            if (context.datasetIndex === 0)
-                                return ' Balance: ' +
-                                    Number(context.raw).toLocaleString();
-                            return ' Loans: ' + context.raw;
-                        }
-                    }
-                }
-            },
-            onClick: function (evt, elements) {
-                if (elements.length > 0) {
-                    var index = elements[0].index;
-                    var code = productCodes[index];
-                    Microsoft.Dynamics.NAV.InvokeExtensibilityMethod(
-                        'ChartClicked', [code]);
-                }
-            },
-            scales: {
-                y: { beginAtZero: true }
-            }
-        }
-    });
+    var rows = bars.querySelectorAll('.lpc-bar-row');
+    for (var r = 0; r < rows.length; r++) {
+        rows[r].addEventListener('click', function () {
+            Microsoft.Dynamics.NAV.InvokeExtensibilityMethod('ChartClicked', [this.getAttribute('data-label')]);
+        });
+    }
 }

@@ -376,6 +376,12 @@ Page 56043 "Bamburi SACCO Role Center"
                         RunObject = report "CAPITAL ADEQUACY RETURN";//FORM 2A
                         ToolTip = 'View or Generate Deposit Return SASRA for a given period.';
                     }
+                    action(Supervisory)
+                    {
+                        ApplicationArea = All;
+                        RunObject = page "Supervisory$Empl";
+
+                    }
                     action("Liquidity Statement")
                     {
                         ApplicationArea = Basic, Suite;
@@ -448,12 +454,12 @@ Page 56043 "Bamburi SACCO Role Center"
                     action("InsiderLending")
                     {
                         ApplicationArea = Basic, Suite;
-                        Caption = 'Insider Lending';
+                        Caption = 'Insider Lending test';
                         RunObject = report InsiderN;
                     }
                     // action("Loans Defaulter Aging-SASRA")
                     // {
-                    //     ApplicationArea = Basic, Suite;
+                    //     ApplicationArea = BasicP, Suite;
                     //     Caption = 'Loans Defaulter Aging';
                     //     RunObject = report "Loans Defaulter Aging";//"SASRA Loans Classification"
                     //     Visible = false;
@@ -894,6 +900,7 @@ Page 56043 "Bamburi SACCO Role Center"
             //.................................START OF MEMBERSHIP MANAGEMENT..................................
             group(MembershipManagement)
             {
+
 
                 Caption = 'Membership Management';
 
@@ -1784,6 +1791,13 @@ Page 56043 "Bamburi SACCO Role Center"
                         //     Image = Process;
                         //     RunObject = report "Process Loan Monthly Interest";
                         // }
+                        action(process)
+                        {
+                            Visible = true;
+                            Caption = 'Process Loan Interest';
+                            Image = Process;
+                            RunObject = report "Process Loan Monthly Interest";
+                        }
                         action("Loan Interest List")
                         {
                             Caption = 'Loan Interest List';
@@ -2019,6 +2033,12 @@ Page 56043 "Bamburi SACCO Role Center"
                         RunObject = page "M Bamburi Loans";
                         ToolTip = 'View Mobile Loans List.';
                     }
+                    action(MobileLoans)
+                    {
+                        Caption = 'Mobile Loans Stage';
+                        Image = Stages;
+                        RunObject = page "Mobile Loans";
+                    }
 
                 }
                 group("Paybill Management")
@@ -2054,6 +2074,12 @@ Page 56043 "Bamburi SACCO Role Center"
                         Visible = false;
                         RunObject = page "SwizzKash Paybill Buffer";
 
+                    }
+                    action("Send Email")
+                    {
+                        Image = Email;
+                        Caption = 'Send Statement through email';
+                        RunObject = report "Send Member Statements";
                     }
 
                 }
@@ -2158,7 +2184,7 @@ Page 56043 "Bamburi SACCO Role Center"
                     action(Portal)
                     {
                         Caption = 'Debug Portal';
-                        Visible = false;
+                        Visible = true;
                         RunObject = codeunit PORTALIntegration;
                         // RunObject = codeunit "Dividends Processing Codeunit";
                         Image = RollUpCosts;
@@ -2168,7 +2194,7 @@ Page 56043 "Bamburi SACCO Role Center"
 
                         RunObject = Report "Loan Repayment Schedules";
                         Image = RollUpCosts;
-                        Visible = false;
+                        Visible = true;
                     }
 
 
@@ -2176,7 +2202,7 @@ Page 56043 "Bamburi SACCO Role Center"
                     {
                         Caption = 'Process Notifications';
                         Image = SendConfirmation;
-                        Visible = false;
+                        Visible = true;
                         RunObject = codeunit SwizzKashMobile;
                     }
                 }

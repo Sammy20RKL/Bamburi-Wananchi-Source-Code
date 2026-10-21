@@ -133,6 +133,31 @@ codeunit 50005 "Guarantor Management"
         exit(guarantorshipAmount);
     end;
 
+    procedure fnGetMemberGuaranteedSummary(MemberNo: Code[30]; SelfGuaranteeOnly: Boolean; LoanNoFilter: Code[30]; var TotalGuaranteed: Decimal; var LoanCount: Integer)
+    var
+        loanGuarantors: Record "Loans Guarantee Details";
+    begin
+        TotalGuaranteed := 0;
+        LoanCount := 0;
+
+        loanGuarantors.Reset();
+        loanGuarantors.SetRange("Member No", MemberNo);
+        loanGuarantors.SetRange(Substituted, false);
+        if SelfGuaranteeOnly then
+            loanGuarantors.SetRange("Self Guarantee", true);
+        if LoanNoFilter <> '' then
+            loanGuarantors.SetRange("Loan No", LoanNoFilter);
+
+        if loanGuarantors.FindSet() then
+            repeat
+                loanGuarantors.CalcFields("Outstanding Balance");
+                if loanGuarantors."Outstanding Balance" > 0 then begin
+                    TotalGuaranteed += loanGuarantors."Committed Shares";
+                    LoanCount += 1;
+                end;
+            until loanGuarantors.Next() = 0;
+    end;
+
     local procedure getAmountGuaranteed(memberNumber: Code[30]) amountInuse: Decimal
     begin
         amountInuse := 0;

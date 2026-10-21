@@ -4,6 +4,7 @@ pageextension 50881 CustomerList extends "Customer List"
 
     layout
     {
+
         // Add changes to page layout here
         addafter(Name)
         {
@@ -19,6 +20,7 @@ pageextension 50881 CustomerList extends "Customer List"
     actions
     {
         // Add changes to page actions here
+
     }
     trigger OnOpenPage()
     var

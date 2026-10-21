@@ -7,6 +7,7 @@ pageextension 57100 VendorCardExt extends "Vendor Card"
         {
             visible = true;
         }
+
         addafter("Phone No.")
         {
 

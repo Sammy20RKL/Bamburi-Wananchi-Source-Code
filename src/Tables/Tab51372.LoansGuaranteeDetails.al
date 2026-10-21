@@ -154,6 +154,8 @@ Table 51372 "Loans Guarantee Details"
                 memberMaximumAbility: Decimal;
                 memberSelfAbility: Decimal;
                 memberPerLoanAbility: Decimal;
+                totalGuaranteed: Decimal;
+                loanCount: Integer;
                 offsetSelfGuaranteeAmt: Decimal;
             begin
                 memberMaximumAbility := 0;
@@ -162,15 +164,20 @@ Table 51372 "Loans Guarantee Details"
                 offsetSelfGuaranteeAmt := 0;
 
                 //*************************************************************************
-                ///Festus - swizzsoft
+                ///Festus - swizzsoft 
                 /// 1. Calculate members Guarantor Ability 2 times their Shares, minus what they have guaranteed in total
                 memberMaximumAbility := guarantorManagement.fnGetMemberGuarantorshipLiability("Member No");
 
                 if memberMaximumAbility < 0 then begin
-                    Error('This member cannot Guarantee any Loan');
+                    Error('This member cannot Guarantee any Loan, ');
                 end;
+                // if memberMaximumAbility < "Amont Guaranteed" then begin
+                //     Error('Maximum the member can Guarantee is ' + Format(memberMaximumAbility));
+                // end;
                 if memberMaximumAbility < "Amont Guaranteed" then begin
-                    Error('Maximum the member can Guarantee is ' + Format(memberMaximumAbility));
+                    guarantorManagement.fnGetMemberGuaranteedSummary("Member No", false, '', totalGuaranteed, loanCount);
+                    Error('Member %1 cannot guarantee this loan. They have already committed KES %2 across %3 existing loans.',
+                        "Member No", Format(totalGuaranteed), loanCount);
                 end;
                 //*************************************************************************
                 /// 2. get Members self Ability - 25% of their worth, less what they have already self guaranteed them selves
@@ -202,14 +209,21 @@ Table 51372 "Loans Guarantee Details"
                     end;
 
                     // Add any offset self-guarantee amount back to their ability
+                    // Notify the member
                     memberSelfAbility += offsetSelfGuaranteeAmt;
 
                     if memberSelfAbility < 0 then begin
                         Error('This member cannot self-Guarantee any Loan');
                     end;
+                    // if memberSelfAbility < "Amont Guaranteed" then begin
+                    //     Error('Maximum the member can self-Guarantee is ' + Format(memberSelfAbility));
+                    // end;
                     if memberSelfAbility < "Amont Guaranteed" then begin
-                        Error('Maximum the member can self-Guarantee is ' + Format(memberSelfAbility));
+                        guarantorManagement.fnGetMemberGuaranteedSummary("Member No", true, '', totalGuaranteed, loanCount);
+                        Error('Member %1 cannot self-guarantee this loan. They have already self-guaranteed KES %2 across %3 existing loans.',
+                            "Member No", Format(totalGuaranteed), loanCount);
                     end;
+
                 end;
                 //*************************************************************************
                 /// 3. Get the max they can guarantee 25% of their worth,.... member cannot guarantee the same loan more than 25% of their worth
@@ -217,8 +231,13 @@ Table 51372 "Loans Guarantee Details"
                 if memberPerLoanAbility < 0 then begin
                     Error('This member cannot Guarantee this Loan');
                 end;
+                // if memberPerLoanAbility < "Amont Guaranteed" then begin
+                //     Error('Maximum the member can Guarantee this loan is KES' + Format(memberPerLoanAbility));
+                // end;
                 if memberPerLoanAbility < "Amont Guaranteed" then begin
-                    Error('Maximum the member can Guarantee this loan is KES' + Format(memberPerLoanAbility));
+                    guarantorManagement.fnGetMemberGuaranteedSummary("Member No", false, Rec."Loan No", totalGuaranteed, loanCount);
+                    Error('Member %1 cannot guarantee this loan. They have already committed KES %2 on this loan across %3 existing entries.',
+                        "Member No", Format(totalGuaranteed), loanCount);
                 end;
                 //*************************************************************************
                 "Committed Shares" := "Amont Guaranteed";

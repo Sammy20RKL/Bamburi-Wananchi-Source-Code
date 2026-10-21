@@ -22,6 +22,10 @@ page 50667 "Mobile Loans"
                 {
                     ApplicationArea = Basic;
                 }
+                field("Outstanding Balance"; Rec."Outstanding Balance")
+                {
+                    ApplicationArea = All;
+                }
                 field("Batch No"; Rec."Batch No")
                 {
                     ApplicationArea = Basic;
@@ -129,6 +133,14 @@ page 50667 "Mobile Loans"
                 field("6th Notification"; Rec."6th Notification")
                 {
                     ApplicationArea = Basic;
+                }
+                field("7th Notification"; Rec."7th Notification")
+                {
+                    ApplicationArea = All;
+                }
+                field("8th Notification"; Rec."8th Notification")
+                {
+                    ApplicationArea = All;
                 }
             }
         }

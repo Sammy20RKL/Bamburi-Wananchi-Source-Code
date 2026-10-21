@@ -657,15 +657,15 @@ Table 51371 "Loans Register"
 
 
                 // Show loans with arrears for selection
-                if TotalAmountInArrears > 0 then begin
-                    ExistingArrears := true;
+                // if TotalAmountInArrears > 0 then begin
+                //     ExistingArrears := true;
 
-                    if Confirm(StrSubstNo('Member has %1 amount in arrears. Do you want to view loans with arrears?', Round(TotalAmountInArrears, 0.5, '>'))) then begin
-                        Clear(LoanArrearPage);
-                        LoanArrearPage.SetTableView(LoanArrBuffer);
-                        LoanArrearPage.Run();
-                    end;
-                end;
+                //     if Confirm(StrSubstNo('Member has %1 amount in arrears. Do you want to view loans with arrears?', Round(TotalAmountInArrears, 0.5, '>'))) then begin
+                //         Clear(LoanArrearPage);
+                //         LoanArrearPage.SetTableView(LoanArrBuffer);
+                //         LoanArrearPage.Run();
+                //     end;
+                // end;
 
 
 
@@ -714,7 +714,7 @@ Table 51371 "Loans Register"
                 Amtt: Decimal;
             begin
                 //check qualifying deposists *3 ---------------------------------
-                if "Requested Amount" > ("Member Deposits" * 3) then Error('Amount Requested exceeds member Eligibility');
+                if "Requested Amount" > ("Member Deposits" * (SaccoSetup."Deposits Multiplier")) then Error('Amount Requested exceeds member Eligibility');
 
                 if LoanType.Get("Loan Product Type") then begin
                     if "Requested Amount" > ("Member Deposits" * LoanType."Deposits Multiplier") then begin
@@ -1850,7 +1850,7 @@ Table 51371 "Loans Register"
         field(53188; "Appraisal Fee Paid"; Decimal)
         {
             CalcFormula = sum("Cust. Ledger Entry"."Amount Posted" where("Loan No" = field("Loan  No."),
-                                                                  "Transaction Type" = filter("Mwanangu Savings"),
+                                                                  //   "Transaction Type" = filter("Mwanangu Savings"),
                                                                   Reversed = const(false),
                                                                   "Posting Date" = field("Date filter")));
             Editable = false;
@@ -2290,6 +2290,7 @@ Table 51371 "Loans Register"
             Editable = false;
             FieldClass = FlowField;
         }
+
         field(68113; "Exempt From Payroll Deduction"; Boolean)
         {
             // DataClassification = ToBeClassified;
@@ -5865,6 +5866,7 @@ Table 51371 "Loans Register"
     var
         MonthlyRate: Decimal;
         PowerFactor: Decimal;
+        SaccoSetup: Record "Sacco General Set-Up";
 
 }
 

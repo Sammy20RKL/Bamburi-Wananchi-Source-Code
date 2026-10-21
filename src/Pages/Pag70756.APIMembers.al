@@ -1,4 +1,4 @@
-page 51517101 "API Members"
+page 70756 "API Members"
 {
     PageType = API;
     APIPublisher = 'swizzsoft';
@@ -21,7 +21,7 @@ page 51517101 "API Members"
             {
                 field(memberNo; Rec."No.") { }
                 field(name; Rec.Name) { }
-                field(customerType; Rec."Customer Type") { }
+                field(CustomerPostingGroup; Rec."Customer Posting Group") { }
                 field(accountCategory; Rec."Account Category") { }
                 field(status; Rec.Status) { }
                 field(registrationDate; Rec."Registration Date") { }

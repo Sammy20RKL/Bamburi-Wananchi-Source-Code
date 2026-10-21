@@ -25,8 +25,8 @@ Table 51573 "Supervisory$Board$Empl"
         field(3; "Position held"; Option)
         {
             DataClassification = ToBeClassified;
-            OptionCaption = ' ,Employee,Board, Supervisory';
-            OptionMembers = " ",Employee,Board," Supervisory";
+            OptionCaption = ' ,Employee,Board,HON. SECRETARY, CHAIRMAN, TREASURER,VICE CHAIRMAN,MEMBER, Supervisory';
+            OptionMembers = " ",Employee,Board,"HON. SECRETARY",CHAIRMAN,TREASURER,"VICE CHAIRMAN",MEMBER,"Supervisory";
         }
     }
 

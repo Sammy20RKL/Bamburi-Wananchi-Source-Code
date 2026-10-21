@@ -82,7 +82,7 @@ codeunit 50044 "SurestepApprovalsCodeUnit"
     begin
     end;
 
-    //2)--------------------------------------------------------------------Send Loan Applications request For Approval start
+    //2)--------------------------------------------------------------------Send Loan Applications request For Apprwwoval start
     procedure SendLoanApplicationsRequestForApproval(LoanNo: Code[40]; var "Loans Register": Record "Loans Register"): Boolean;
     begin
         if FnCheckIfLoanApplicationApprovalsWorkflowEnabled("Loans Register") then begin

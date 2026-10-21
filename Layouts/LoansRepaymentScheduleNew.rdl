@@ -11,7 +11,7 @@
       <am:Name>PBIRB</am:Name>
       <am:Version>15.7.1813.16</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2026-03-20T11:03:37.2856532Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2026-10-12T08:07:39.2515224Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
@@ -1307,7 +1307,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!ROUND__Principal_Repayment__10_____.Value</Value>
+                                  <Value>=Round(Fields!ROUND__Principal_Repayment__10_____.Value, 2)</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <Format>n2</Format>
@@ -1361,7 +1361,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!ROUND__Monthly_Interest__10_____.Value</Value>
+                                  <Value>=Round(Fields!ROUND__Monthly_Interest__10_____.Value, 2)</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <Format>n2</Format>
@@ -1415,7 +1415,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!ROUND__Monthly_Repayment__10_____.Value</Value>
+                                  <Value>=Round(Fields!ROUND__Monthly_Repayment__10_____.Value, 2)</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <Format>n2</Format>
@@ -1635,7 +1635,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!ROUND__Principal_Repayment__10_____.Value)</Value>
+                                  <Value>=Sum(Round(Fields!ROUND__Principal_Repayment__10_____.Value, 2))</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontWeight>Bold</FontWeight>
@@ -1690,7 +1690,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!ROUND__Monthly_Interest__10_____.Value)</Value>
+                                  <Value>=Sum(Round(Fields!ROUND__Monthly_Interest__10_____.Value, 2))</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontWeight>Bold</FontWeight>
@@ -1745,7 +1745,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!ROUND__Monthly_Repayment__10_____.Value)</Value>
+                                  <Value>=Sum(Round(Fields!ROUND__Monthly_Repayment__10_____.Value, 2))</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontWeight>Bold</FontWeight>

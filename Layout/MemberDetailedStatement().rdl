@@ -11,7 +11,7 @@
       <am:Name>PBIRB</am:Name>
       <am:Version>15.7.1813.16</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2026-08-06T10:09:28.0315757Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2026-09-17T05:49:16.5845978Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
@@ -10644,7 +10644,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!CLosingBalance_loan.Value*-1</Value>
+                                  <Value>=Last(Fields!CLosingBalance_loan.Value, "Details4")*-1</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>

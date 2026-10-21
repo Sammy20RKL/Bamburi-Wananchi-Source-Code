@@ -48,9 +48,9 @@ enum 51516010 "TransactionTypesEnum"
     {
         Caption = 'Dividend';
     }
-    value(11; "Mwanangu Savings")
+    value(11; "Tranche Disbursement")
     {
-        Caption = '';
+        Caption = 'Tranche Disbursement';
     }
     value(12; "Loan Insurance Charged")
     {

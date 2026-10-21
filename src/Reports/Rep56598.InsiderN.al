@@ -145,7 +145,7 @@ Report 56598 InsiderN
                     column(RepaymentStartDate_LoansRegister; "Loans Register"."Repayment Start Date")
                     {
                     }
-                    column(InstalmentPeriod_LoansRegister; "Loans Register"."Instalment Period")
+                    column(InstalmentPeriod_LoansRegister; "Loans Register".Installments)
                     {
                     }
                     column(RequestedAmount_LoansRegister; "Loans Register"."Requested Amount")
@@ -166,11 +166,30 @@ Report 56598 InsiderN
                     column(LoanProductTypeName_LoansRegister; "Loans Register"."Loan Product Type Name")
                     {
                     }
-
+                    column(Remarks_LoansRegister; "Loans Register".Remarks)
+                    {
+                    }
+                    column(SectionFlag; SectionFlag)
+                    { }
                     trigger OnAfterGetRecord()
                     begin
+
+
+                        // Any loan issued after the period end doesn't belong on this report at all
+                        // if (SectionFlag = 'A') and ("Loans Register"."Issued Date" > MEndDate) then begin
+                        //     CurrReport.Skip();
+                        if "Loans Register"."Issued Date" > MEndDate then
+                            CurrReport.Skip();
+
+                        if "Loans Register"."Issued Date" >= MStartDate then
+                            SectionFlag := 'A'
+                        else
+                            SectionFlag := 'B';
+
+
+
+                        // ── STEP 2: Common field calculations (unchanged from original) ──
                         qwe := '';
-                        SN := SN + 1;
                         NATUREOFSECURITY := '';
                         LoanApp.Reset;
                         LoanApp.SetRange(LoanApp."Loan  No.", "Loans Register"."Loan  No.");
@@ -184,7 +203,7 @@ Report 56598 InsiderN
 
                         LoanApp.Reset;
                         LoanApp.SetRange(LoanApp."Loan  No.", "Loans Register"."Loan  No.");
-                        LoanApp.SetFilter(LoanApp."Date filter", '<=%1', AsAt);
+                        LoanApp.SetFilter(LoanApp."Date filter", '<=%1', MEndDate);
                         LoanApp.SetAutocalcFields("Outstanding Balance");
                         if LoanApp.Find('-') then begin
                             OUTSTANDINGAMOUNT := LoanApp."Outstanding Balance";
@@ -222,11 +241,60 @@ Report 56598 InsiderN
                         if NATUREOFSECURITY = '' then begin
                             NATUREOFSECURITY := 'Deposits';
                         end;
+
+                        // ── STEP 3: Section-specific handling ──
+                        if SectionFlag = 'A' then begin
+                            // Section A: loans issued/approved within the selected period. Any type.
+                            // No merging — every loan issued in-period prints as its own row.
+                            SNA += 1;
+                            SN := SNA;
+                        end else begin
+                            // Section B (loans issued before this period) is scoped to Normal loans only —
+                            // any product whose name starts with "Normal" (Normal Loan 1, 2, 3, 4, ...).
+                            // All of a member's Normal loans are folded into the earliest-dated one, which
+                            // prints as a single combined row labelled just "Normal Loan".
+                            IsNormalLoan := "Loans Register"."Loan Product Type Name".StartsWith('Normal');
+                            if not IsNormalLoan then begin
+                                CurrReport.Skip();
+                                exit;
+                            end;
+
+                            IsPrimaryNormalLoan := true;
+                            OtherNormalLoan.Reset();
+                            OtherNormalLoan.SetRange("Client Code", "Loans Register"."Client Code");
+                            OtherNormalLoan.SetRange("Issued Date", 0D, CalcDate('<-1D>', MStartDate));
+                            if OtherNormalLoan.FindSet() then
+                                repeat
+                                    if (OtherNormalLoan."Loan  No." <> "Loans Register"."Loan  No.") and
+                                       OtherNormalLoan."Loan Product Type Name".StartsWith('Normal') and
+                                       (GetLoanOutstandingAsAt(OtherNormalLoan."Loan  No.", MEndDate) > 0)
+                                    then
+                                        if (OtherNormalLoan."Issued Date" < "Loans Register"."Issued Date") or
+                                           ((OtherNormalLoan."Issued Date" = "Loans Register"."Issued Date") and
+                                            (OtherNormalLoan."Loan  No." < "Loans Register"."Loan  No."))
+                                        then
+                                            IsPrimaryNormalLoan := false
+                                        else begin
+                                            "Loans Register"."Requested Amount" += OtherNormalLoan."Requested Amount";
+                                            AMOUNT += GetLoanApprovedAmount(OtherNormalLoan);
+                                            OUTSTANDINGAMOUNT += GetLoanOutstandingAsAt(OtherNormalLoan."Loan  No.", MEndDate);
+                                        end;
+                                until OtherNormalLoan.Next() = 0;
+
+                            if not IsPrimaryNormalLoan then begin
+                                CurrReport.Skip();
+                                exit;
+                            end;
+
+                            "Loans Register"."Loan Product Type Name" := CopyStr('Normal Loan', 1, MaxStrLen("Loans Register"."Loan Product Type Name"));
+                            SNB += 1;
+                            SN := SNB;
+                        end;
                     end;
 
                     trigger OnPreDataItem()
                     begin
-                        "Loans Register".SetFilter("Loans Register"."Date filter", '<=%1', AsAt);
+                        "Loans Register".SetFilter("Loans Register"."Date filter", '<=%1', MEndDate);
                         //"Loans Register".SETFILTER("Loans Register"."Date filter",NEWLoanFilter);
                     end;
                 }
@@ -241,10 +309,15 @@ Report 56598 InsiderN
         {
             area(content)
             {
-                field(AsAt; AsAt)
+                field(MStartDate; MStartDate)
                 {
                     ApplicationArea = Basic;
-                    Caption = 'AsAt....';
+                    Caption = 'Start Date';
+                }
+                field(MEndDate; MEndDate)
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'End Date';
                 }
             }
         }
@@ -258,14 +331,46 @@ Report 56598 InsiderN
     {
     }
 
+    trigger OnInitReport()
+    begin
+        MStartDate := CalcDate('-CM', WorkDate());
+        MEndDate := CalcDate('CM', WorkDate());
+    end;
+
     trigger OnPreReport()
     begin
-        StartDate := CalcDate('-CY', AsAt);
-        MStartDate := CalcDate('-CM', AsAt);
-        MEndDate := CalcDate('CM', AsAt);
+        if MStartDate = 0D then
+            Error('Please enter a Start Date.');
+        if MEndDate = 0D then
+            Error('Please enter an End Date.');
+        if MStartDate > MEndDate then
+            Error('Start Date must not be after End Date.');
+
+        StartDate := CalcDate('-CY', MStartDate);
         NEWLoanFilter := Format(MStartDate) + '..' + Format(MEndDate);
         //MESSAGE('%1',NEWLoanFilter);
         OldLoanFilter := '..' + Format(MStartDate);
+        CompanyInformation.Get();
+    end;
+
+    local procedure GetLoanApprovedAmount(LoanRec: Record "Loans Register"): Decimal
+    begin
+        if LoanRec."Loan Product Type" = 'D315' then
+            exit(LoanRec."Loan Amount");
+        exit(LoanRec."Approved Amount");
+    end;
+
+    local procedure GetLoanOutstandingAsAt(LoanNo: Code[30]; AsAtDate: Date): Decimal
+    var
+        LoanRec: Record "Loans Register";
+    begin
+        LoanRec.Reset();
+        LoanRec.SetRange("Loan  No.", LoanNo);
+        LoanRec.SetFilter("Date filter", '<=%1', AsAtDate);
+        LoanRec.SetAutoCalcFields("Outstanding Balance");
+        if LoanRec.FindFirst() then
+            exit(LoanRec."Outstanding Balance");
+        exit(0);
     end;
 
     var
@@ -305,8 +410,14 @@ Report 56598 InsiderN
         OUTSTANDINGAMOUNT: Decimal;
         PERFORMANCE: Text;
         SN: Integer;
+        SNA: Integer;
+        SNB: Integer;
         "Insider-Board": Boolean;
+        CompanyInformation: Record "Company Information";
+        OtherNormalLoan: Record "Loans Register";
+        IsNormalLoan: Boolean;
+        IsPrimaryNormalLoan: Boolean;
+        SectionFlag: Text[1];
     // LoansGuaranteeDetails: Record UnknownRecord51516372;
     // LoanCollateralDetails: Record UnknownRecord51516374;
 }
-

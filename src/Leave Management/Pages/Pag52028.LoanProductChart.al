@@ -16,54 +16,19 @@ page 52028 "Loan Products Chart"
                 Editable = false;
                 ShowCaption = false;
             }
-            usercontrol(BusinessChart; BusinessChart)
+            usercontrol(LoanChart; "Loan Chart AddIn")
             {
                 ApplicationArea = All;
 
-                trigger DataPointClicked(Point: JsonObject)
-                var
-                    Token: JsonToken;
-                    ValueArray: JsonArray;
-                    XValueString: Text[249];
-                    YValue: Decimal;
-                    MeasureName: Text[249];
+                trigger ChartClicked(ProductLabel: Text)
                 begin
-                    // Parse JSON directly — never touch the DotNet DataTable
-                    if Point.Get('Measures', Token) then begin
-                        ValueArray := Token.AsArray();
-                        ValueArray.Get(0, Token);
-                        MeasureName := CopyStr(Token.AsValue().AsText(), 1, 500);//249
-                    end;
-
-                    if Point.Get('XValueString', Token) then
-                        XValueString := CopyStr(Token.AsValue().AsText(), 1, 500);
-
-                    if Point.Get('YValues', Token) then begin
-                        ValueArray := Token.AsArray();
-                        ValueArray.Get(0, Token);
-                        YValue := Token.AsValue().AsDecimal();
-                    end;
-
-                    // Drill down using X label directly — no DataTable needed
-                    LoanChartMgt.DrillDownByName(XValueString);
+                    LoanChartMgt.DrillDownByName(CopyStr(ProductLabel, 1, 249));
                 end;
 
-                trigger DataPointDoubleClicked(Point: JsonObject)
-                begin
-                end;
-
-                trigger AddInReady()
+                trigger ControlReady()
                 begin
                     IsChartAddInReady := true;
                     if IsChartDataReady then begin
-                        NeedsUpdate := true;
-                        UpdateChart();
-                    end;
-                end;
-
-                trigger Refresh()
-                begin
-                    if IsChartAddInReady then begin
                         NeedsUpdate := true;
                         UpdateChart();
                     end;
@@ -134,7 +99,7 @@ page 52028 "Loan Products Chart"
         if not IsChartDataReady then
             exit;
         if not TryUpdateChart() then
-            StatusText := 'Error loading chart. Please refresh.'
+            StatusText := 'Error loading chart: ' + GetLastErrorText()
         else
             StatusText := 'Loan Book — Outstanding Balance & Active Loans per Product';
         NeedsUpdate := false;
@@ -142,9 +107,10 @@ page 52028 "Loan Products Chart"
 
     [TryFunction]
     local procedure TryUpdateChart()
+    var
+        ChartDataJson: Text;
     begin
-        // UpdateData loads into Rec and keeps DotNet object alive for drill-down
-        LoanChartMgt.UpdateData(Rec);
-        Rec.UpdateChart(CurrPage.BusinessChart);
+        ChartDataJson := LoanChartMgt.GetChartDataJson();
+        CurrPage.LoanChart.LoadChart(ChartDataJson);
     end;
 }

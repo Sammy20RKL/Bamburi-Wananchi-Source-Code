@@ -7,6 +7,11 @@ tableextension 50082 "CompanyInformationExt" extends "Company Information"
             Caption = '"Company P.I.N"';
             DataClassification = ToBeClassified;
         }
+        field(1001; "Sacco Society CS Number"; Code[20])
+        {
+            Caption = 'Sacco Society CS Number';
+            DataClassification = ToBeClassified;
+        }
 
     }
 }

@@ -98,6 +98,11 @@ Table 59047 "Online Loan Application"
         {
             OptionMembers = Application,Submitted,Deleted;
         }
+        field(30; "Is Top Up"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+            Editable = false;
+        }
         // field(7; Email; Code[20]) { }
     }
 

@@ -2,6 +2,10 @@
 page 50764 "Supervisory$Empl"
 {
     PageType = List;
+    InsertAllowed = true;
+    Editable = true;
+    ApplicationArea = all;
+    Caption = 'Supervisory and Employees';
     SourceTable = "Supervisory$Board$Empl";
 
     layout

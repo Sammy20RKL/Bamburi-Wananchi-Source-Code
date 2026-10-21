@@ -5,6 +5,9 @@ page 57016 "Online Loan Application Card"
     ApplicationArea = All;
     Caption = 'Online Loan Application Card';
     PageType = Card;
+    Editable = true;
+    DeleteAllowed = true;
+    InsertAllowed = true;
     SourceTable = "Online Loan Application";
 
     layout
@@ -72,6 +75,11 @@ page 57016 "Online Loan Application Card"
                 field(Source; Rec.Source)
                 {
                 }
+                field("Is Top Up"; Rec."Is Top Up")
+                {
+                    ApplicationArea = ALL;
+                    Editable = false;
+                }
                 field(Station; Rec.Station)
                 {
                 }
@@ -102,6 +110,32 @@ page 57016 "Online Loan Application Card"
             {
                 SubPageLink = "No." = field("BOSA No");
                 ApplicationArea = Basic;
+            }
+        }
+    }
+
+    actions
+    {
+        area(Processing)
+        {
+            action("Download Application Form")
+            {
+                ApplicationArea = All;
+                Caption = 'Download Application Form';
+                ToolTip = 'Generates and prints/downloads the official Loan Application Form, pre-filled with the member, loan and guarantor details captured so far.';
+                Image = PrintReport;
+
+
+                trigger OnAction()
+                var
+                    laonapp: Record "Online Loan Application";
+                begin
+                    laonapp.SetRange("Application No", Rec."Application No");
+                    Report.RunModal(Report::"Loan Application Form", true, false, laonapp);
+
+
+
+                end;
             }
         }
     }

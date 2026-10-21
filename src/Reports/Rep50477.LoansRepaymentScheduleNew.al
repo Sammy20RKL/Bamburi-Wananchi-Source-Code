@@ -86,16 +86,16 @@ Report 50477 "Loans Repayment Schedule New"
                 column(ReportForNavId_9169; 9169)
                 {
                 }
-                column(ROUND__Monthly_Repayment__10_____; ROUND("Loan Repayment Schedule"."Monthly Repayment", 1, '>'))
+                column(ROUND__Monthly_Repayment__10_____; ROUND("Loan Repayment Schedule"."Monthly Repayment", 0.01, '='))
                 {
                 }
                 column(FORMAT__Repayment_Date__0_4_; Format("Loan Repayment Schedule"."Repayment Date", 0, 4))
                 {
                 }
-                column(ROUND__Principal_Repayment__10_____; ROUND("Loan Repayment Schedule"."Principal Repayment", 1, '>'))
+                column(ROUND__Principal_Repayment__10_____; ROUND("Loan Repayment Schedule"."Principal Repayment", 0.01, '='))
                 {
                 }
-                column(ROUND__Monthly_Interest__10_____; ROUND("Loan Repayment Schedule"."Monthly Interest", 1, '>'))
+                column(ROUND__Monthly_Interest__10_____; ROUND("Loan Repayment Schedule"."Monthly Interest", 0.01, '='))
                 {
                 }
                 // column(LoanBalance; ROUND(LoanBalance, 1, '>'))
@@ -108,13 +108,14 @@ Report 50477 "Loans Repayment Schedule New"
                 column(Loan_Repayment_Schedule__Repayment_Code_; "Repayment Code")
                 {
                 }
-                column(ROUND__Monthly_Repayment__10______Control1000000043; "Loan Repayment Schedule"."Monthly Repayment")
+
+                column(ROUND__Monthly_Repayment__10______Control1000000043; Round("Loan Repayment Schedule"."Monthly Repayment", 0.01, '='))
                 {
                 }
-                column(ROUND__Principal_Repayment__10______Control1000000014; "Loan Repayment Schedule"."Principal Repayment")
+                column(ROUND__Principal_Repayment__10______Control1000000014; Round("Loan Repayment Schedule"."Principal Repayment", 0.01, '='))
                 {
                 }
-                column(ROUND__Monthly_Interest__10______Control1000000015; "Loan Repayment Schedule"."Monthly Interest")
+                column(ROUND__Monthly_Interest__10______Control1000000015; Round("Loan Repayment Schedule"."Monthly Interest", 0.01, '='))
                 {
                 }
                 column(Monthly_RepaymentCaption; Monthly_RepaymentCaptionLbl)
@@ -177,7 +178,7 @@ Report 50477 "Loans Repayment Schedule New"
 
                     i := i + 1;
 
-                    TotalPrincipalRepayment := ROUND(TotalPrincipalRepayment + "Loan Repayment Schedule"."Principal Repayment");
+                    TotalPrincipalRepayment := ROUND(TotalPrincipalRepayment + "Loan Repayment Schedule"."Principal Repayment", 0.01, '=');
 
 
                     if i = 1 then
@@ -188,9 +189,9 @@ Report 50477 "Loans Repayment Schedule New"
                     end;
 
 
-                    CumInterest := ROUND(CumInterest + "Loan Repayment Schedule"."Monthly Interest");
-                    CumMonthlyRepayment := ROUND(CumMonthlyRepayment + "Loan Repayment Schedule"."Monthly Repayment");
-                    CumPrincipalRepayment := ROUND(CumPrincipalRepayment + "Loan Repayment Schedule"."Principal Repayment");
+                    CumInterest := ROUND(CumInterest + "Loan Repayment Schedule"."Monthly Interest", 0.01, '=');
+                    CumMonthlyRepayment := ROUND(CumMonthlyRepayment + "Loan Repayment Schedule"."Monthly Repayment", 0.01, '=');
+                    CumPrincipalRepayment := ROUND(CumPrincipalRepayment + "Loan Repayment Schedule"."Principal Repayment", 0.01, '=');
                 end;
 
                 trigger OnPreDataItem()

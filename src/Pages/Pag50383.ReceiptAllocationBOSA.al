@@ -30,7 +30,7 @@ page 50383 "Receipt Allocation-BOSA"
 
                     trigger OnValidate()
                     begin
-                        if (Rec."Transaction Type" <> Rec."transaction type"::"Mwanangu Savings") and (Rec."Transaction Type" <> Rec."transaction type"::" ") then begin
+                        if (Rec."Transaction Type" <> Rec."transaction type"::" ") and (Rec."Transaction Type" <> Rec."transaction type"::" ") then begin
                             Rec."Account Type" := Rec."account type"::Customer
                         end else
                             Rec."Account Type" := Rec."account type"::Vendor;

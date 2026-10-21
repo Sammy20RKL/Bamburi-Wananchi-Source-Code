@@ -60,6 +60,14 @@ Page 56027 "Member List"
                 {
                     ApplicationArea = Basic;
                 }
+                field("Marital Status"; Rec."Marital Status")
+                {
+                    ApplicationArea = all;
+                }
+                field(Address; Rec.Address)
+                {
+                    ApplicationArea = Basic;
+                }
                 // field("Shares Retained"; Rec."Shares Retained")
                 // {
                 //     ApplicationArea = Basic;
@@ -71,6 +79,23 @@ Page 56027 "Member List"
                 //     Style = StrongAccent;
                 //     ApplicationArea = Basic;
                 // }
+
+
+                // field(VarMemberLiability; VarMemberLiability)
+                // {
+                //     ApplicationArea = Basic;
+                //     // Caption = 'Member Guarantorship Liability';
+                //     Caption = 'Member Free Deposits';
+                // }
+
+                field("Member Loan Liability"; Rec."Member Loan Liability")
+                {
+                    ApplicationArea = Basic;
+                    Visible = false;
+                    Caption = 'Total Guarantor Liability';
+                }
+
+
             }
         }
         area(factboxes)

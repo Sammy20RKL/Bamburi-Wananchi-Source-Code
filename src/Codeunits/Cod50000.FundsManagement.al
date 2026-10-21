@@ -397,6 +397,59 @@ Codeunit 50000 "Funds Management"
                         if GenJnlLine.Amount <> 0 then
                             GenJnlLine.Insert;
 
+                        //VAT Balancing goes to Customer (Tranche Disbursement)
+                        LineNo := LineNo + 1;
+                        GenJnlLine.Init;
+                        GenJnlLine."Journal Template Name" := "Journal Template";
+                        GenJnlLine.Validate(GenJnlLine."Journal Template Name");
+                        GenJnlLine."Journal Batch Name" := "Journal Batch";
+                        GenJnlLine.Validate(GenJnlLine."Journal Batch Name");
+                        GenJnlLine."Line No." := LineNo;
+                        GenJnlLine."Source Code" := SourceCode;
+                        GenJnlLine."Posting Date" := PaymentHeader."Posting Date";
+                        GenJnlLine."Document No." := PaymentLine."Document No";
+                        GenJnlLine."Posting Group" := PaymentLine."Default Grouping";
+                        GenJnlLine."External Document No." := PaymentHeader."Cheque No";
+
+                        //Debit side: Customer (loan) account
+                        GenJnlLine."Account Type" := GenJnlLine."account type"::Customer;
+                        GenJnlLine."Account No." := PaymentLine."Account No.";
+                        GenJnlLine.Validate(GenJnlLine."Account No.");
+
+                        GenJnlLine."Transaction Type" := PaymentLine."Transaction Type"::"Tranche Disbursement";
+                        GenJnlLine."Loan No" := PaymentLine."Loan No.";
+                        GenJnlLine."Currency Code" := PaymentHeader."Currency Code";
+                        GenJnlLine.Validate(GenJnlLine."Currency Code");
+                        GenJnlLine."Currency Factor" := PaymentHeader."Currency Factor";
+                        GenJnlLine.Validate("Currency Factor");
+
+                        GenJnlLine.Amount := PaymentLine."VAT Amount";   //Debit Amount
+                        GenJnlLine.Validate(GenJnlLine.Amount);
+
+                        //Balancing side stays on G/L so it nets within the same batch
+                        GenJnlLine."Bal. Account Type" := GenJnlLine."bal. account type"::"G/L Account";
+                        GenJnlLine."Bal. Account No." := '';
+                        GenJnlLine.Validate(GenJnlLine."Bal. Account No.");
+
+                        GenJnlLine."Shortcut Dimension 1 Code" := PaymentHeader."Global Dimension 1 Code";
+                        GenJnlLine.Validate(GenJnlLine."Shortcut Dimension 1 Code");
+                        GenJnlLine."Shortcut Dimension 2 Code" := PaymentHeader."Global Dimension 2 Code";
+                        GenJnlLine.Validate(GenJnlLine."Shortcut Dimension 2 Code");
+                        GenJnlLine.ValidateShortcutDimCode(3, PaymentHeader."Shortcut Dimension 3 Code");
+                        GenJnlLine.ValidateShortcutDimCode(4, PaymentHeader."Shortcut Dimension 4 Code");
+                        GenJnlLine.ValidateShortcutDimCode(5, PaymentHeader."Shortcut Dimension 5 Code");
+                        GenJnlLine.ValidateShortcutDimCode(6, PaymentHeader."Shortcut Dimension 6 Code");
+                        GenJnlLine.ValidateShortcutDimCode(7, PaymentHeader."Shortcut Dimension 7 Code");
+                        GenJnlLine.ValidateShortcutDimCode(8, PaymentHeader."Shortcut Dimension 8 Code");
+
+                        GenJnlLine.Description := CopyStr('VAT:' + Format(PaymentLine."Account Type") + '::' + Format(PaymentLine."Account Name"), 1, 50);
+                        GenJnlLine."Applies-to Doc. No." := PaymentLine."Applies-to Doc. No.";
+                        GenJnlLine.Validate(GenJnlLine."Applies-to Doc. No.");
+                        GenJnlLine."Applies-to ID" := PaymentLine."Applies-to ID";
+
+                        if GenJnlLine.Amount <> 0 then
+                            GenJnlLine.Insert;
+
                     end;
                 end;
 

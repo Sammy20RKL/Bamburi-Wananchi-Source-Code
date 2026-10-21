@@ -63,7 +63,7 @@ Codeunit 51415 "Payroll Processing"//Number2
 
     procedure fnInitialize()
     begin
-        //Initialize Global Setup Items
+        //Initialize Global Setup Items  
         VitalSetup.FindFirst;
         with VitalSetup do begin
             curReliefPersonal := "Tax Relief";
@@ -72,7 +72,7 @@ Codeunit 51415 "Payroll Processing"//Number2
             curMaximumRelief := "Max Relief";
             curNssfEmployee := "NSSF Employee";
             curNssf_Employer_Factor := "NSSF Employer Factor";
-            intNHIF_BasedOn := "NHIF Based on";
+            intNHIF_BasedOn := "NHIF Based on";//sha
             curMaxPensionContrib := "Max Pension Contribution";
             curRateTaxExPension := "Tax On Excess Pension";
             curOOIMaxMonthlyContrb := "OOI Deduction";
